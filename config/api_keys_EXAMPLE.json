@@ -1,0 +1,46 @@
+{
+  "_INSTRUCTIONS": "Copie ce fichier vers 'api_keys.json' et remplace les clés par les vraies",
+  "_GUIDE": "Lis GUIDE_API_GRATUITES.md pour obtenir tes clés gratuites!",
+
+  "gemini": {
+    "api_key": "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "enabled": true,
+    "comment": "Obtiens ta clé sur: https://aistudio.google.com/apikey"
+  },
+
+  "openai": {
+    "api_key": "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "enabled": false,
+    "comment": "Obtiens ta clé sur: https://platform.openai.com/api-keys ($5 gratuits)"
+  },
+
+  "mistral": {
+    "api_key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "enabled": false,
+    "comment": "Obtiens ta clé sur: https://console.mistral.ai/"
+  },
+
+  "deepseek": {
+    "api_key": "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "enabled": true,
+    "comment": "Obtiens ta clé sur: https://platform.deepseek.com/"
+  },
+
+  "groq": {
+    "api_key": "gsk_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "enabled": true,
+    "comment": "Obtiens ta clé sur: https://console.groq.com/"
+  },
+
+  "huggingface": {
+    "api_key": "hf_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "enabled": false,
+    "comment": "Obtiens ta clé sur: https://huggingface.co/settings/tokens"
+  },
+
+  "openrouter": {
+    "api_key": "sk-or-v1-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "enabled": false,
+    "comment": "Obtiens ta clé sur: https://openrouter.ai/keys"
+  }
+}

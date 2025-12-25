@@ -1,0 +1,49 @@
+# Build directories
+dist/
+build/
+release/
+*.spec.bak
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.log
+nul
+
+# Config files (peuvent contenir des infos sensibles)
+config/*.json
+!config/default.json
+
+# User data
+logs/
+temp/
+downloads/
+
+# Portable tools (too large for git)
+logiciel/
+
+# Exclude .exe files from archives
+archives_versions/**/*.exe
+archives_versions/**/*.zip

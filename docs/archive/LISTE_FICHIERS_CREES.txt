@@ -1,0 +1,230 @@
+========================================
+LISTE DES FICHIERS CREES/MODIFIES
+NiTriTe V17 Beta - Corrections Completes
+========================================
+
+DATE: Decembre 2025
+STATUT: PROJET ENTIEREMENT CORRIGE ET BUILD AVEC SUCCES
+
+========================================
+FICHIERS NOUVEAUX (CREES)
+========================================
+
+SCRIPTS DE BUILD:
+-----------------
+[NEW] build_portable_fixed.py
+      - Script Python de build corrige avec encodage UTF-8
+      - Taille: ~8 KB
+      - Fonction: Build automatique avec gestion d'erreurs
+
+[NEW] BUILD_PORTABLE_V17_FIXED.bat
+      - Script batch pour lancer le build facilement
+      - Taille: ~1 KB
+      - Fonction: Interface simple pour builder
+
+[NEW] INSTALL_DEPENDENCIES.bat
+      - Script d'installation des dependances
+      - Taille: ~2 KB
+      - Fonction: Installe toutes les dependances Python
+
+[NEW] TEST_DEPENDENCIES.bat
+      - Script de test des dependances
+      - Taille: ~1 KB
+      - Fonction: Verifie que tout est installe
+
+DOCUMENTATION:
+--------------
+[NEW] GUIDE_BUILD_COMPLET.md
+      - Guide complet de build
+      - Taille: ~15 KB
+      - Contenu: Installation, build, tests, depannage
+
+[NEW] QUICK_START.md
+      - Guide de demarrage rapide
+      - Taille: ~5 KB
+      - Contenu: Commandes rapides, resume
+
+[NEW] RESUME_CORRECTIONS.md
+      - Resume detaille des corrections
+      - Taille: ~12 KB
+      - Contenu: Toutes les corrections effectuees
+
+[NEW] LISTE_FICHIERS_CREES.txt
+      - Ce fichier
+      - Taille: ~3 KB
+      - Contenu: Liste de tous les fichiers crees
+
+PACKAGE PORTABLE:
+-----------------
+[NEW] release/
+      - Dossier du package portable
+      - Contenu:
+        * NiTriTe_V17_Portable.exe (26 MB)
+        * LANCER_V17_PORTABLE.bat (392 B)
+        * README_PORTABLE.txt (1.7 KB)
+
+[NEW] release/README_PORTABLE.txt
+      - Instructions pour utilisateurs finaux
+      - Taille: ~1.7 KB
+      - Contenu: Installation, utilisation, support
+
+BUILD OUTPUT:
+-------------
+[NEW] dist/NiTriTe_V17_Portable.exe
+      - Executable portable final
+      - Taille: 26 MB
+      - Format: Windows PE (64-bit)
+      - Python: 3.12.10 embedded
+
+[NEW] build/
+      - Dossier de cache PyInstaller
+      - Taille: Variable
+      - Fonction: Accelere les rebuilds
+
+========================================
+FICHIERS MODIFIES
+========================================
+
+[MOD] NiTriTe_V17_Portable.spec
+      - Configuration PyInstaller amelioree
+      - Changements:
+        * Ajout pathex pour src/
+        * Decouverte dynamique modules v14_mvp
+        * Exclusion modules non necessaires
+        * Gestion conditionnelle win32com
+
+========================================
+FICHIERS NON MODIFIES (VERIFIES OK)
+========================================
+
+CODE SOURCE:
+------------
+[OK] src/v14_mvp/main_app.py          - Point d'entree
+[OK] src/v14_mvp/design_system.py     - Systeme de design
+[OK] src/v14_mvp/navigation.py        - Navigation
+[OK] src/v14_mvp/components.py        - Composants
+[OK] src/v14_mvp/installer.py         - Gestionnaire install
+[OK] src/v14_mvp/pages_*.py           - Pages UI
+[OK] src/v14_mvp/*.py                 - Tous les autres modules
+
+DONNEES:
+--------
+[OK] data/programs.json               - Base de donnees apps
+[OK] assets/logo.ico                  - Icone application
+
+CONFIGURATION:
+--------------
+[OK] requirements.txt                 - Dependances Python
+[OK] .gitignore                       - Git ignore
+
+SCRIPTS ORIGINAUX:
+------------------
+[OK] build_portable.py                - Ancien script (conserve)
+[OK] build_portable_v17.bat           - Ancien batch (conserve)
+[OK] LANCER_NITRITE_V17.bat           - Mode dev (conserve)
+
+========================================
+STATISTIQUES
+========================================
+
+FICHIERS CREES: 11
+  - Scripts: 4
+  - Documentation: 4
+  - Package: 3
+
+FICHIERS MODIFIES: 1
+  - Configuration: 1
+
+FICHIERS VERIFIES: 50+
+  - Code Python: 48
+  - JSON: 1
+  - Divers: Multiple
+
+CODE COMPILE:
+  - Fichiers Python: 48
+  - Erreurs syntaxe: 0
+  - Warnings critiques: 0
+
+BUILD:
+  - Reussi: OUI
+  - Exit code: 0
+  - Temps: ~2-3 minutes
+  - Taille finale: 26 MB
+
+========================================
+ARBORESCENCE COMPLETE
+========================================
+
+Nitrite-V.17-Beta-Portable/
+│
+├── [NEW] build_portable_fixed.py
+├── [NEW] BUILD_PORTABLE_V17_FIXED.bat
+├── [NEW] INSTALL_DEPENDENCIES.bat
+├── [NEW] TEST_DEPENDENCIES.bat
+│
+├── [NEW] GUIDE_BUILD_COMPLET.md
+├── [NEW] QUICK_START.md
+├── [NEW] RESUME_CORRECTIONS.md
+├── [NEW] LISTE_FICHIERS_CREES.txt
+│
+├── [MOD] NiTriTe_V17_Portable.spec
+│
+├── [OK] build_portable.py
+├── [OK] build_portable_v17.bat
+├── [OK] LANCER_NITRITE_V17.bat
+├── [OK] requirements.txt
+├── [OK] README.md
+├── [OK] .gitignore
+│
+├── [OK] src/
+│   ├── [OK] v14_mvp/
+│   │   ├── [OK] main_app.py
+│   │   ├── [OK] design_system.py
+│   │   ├── [OK] navigation.py
+│   │   ├── [OK] components.py
+│   │   ├── [OK] installer.py
+│   │   ├── [OK] pages_*.py
+│   │   └── [OK] ... (tous les autres)
+│   └── [OK] ... (modules legacy)
+│
+├── [OK] data/
+│   └── [OK] programs.json
+│
+├── [OK] assets/
+│   └── [OK] logo.ico
+│
+├── [NEW] dist/
+│   └── [NEW] NiTriTe_V17_Portable.exe (26 MB)
+│
+├── [NEW] build/
+│   └── (cache PyInstaller)
+│
+└── [NEW] release/
+    ├── [NEW] NiTriTe_V17_Portable.exe
+    ├── [NEW] LANCER_V17_PORTABLE.bat
+    └── [NEW] README_PORTABLE.txt
+
+========================================
+POUR UTILISER
+========================================
+
+BUILDER:
+  > BUILD_PORTABLE_V17_FIXED.bat
+
+TESTER:
+  > dist\NiTriTe_V17_Portable.exe
+
+DISTRIBUER:
+  Compresser le dossier release/ en ZIP
+
+========================================
+SUPPORT
+========================================
+
+Documentation complete: GUIDE_BUILD_COMPLET.md
+Guide rapide: QUICK_START.md
+Resume corrections: RESUME_CORRECTIONS.md
+
+========================================
+FIN DE LA LISTE
+========================================

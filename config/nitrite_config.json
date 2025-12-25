@@ -1,0 +1,47 @@
+{
+  "appearance_mode": "dark",
+  "theme": "Orange NiTriTe",
+  "custom_theme": {
+    "name": "Thème Actuel",
+    "colors": {
+      "bg_primary": "#0a0a0a",
+      "bg_secondary": "#151515",
+      "bg_tertiary": "#202020",
+      "bg_elevated": "#000000",
+      "bg_hover": "#2a2a2a",
+      "accent_primary": "#ff6b35",
+      "accent_hover": "#ff8555",
+      "accent_pressed": "#ff5020",
+      "text_primary": "#ffffff",
+      "text_secondary": "#dfdfdf",
+      "text_tertiary": "#adadad",
+      "success": "#00ea35",
+      "warning": "#ff9800",
+      "error": "#f44336",
+      "info": "#2196f3",
+      "border_default": "#2a2a2a",
+      "border_focus": "#ff6b35"
+    },
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 32
+    },
+    "radius": {
+      "sm": 8,
+      "md": 16,
+      "lg": 24
+    },
+    "fonts": {
+      "family": "Segoe UI",
+      "size_xs": 10,
+      "size_sm": 11,
+      "size_md": 13,
+      "size_lg": 16,
+      "size_xl": 20,
+      "size_2xl": 24
+    }
+  }
+}

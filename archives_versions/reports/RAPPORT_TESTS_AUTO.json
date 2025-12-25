@@ -1,0 +1,343 @@
+{
+  "date": "2025-12-18T20:34:32.567327",
+  "project_root": "C:\\Users\\Utilisateur\\Downloads\\Nitrite-V18.5",
+  "total_tests": 48,
+  "passed": 37,
+  "failed": 11,
+  "success_rate": 77.08333333333334,
+  "execution_time": 3.208975315093994,
+  "categories": {
+    "Structure de Fichiers": {
+      "passed": 5,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "Fichiers essentiels présents",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Structure dossiers correcte",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Dossier themes/ existe",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Fichiers configuration présents",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Assets présents",
+          "success": true,
+          "error": null
+        }
+      ]
+    },
+    "Integrite Donnees JSON": {
+      "passed": 2,
+      "failed": 2,
+      "tests": [
+        {
+          "name": "programs.json valide",
+          "success": false,
+          "error": "programs.json doit etre une liste"
+        },
+        {
+          "name": "portable_apps.json valide",
+          "success": false,
+          "error": "portable_apps.json doit etre une liste"
+        },
+        {
+          "name": "Themes JSON valides",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "config.json valide",
+          "success": true,
+          "error": null
+        }
+      ]
+    },
+    "Imports Python": {
+      "passed": 6,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "Import customtkinter",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Import design_system",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Import theme_editor_dynamic",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Import components",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Import tous modules v14_mvp",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Dependencies externes",
+          "success": true,
+          "error": null
+        }
+      ]
+    },
+    "Modules Application": {
+      "passed": 8,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "DesignTokens",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "ThemePalettes",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "ColorPicker widget",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "NumericSlider widget",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "ThemeEditorDynamic",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Pages principales",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Components",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Utilitaires",
+          "success": true,
+          "error": null
+        }
+      ]
+    },
+    "Base de Donnees Programmes": {
+      "passed": 0,
+      "failed": 2,
+      "tests": [
+        {
+          "name": "Nombre de programmes",
+          "success": false,
+          "error": "Trop peu de programmes: 25"
+        },
+        {
+          "name": "Categories presentes",
+          "success": false,
+          "error": "Trop peu de categories: 0"
+        }
+      ]
+    },
+    "Applications Portables": {
+      "passed": 0,
+      "failed": 2,
+      "tests": [
+        {
+          "name": "Nombre d'apps portables",
+          "success": false,
+          "error": "Trop peu d'apps: 7"
+        },
+        {
+          "name": "Categories portables",
+          "success": false,
+          "error": "Trop peu de categories: 0"
+        }
+      ]
+    },
+    "Scripts Organises": {
+      "passed": 5,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "scripts/diagnostics/",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "scripts/fixes/",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "scripts/tests/",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "build_tools/",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "data/config_runtime/",
+          "success": true,
+          "error": null
+        }
+      ]
+    },
+    "Editeur de Theme": {
+      "passed": 5,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "theme_editor_dynamic.py existe",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Chargement theme",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Sauvegarde theme",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Widgets personnalises",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Presets themes",
+          "success": true,
+          "error": null
+        }
+      ]
+    },
+    "Configuration Utilisateur": {
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "Chemin configuration",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Sauvegarde configuration",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Chargement configuration",
+          "success": true,
+          "error": null
+        }
+      ]
+    },
+    "Rapports et Logs": {
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "RAPPORT_CORRECTIONS.json existe",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "RAPPORT_REORGANISATION.json existe",
+          "success": true,
+          "error": null
+        },
+        {
+          "name": "Generation rapport test",
+          "success": true,
+          "error": null
+        }
+      ]
+    }
+  },
+  "errors": [
+    {
+      "category": "Integrite Donnees JSON",
+      "test": "programs.json valide",
+      "error": "programs.json doit etre une liste"
+    },
+    {
+      "category": "Integrite Donnees JSON",
+      "test": "portable_apps.json valide",
+      "error": "portable_apps.json doit etre une liste"
+    },
+    {
+      "category": "Base de Donnees Programmes",
+      "test": "Nombre de programmes",
+      "error": "Trop peu de programmes: 25"
+    },
+    {
+      "category": "Base de Donnees Programmes",
+      "test": "Categories presentes",
+      "error": "Trop peu de categories: 0"
+    },
+    {
+      "category": "Base de Donnees Programmes",
+      "test": "Structure programmes",
+      "error": "slice(None, 10, None)"
+    },
+    {
+      "category": "Base de Donnees Programmes",
+      "test": "URLs valides",
+      "error": "slice(None, 25, None)"
+    },
+    {
+      "category": "Base de Donnees Programmes",
+      "test": "Recherche programmes",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "category": "Applications Portables",
+      "test": "Nombre d'apps portables",
+      "error": "Trop peu d'apps: 7"
+    },
+    {
+      "category": "Applications Portables",
+      "test": "Structure apps",
+      "error": "slice(None, 7, None)"
+    },
+    {
+      "category": "Applications Portables",
+      "test": "URLs telechargement",
+      "error": "slice(None, 7, None)"
+    },
+    {
+      "category": "Applications Portables",
+      "test": "Categories portables",
+      "error": "Trop peu de categories: 0"
+    }
+  ]
+}

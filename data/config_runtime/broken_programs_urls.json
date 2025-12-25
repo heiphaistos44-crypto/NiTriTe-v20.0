@@ -1,0 +1,734 @@
+[
+  {
+    "name": "Malwarebytes",
+    "category": "Outils OrdiPlus",
+    "url": "https://www.malwarebytes.com/mwb-download",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "VLC Media Player",
+    "category": "Outils OrdiPlus",
+    "url": "https://get.videolan.org/vlc/3.0.18/win64/vlc-3.0.18-win64.exe",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Opera",
+    "category": "Navigateurs",
+    "url": "https://net.geo.opera.com/opera/stable/windows",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Maxthon",
+    "category": "Navigateurs",
+    "url": "https://www.maxthon.com/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Ungoogled Chromium",
+    "category": "Navigateurs",
+    "url": "https://github.com/ungoogled-software/ungoogled-chromium-windows/releases/latest",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Floorp Browser",
+    "category": "Navigateurs",
+    "url": "https://floorp.app/download/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "G DATA Antivirus",
+    "category": "Antivirus",
+    "url": "https://www.gdata-software.com/download",
+    "status": 404
+  },
+  {
+    "name": "Quick Heal Total Security",
+    "category": "Antivirus",
+    "url": "https://www.quickheal.com/free-virus-protection-security-online",
+    "status": 404
+  },
+  {
+    "name": "Arcabit Antivirus",
+    "category": "Antivirus",
+    "url": "https://www.arcabit.com/antivirus-free/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Vipre Antivirus",
+    "category": "Antivirus",
+    "url": "https://www.vipre.com/products/home-antivirus/",
+    "status": 404
+  },
+  {
+    "name": "Unchecky",
+    "category": "Sécurité",
+    "url": "https://unchecky.com/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Sticky Password",
+    "category": "Sécurité",
+    "url": "https://www.stickypassword.com/",
+    "status": 403
+  },
+  {
+    "name": "Roboform",
+    "category": "Sécurité",
+    "url": "https://www.roboform.com/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Lunascape",
+    "category": "Navigateurs",
+    "url": "http://www.lunascape.tv/download",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "LibreOffice",
+    "category": "Bureautique",
+    "url": "https://www.libreoffice.org/download/download/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Microsoft Office 365",
+    "category": "Bureautique",
+    "url": "https://c2rsetup.officeapps.live.com/c2r/download.aspx?ProductreleaseID=O365ProPlusRetail&platform=x64&language=fr-fr",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Spybot Anti-Beacon",
+    "category": "Sécurité",
+    "url": "https://www.safer-networking.org/spybot-anti-beacon/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "SoftMaker FreeOffice",
+    "category": "Bureautique",
+    "url": "https://www.freeoffice.com/en/download/applications",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Calligra Suite",
+    "category": "Bureautique",
+    "url": "https://calligra.org/download/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Scribus",
+    "category": "Bureautique",
+    "url": "https://www.scribus.net/downloads/stable-branch/",
+    "status": 404
+  },
+  {
+    "name": "SumatraPDF",
+    "category": "Bureautique",
+    "url": "https://www.sumatrapdfreader.org/dl/rel/3.4.6/SumatraPDF-3.4.6-64-install.exe",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Standard Notes",
+    "category": "Bureautique",
+    "url": "https://standardnotes.com/download",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "AbiWord",
+    "category": "Bureautique",
+    "url": "https://www.abisource.com/download/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Money Manager Ex",
+    "category": "Bureautique",
+    "url": "https://github.com/moneymanagerex/moneymanagerex/releases/latest",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "GnuCash",
+    "category": "Bureautique",
+    "url": "https://github.com/Gnucash/gnucash/releases/latest",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Project Libre",
+    "category": "Bureautique",
+    "url": "https://www.projectlibre.com/product/projectlibre-open-source",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Q10",
+    "category": "Bureautique",
+    "url": "https://www.baara.com/q10/",
+    "status": 404
+  },
+  {
+    "name": "Audacity",
+    "category": "Multimédia",
+    "url": "https://www.audacityteam.org/download/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "IrfanView",
+    "category": "Multimédia",
+    "url": "https://www.irfanview.com/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Kodi",
+    "category": "Multimédia",
+    "url": "https://kodi.tv/download/windows/",
+    "status": 403
+  },
+  {
+    "name": "MakeMKV",
+    "category": "Multimédia",
+    "url": "https://www.makemkv.com/download/Setup_MakeMKV_v1.17.5.exe",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Visual Studio Code",
+    "category": "Développement",
+    "url": "https://code.visualstudio.com/download",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "FastStone Photo Resizer",
+    "category": "Multimédia",
+    "url": "https://www.faststone.org/FSResizerDownload.htm",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Python",
+    "category": "Développement",
+    "url": "https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Sublime Text",
+    "category": "Développement",
+    "url": "https://download.sublimetext.com/sublime_text_build_4152_x64_setup.exe",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Atom",
+    "category": "Développement",
+    "url": "https://github.com/atom/atom/releases/latest/download/AtomSetup-x64.exe",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "HWiNFO64",
+    "category": "Utilitaires",
+    "url": "https://www.hwinfo.com/download/",
+    "status": 403
+  },
+  {
+    "name": "MSI Afterburner",
+    "category": "Utilitaires",
+    "url": "https://www.msi.com/Landing/afterburner/graphics-cards",
+    "status": 403
+  },
+  {
+    "name": "HWiNFO",
+    "category": "Utilitaires",
+    "url": "https://www.hwinfo.com/download/",
+    "status": 403
+  },
+  {
+    "name": "Wire",
+    "category": "Communication",
+    "url": "https://wire.com/en/download/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Trillian",
+    "category": "Communication",
+    "url": "https://www.trillian.im/get/windows/6.5/trillian-v6.5.0.22.msi",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Session",
+    "category": "Communication",
+    "url": "https://getsession.org/download",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Riot.im Desktop",
+    "category": "Communication",
+    "url": "https://element.io/get-started",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Minecraft Launcher",
+    "category": "Jeux",
+    "url": "https://launcher.mojang.com/download/MinecraftInstaller.msi",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Itch.io",
+    "category": "Jeux",
+    "url": "https://itch.io/app",
+    "status": 403
+  },
+  {
+    "name": "Xbox Game Bar",
+    "category": "Jeux",
+    "url": "builtin",
+    "status": "ERROR: Invalid URL 'builtin': No scheme supplied. Perhaps"
+  },
+  {
+    "name": "Bitdefender Uninstall Tool",
+    "category": "Désinstallateurs Antivirus",
+    "url": "https://www.bitdefender.com/consumer/support/answer/28130/",
+    "status": 404
+  },
+  {
+    "name": "ESET Uninstaller",
+    "category": "Désinstallateurs Antivirus",
+    "url": "https://support.eset.com/en/kb2289-uninstall-eset-windows-home-products",
+    "status": 404
+  },
+  {
+    "name": "Sophos Removal Tool",
+    "category": "Désinstallateurs Antivirus",
+    "url": "https://support.sophos.com/support/s/article/KB-000036711",
+    "status": 404
+  },
+  {
+    "name": "Malwarebytes Support Tool",
+    "category": "Désinstallateurs Antivirus",
+    "url": "https://support.malwarebytes.com/hc/en-us/articles/360038524414",
+    "status": 403
+  },
+  {
+    "name": "Emsisoft Commandline Scanner",
+    "category": "Désinstallateurs Antivirus",
+    "url": "https://www.emsisoft.com/en/software/commandline/",
+    "status": 404
+  },
+  {
+    "name": "Vipre Removal Tool",
+    "category": "Désinstallateurs Antivirus",
+    "url": "https://support.vipre.com/",
+    "status": 530
+  },
+  {
+    "name": "360 Total Security Uninstaller",
+    "category": "Désinstallateurs Antivirus",
+    "url": "https://www.360totalsecurity.com/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Quick Heal Uninstaller",
+    "category": "Désinstallateurs Antivirus",
+    "url": "https://www.quickheal.com/support",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Webroot Uninstaller",
+    "category": "Désinstallateurs Antivirus",
+    "url": "https://www.webroot.com/",
+    "status": 403
+  },
+  {
+    "name": "qBittorrent",
+    "category": "Internet",
+    "url": "https://www.qbittorrent.org/download.php",
+    "status": 403
+  },
+  {
+    "name": "Avira Registry Cleaner",
+    "category": "Désinstallateurs Antivirus",
+    "url": "https://www.avira.com/en/support-for-home",
+    "status": 403
+  },
+  {
+    "name": "Ares",
+    "category": "Internet",
+    "url": "http://www.aresultimaversi.com/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Vivaldi Social",
+    "category": "Réseaux Sociaux",
+    "url": "https://social.vivaldi.net/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Corebird",
+    "category": "Réseaux Sociaux",
+    "url": "https://corebird.baedert.org/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Netflix",
+    "category": "Streaming Vidéo",
+    "url": "https://www.netflix.com/",
+    "status": 405
+  },
+  {
+    "name": "Crunchyroll",
+    "category": "Streaming Vidéo",
+    "url": "https://www.crunchyroll.com/",
+    "status": 403
+  },
+  {
+    "name": "Paramount+",
+    "category": "Streaming Vidéo",
+    "url": "https://www.paramountplus.com/",
+    "status": 406
+  },
+  {
+    "name": "Amazon Prime Video",
+    "category": "Streaming Vidéo",
+    "url": "https://www.primevideo.com/",
+    "status": 405
+  },
+  {
+    "name": "Funimation",
+    "category": "Streaming Vidéo",
+    "url": "https://www.funimation.com/",
+    "status": 403
+  },
+  {
+    "name": "OBS Studio Broadcaster",
+    "category": "Streaming Vidéo",
+    "url": "https://obsproject.com/download",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Amazon Music",
+    "category": "Streaming Audio",
+    "url": "https://www.amazon.com/music/player/web",
+    "status": 405
+  },
+  {
+    "name": "Audible",
+    "category": "Streaming Audio",
+    "url": "https://www.audible.com/",
+    "status": 405
+  },
+  {
+    "name": "Anghami",
+    "category": "Streaming Audio",
+    "url": "https://www.anghami.com/",
+    "status": 406
+  },
+  {
+    "name": "8tracks",
+    "category": "Streaming Audio",
+    "url": "https://8tracks.com/",
+    "status": 403
+  },
+  {
+    "name": "Clementine",
+    "category": "Streaming Audio",
+    "url": "https://www.clementine-player.org/",
+    "status": 405
+  },
+  {
+    "name": "Audacity Audio Editor",
+    "category": "Streaming Audio",
+    "url": "https://www.audacityteam.org/download/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Cortana",
+    "category": "IA & Assistants",
+    "url": "builtin",
+    "status": "ERROR: Invalid URL 'builtin': No scheme supplied. Perhaps"
+  },
+  {
+    "name": "ChatGPT Desktop",
+    "category": "IA & Assistants",
+    "url": "https://openai.com/chatgpt/desktop/",
+    "status": 403
+  },
+  {
+    "name": "Perplexity",
+    "category": "IA & Assistants",
+    "url": "https://www.perplexity.ai/",
+    "status": 403
+  },
+  {
+    "name": "Grammarly",
+    "category": "IA & Assistants",
+    "url": "https://www.grammarly.com/desktop",
+    "status": 405
+  },
+  {
+    "name": "Alexa",
+    "category": "IA & Assistants",
+    "url": "https://www.amazon.com/alexa",
+    "status": 404
+  },
+  {
+    "name": "System Mechanic",
+    "category": "Utilitaires Système",
+    "url": "https://www.iolo.com/products/system-mechanic/",
+    "status": 403
+  },
+  {
+    "name": "System Ninja",
+    "category": "Utilitaires Système",
+    "url": "https://www.sistemaninja.com/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "HP Smart",
+    "category": "Imprimantes & Scan",
+    "url": "https://www.hp.com/us-en/solutions/app.html",
+    "status": 404
+  },
+  {
+    "name": "VueScan",
+    "category": "Imprimantes & Scan",
+    "url": "https://www.hamrick.com/vuescan.html",
+    "status": 404
+  },
+  {
+    "name": "HP Print and Scan Doctor",
+    "category": "Imprimantes & Scan",
+    "url": "https://support.hp.com/us-en/help/hp-print-and-scan-doctor",
+    "status": 404
+  },
+  {
+    "name": "Dell Printer Hub",
+    "category": "Imprimantes & Scan",
+    "url": "https://www.dell.com/support/home/",
+    "status": 403
+  },
+  {
+    "name": "PaperScan Free",
+    "category": "Imprimantes & Scan",
+    "url": "https://www.paperscan.org/",
+    "status": 405
+  },
+  {
+    "name": "Microsoft Print to PDF",
+    "category": "Imprimantes & Scan",
+    "url": "builtin",
+    "status": "ERROR: Invalid URL 'builtin': No scheme supplied. Perhaps"
+  },
+  {
+    "name": "Toshiba e-STUDIO",
+    "category": "Imprimantes & Scan",
+    "url": "https://business.toshiba.com/usa/support/downloads",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Bullzip PDF Printer",
+    "category": "Imprimantes & Scan",
+    "url": "https://www.bullzip.com/products/pdf/info.php",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "PDFCreator",
+    "category": "Imprimantes & Scan",
+    "url": "https://www.pdfforge.org/pdfcreator/download",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "DoPDF",
+    "category": "Imprimantes & Scan",
+    "url": "https://www.dopdf.com/download.php",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Pantum Printer Driver",
+    "category": "Imprimantes & Scan",
+    "url": "https://www.pantum.com/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Sharp Printer Software",
+    "category": "Imprimantes & Scan",
+    "url": "https://www.sharpusa.com/support/downloads",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "AirParrot",
+    "category": "Services Apple",
+    "url": "https://www.airsquirrels.com/airparrot/download",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Reflector",
+    "category": "Services Apple",
+    "url": "https://www.airsquirrels.com/reflector/download",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "MobiMover",
+    "category": "Services Apple",
+    "url": "https://www.easeus.com/phone-transfer/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "TunesGo",
+    "category": "Services Apple",
+    "url": "https://tunesgo.wondershare.com/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Apple Devices",
+    "category": "Services Apple",
+    "url": "https://www.microsoft.com/store/productId/9NP83LWLPZ9K",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "SAP Business One",
+    "category": "Suites Professionnelles",
+    "url": "https://www.sap.com/products/erp/s4hana-erp.html",
+    "status": 403
+  },
+  {
+    "name": "Obsidian",
+    "category": "Productivité",
+    "url": "https://obsidian.md/download",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "ServiceNow",
+    "category": "Suites Professionnelles",
+    "url": "https://www.servicenow.com/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Microsoft Dynamics 365",
+    "category": "Suites Professionnelles",
+    "url": "https://dynamics.microsoft.com/en-us/downloads/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Remember The Milk",
+    "category": "Productivité",
+    "url": "https://www.rememberthemilk.com/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Microsoft To Do",
+    "category": "Productivité",
+    "url": "https://todo.microsoft.com/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "TickTick",
+    "category": "Productivité",
+    "url": "https://ticktick.com/download",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Focus To-Do",
+    "category": "Productivité",
+    "url": "https://www.focustodo.cn/download/",
+    "status": "TIMEOUT"
+  },
+  {
+    "name": "Clockify",
+    "category": "Productivité",
+    "url": "https://clockify.me/downloads",
+    "status": 404
+  },
+  {
+    "name": "Be Focused",
+    "category": "Productivité",
+    "url": "https://xwavesoft.com/be-focused-pro.html",
+    "status": 404
+  },
+  {
+    "name": "Box Drive",
+    "category": "Stockage Cloud",
+    "url": "https://www.box.com/resources/downloads",
+    "status": 403
+  },
+  {
+    "name": "Icedrive",
+    "category": "Stockage Cloud",
+    "url": "https://icedrive.net/",
+    "status": 403
+  },
+  {
+    "name": "Amazon Drive",
+    "category": "Stockage Cloud",
+    "url": "https://www.amazon.com/clouddrive/home",
+    "status": 405
+  },
+  {
+    "name": "Brain Focus Productivity Timer",
+    "category": "Productivité",
+    "url": "https://brainfocus.io/",
+    "status": "TOO_MANY_REDIRECTS"
+  },
+  {
+    "name": "Hamster ZIP Archiver",
+    "category": "Compression",
+    "url": "https://hamstersoft.com/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "jZip",
+    "category": "Compression",
+    "url": "https://www.jzip.com/",
+    "status": 405
+  },
+  {
+    "name": "Nuance Power PDF",
+    "category": "PDF et Documents",
+    "url": "https://www.nuance.com/print-capture-and-pdf-solutions/pdf-and-document-conversion/power-pdf-converter.html",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "KGB Archiver",
+    "category": "Compression",
+    "url": "https://sourceforge.net/projects/kgbarchiver/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "FreeArc",
+    "category": "Compression",
+    "url": "https://github.com/sleuthkit/freearc",
+    "status": 404
+  },
+  {
+    "name": "B1 Free Archiver",
+    "category": "Compression",
+    "url": "https://github.com/b1-systems/b1-archiver",
+    "status": 404
+  },
+  {
+    "name": "ArcThemALL",
+    "category": "Compression",
+    "url": "http://www.arcthemall.com/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "ZipGenius",
+    "category": "Compression",
+    "url": "https://www.zipgenius.com/",
+    "status": 403
+  },
+  {
+    "name": "WinMount",
+    "category": "Compression",
+    "url": "https://www.winmount.com/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "Easy 7-Zip",
+    "category": "Compression",
+    "url": "https://www.e7z.org/",
+    "status": "CONNECTION_ERROR"
+  },
+  {
+    "name": "UltimateZip",
+    "category": "Compression",
+    "url": "https://www.ultimatezip.com/",
+    "status": 405
+  },
+  {
+    "name": "Zip Archiver",
+    "category": "Compression",
+    "url": "https://www.microsoft.com/store/productId/9WZDNCRDH0D8",
+    "status": 404
+  }
+]

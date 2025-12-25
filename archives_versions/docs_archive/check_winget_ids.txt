@@ -1,0 +1,13 @@
+# Applications OrdiPlus à vérifier dans WinGet
+
+Applications manquantes dans programs.json:
+1. Mozilla Firefox → Mozilla.Firefox
+2. VLC Media Player → VideoLAN.VLC
+3. Office 2007 → (Ancien, non disponible via WinGet)
+4. Spybot Search & Destroy → (Pas sur WinGet, version ancienne)
+5. Wise Disk Cleaner → WiseCleaner.WiseDiskCleaner
+
+Applications à corriger:
+- "Adobe Acrobat Reader DC" devrait être "Adobe Acrobat Reader"
+
+Solution: Ajouter les applications manquantes à programs.json avec les bons winget_id

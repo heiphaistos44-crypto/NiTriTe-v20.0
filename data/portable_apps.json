@@ -1,0 +1,1024 @@
+{
+  "Outils Système": {
+    "7-Zip Portable": {
+      "url": "https://portableapps.com/apps/utilities/7-zip_portable",
+      "description": "Archiveur puissant - Format 7z, ZIP, RAR",
+      "size": "2 MB",
+      "type": "exe"
+    },
+    "Notepad++ Portable": {
+      "url": "https://portableapps.com/redirect/?a=Notepad++Portable&s=s&d=pa&f=Notepad++Portable_8.6.paf.exe",
+      "description": "Éditeur de texte avancé pour développeurs",
+      "size": "5 MB",
+      "type": "exe"
+    },
+    "Everything Portable": {
+      "url": "https://www.voidtools.com/Everything-1.4.1.1024.x64.zip",
+      "description": "Recherche de fichiers ultra-rapide",
+      "size": "2 MB",
+      "type": "zip"
+    },
+    "Total Commander": {
+      "url": "https://totalcmd.net/1105/tcmd1105x64.exe",
+      "description": "Gestionnaire de fichiers dual-pane",
+      "size": "7 MB",
+      "type": "exe"
+    },
+    "Q-Dir Portable": {
+      "url": "https://www.softwareok.com/Download/Q-Dir_Portable_x64.zip",
+      "description": "Explorateur quadruple panneau",
+      "size": "3 MB",
+      "type": "zip"
+    },
+    "FreeCommander": {
+      "url": "https://freecommander.com/en/downloads/",
+      "description": "Gestionnaire de fichiers gratuit",
+      "size": "15 MB",
+      "type": "zip"
+    },
+    "Double Commander": {
+      "url": "https://sourceforge.net/projects/doublecmd/files/latest/download",
+      "description": "Clone de Total Commander open source",
+      "size": "20 MB",
+      "type": "exe"
+    },
+    "PeaZip Portable": {
+      "url": "https://github.com/peazip/PeaZip/releases/download/9.5.0/peazip_portable-9.5.0.WIN64.zip",
+      "description": "Gestionnaire d'archives 200+ formats",
+      "size": "15 MB",
+      "type": "zip"
+    },
+    "Bandizip Portable": {
+      "url": "https://www.bandisoft.com/bandizip/dl.php?portable",
+      "description": "Archiveur ultra-rapide",
+      "size": "7 MB",
+      "type": "exe"
+    },
+    "WinRAR Portable": {
+      "url": "https://www.rarlab.com/rar/winrar-x64-623.exe",
+      "description": "Archiveur RAR professionnel",
+      "size": "3 MB",
+      "type": "exe"
+    },
+    "Recuva Portable": {
+      "url": "https://portableapps.com/apps/utilities/recuva_portable",
+      "description": "Récupération de fichiers supprimés",
+      "size": "4 MB",
+      "type": "exe"
+    },
+    "TreeSize Portable": {
+      "url": "https://downloads.jam-software.de/treesize_free/TreeSizeFree-Portable.zip",
+      "description": "Analyse de l'espace disque",
+      "size": "8 MB",
+      "type": "zip"
+    },
+    "WizTree Portable": {
+      "url": "https://diskanalyzer.com/files/wiztree_4_15_portable.zip",
+      "description": "Scanner de disque ultra-rapide",
+      "size": "6 MB",
+      "type": "zip"
+    },
+    "SpaceSniffer Portable": {
+      "url": "http://www.uderzo.it/main_products/space_sniffer/download.html",
+      "description": "Visualisation espace disque",
+      "size": "2 MB",
+      "type": "zip"
+    },
+    "Glary Utilities Portable": {
+      "url": "https://download.glarysoft.com/guportable.zip",
+      "description": "Suite d'outils système complète",
+      "size": "18 MB",
+      "type": "zip"
+    },
+    "Sysinternals Suite": {
+      "url": "https://download.sysinternals.com/files/SysinternalsSuite.zip",
+      "description": "Outils avancés Microsoft",
+      "size": "35 MB",
+      "type": "zip"
+    },
+    "Process Explorer": {
+      "url": "https://download.sysinternals.com/files/ProcessExplorer.zip",
+      "description": "Gestionnaire de processus avancé",
+      "size": "2 MB",
+      "type": "zip"
+    },
+    "Autoruns Portable": {
+      "url": "https://download.sysinternals.com/files/Autoruns.zip",
+      "description": "Gestion démarrage automatique",
+      "size": "1 MB",
+      "type": "zip"
+    },
+    "Process Monitor": {
+      "url": "https://download.sysinternals.com/files/ProcessMonitor.zip",
+      "description": "Surveillance activité système",
+      "size": "2 MB",
+      "type": "zip"
+    },
+    "TCPView Portable": {
+      "url": "https://download.sysinternals.com/files/TCPView.zip",
+      "description": "Surveillance connexions réseau",
+      "size": "500 KB",
+      "type": "zip"
+    },
+    "WinDirStat Portable": {
+      "url": "https://sourceforge.net/projects/windirstat/files/latest/download",
+      "description": "Statistiques utilisation disque",
+      "size": "1 MB",
+      "type": "exe"
+    },
+    "Rufus Portable": {
+      "url": "https://github.com/pbatard/rufus/releases/download/v4.3/rufus-4.3p.exe",
+      "description": "Création clés USB bootables",
+      "size": "1.4 MB",
+      "type": "exe"
+    },
+    "Ventoy": {
+      "url": "https://github.com/ventoy/Ventoy/releases/download/v1.0.96/ventoy-1.0.96-windows.zip",
+      "description": "Multi-boot USB",
+      "size": "15 MB",
+      "type": "zip"
+    },
+    "ImDisk Toolkit": {
+      "url": "https://sourceforge.net/projects/imdisk-toolkit/files/latest/download",
+      "description": "Création disques RAM virtuels",
+      "size": "3 MB",
+      "type": "exe"
+    }
+  },
+  "Multimédia": {
+    "VLC Portable": {
+      "url": "https://portableapps.com/redirect/?a=VLCPortable&s=s&d=pa&f=VLCPortable_3.0.20.paf.exe",
+      "description": "Lecteur multimédia universel",
+      "size": "40 MB",
+      "type": "exe"
+    },
+    "IrfanView Portable": {
+      "url": "https://portableapps.com/apps/graphics_pictures/irfanview_portable",
+      "description": "Visionneuse d'images rapide",
+      "size": "3 MB",
+      "type": "exe"
+    },
+    "GIMP Portable": {
+      "url": "https://portableapps.com/apps/graphics_pictures/gimp_portable",
+      "description": "Éditeur d'images professionnel",
+      "size": "200 MB",
+      "type": "exe"
+    },
+    "Inkscape Portable": {
+      "url": "https://portableapps.com/apps/graphics_pictures/inkscape_portable",
+      "description": "Éditeur graphiques vectoriels",
+      "size": "150 MB",
+      "type": "exe"
+    },
+    "Paint.NET Portable": {
+      "url": "https://portableapps.com/apps/graphics_pictures/paint.net_portable",
+      "description": "Éditeur d'images simple",
+      "size": "40 MB",
+      "type": "exe"
+    },
+    "Audacity Portable": {
+      "url": "https://portableapps.com/apps/music_video/audacity_portable",
+      "description": "Éditeur audio multi-pistes",
+      "size": "30 MB",
+      "type": "exe"
+    },
+    "MPC-HC Portable": {
+      "url": "https://github.com/clsid2/mpc-hc/releases/latest",
+      "description": "Lecteur vidéo léger",
+      "size": "25 MB",
+      "type": "zip"
+    },
+    "K-Lite Codec Pack": {
+      "url": "https://codecguide.com/download_k-lite_codec_pack_basic.htm",
+      "description": "Pack de codecs multimédia",
+      "size": "50 MB",
+      "type": "exe"
+    },
+    "XnView Portable": {
+      "url": "https://portableapps.com/apps/graphics_pictures/xnview_portable",
+      "description": "Visionneuse et convertisseur",
+      "size": "25 MB",
+      "type": "exe"
+    },
+    "FastStone Image Viewer": {
+      "url": "https://www.faststone.org/FSViewerDownload.htm",
+      "description": "Visionneuse images rapide (page téléchargement)",
+      "size": "8 MB",
+      "type": "redirect"
+    },
+    "Krita Portable": {
+      "url": "https://download.kde.org/stable/krita/5.2.0/krita-x64-5.2.0-setup.exe",
+      "description": "Peinture digitale professionnelle",
+      "size": "180 MB",
+      "type": "exe"
+    },
+    "Blender Portable": {
+      "url": "https://www.blender.org/download/release/Blender4.0/blender-4.0.0-windows-x64.zip/",
+      "description": "Modélisation 3D",
+      "size": "300 MB",
+      "type": "zip"
+    },
+    "OBS Studio Portable": {
+      "url": "https://obsproject.com/download",
+      "description": "Enregistrement et streaming",
+      "size": "120 MB",
+      "type": "zip"
+    },
+    "HandBrake Portable": {
+      "url": "https://github.com/HandBrake/HandBrake/releases/download/1.7.0/HandBrake-1.7.0-x86_64-Win_GUI.exe",
+      "description": "Conversion vidéo",
+      "size": "20 MB",
+      "type": "exe"
+    },
+    "Avidemux Portable": {
+      "url": "https://sourceforge.net/projects/avidemux/files/latest/download",
+      "description": "Montage vidéo simple",
+      "size": "40 MB",
+      "type": "exe"
+    },
+    "Shotcut Portable": {
+      "url": "https://github.com/mltframework/shotcut/releases/download/v23.11.29/shotcut-win64-231129.zip",
+      "description": "Éditeur vidéo open source",
+      "size": "180 MB",
+      "type": "zip"
+    },
+    "foobar2000 Portable": {
+      "url": "https://www.foobar2000.org/files/foobar2000_v2.1.exe",
+      "description": "Lecteur audio avancé",
+      "size": "5 MB",
+      "type": "exe"
+    },
+    "AIMP Portable": {
+      "url": "https://www.aimp.ru/files/windows/builds/aimp_5.30.2561.zip",
+      "description": "Lecteur audio puissant",
+      "size": "15 MB",
+      "type": "zip"
+    },
+    "Mp3tag Portable": {
+      "url": "https://download.mp3tag.de/mp3tagv333setup.exe",
+      "description": "Éditeur de tags audio",
+      "size": "5 MB",
+      "type": "exe"
+    },
+    "MediaInfo Portable": {
+      "url": "https://mediaarea.net/download/binary/mediainfo-gui/23.11/MediaInfo_GUI_23.11_Windows.exe",
+      "description": "Informations fichiers média",
+      "size": "8 MB",
+      "type": "exe"
+    },
+    "FFmpeg": {
+      "url": "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip",
+      "description": "Conversion multimédia CLI",
+      "size": "100 MB",
+      "type": "zip"
+    },
+    "ImageMagick Portable": {
+      "url": "https://imagemagick.org/script/download.php#windows",
+      "description": "Traitement d'images CLI",
+      "size": "50 MB",
+      "type": "zip"
+    },
+    "ShareX Portable": {
+      "url": "https://github.com/ShareX/ShareX/releases/download/v15.0.0/ShareX-15.0.0-portable.zip",
+      "description": "Capture écran avancée",
+      "size": "10 MB",
+      "type": "zip"
+    },
+    "Greenshot Portable": {
+      "url": "https://github.com/greenshot/greenshot/releases/latest",
+      "description": "Capture d'écran rapide",
+      "size": "3 MB",
+      "type": "zip"
+    }
+  },
+  "Réseau": {
+    "PuTTY Portable": {
+      "url": "https://the.earth.li/~sgtatham/putty/latest/w64/putty.exe",
+      "description": "Client SSH/Telnet",
+      "size": "3 MB",
+      "type": "exe"
+    },
+    "WinSCP Portable": {
+      "url": "https://winscp.net/download/WinSCP-6.1.2-Portable.zip",
+      "description": "Client SFTP/FTP/SCP",
+      "size": "10 MB",
+      "type": "zip"
+    },
+    "Wireshark Portable": {
+      "url": "https://portableapps.com/apps/utilities/wireshark_portable",
+      "description": "Analyseur paquets réseau",
+      "size": "70 MB",
+      "type": "exe"
+    },
+    "FileZilla Portable": {
+      "url": "https://portableapps.com/apps/internet/filezilla_portable",
+      "description": "Client FTP/SFTP",
+      "size": "15 MB",
+      "type": "exe"
+    },
+    "TeamViewer Portable": {
+      "url": "https://download.teamviewer.com/download/TeamViewerPortable.zip",
+      "description": "Accès à distance",
+      "size": "25 MB",
+      "type": "zip"
+    },
+    "AnyDesk Portable": {
+      "url": "https://download.anydesk.com/AnyDesk.exe",
+      "description": "Bureau à distance rapide",
+      "size": "4 MB",
+      "type": "exe"
+    },
+    "UltraVNC Portable": {
+      "url": "https://uvnc.com/downloads/ultravnc.html",
+      "description": "Contrôle à distance VNC",
+      "size": "3 MB",
+      "type": "exe"
+    },
+    "Advanced IP Scanner": {
+      "url": "https://download.advanced-ip-scanner.com/download/files/Advanced_IP_Scanner_2.5.4594.1.exe",
+      "description": "Scanner réseau local",
+      "size": "12 MB",
+      "type": "exe"
+    },
+    "Angry IP Scanner": {
+      "url": "https://github.com/angryip/ipscan/releases/download/3.9.1/ipscan-3.9.1-setup.exe",
+      "description": "Scanner IP rapide",
+      "size": "3 MB",
+      "type": "exe"
+    },
+    "NetSpeedMonitor": {
+      "url": "https://www.floriangilles.com/software/netspeedmonitor/",
+      "description": "Moniteur débit réseau (page téléchargement)",
+      "size": "500 KB",
+      "type": "redirect"
+    },
+    "NetLimiter Portable": {
+      "url": "https://www.netlimiter.com/download",
+      "description": "Contrôle bande passante",
+      "size": "15 MB",
+      "type": "exe"
+    },
+    "Nmap Portable": {
+      "url": "https://nmap.org/dist/nmap-7.94-setup.exe",
+      "description": "Scanner sécurité réseau",
+      "size": "25 MB",
+      "type": "exe"
+    },
+    "Zenmap Portable": {
+      "url": "https://nmap.org/dist/nmap-7.94-setup.exe",
+      "description": "Interface graphique Nmap",
+      "size": "25 MB",
+      "type": "exe"
+    },
+    "Fiddler Portable": {
+      "url": "https://telerik-fiddler.s3.amazonaws.com/fiddler/FiddlerSetup.exe",
+      "description": "Proxy debug HTTP",
+      "size": "5 MB",
+      "type": "exe"
+    },
+    "Charles Proxy": {
+      "url": "https://www.charlesproxy.com/download/latest-release/",
+      "description": "Proxy debug avancé (page téléchargement)",
+      "size": "60 MB",
+      "type": "redirect"
+    },
+    "Postman Portable": {
+      "url": "https://dl.pstmn.io/download/latest/win64",
+      "description": "Test API REST",
+      "size": "150 MB",
+      "type": "exe"
+    },
+    "Insomnia Portable": {
+      "url": "https://insomnia.rest/download",
+      "description": "Client API GraphQL/REST",
+      "size": "120 MB",
+      "type": "exe"
+    },
+    "HTTPie Desktop": {
+      "url": "https://github.com/httpie/desktop/releases/latest",
+      "description": "Client HTTP moderne (page téléchargement)",
+      "size": "80 MB",
+      "type": "redirect"
+    },
+    "WinMTR Portable": {
+      "url": "https://sourceforge.net/projects/winmtr/files/latest/download",
+      "description": "Traceroute et ping",
+      "size": "500 KB",
+      "type": "zip"
+    },
+    "PingPlotter": {
+      "url": "https://www.pingplotter.com/downloads/",
+      "description": "Diagnostic réseau visuel (page téléchargement)",
+      "size": "40 MB",
+      "type": "redirect"
+    },
+    "TightVNC Portable": {
+      "url": "https://www.tightvnc.com/download/2.8.75/tightvnc-2.8.75-gpl-setup-64bit.msi",
+      "description": "Serveur VNC léger",
+      "size": "2 MB",
+      "type": "exe"
+    },
+    "WinBox": {
+      "url": "https://mt.lv/winbox64",
+      "description": "Client MikroTik RouterOS",
+      "size": "800 KB",
+      "type": "exe"
+    },
+    "mRemoteNG Portable": {
+      "url": "https://github.com/mRemoteNG/mRemoteNG/releases/latest",
+      "description": "Gestionnaire connexions multi-protocoles",
+      "size": "25 MB",
+      "type": "zip"
+    },
+    "Remote Desktop Manager": {
+      "url": "https://devolutions.net/remote-desktop-manager/home/download",
+      "description": "Gestion sessions RDP",
+      "size": "120 MB",
+      "type": "exe"
+    }
+  },
+  "Utilitaires": {
+    "TreeSize Portable": {
+      "url": "https://downloads.jam-software.de/treesize_free/TreeSizeFree-Portable.zip",
+      "description": "Analyse espace disque",
+      "size": "8 MB",
+      "type": "zip"
+    },
+    "CPU-Z Portable": {
+      "url": "https://download.cpuid.com/cpu-z/cpu-z_2.07-en.zip",
+      "description": "Infos CPU détaillées",
+      "size": "2 MB",
+      "type": "zip"
+    },
+    "GPU-Z Portable": {
+      "url": "https://www.techpowerup.com/download/techpowerup-gpu-z/",
+      "description": "Infos carte graphique",
+      "size": "8 MB",
+      "type": "exe"
+    },
+    "CrystalDiskInfo": {
+      "url": "https://sourceforge.net/projects/crystaldiskinfo/files/latest/download",
+      "description": "Santé disques SSD/HDD",
+      "size": "5 MB",
+      "type": "zip"
+    },
+    "CrystalDiskMark": {
+      "url": "https://sourceforge.net/projects/crystaldiskmark/files/latest/download",
+      "description": "Benchmark disques",
+      "size": "4 MB",
+      "type": "zip"
+    },
+    "HWiNFO Portable": {
+      "url": "https://www.hwinfo.com/download/",
+      "description": "Infos matériel complètes",
+      "size": "6 MB",
+      "type": "zip"
+    },
+    "Speccy Portable": {
+      "url": "https://portableapps.com/apps/utilities/speccy_portable",
+      "description": "Infos système Piriform",
+      "size": "6 MB",
+      "type": "exe"
+    },
+    "AIDA64 Portable": {
+      "url": "https://download.aida64.com/aida64extreme650.zip",
+      "description": "Diagnostic système avancé",
+      "size": "50 MB",
+      "type": "zip"
+    },
+    "BatteryInfoView": {
+      "url": "https://www.nirsoft.net/utils/batteryinfoview.zip",
+      "description": "Infos batterie laptop",
+      "size": "200 KB",
+      "type": "zip"
+    },
+    "BleachBit Portable": {
+      "url": "https://download.bleachbit.org/BleachBit-4.6.0-portable.zip",
+      "description": "Nettoyage vie privée",
+      "size": "15 MB",
+      "type": "zip"
+    },
+    "Bulk Rename Utility": {
+      "url": "https://www.bulkrenameutility.co.uk/Downloads/BRU_NoInstall.zip",
+      "description": "Renommage fichiers masse",
+      "size": "3 MB",
+      "type": "zip"
+    },
+    "Ant Renamer": {
+      "url": "https://www.antp.be/software/renamer/download",
+      "description": "Renommage batch simple (page téléchargement)",
+      "size": "2 MB",
+      "type": "redirect"
+    },
+    "Duplicate Cleaner": {
+      "url": "https://www.duplicatecleaner.com/download.html",
+      "description": "Recherche doublons (page téléchargement)",
+      "size": "25 MB",
+      "type": "redirect"
+    },
+    "AllDup Portable": {
+      "url": "https://www.alldup.de/en_download_alldup.php",
+      "description": "Détecteur fichiers dupliqués",
+      "size": "2 MB",
+      "type": "zip"
+    },
+    "HashTab": {
+      "url": "http://implbits.com/products/hashtab/",
+      "description": "Vérification hash fichiers (page téléchargement)",
+      "size": "3 MB",
+      "type": "redirect"
+    },
+    "HashMyFiles": {
+      "url": "https://www.nirsoft.net/utils/hashmyfiles.zip",
+      "description": "Calcul hash MD5/SHA",
+      "size": "100 KB",
+      "type": "zip"
+    },
+    "QuickLook": {
+      "url": "https://github.com/QL-Win/QuickLook/releases/download/3.7.3/QuickLook-3.7.3.msi",
+      "description": "Aperçu rapide fichiers",
+      "size": "20 MB",
+      "type": "exe"
+    },
+    "Seer Portable": {
+      "url": "http://1218.io/seer.html",
+      "description": "Aperçu fichiers type macOS (page téléchargement)",
+      "size": "15 MB",
+      "type": "redirect"
+    },
+    "PDF24 Creator": {
+      "url": "https://www.pdf24.org/en/download.html",
+      "description": "Création et édition PDF",
+      "size": "180 MB",
+      "type": "zip"
+    },
+    "PDFtk Portable": {
+      "url": "https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe",
+      "description": "Manipulation PDF CLI",
+      "size": "25 MB",
+      "type": "exe"
+    },
+    "Sumatra PDF Portable": {
+      "url": "https://www.sumatrapdfreader.org/dl/rel/3.5.2/SumatraPDF-3.5.2-64.zip",
+      "description": "Lecteur PDF ultra-léger",
+      "size": "12 MB",
+      "type": "zip"
+    },
+    "Calibre Portable": {
+      "url": "https://calibre-ebook.com/dist/portable",
+      "description": "Gestion bibliothèque eBooks",
+      "size": "110 MB",
+      "type": "exe"
+    },
+    "Balena Etcher": {
+      "url": "https://github.com/balena-io/etcher/releases/latest",
+      "description": "Gravure images USB/SD",
+      "size": "140 MB",
+      "type": "exe"
+    },
+    "UNetbootin": {
+      "url": "https://github.com/unetbootin/unetbootin/releases/download/702/unetbootin-windows-702.exe",
+      "description": "Créateur USB Linux",
+      "size": "5 MB",
+      "type": "exe"
+    }
+  },
+  "Développement": {
+    "Git Portable": {
+      "url": "https://github.com/git-for-windows/git/releases/download/v2.43.0.windows.1/PortableGit-2.43.0-64-bit.7z.exe",
+      "description": "Contrôle de version Git",
+      "size": "50 MB",
+      "type": "exe"
+    },
+    "Python Portable": {
+      "url": "https://www.python.org/ftp/python/3.12.0/python-3.12.0-embed-amd64.zip",
+      "description": "Python embarqué",
+      "size": "10 MB",
+      "type": "zip"
+    },
+    "VS Code Portable": {
+      "url": "https://code.visualstudio.com/docs/?dv=winzip64",
+      "description": "Éditeur code Microsoft",
+      "size": "100 MB",
+      "type": "zip"
+    },
+    "Sublime Text Portable": {
+      "url": "https://download.sublimetext.com/sublime_text_build_4152_x64.zip",
+      "description": "Éditeur texte rapide",
+      "size": "22 MB",
+      "type": "zip"
+    },
+    "Atom Portable": {
+      "url": "https://github.com/atom/atom/releases/download/v1.60.0/AtomSetup-x64.exe",
+      "description": "Éditeur GitHub",
+      "size": "250 MB",
+      "type": "exe"
+    },
+    "Brackets Portable": {
+      "url": "https://code.visualstudio.com/Download",
+      "description": "Éditeur web Adobe",
+      "size": "80 MB",
+      "type": "exe"
+    },
+    "Vim Portable": {
+      "url": "https://github.com/vim/vim-win32-installer/releases/download/v9.0.2103/gvim_9.0.2103_x64.zip",
+      "description": "Éditeur vi/vim",
+      "size": "18 MB",
+      "type": "zip"
+    },
+    "Emacs Portable": {
+      "url": "https://ftp.gnu.org/gnu/emacs/windows/emacs-29/emacs-29.1_2-installer.exe",
+      "description": "Éditeur extensible",
+      "size": "85 MB",
+      "type": "exe"
+    },
+    "NodeJS Portable": {
+      "url": "https://nodejs.org/dist/v20.10.0/node-v20.10.0-win-x64.zip",
+      "description": "Runtime JavaScript",
+      "size": "35 MB",
+      "type": "zip"
+    },
+    "Deno Portable": {
+      "url": "https://github.com/denoland/deno/releases/latest",
+      "description": "Runtime TypeScript/JS",
+      "size": "40 MB",
+      "type": "zip"
+    },
+    "PHP Portable": {
+      "url": "https://windows.php.net/download/",
+      "description": "Interpréteur PHP",
+      "size": "35 MB",
+      "type": "zip"
+    },
+    "Ruby Portable": {
+      "url": "https://github.com/oneclick/rubyinstaller2/releases/latest",
+      "description": "Langage Ruby",
+      "size": "25 MB",
+      "type": "exe"
+    },
+    "Go Portable": {
+      "url": "https://go.dev/dl/go1.21.5.windows-amd64.zip",
+      "description": "Langage Go",
+      "size": "150 MB",
+      "type": "zip"
+    },
+    "Rust Portable": {
+      "url": "https://static.rust-lang.org/dist/rust-1.74.1-x86_64-pc-windows-msvc.msi",
+      "description": "Langage Rust",
+      "size": "380 MB",
+      "type": "exe"
+    },
+    "PostgreSQL Portable": {
+      "url": "https://get.enterprisedb.com/postgresql/postgresql-16.1-1-windows-x64-binaries.zip",
+      "description": "Base de données SQL",
+      "size": "240 MB",
+      "type": "zip"
+    },
+    "MySQL Portable": {
+      "url": "https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.35-winx64.zip",
+      "description": "Serveur MySQL",
+      "size": "340 MB",
+      "type": "zip"
+    },
+    "SQLite Portable": {
+      "url": "https://www.sqlite.org/download.html",
+      "description": "Base données embarquée",
+      "size": "2 MB",
+      "type": "zip"
+    },
+    "MongoDB Portable": {
+      "url": "https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.4.zip",
+      "description": "Base NoSQL",
+      "size": "350 MB",
+      "type": "zip"
+    },
+    "Redis Portable": {
+      "url": "https://www.memurai.com/get-memurai",
+      "description": "Cache en mémoire",
+      "size": "5 MB",
+      "type": "zip"
+    },
+    "XAMPP Portable": {
+      "url": "https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.2.12/xampp-portable-windows-x64-8.2.12-0-VS16.zip/download",
+      "description": "Stack Apache/MySQL/PHP",
+      "size": "150 MB",
+      "type": "zip"
+    },
+    "Laragon Portable": {
+      "url": "https://laragon.org/download/",
+      "description": "Environnement dev PHP",
+      "size": "180 MB",
+      "type": "exe"
+    },
+    "Docker Desktop": {
+      "url": "https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe",
+      "description": "Conteneurs Docker",
+      "size": "550 MB",
+      "type": "exe"
+    },
+    "Postman Portable": {
+      "url": "https://dl.pstmn.io/download/latest/win64",
+      "description": "Test API",
+      "size": "150 MB",
+      "type": "exe"
+    },
+    "Insomnia Portable": {
+      "url": "https://insomnia.rest/download",
+      "description": "Client REST/GraphQL",
+      "size": "120 MB",
+      "type": "exe"
+    }
+  },
+  "Sécurité": {
+    "KeePass Portable": {
+      "url": "https://portableapps.com/apps/utilities/keepass_portable",
+      "description": "Gestionnaire mots de passe",
+      "size": "5 MB",
+      "type": "exe"
+    },
+    "VeraCrypt Portable": {
+      "url": "https://launchpad.net/veracrypt/trunk/1.26.7/+download/VeraCrypt%20Portable%201.26.7.exe",
+      "description": "Chiffrement disques",
+      "size": "30 MB",
+      "type": "exe"
+    },
+    "Bitwarden Portable": {
+      "url": "https://bitwarden.com/download/",
+      "description": "Gestionnaire mdp cloud",
+      "size": "95 MB",
+      "type": "exe"
+    },
+    "KeePassXC Portable": {
+      "url": "https://github.com/keepassxreboot/keepassxc/releases/latest",
+      "description": "KeePass communautaire",
+      "size": "35 MB",
+      "type": "zip"
+    },
+    "LastPass Portable": {
+      "url": "https://lastpass.com/download/",
+      "description": "Gestionnaire cloud",
+      "size": "50 MB",
+      "type": "exe"
+    },
+    "1Password Portable": {
+      "url": "https://downloads.1password.com/win/1PasswordSetup-latest.exe",
+      "description": "Coffre-fort numérique",
+      "size": "120 MB",
+      "type": "exe"
+    },
+    "Cryptomator Portable": {
+      "url": "https://github.com/cryptomator/cryptomator/releases/download/1.11.0/Cryptomator-1.11.0-x64.exe",
+      "description": "Chiffrement cloud",
+      "size": "50 MB",
+      "type": "exe"
+    },
+    "AxCrypt Portable": {
+      "url": "https://account.axcrypt.net/download/axcrypt-2-setup.exe",
+      "description": "Chiffrement fichiers",
+      "size": "25 MB",
+      "type": "exe"
+    },
+    "GnuPG Portable": {
+      "url": "https://www.gpg4win.org/download.html",
+      "description": "Chiffrement OpenPGP",
+      "size": "30 MB",
+      "type": "exe"
+    },
+    "Kleopatra Portable": {
+      "url": "https://www.gpg4win.org/download.html",
+      "description": "Gestion certificats",
+      "size": "30 MB",
+      "type": "exe"
+    },
+    "ClamWin Portable": {
+      "url": "https://portableapps.com/apps/security/clamwin_portable",
+      "description": "Antivirus gratuit",
+      "size": "70 MB",
+      "type": "exe"
+    },
+    "Malwarebytes Portable": {
+      "url": "https://downloads.malwarebytes.com/file/mb-windows",
+      "description": "Anti-malware",
+      "size": "2 MB",
+      "type": "exe"
+    },
+    "AdwCleaner Portable": {
+      "url": "https://downloads.malwarebytes.com/file/adwcleaner",
+      "description": "Suppression adwares",
+      "size": "8 MB",
+      "type": "exe"
+    },
+    "HitmanPro": {
+      "url": "https://dl.surfright.nl/HitmanPro_x64.exe",
+      "description": "Scanner malware cloud",
+      "size": "12 MB",
+      "type": "exe"
+    },
+    "Sandboxie Portable": {
+      "url": "https://github.com/sandboxie-plus/Sandboxie/releases/latest",
+      "description": "Bac à sable applications",
+      "size": "10 MB",
+      "type": "exe"
+    },
+    "WinMD5 Portable": {
+      "url": "https://www.nirsoft.net/utils/hashmyfiles.zip",
+      "description": "Vérification hash MD5",
+      "size": "500 KB",
+      "type": "zip"
+    },
+    "HashCheck": {
+      "url": "https://github.com/gurnec/HashCheck/releases/latest",
+      "description": "Intégration Explorer hash",
+      "size": "300 KB",
+      "type": "exe"
+    },
+    "Eraser Portable": {
+      "url": "https://sourceforge.net/projects/eraser/files/latest/download",
+      "description": "Effacement sécurisé",
+      "size": "10 MB",
+      "type": "exe"
+    },
+    "BleachBit Portable": {
+      "url": "https://download.bleachbit.org/BleachBit-4.6.0-portable.zip",
+      "description": "Nettoyage sécurisé",
+      "size": "15 MB",
+      "type": "zip"
+    },
+    "TrueCrypt": {
+      "url": "https://truecrypt.sourceforge.net/",
+      "description": "Chiffrement legacy",
+      "size": "3 MB",
+      "type": "exe"
+    },
+    "SpyBot Portable": {
+      "url": "https://www.safer-networking.org/dl/",
+      "description": "Anti-spyware",
+      "size": "60 MB",
+      "type": "exe"
+    },
+    "SUPERAntiSpyware": {
+      "url": "https://www.superantispyware.com/download.html",
+      "description": "Détection spyware",
+      "size": "25 MB",
+      "type": "exe"
+    },
+    "Comodo Firewall": {
+      "url": "https://www.comodo.com/home/internet-security/firewall.php",
+      "description": "Pare-feu personnel",
+      "size": "5 MB",
+      "type": "exe"
+    },
+    "GlassWire Portable": {
+      "url": "https://www.glasswire.com/download/",
+      "description": "Moniteur réseau/firewall",
+      "size": "35 MB",
+      "type": "exe"
+    }
+  },
+  "Nettoyage": {
+    "CCleaner Portable": {
+      "url": "https://portableapps.com/apps/utilities/ccleaner_portable",
+      "description": "Nettoyage système",
+      "size": "25 MB",
+      "type": "exe"
+    },
+    "BleachBit Portable": {
+      "url": "https://download.bleachbit.org/BleachBit-4.6.0-portable.zip",
+      "description": "Nettoyage vie privée",
+      "size": "15 MB",
+      "type": "zip"
+    },
+    "Glary Utilities Portable": {
+      "url": "https://download.glarysoft.com/guportable.zip",
+      "description": "Suite maintenance PC",
+      "size": "18 MB",
+      "type": "zip"
+    },
+    "Wise Disk Cleaner": {
+      "url": "https://downloads.wisecleaner.com/soft/WDCFree.exe",
+      "description": "Nettoyage disque",
+      "size": "6 MB",
+      "type": "exe"
+    },
+    "Wise Registry Cleaner": {
+      "url": "https://downloads.wisecleaner.com/soft/WRCFree.exe",
+      "description": "Nettoyage registre",
+      "size": "3 MB",
+      "type": "exe"
+    },
+    "Wise Care 365": {
+      "url": "https://www.wisecleaner.com/wise-care-365.html",
+      "description": "Suite optimisation",
+      "size": "12 MB",
+      "type": "exe"
+    },
+    "Advanced SystemCare": {
+      "url": "https://cdn.iobit.com/dl/advanced-systemcare-setup.exe",
+      "description": "Optimisation tout-en-un",
+      "size": "55 MB",
+      "type": "exe"
+    },
+    "IObit Uninstaller": {
+      "url": "https://cdn.iobit.com/dl/iobituninstaller.exe",
+      "description": "Désinstallation complète",
+      "size": "25 MB",
+      "type": "exe"
+    },
+    "Revo Uninstaller": {
+      "url": "https://download.revouninstaller.com/download/RevoUninProSetup.exe",
+      "description": "Désinstalleur avancé",
+      "size": "15 MB",
+      "type": "exe"
+    },
+    "Geek Uninstaller": {
+      "url": "https://geekuninstaller.com/download",
+      "description": "Désinstalleur léger",
+      "size": "6 MB",
+      "type": "exe"
+    },
+    "Bulk Crap Uninstaller": {
+      "url": "https://github.com/Klocman/Bulk-Crap-Uninstaller/releases/download/v5.7/BCUninstaller_5.7_setup.exe",
+      "description": "Désinstallation masse",
+      "size": "8 MB",
+      "type": "exe"
+    },
+    "PC Decrapifier": {
+      "url": "https://www.pcdecrapifier.com/download",
+      "description": "Suppression bloatwares",
+      "size": "2 MB",
+      "type": "exe"
+    },
+    "O&O ShutUp10": {
+      "url": "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe",
+      "description": "Vie privée Windows 10/11",
+      "size": "1 MB",
+      "type": "exe"
+    },
+    "Windows10Debloater": {
+      "url": "https://github.com/Sycnex/Windows10Debloater/releases/latest",
+      "description": "Script debloat Win10",
+      "size": "100 KB",
+      "type": "zip"
+    },
+    "PrivaZer Portable": {
+      "url": "https://privazer.com/PrivaZer_free.exe",
+      "description": "Nettoyage traces",
+      "size": "15 MB",
+      "type": "exe"
+    },
+    "CleanAfterMe": {
+      "url": "https://www.nirsoft.net/utils/cleanaftme.zip",
+      "description": "Nettoyage activité",
+      "size": "150 KB",
+      "type": "zip"
+    },
+    "Temp File Cleaner": {
+      "url": "https://www.bleachbit.org/download/windows",
+      "description": "Nettoyeur fichiers temp",
+      "size": "500 KB",
+      "type": "exe"
+    },
+    "Disk Cleanup": {
+      "url": "https://www.microsoft.com/en-us/software-download/windows10",
+      "description": "Outil Microsoft",
+      "size": "Built-in",
+      "type": "exe"
+    },
+    "Duplicate Files Finder": {
+      "url": "https://www.auslogics.com/en/software/duplicate-file-finder/download/",
+      "description": "Recherche doublons",
+      "size": "25 MB",
+      "type": "exe"
+    },
+    "AllDup Portable": {
+      "url": "https://www.alldup.de/en_download_alldup.php",
+      "description": "Détecteur doublons",
+      "size": "2 MB",
+      "type": "zip"
+    },
+    "Auslogics Disk Defrag": {
+      "url": "https://downloads.auslogics.com/en/disk-defrag/disk-defrag-setup.exe",
+      "description": "Défragmentation",
+      "size": "10 MB",
+      "type": "exe"
+    },
+    "UltraDefrag Portable": {
+      "url": "https://sourceforge.net/projects/ultradefrag/files/stable-release/7.1.4/ultradefrag-portable-7.1.4.bin.amd64.zip/download",
+      "description": "Défragmenteur open source",
+      "size": "2 MB",
+      "type": "zip"
+    },
+    "WinDirStat Portable": {
+      "url": "https://sourceforge.net/projects/windirstat/files/latest/download",
+      "description": "Analyse espace disque",
+      "size": "1 MB",
+      "type": "exe"
+    },
+    "Space Sniffer": {
+      "url": "http://www.uderzo.it/main_products/space_sniffer/download.html",
+      "description": "Visualisation disque",
+      "size": "2 MB",
+      "type": "exe"
+    }
+  }
+}

@@ -1,0 +1,272 @@
+[
+  {
+    "name": "7-Zip Portable",
+    "category": "Outils Système",
+    "url": "https://portableapps.com/redirect/?a=7-ZipPortable&s=s&d=pa",
+    "status": 403
+  },
+  {
+    "name": "Total Commander",
+    "category": "Outils Système",
+    "url": "https://totalcmd.net/1104/tcmd1104x64.exe",
+    "status": 404
+  },
+  {
+    "name": "FreeCommander",
+    "category": "Outils Système",
+    "url": "https://freecommander.com/download/FreeCommander_XE_Portable.zip",
+    "status": 404
+  },
+  {
+    "name": "Recuva Portable",
+    "category": "Outils Système",
+    "url": "https://portableapps.com/redirect/?a=RecuvaPortable&s=s&d=pa",
+    "status": 404
+  },
+  {
+    "name": "WinDirStat Portable",
+    "category": "Outils Système",
+    "url": "https://github.com/WinDirStat/windirstat/releases/download/1.1.2/windirstat1_1_2_setup.exe",
+    "status": 404
+  },
+  {
+    "name": "IrfanView Portable",
+    "category": "Multimédia",
+    "url": "https://portableapps.com/redirect/?a=IrfanViewPortable&s=s&d=pa",
+    "status": 403
+  },
+  {
+    "name": "GIMP Portable",
+    "category": "Multimédia",
+    "url": "https://portableapps.com/redirect/?a=GIMPPortable&s=s&d=pa",
+    "status": 403
+  },
+  {
+    "name": "Inkscape Portable",
+    "category": "Multimédia",
+    "url": "https://portableapps.com/redirect/?a=InkscapePortable&s=s&d=pa",
+    "status": 403
+  },
+  {
+    "name": "Paint.NET Portable",
+    "category": "Multimédia",
+    "url": "https://portableapps.com/redirect/?a=Paint.NETPortable&s=s&d=pa",
+    "status": 404
+  },
+  {
+    "name": "Audacity Portable",
+    "category": "Multimédia",
+    "url": "https://portableapps.com/redirect/?a=AudacityPortable&s=s&d=pa",
+    "status": 403
+  },
+  {
+    "name": "MPC-HC Portable",
+    "category": "Multimédia",
+    "url": "https://github.com/clsid2/mpc-hc/releases/download/2.1.2/MPC-HC.2.1.2.x64.zip",
+    "status": 503
+  },
+  {
+    "name": "K-Lite Codec Pack",
+    "category": "Multimédia",
+    "url": "https://files3.codecguide.com/K-Lite_Codec_Pack_1825_Basic.exe",
+    "status": 404
+  },
+  {
+    "name": "XnView Portable",
+    "category": "Multimédia",
+    "url": "https://portableapps.com/redirect/?a=XnViewPortable&s=s&d=pa",
+    "status": 403
+  },
+  {
+    "name": "ImageMagick Portable",
+    "category": "Multimédia",
+    "url": "https://imagemagick.org/archive/binaries/ImageMagick-7.1.1-39-portable-Q16-HDRI-x64.zip",
+    "status": 404
+  },
+  {
+    "name": "Greenshot Portable",
+    "category": "Multimédia",
+    "url": "https://github.com/greenshot/greenshot/releases/download/Greenshot-RELEASE-1.3.291/Greenshot-PORTABLE-1.3.291.zip",
+    "status": 404
+  },
+  {
+    "name": "Wireshark Portable",
+    "category": "Réseau",
+    "url": "https://portableapps.com/redirect/?a=WiresharkPortable&s=s&d=pa",
+    "status": 404
+  },
+  {
+    "name": "FileZilla Portable",
+    "category": "Réseau",
+    "url": "https://portableapps.com/redirect/?a=FileZillaPortable&s=s&d=pa",
+    "status": 403
+  },
+  {
+    "name": "UltraVNC Portable",
+    "category": "Réseau",
+    "url": "https://uvnc.com/downloads/ultravnc/1434/UltraVNC_1_4_3_4_X64.zip",
+    "status": 404
+  },
+  {
+    "name": "NetLimiter Portable",
+    "category": "Réseau",
+    "url": "https://www.netlimiter.com/download/nl/latest",
+    "status": 404
+  },
+  {
+    "name": "Insomnia Portable",
+    "category": "Réseau",
+    "url": "https://github.com/Kong/insomnia/releases/latest/download/Insomnia.Core.exe",
+    "status": 404
+  },
+  {
+    "name": "mRemoteNG Portable",
+    "category": "Réseau",
+    "url": "https://github.com/mRemoteNG/mRemoteNG/releases/download/v1.77.3-dev/mRemoteNG-Portable-1.77.3.23156.zip",
+    "status": 404
+  },
+  {
+    "name": "Remote Desktop Manager",
+    "category": "Réseau",
+    "url": "https://cdn.devolutions.net/download/Setup.RemoteDesktopManagerFree.exe",
+    "status": 404
+  },
+  {
+    "name": "Speccy Portable",
+    "category": "Utilitaires",
+    "url": "https://portableapps.com/redirect/?a=SpeccyPortable&s=s&d=pa",
+    "status": 404
+  },
+  {
+    "name": "AllDup Portable",
+    "category": "Utilitaires",
+    "url": "https://www.alldup.de/alldup_portable/AllDup4.5.62.zip",
+    "status": 404
+  },
+  {
+    "name": "PDF24 Creator",
+    "category": "Utilitaires",
+    "url": "https://stx.pdf24.org/products/pdf-creator/download/pdf24-creator-11.18.1-portable.zip",
+    "status": 404
+  },
+  {
+    "name": "Balena Etcher",
+    "category": "Utilitaires",
+    "url": "https://github.com/balena-io/etcher/releases/download/v1.18.11/balenaEtcher-Portable-1.18.11.exe",
+    "status": 503
+  },
+  {
+    "name": "Brackets Portable",
+    "category": "Développement",
+    "url": "https://github.com/adobe/brackets/releases/download/release-1.14.2/Brackets.Release.1.14.2.64-bit.msi",
+    "status": 404
+  },
+  {
+    "name": "Deno Portable",
+    "category": "Développement",
+    "url": "https://github.com/denoland/deno/releases/download/v1.39.0/deno-x86_64-pc-windows-msvc.zip",
+    "status": 503
+  },
+  {
+    "name": "PHP Portable",
+    "category": "Développement",
+    "url": "https://windows.php.net/downloads/releases/php-8.3.14-Win32-vs16-x64.zip",
+    "status": 404
+  },
+  {
+    "name": "Ruby Portable",
+    "category": "Développement",
+    "url": "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.2.2-1/rubyinstaller-3.2.2-1-x64.exe",
+    "status": 503
+  },
+  {
+    "name": "Redis Portable",
+    "category": "Développement",
+    "url": "https://github.com/microsoftarchive/redis/releases/download/win-3.0.504/Redis-x64-3.0.504.zip",
+    "status": 503
+  },
+  {
+    "name": "Insomnia Portable",
+    "category": "Développement",
+    "url": "https://github.com/Kong/insomnia/releases/latest/download/Insomnia.Core.exe",
+    "status": 503
+  },
+  {
+    "name": "KeePass Portable",
+    "category": "Sécurité",
+    "url": "https://portableapps.com/redirect/?a=KeePassPortable&s=s&d=pa",
+    "status": 403
+  },
+  {
+    "name": "Bitwarden Portable",
+    "category": "Sécurité",
+    "url": "https://vault.bitwarden.com/download/?app=desktop&platform=windows&variant=portable",
+    "status": 503
+  },
+  {
+    "name": "KeePassXC Portable",
+    "category": "Sécurité",
+    "url": "https://github.com/keepassxreboot/keepassxc/releases/download/2.7.9/KeePassXC-2.7.9-Win64-Portable.zip",
+    "status": 404
+  },
+  {
+    "name": "ClamWin Portable",
+    "category": "Sécurité",
+    "url": "https://portableapps.com/redirect/?a=ClamWinPortable&s=s&d=pa",
+    "status": 403
+  },
+  {
+    "name": "Sandboxie Portable",
+    "category": "Sécurité",
+    "url": "https://github.com/sandboxie-plus/Sandboxie/releases/download/v1.12.5/Sandboxie-Plus-x64-v1.12.5.exe",
+    "status": 503
+  },
+  {
+    "name": "HashCheck",
+    "category": "Sécurité",
+    "url": "https://github.com/gurnec/HashCheck/releases/download/v2.4.1/HashCheckInstall-v2.4.1.exe",
+    "status": 404
+  },
+  {
+    "name": "Comodo Firewall",
+    "category": "Sécurité",
+    "url": "https://download.comodo.com/cis/download/installs/windows/cfw-installer.exe",
+    "status": 404
+  },
+  {
+    "name": "CCleaner Portable",
+    "category": "Nettoyage",
+    "url": "https://portableapps.com/redirect/?a=CCleanerPortable&s=s&d=pa",
+    "status": 404
+  },
+  {
+    "name": "Wise Care 365",
+    "category": "Nettoyage",
+    "url": "https://downloads.wisecleaner.com/soft/WC365.exe",
+    "status": 404
+  },
+  {
+    "name": "Windows10Debloater",
+    "category": "Nettoyage",
+    "url": "https://github.com/Sycnex/Windows10Debloater/archive/master.zip",
+    "status": 503
+  },
+  {
+    "name": "CleanAfterMe",
+    "category": "Nettoyage",
+    "url": "https://www.nirsoft.net/utils/cleanaftme.zip",
+    "status": 404
+  },
+  {
+    "name": "AllDup Portable",
+    "category": "Nettoyage",
+    "url": "https://www.alldup.de/alldup_portable/AllDup4.5.62.zip",
+    "status": 404
+  },
+  {
+    "name": "WinDirStat Portable",
+    "category": "Nettoyage",
+    "url": "https://github.com/WinDirStat/windirstat/releases/download/1.1.2/windirstat1_1_2_setup.exe",
+    "status": 503
+  }
+]

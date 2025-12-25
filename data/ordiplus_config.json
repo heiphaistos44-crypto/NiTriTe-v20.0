@@ -1,0 +1,20 @@
+{
+  "ordiplus_apps": [
+    "Office 2007",
+    "Adobe Acrobat Reader DC",
+    "Mozilla Firefox",
+    "VLC Media Player",
+    "Malwarebytes",
+    "Spybot Search & Destroy",
+    "Wise Disk Cleaner",
+    "Google Chrome"
+  ],
+  "cleaning_tools": [
+    "Malwarebytes",
+    "Spybot Search & Destroy",
+    "Wise Disk Cleaner",
+    "RustDesk Portable"
+  ],
+  "last_modified": "2025-12-07",
+  "version": "1.1"
+}

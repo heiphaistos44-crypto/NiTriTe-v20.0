@@ -1,0 +1,111 @@
+{
+  "date": "2025-12-18T19:31:15.135755",
+  "project_root": "C:\\Users\\Utilisateur\\Downloads\\Nitrite-V18.5",
+  "statistics": {
+    "directories_created": 6,
+    "files_moved": 15,
+    "errors": 15
+  },
+  "created_directories": [
+    "scripts/diagnostics",
+    "scripts/fixes",
+    "scripts/tests",
+    "build_tools",
+    "data/config_runtime",
+    "archive/launchers"
+  ],
+  "moved_files": [
+    {
+      "source": "check_apps.py",
+      "destination": "scripts/diagnostics/check_apps.py",
+      "description": "Vérification des applications"
+    },
+    {
+      "source": "check_programs_urls.py",
+      "destination": "scripts/diagnostics/check_programs_urls.py",
+      "description": "Vérification des URLs de programmes"
+    },
+    {
+      "source": "outils_diagnostic_tools.py",
+      "destination": "scripts/diagnostics/outils_diagnostic_tools.py",
+      "description": "Outils de diagnostic"
+    },
+    {
+      "source": "fix_broken_urls.py",
+      "destination": "scripts/fixes/fix_broken_urls.py",
+      "description": "Correction des URLs cassées"
+    },
+    {
+      "source": "fix_programs_urls.py",
+      "destination": "scripts/fixes/fix_programs_urls.py",
+      "description": "Correction des URLs de programmes"
+    },
+    {
+      "source": "comprehensive_fix_nitrite.py",
+      "destination": "scripts/fixes/comprehensive_fix_nitrite.py",
+      "description": "Correction complète"
+    },
+    {
+      "source": "test_install_method.py",
+      "destination": "scripts/tests/test_install_method.py",
+      "description": "Test d'installation"
+    },
+    {
+      "source": "test_portable_urls.py",
+      "destination": "scripts/tests/test_portable_urls.py",
+      "description": "Test des URLs portables"
+    },
+    {
+      "source": "build_portable_fixed.py",
+      "destination": "build_tools/build_portable_fixed.py",
+      "description": "Build portable"
+    },
+    {
+      "source": "broken_urls.json",
+      "destination": "data/config_runtime/broken_urls.json",
+      "description": "URLs cassées"
+    },
+    {
+      "source": "broken_programs_urls.json",
+      "destination": "data/config_runtime/broken_programs_urls.json",
+      "description": "URLs programmes cassées"
+    },
+    {
+      "source": "config_manager.py",
+      "destination": "scripts/config_manager.py",
+      "description": "Gestionnaire de config"
+    },
+    {
+      "source": "tool_downloader.py",
+      "destination": "scripts/tool_downloader.py",
+      "description": "Téléchargeur d'outils"
+    },
+    {
+      "source": "Nitrite Icon.ico",
+      "destination": "assets/Nitrite_Icon.ico",
+      "description": "Icône principale"
+    },
+    {
+      "source": "Lancer_nitrite_v17.bat",
+      "destination": "archive/launchers/Lancer_nitrite_v17.bat",
+      "description": "Lanceur v17"
+    }
+  ],
+  "errors": [
+    "Impossible de déplacer check_apps.py: 'charmap' codec can't encode character '\\u2192' in position 26: character maps to <undefined>",
+    "Impossible de déplacer check_programs_urls.py: 'charmap' codec can't encode character '\\u2192' in position 35: character maps to <undefined>",
+    "Impossible de déplacer outils_diagnostic_tools.py: 'charmap' codec can't encode character '\\u2192' in position 39: character maps to <undefined>",
+    "Impossible de déplacer fix_broken_urls.py: 'charmap' codec can't encode character '\\u2192' in position 31: character maps to <undefined>",
+    "Impossible de déplacer fix_programs_urls.py: 'charmap' codec can't encode character '\\u2192' in position 33: character maps to <undefined>",
+    "Impossible de déplacer comprehensive_fix_nitrite.py: 'charmap' codec can't encode character '\\u2192' in position 41: character maps to <undefined>",
+    "Impossible de déplacer test_install_method.py: 'charmap' codec can't encode character '\\u2192' in position 35: character maps to <undefined>",
+    "Impossible de déplacer test_portable_urls.py: 'charmap' codec can't encode character '\\u2192' in position 34: character maps to <undefined>",
+    "Impossible de déplacer build_portable_fixed.py: 'charmap' codec can't encode character '\\u2192' in position 36: character maps to <undefined>",
+    "Impossible de déplacer broken_urls.json: 'charmap' codec can't encode character '\\u2192' in position 29: character maps to <undefined>",
+    "Impossible de déplacer broken_programs_urls.json: 'charmap' codec can't encode character '\\u2192' in position 38: character maps to <undefined>",
+    "Impossible de déplacer config_manager.py: 'charmap' codec can't encode character '\\u2192' in position 30: character maps to <undefined>",
+    "Impossible de déplacer tool_downloader.py: 'charmap' codec can't encode character '\\u2192' in position 31: character maps to <undefined>",
+    "Impossible de déplacer Nitrite Icon.ico: 'charmap' codec can't encode character '\\u2192' in position 29: character maps to <undefined>",
+    "Impossible de déplacer Lancer_nitrite_v17.bat: 'charmap' codec can't encode character '\\u2192' in position 35: character maps to <undefined>"
+  ]
+}

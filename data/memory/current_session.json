@@ -1,0 +1,111 @@
+{
+  "session_id": "6d0ae0d090ef",
+  "started_at": "2025-12-21T10:20:45.011275",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Mon PC rame en jeu, j'ai des saccades et les FPS chutent",
+      "timestamp": "2025-12-21T10:20:45.011868",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Mon PC est lent au démarrage",
+      "timestamp": "2025-12-21T10:20:45.012473",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "J'ai des FPS bas dans Cyberpunk",
+      "timestamp": "2025-12-21T10:20:45.013478",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Écran bleu au démarrage",
+      "timestamp": "2025-12-21T10:20:45.014084",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Ma RAM est-elle suffisante pour du gaming?",
+      "timestamp": "2025-12-21T10:20:45.014682",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Mon SSD NVMe est lent",
+      "timestamp": "2025-12-21T10:20:45.015282",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "WiFi instable pendant les visioconférences",
+      "timestamp": "2025-12-21T10:20:45.015882",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Salut\\!",
+      "timestamp": "2025-12-21T11:45:32.868942",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Salut",
+      "timestamp": "2025-12-21T11:46:01.995936",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "Salut! Comment je peux t'aider avec ton PC? 😊",
+      "timestamp": "2025-12-21T11:46:16.874509",
+      "metadata": {
+        "mode": "offline",
+        "intent": "greeting",
+        "user_level": "beginner"
+      }
+    },
+    {
+      "role": "user",
+      "content": "Salut",
+      "timestamp": "2025-12-21T11:46:26.034082",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "Salut! Comment je peux t'aider avec ton PC? 😊",
+      "timestamp": "2025-12-21T11:46:27.150058",
+      "metadata": {
+        "mode": "offline",
+        "intent": "greeting",
+        "user_level": "beginner"
+      }
+    },
+    {
+      "role": "user",
+      "content": "Mon PC rame en jeu",
+      "timestamp": "2025-12-21T11:46:38.950752",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "Ok, laisse-moi t'expliquer.\n\n\n**Voilà comment régler ça:**\n\n1. Intel ME: Management Engine always running, can't fully disable, debloat with ME Cleaner if paranoid (breaks some features)\n2. DDR5-6000 CL30: Sweet spot Ryzen 7000, 1:1 FCLK (3000 MHz), best perf/price, faster diminishing returns\n3. Intel Turbo Boost Max 3.0: Identifies 2 best cores, boosts them higher than others, auto-enabled if good silicon\n\nÇa répond à ta question? 🤔",
+      "timestamp": "2025-12-21T11:46:40.116268",
+      "metadata": {
+        "mode": "offline",
+        "intent": "performance",
+        "user_level": "beginner"
+      }
+    }
+  ],
+  "topics": [
+    "ram",
+    "gaming",
+    "monitor",
+    "bsod",
+    "storage",
+    "network"
+  ],
+  "user_info": {}
+}

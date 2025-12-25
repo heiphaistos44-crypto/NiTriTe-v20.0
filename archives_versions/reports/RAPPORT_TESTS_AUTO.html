@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport de Tests - Nitrite V18.5</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #ff6b35;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .summary {
+            background: #151515;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        .stat {
+            display: inline-block;
+            margin: 10px 20px;
+        }
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+        .category {
+            background: #151515;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+        .category-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        .test {
+            padding: 10px;
+            margin: 5px 0;
+            background: #202020;
+            border-radius: 8px;
+        }
+        .test-success {
+            border-left: 4px solid #4caf50;
+        }
+        .test-error {
+            border-left: 4px solid #f44336;
+        }
+        .error-message {
+            color: #f44336;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rapport de Tests Automatises - Nitrite V18.5</h1>
+
+        <div class="summary">
+            <div class="stat">
+                <div class="stat-value">37/48</div>
+                <div class="stat-label">Tests Reussis</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">77.1%</div>
+                <div class="stat-label">Taux de Succes</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">3.21s</div>
+                <div class="stat-label">Duree</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="category-header">Structure de Fichiers (5/5)</div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Fichiers essentiels présents
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Structure dossiers correcte
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Dossier themes/ existe
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Fichiers configuration présents
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Assets présents
+
+            </div>
+
+        </div>
+
+        <div class="category">
+            <div class="category-header">Integrite Donnees JSON (2/4)</div>
+
+            <div class="test test-error">
+                <strong>[ERREUR]</strong> programs.json valide
+
+                <div class="error-message">programs.json doit etre une liste</div>
+
+            </div>
+
+            <div class="test test-error">
+                <strong>[ERREUR]</strong> portable_apps.json valide
+
+                <div class="error-message">portable_apps.json doit etre une liste</div>
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Themes JSON valides
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> config.json valide
+
+            </div>
+
+        </div>
+
+        <div class="category">
+            <div class="category-header">Imports Python (6/6)</div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Import customtkinter
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Import design_system
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Import theme_editor_dynamic
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Import components
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Import tous modules v14_mvp
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Dependencies externes
+
+            </div>
+
+        </div>
+
+        <div class="category">
+            <div class="category-header">Modules Application (8/8)</div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> DesignTokens
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> ThemePalettes
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> ColorPicker widget
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> NumericSlider widget
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> ThemeEditorDynamic
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Pages principales
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Components
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Utilitaires
+
+            </div>
+
+        </div>
+
+        <div class="category">
+            <div class="category-header">Base de Donnees Programmes (0/2)</div>
+
+            <div class="test test-error">
+                <strong>[ERREUR]</strong> Nombre de programmes
+
+                <div class="error-message">Trop peu de programmes: 25</div>
+
+            </div>
+
+            <div class="test test-error">
+                <strong>[ERREUR]</strong> Categories presentes
+
+                <div class="error-message">Trop peu de categories: 0</div>
+
+            </div>
+
+        </div>
+
+        <div class="category">
+            <div class="category-header">Applications Portables (0/2)</div>
+
+            <div class="test test-error">
+                <strong>[ERREUR]</strong> Nombre d'apps portables
+
+                <div class="error-message">Trop peu d'apps: 7</div>
+
+            </div>
+
+            <div class="test test-error">
+                <strong>[ERREUR]</strong> Categories portables
+
+                <div class="error-message">Trop peu de categories: 0</div>
+
+            </div>
+
+        </div>
+
+        <div class="category">
+            <div class="category-header">Scripts Organises (5/5)</div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> scripts/diagnostics/
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> scripts/fixes/
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> scripts/tests/
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> build_tools/
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> data/config_runtime/
+
+            </div>
+
+        </div>
+
+        <div class="category">
+            <div class="category-header">Editeur de Theme (5/5)</div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> theme_editor_dynamic.py existe
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Chargement theme
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Sauvegarde theme
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Widgets personnalises
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Presets themes
+
+            </div>
+
+        </div>
+
+        <div class="category">
+            <div class="category-header">Configuration Utilisateur (3/3)</div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Chemin configuration
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Sauvegarde configuration
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Chargement configuration
+
+            </div>
+
+        </div>
+
+        <div class="category">
+            <div class="category-header">Rapports et Logs (3/3)</div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> RAPPORT_CORRECTIONS.json existe
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> RAPPORT_REORGANISATION.json existe
+
+            </div>
+
+            <div class="test test-success">
+                <strong>[OK]</strong> Generation rapport test
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
