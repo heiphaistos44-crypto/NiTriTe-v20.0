@@ -1074,6 +1074,14 @@ IMPORTANT: Sois conversationnel, varie ton style, PAS de template fixe!
         ]
         intro = random.choice(intros_francais)
 
+        # 1.5 Outros français (défini tôt pour éviter UnboundLocalError)
+        outros_francais = [
+            "\nTeste ça et dis-moi si ça va mieux! 👍",
+            "\nÇa devrait régler ton problème. Sinon reviens me voir!",
+            "\nHésite pas si t'as besoin de plus de détails!",
+            "\nDis-moi si ça marche ou si tu veux que je t'explique autrement! 😊"
+        ]
+
         # 2. Reformuler les tips en FRANÇAIS CONVERSATIONNEL
         # Au lieu de copier directement, on crée une réponse française
         body_parts = []
@@ -3010,13 +3018,7 @@ IMPORTANT: Sois conversationnel, varie ton style, PAS de template fixe!
 
         body = "\n".join(body_parts)
 
-        # 3. Conclusion française encourageante
-        outros_francais = [
-            "\nTeste ça et dis-moi si ça va mieux! 👍",
-            "\nÇa devrait régler ton problème. Sinon reviens me voir!",
-            "\nHésite pas si t'as besoin de plus de détails!",
-            "\nDis-moi si ça marche ou si tu veux que je t'explique autrement! 😊"
-        ]
+        # 3. Conclusion française encourageante (outros_francais défini au début)
         outro = random.choice(outros_francais)
 
         # 4. Assemblage final

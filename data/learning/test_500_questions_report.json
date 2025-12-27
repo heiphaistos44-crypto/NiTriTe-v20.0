@@ -1,0 +1,4068 @@
+{
+  "timestamp": "2025-12-27T22:37:30.993455",
+  "stats": {
+    "total": 450,
+    "processed": 450,
+    "with_typos": 112,
+    "corrections_applied": 0,
+    "avg_length": 1222,
+    "min_length": 184,
+    "max_length": 14079,
+    "total_time": 2.9058597087860107,
+    "avg_time": 0.006457466019524468,
+    "errors": 0,
+    "logged_missing": 0
+  },
+  "results": [
+    {
+      "id": 1,
+      "question": "comment installer chrome",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1313,
+      "time_seconds": 0.11,
+      "success": true
+    },
+    {
+      "id": 2,
+      "question": "instalation de firefox",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 481,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 3,
+      "question": "telecharger vlc",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 4,
+      "question": "installer zoom",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1070,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 5,
+      "question": "comment instaler teams",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1048,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 6,
+      "question": "installer discord",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 465,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 7,
+      "question": "telecharger steam",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1323,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 8,
+      "question": "installer spotify",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 473,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 9,
+      "question": "comment installer office",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1119,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 10,
+      "question": "instalation libreoffice",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 251,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 11,
+      "question": "installer adobe reader",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 473,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 12,
+      "question": "telecharger winrar",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1290,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 13,
+      "question": "installer 7zip",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 474,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 14,
+      "question": "comment installer python",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1200,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 15,
+      "question": "instalation vscode",
+      "has_typo": true,
+      "intent": "comparison",
+      "response_length": 504,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 16,
+      "question": "installer git",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 651,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 17,
+      "question": "telecharger nodejs",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1336,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 18,
+      "question": "installer docker",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 935,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 19,
+      "question": "comment installer virtualbox",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1480,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 20,
+      "question": "instalation vmware",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 849,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 21,
+      "question": "installer obs studio",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1004,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 22,
+      "question": "telecharger gimp",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 23,
+      "question": "installer inkscape",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 447,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 24,
+      "question": "comment installer blender",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1057,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 25,
+      "question": "instalation audacity",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 301,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 26,
+      "question": "installer handbrake",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 467,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 27,
+      "question": "telecharger ccleaner",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1356,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 28,
+      "question": "installer malwarebytes",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1173,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 29,
+      "question": "comment installer nvidia driver",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1187,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 30,
+      "question": "instalation amd driver",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 691,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 31,
+      "question": "installer windows 11",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 843,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 32,
+      "question": "telecharger linux ubuntu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1502,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 33,
+      "question": "installer dual boot",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 845,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 34,
+      "question": "comment installer bootable usb",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1375,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 35,
+      "question": "instalation rufus",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 600,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 36,
+      "question": "installer ventoy",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 447,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 37,
+      "question": "telecharger windows iso",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1463,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 38,
+      "question": "installer bios update",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 230,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 39,
+      "question": "comment installer ssd",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1255,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 40,
+      "question": "instalation ram",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1422,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 41,
+      "question": "installer carte graphique",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1193,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 42,
+      "question": "telecharger drivers",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1416,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 43,
+      "question": "installer chipset driver",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 691,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 44,
+      "question": "comment installer usb driver",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1296,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 45,
+      "question": "instalation bluetooth driver",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 687,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 46,
+      "question": "installer audio driver",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 2630,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 47,
+      "question": "telecharger network driver",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1520,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 48,
+      "question": "installer printer driver",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1480,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 49,
+      "question": "comment installer scanner driver",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 1200,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 50,
+      "question": "instalation webcam driver",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1282,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 51,
+      "question": "mon pc est lent",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 2896,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 52,
+      "question": "ordinateur rame",
+      "has_typo": true,
+      "intent": "performance",
+      "response_length": 2778,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 53,
+      "question": "pc tro lent",
+      "has_typo": true,
+      "intent": "performance",
+      "response_length": 2880,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 54,
+      "question": "ordi ralenti",
+      "has_typo": true,
+      "intent": "performance",
+      "response_length": 2982,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 55,
+      "question": "mon pc lag",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 2860,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 56,
+      "question": "ordinateur freeze",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 1335,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 57,
+      "question": "pc bloke",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 585,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 58,
+      "question": "ordi se bloque",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 1182,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 59,
+      "question": "mon pc est tres lent au demarage",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 2896,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 60,
+      "question": "ordinateur met du temps a demarrer",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1118,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 61,
+      "question": "pc lent au demarage windows",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 882,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 62,
+      "question": "ordi long a demarrer",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 63,
+      "question": "mon pc rame au demarage",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 883,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 64,
+      "question": "ordinateur lent apres mise a jour",
+      "has_typo": true,
+      "intent": "performance",
+      "response_length": 895,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 65,
+      "question": "pc ralenti apres update",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 2898,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 66,
+      "question": "ordi lent windows 11",
+      "has_typo": true,
+      "intent": "performance",
+      "response_length": 2724,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 67,
+      "question": "mon pc est lent que faire",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 2887,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 68,
+      "question": "ordinateur tres lent solution",
+      "has_typo": true,
+      "intent": "performance",
+      "response_length": 2724,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 69,
+      "question": "pc rame tout le temps",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 891,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 70,
+      "question": "ordi freeze aleatoire",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 1373,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 71,
+      "question": "mon pc se bloque souvent",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 1303,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 72,
+      "question": "ordinateur bug",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 1145,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 73,
+      "question": "pc crash",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 576,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 74,
+      "question": "ordi plante",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 480,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 75,
+      "question": "mon pc ne repond plus",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 584,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 76,
+      "question": "ordinateur gele",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1154,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 77,
+      "question": "pc ecran bleu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 13094,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 78,
+      "question": "ordi bsod",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 13096,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 79,
+      "question": "mon pc redemare tout seul",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 592,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 80,
+      "question": "ordinateur se relance",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1135,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 81,
+      "question": "pc s'eteint tout seul",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 611,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 82,
+      "question": "ordi s'arrete",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 83,
+      "question": "mon pc ventile fort",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1352,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 84,
+      "question": "ordinateur fait du bruit",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1110,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 85,
+      "question": "pc ventilateur bruyant",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 851,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 86,
+      "question": "ordi chauffe",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 1319,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 87,
+      "question": "mon pc surchofe",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 594,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 88,
+      "question": "ordinateur temperature elevee",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1269,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 89,
+      "question": "pc trop chaud",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 1414,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 90,
+      "question": "ordi chaleur",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 1301,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 91,
+      "question": "mon pc fait du bruit",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 611,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 92,
+      "question": "ordinateur ventilo bruyant",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1126,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 93,
+      "question": "pc disque dur bruit",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 592,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 94,
+      "question": "ordi clique",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 185,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 95,
+      "question": "mon pc fait bip",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 586,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 96,
+      "question": "ordinateur beep au demarage",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1117,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 97,
+      "question": "pc ne demarre pas",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 605,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 98,
+      "question": "ordi ne s'allume pas",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 201,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 99,
+      "question": "mon pc ecran noir",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 845,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 100,
+      "question": "ordinateur pas d'affichage",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1448,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 101,
+      "question": "batterie laptop ne tient plus",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1019,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 102,
+      "question": "batrie pc portable",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1332,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 103,
+      "question": "autonomie batterie faible",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1026,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 104,
+      "question": "batery ne charge plus",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 105,
+      "question": "mon laptop ne charge pas",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1513,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 106,
+      "question": "ordinateur portable batterie gonflee",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1046,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 107,
+      "question": "pc portable ne tient pas la charge",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1341,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 108,
+      "question": "laptop batterie 0%",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1053,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 109,
+      "question": "batterie se decharge vite",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 110,
+      "question": "autonomie reduite",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1027,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 111,
+      "question": "mon pc portable batterie hs",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1018,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 112,
+      "question": "laptop plus sur secteur",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 608,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 113,
+      "question": "batterie portable morte",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1027,
+      "time_seconds": 0.14,
+      "success": true
+    },
+    {
+      "id": 114,
+      "question": "chargeur ne marche pas",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 1393,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 115,
+      "question": "mon laptop ne se charge pas",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1493,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 116,
+      "question": "pc portable branché non charge",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1303,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 117,
+      "question": "laptop led charge pas allumee",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1503,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 118,
+      "question": "batterie usee",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 119,
+      "question": "wear level batterie",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 120,
+      "question": "mon laptop tient 1h",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 617,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 121,
+      "question": "pc portable autonomie courte",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1043,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 122,
+      "question": "laptop batterie calibration",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1026,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 123,
+      "question": "batterie windows 10",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1034,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 124,
+      "question": "mon portable autonomie",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1063,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 125,
+      "question": "pc laptop charge lente",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 2896,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 126,
+      "question": "ordinateur portable ne s'allume que sur secteur",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1193,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 127,
+      "question": "laptop battery report",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1347,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 128,
+      "question": "batterie sante",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 129,
+      "question": "mon laptop powercfg",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 619,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 130,
+      "question": "pc portable test batterie",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1027,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 131,
+      "question": "temperature cpu elevee",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 673,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 132,
+      "question": "temp cpu trop haute",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 662,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 133,
+      "question": "mon processeur chauffe",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 10805,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 134,
+      "question": "cpu surchauffe",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 1384,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 135,
+      "question": "temperature gpu elevee",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 492,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 136,
+      "question": "carte graphique chauffe",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 13211,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 137,
+      "question": "gpu trop chaud",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 1319,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 138,
+      "question": "mon pc temperature",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 592,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 139,
+      "question": "hwmonitor temperature",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 594,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 140,
+      "question": "cpu 90 degres",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 685,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 141,
+      "question": "processeur 100 degres",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 917,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 142,
+      "question": "gpu 85 degres",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 464,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 143,
+      "question": "carte graphique 80c",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1052,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 144,
+      "question": "temperature normale cpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 662,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 145,
+      "question": "temp normale gpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 463,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 146,
+      "question": "mon cpu throttling",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 720,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 147,
+      "question": "processeur bride",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 906,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 148,
+      "question": "gpu thermal throttle",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 488,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 149,
+      "question": "temperature max cpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 821,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 150,
+      "question": "temp max gpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 595,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 151,
+      "question": "mon pc refroidissement",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 602,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 152,
+      "question": "ventirad cpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 679,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 153,
+      "question": "watercooling",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1485,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 154,
+      "question": "pate thermique",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 155,
+      "question": "changer pate thermique cpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 681,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 156,
+      "question": "repaste gpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 488,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 157,
+      "question": "mon pc ventilation",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 605,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 158,
+      "question": "flux d'air boitier",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 463,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 159,
+      "question": "airflow case",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 696,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 160,
+      "question": "temperature idle cpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 669,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 161,
+      "question": "temp idle gpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 481,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 162,
+      "question": "mon cpu charge temperature",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1456,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 163,
+      "question": "processeur gaming temp",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 928,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 164,
+      "question": "gpu gaming temperature",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 3740,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 165,
+      "question": "stress test temperature",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1387,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 166,
+      "question": "occt temperature",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 923,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 167,
+      "question": "prime95 temp",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 609,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 168,
+      "question": "furmark gpu temp",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1212,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 169,
+      "question": "mon pc aida64 temperature",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 602,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 170,
+      "question": "hwinfo temperature",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 603,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 171,
+      "question": "memoire ram saturee",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1378,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 172,
+      "question": "ram 100%",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 14071,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 173,
+      "question": "mon pc memoire pleine",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 602,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 174,
+      "question": "ordinateur ram insuffisante",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 14079,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 175,
+      "question": "pc manque de ram",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 14062,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 176,
+      "question": "ordi memoire vive",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 192,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 177,
+      "question": "mon pc 8gb ram suffisant",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1326,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 178,
+      "question": "combien de ram pour windows 11",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1241,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 179,
+      "question": "pc 16gb ou 32gb ram",
+      "has_typo": false,
+      "intent": "comparison",
+      "response_length": 1232,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 180,
+      "question": "ordi ram ddr4 ou ddr5",
+      "has_typo": true,
+      "intent": "comparison",
+      "response_length": 1215,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 181,
+      "question": "mon laptop upgrade ram",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1284,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 182,
+      "question": "pc ajouter barrette ram",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1318,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 183,
+      "question": "ordi compatible ram",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1430,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 184,
+      "question": "mon pc dual channel ram",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1305,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 185,
+      "question": "ram vitesse importante",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1385,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 186,
+      "question": "memoire 3200mhz ou 3600mhz",
+      "has_typo": false,
+      "intent": "comparison",
+      "response_length": 1130,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 187,
+      "question": "pc ram timing",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1336,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 188,
+      "question": "ordi xmp profile",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1378,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 189,
+      "question": "mon pc docp ram",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 923,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 190,
+      "question": "ram overclock",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 934,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 191,
+      "question": "memoire instable",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 192,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 192,
+      "question": "pc ram erreur",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 1363,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 193,
+      "question": "ordi memtest86",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1470,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 194,
+      "question": "mon pc test ram",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1430,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 195,
+      "question": "memoire defectueuse",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 184,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 196,
+      "question": "pc ram slots",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1335,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 197,
+      "question": "ordi dimm slots",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 184,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 198,
+      "question": "mon laptop so-dimm ram",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1293,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 199,
+      "question": "ram ecc",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1422,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 200,
+      "question": "memoire registered",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 219,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 201,
+      "question": "pc ram non ecc",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1361,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 202,
+      "question": "ordi ram compatibilite",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1386,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 203,
+      "question": "mon pc qvl ram",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1325,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 204,
+      "question": "ram ryzen",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1327,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 205,
+      "question": "memoire intel",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 567,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 206,
+      "question": "pc ram amd",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1293,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 207,
+      "question": "ordi ram rgb",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 703,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 208,
+      "question": "mon pc corsair vengeance",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 577,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 209,
+      "question": "ram gskill",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1411,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 210,
+      "question": "memoire crucial",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 277,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 211,
+      "question": "disque dur plein",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 212,
+      "question": "ssd espace insuffisant",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 812,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 213,
+      "question": "mon pc stockage sature",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 935,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 214,
+      "question": "ordinateur disque c plein",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1145,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 215,
+      "question": "pc nettoyer disque",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 622,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 216,
+      "question": "ordi liberer espace",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 439,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 217,
+      "question": "mon pc windows.old supprimer",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 533,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 218,
+      "question": "temp folder plein",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 612,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 219,
+      "question": "pc vider cache",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 646,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 220,
+      "question": "ordi ccleaner",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 617,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 221,
+      "question": "mon pc nettoyage disque windows",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 499,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 222,
+      "question": "storage sense",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 471,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 223,
+      "question": "pc diskpart",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1352,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 224,
+      "question": "ordi partition disque",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 750,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 225,
+      "question": "mon laptop ssd ou hdd",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 795,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 226,
+      "question": "difference ssd hdd",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 802,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 227,
+      "question": "pc nvme m.2",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 875,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 228,
+      "question": "ordi sata ssd",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 745,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 229,
+      "question": "mon pc ssd vitesse",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 733,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 230,
+      "question": "crystaldiskmark benchmark",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1413,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 231,
+      "question": "pc ssd read write speed",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 660,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 232,
+      "question": "ordi iops ssd",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 818,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 233,
+      "question": "mon pc ssd health",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 472,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 234,
+      "question": "crystaldiskinfo smart",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1516,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 235,
+      "question": "pc disque dur secteurs defectueux",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 592,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 236,
+      "question": "ordi bad sectors",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 237,
+      "question": "mon pc chkdsk",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 602,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 238,
+      "question": "scan disque erreurs",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 480,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 239,
+      "question": "pc ssd trim",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 699,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 240,
+      "question": "ordi defragmentation",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 802,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 241,
+      "question": "mon pc defrag hdd",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 926,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 242,
+      "question": "ssd defrag pas besoin",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 902,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 243,
+      "question": "pc cloner disque",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 739,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 244,
+      "question": "ordi clonezilla",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1023,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 245,
+      "question": "mon laptop macrium reflect",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 717,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 246,
+      "question": "backup disque",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 876,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 247,
+      "question": "pc image systeme",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 625,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 248,
+      "question": "ordi restauration",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 218,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 249,
+      "question": "mon pc recovery partition",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 785,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 250,
+      "question": "windows backup",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 876,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 251,
+      "question": "pc ssd samsung",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1183,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 252,
+      "question": "ordi crucial ssd",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 803,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 253,
+      "question": "mon laptop wd blue ssd",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 480,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 254,
+      "question": "ssd kingston",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 795,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 255,
+      "question": "pc nvme gen3 gen4",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 822,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 256,
+      "question": "ordi pcie 3.0 4.0 ssd",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 480,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 257,
+      "question": "mon pc dram ssd",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1451,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 258,
+      "question": "ssd tlc qlc",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 811,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 259,
+      "question": "pc endurance ssd tbw",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 743,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 260,
+      "question": "ordi garantie ssd",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 812,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 261,
+      "question": "carte graphique nvidia",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1364,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 262,
+      "question": "gpu amd",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 671,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 263,
+      "question": "mon pc rtx 4090",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1218,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 264,
+      "question": "ordinateur rtx 4080",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1194,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 265,
+      "question": "pc rtx 4070",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1214,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 266,
+      "question": "ordi rtx 3080",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1222,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 267,
+      "question": "mon laptop rtx 3060",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1253,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 268,
+      "question": "gpu rx 7900 xt",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 464,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 269,
+      "question": "pc rx 6800 xt",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 488,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 270,
+      "question": "ordi arc a770",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1205,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 271,
+      "question": "mon pc carte graphique driver",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1387,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 272,
+      "question": "nvidia driver update",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1404,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 273,
+      "question": "pc geforce experience",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 598,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 274,
+      "question": "ordi amd adrenalin",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 479,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 275,
+      "question": "mon laptop gpu switching",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 480,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 276,
+      "question": "optimus nvidia",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 725,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 277,
+      "question": "pc hybrid graphics",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 698,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 278,
+      "question": "ordi dgpu igpu",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 625,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 279,
+      "question": "mon pc dedicated graphics",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 714,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 280,
+      "question": "integrated graphics",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 705,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 281,
+      "question": "pc intel uhd graphics",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 732,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 282,
+      "question": "ordi intel iris xe",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 551,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 283,
+      "question": "mon laptop amd radeon graphics",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 595,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 284,
+      "question": "vega graphics",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 721,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 285,
+      "question": "pc gpu benchmark",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1269,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 286,
+      "question": "ordi 3dmark",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1314,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 287,
+      "question": "mon pc heaven benchmark",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1414,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 288,
+      "question": "superposition benchmark",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1412,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 289,
+      "question": "pc furmark stress test",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1449,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 290,
+      "question": "ordi gpu z",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 508,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 291,
+      "question": "mon laptop vram",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1242,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 292,
+      "question": "memoire video",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 498,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 293,
+      "question": "pc 8gb vram suffisant",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1232,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 294,
+      "question": "ordi 12gb vram",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1235,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 295,
+      "question": "mon pc 24gb vram",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1243,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 296,
+      "question": "gpu memory bandwidth",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1242,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 297,
+      "question": "pc cuda cores",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 758,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 298,
+      "question": "ordi stream processors",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 924,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 299,
+      "question": "mon laptop ray tracing",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1342,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 300,
+      "question": "dlss nvidia",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1464,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 301,
+      "question": "processeur intel",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 923,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 302,
+      "question": "cpu amd",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 670,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 303,
+      "question": "mon pc i9 14900k",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 602,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 304,
+      "question": "ordinateur i7 13700k",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1118,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 305,
+      "question": "pc i5 12400f",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 595,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 306,
+      "question": "ordi ryzen 9 7950x",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1372,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 307,
+      "question": "mon laptop ryzen 7 7800x3d",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1364,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 308,
+      "question": "cpu ryzen 5 5600x",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1435,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 309,
+      "question": "pc nombre de coeurs",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 586,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 310,
+      "question": "ordi threads cpu",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 663,
+      "time_seconds": 0.14,
+      "success": true
+    },
+    {
+      "id": 311,
+      "question": "mon pc 8 cores 16 threads",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 580,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 312,
+      "question": "processeur gaming",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 900,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 313,
+      "question": "cpu productivity",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 750,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 314,
+      "question": "ordi overclocking cpu",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 906,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 315,
+      "question": "mon pc boost clock",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 917,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 316,
+      "question": "base clock cpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 934,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 317,
+      "question": "pc tdp processeur",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 900,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 318,
+      "question": "ordi wattage cpu",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1443,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 319,
+      "question": "mon laptop 65w cpu",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 734,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 320,
+      "question": "processeur 125w",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 915,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 321,
+      "question": "pc cinebench score",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1325,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 322,
+      "question": "ordi cpu z",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 652,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 323,
+      "question": "mon pc single core performance",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 657,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 324,
+      "question": "multi core performance",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 638,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 325,
+      "question": "pc gaming vs productivity cpu",
+      "has_typo": false,
+      "intent": "comparison",
+      "response_length": 3794,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 326,
+      "question": "ordi intel vs amd",
+      "has_typo": true,
+      "intent": "comparison",
+      "response_length": 518,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 327,
+      "question": "mon laptop cpu benchmark",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1342,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 328,
+      "question": "passmark cpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 680,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 329,
+      "question": "pc geekbench cpu",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1412,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 330,
+      "question": "ordi generation processeur",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 907,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 331,
+      "question": "windows 11",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 464,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 332,
+      "question": "win 10",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 499,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 333,
+      "question": "mon pc windows update",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1312,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 334,
+      "question": "ordinateur mise a jour",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1127,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 335,
+      "question": "pc update bloque",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 1360,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 336,
+      "question": "ordi windows ne s'installe pas",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 479,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 337,
+      "question": "mon laptop activation windows",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 600,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 338,
+      "question": "cle windows",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 481,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 339,
+      "question": "pc license windows",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 519,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 340,
+      "question": "ordi windows gratuit",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 488,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 341,
+      "question": "mon pc iso windows",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 571,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 342,
+      "question": "media creation tool",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1026,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 343,
+      "question": "pc installer windows usb",
+      "has_typo": false,
+      "intent": "how_to",
+      "response_length": 624,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 344,
+      "question": "ordi bootable usb",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 828,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 345,
+      "question": "mon laptop rufus",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 607,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 346,
+      "question": "ventoy multiboot",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 556,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 347,
+      "question": "pc bios settings",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1401,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 348,
+      "question": "ordi uefi boot",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1298,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 349,
+      "question": "mon pc secure boot",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 905,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 350,
+      "question": "tpm 2.0",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 721,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 351,
+      "question": "pc windows 11 requirements",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 480,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 352,
+      "question": "ordi incompatible windows 11",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 499,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 353,
+      "question": "mon laptop bypass tpm",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 881,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 354,
+      "question": "registry edit windows 11",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 658,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 355,
+      "question": "pc dual boot windows linux",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 852,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 356,
+      "question": "ordi partition",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 757,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 357,
+      "question": "mon pc diskpart",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1315,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 358,
+      "question": "gpt mbr",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 379,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 359,
+      "question": "pc legacy bios",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 605,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 360,
+      "question": "ordi fast boot",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 666,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 361,
+      "question": "mon laptop startup programs",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1266,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 362,
+      "question": "demarage automatique",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 220,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 363,
+      "question": "pc msconfig",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1245,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 364,
+      "question": "ordi services windows",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 476,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 365,
+      "question": "mon pc task manager",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 480,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 366,
+      "question": "gestionnaire taches",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 480,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 367,
+      "question": "pc performance",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 760,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 368,
+      "question": "ordi resource monitor",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 875,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 369,
+      "question": "mon laptop event viewer",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 644,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 370,
+      "question": "logs windows",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 664,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 371,
+      "question": "pc system file checker",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 492,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 372,
+      "question": "ordi sfc scannow",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 373,
+      "question": "mon pc dism",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 592,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 374,
+      "question": "repair windows",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 471,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 375,
+      "question": "pc safe mode",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 532,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 376,
+      "question": "ordi mode sans echec",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 470,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 377,
+      "question": "mon laptop recovery",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 473,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 378,
+      "question": "restauration systeme",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 379,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 379,
+      "question": "pc reset windows",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 527,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 380,
+      "question": "ordi reinstaller windows",
+      "has_typo": true,
+      "intent": "how_to",
+      "response_length": 846,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 381,
+      "question": "fps bas",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 890,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 382,
+      "question": "mon jeu lag",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 846,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 383,
+      "question": "gaming performance",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 3756,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 384,
+      "question": "pc gamer config",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 3985,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 385,
+      "question": "ordi gaming setup",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 3755,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 386,
+      "question": "mon laptop gaming",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 3724,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 387,
+      "question": "jeu ne se lance pas",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 3461,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 388,
+      "question": "pc crash en jeu",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 1456,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 389,
+      "question": "ordi freeze gaming",
+      "has_typo": true,
+      "intent": "troubleshooting",
+      "response_length": 1194,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 390,
+      "question": "mon pc stuttering",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1471,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 391,
+      "question": "micro stuttering",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1522,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 392,
+      "question": "pc input lag",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 2753,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 393,
+      "question": "ordi latence souris",
+      "has_typo": true,
+      "intent": "performance",
+      "response_length": 1581,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 394,
+      "question": "mon laptop vsync",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 591,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 395,
+      "question": "freesync gsync",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 580,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 396,
+      "question": "pc 144hz monitor",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1362,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 397,
+      "question": "ordi refresh rate",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1537,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 398,
+      "question": "mon pc frame rate",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 2742,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 399,
+      "question": "fps counter",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 3722,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 400,
+      "question": "pc msi afterburner",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 914,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 401,
+      "question": "ordi rivatuner",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 213,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 402,
+      "question": "mon laptop overlay fps",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 3834,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 403,
+      "question": "steam fps",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 3715,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 404,
+      "question": "pc nvidia reflex",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 708,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 405,
+      "question": "ordi anti lag amd",
+      "has_typo": true,
+      "intent": "performance",
+      "response_length": 2879,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 406,
+      "question": "mon pc optimisation jeux",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 3838,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 407,
+      "question": "game mode windows",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 3740,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 408,
+      "question": "pc xbox game bar",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 3748,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 409,
+      "question": "ordi geforce now",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 410,
+      "question": "mon laptop cloud gaming",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 3734,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 411,
+      "question": "pas de connexion internet",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 962,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 412,
+      "question": "wifi ne marche pas",
+      "has_typo": false,
+      "intent": "troubleshooting",
+      "response_length": 804,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 413,
+      "question": "mon pc ethernet",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 607,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 414,
+      "question": "ordinateur cable reseau",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1342,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 415,
+      "question": "pc debit internet lent",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 2915,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 416,
+      "question": "ordi vitesse internet",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 417,
+      "question": "mon laptop speedtest",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 590,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 418,
+      "question": "ping elevé",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 1429,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 419,
+      "question": "pc latence",
+      "has_typo": false,
+      "intent": "performance",
+      "response_length": 1331,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 420,
+      "question": "ordi packet loss",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 488,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 421,
+      "question": "mon pc dns",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 854,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 422,
+      "question": "serveur dns",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 861,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 423,
+      "question": "pc google dns",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 895,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 424,
+      "question": "ordi cloudflare dns",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 940,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 425,
+      "question": "mon laptop 1.1.1.1",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 598,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 426,
+      "question": "dns flush",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 828,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 427,
+      "question": "pc ipconfig",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 585,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 428,
+      "question": "ordi release renew",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 429,
+      "question": "mon pc ip address",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 597,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 430,
+      "question": "adresse ip",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 582,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 431,
+      "question": "pc static ip",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 581,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 432,
+      "question": "ordi dhcp",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 193,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 433,
+      "question": "mon laptop router settings",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1267,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 434,
+      "question": "configuration routeur",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 498,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 435,
+      "question": "pc port forwarding",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1194,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 436,
+      "question": "ordi nat type",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 1276,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 437,
+      "question": "mon pc firewall",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1189,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 438,
+      "question": "pare feu windows",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 480,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 439,
+      "question": "pc antivirus",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1172,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 440,
+      "question": "ordi windows defender",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 886,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 441,
+      "question": "mon laptop malwarebytes",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 1193,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 442,
+      "question": "virus scan",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 443,
+      "question": "pc malware",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1173,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 444,
+      "question": "ordi trojan",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.0,
+      "success": true
+    },
+    {
+      "id": 445,
+      "question": "mon pc ransomware",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 495,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 446,
+      "question": "securite windows",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1165,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 447,
+      "question": "pc vpn",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 1539,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 448,
+      "question": "ordi proxy",
+      "has_typo": true,
+      "intent": "general_question",
+      "response_length": 544,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 449,
+      "question": "mon laptop tor",
+      "has_typo": false,
+      "intent": "thanks",
+      "response_length": 591,
+      "time_seconds": 0.01,
+      "success": true
+    },
+    {
+      "id": 450,
+      "question": "anonymat internet",
+      "has_typo": false,
+      "intent": "general_question",
+      "response_length": 261,
+      "time_seconds": 0.01,
+      "success": true
+    }
+  ]
+}
