@@ -2437,8 +2437,15 @@ class DiagnosticPage(ctk.CTkFrame):
         ModernButton(
             btn_frame,
             text="🔬 Analyser",
-            variant="filled",
+            variant="outlined",
             command=self._run_diagnostic
+        ).pack(side=tk.LEFT, padx=5)
+
+        ModernButton(
+            btn_frame,
+            text="🔍 Scan Total",
+            variant="filled",
+            command=self._perform_full_system_scan
         ).pack(side=tk.LEFT)
     
     def _create_content(self):
@@ -5586,6 +5593,431 @@ class DiagnosticPage(ctk.CTkFrame):
                 "Erreur d'export",
                 f"Impossible d'exporter les informations:\n\n{str(e)}"
             )
+
+    def _perform_full_system_scan(self):
+        """
+        Scan total du PC avec détection automatique de tous les problèmes
+
+        Détecte:
+        - Températures CPU/GPU excessives
+        - Services/processus gourmands
+        - RAM saturée
+        - Disques pleins
+        - Windows Defender status
+        - Mises à jour manquantes
+        """
+        from tkinter import messagebox
+        import subprocess
+
+        print("🔍 Démarrage du scan total du PC...")
+
+        # Rafraîchir les infos système
+        self.system_info = self._get_system_info()
+
+        # Stocker les résultats du scan
+        scan_results = {
+            'critical': [],  # Problèmes critiques (rouge)
+            'warning': [],   # Avertissements (orange)
+            'ok': []         # Tout va bien (vert)
+        }
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 1️⃣ VÉRIFICATION TEMPÉRATURES CPU/GPU
+        # ═══════════════════════════════════════════════════════════════════
+        try:
+            # Essayer d'obtenir la température via WMI
+            import wmi
+            w = wmi.WMI(namespace="root\\wmi")
+
+            temps_found = False
+            for sensor in w.MSAcpi_ThermalZoneTemperature():
+                temp_kelvin = sensor.CurrentTemperature
+                temp_celsius = (temp_kelvin / 10.0) - 273.15
+
+                if temp_celsius > 90:
+                    scan_results['critical'].append({
+                        'category': '🌡️ Température',
+                        'issue': f'CPU/Composant surchauffe: {temp_celsius:.1f}°C',
+                        'recommendation': 'Vérifier refroidissement, nettoyer ventilos, changer pâte thermique'
+                    })
+                elif temp_celsius > 75:
+                    scan_results['warning'].append({
+                        'category': '🌡️ Température',
+                        'issue': f'CPU/Composant chaud: {temp_celsius:.1f}°C',
+                        'recommendation': 'Surveiller température, nettoyer PC si poussière'
+                    })
+                else:
+                    scan_results['ok'].append({
+                        'category': '🌡️ Température',
+                        'message': f'Températures normales ({temp_celsius:.1f}°C)'
+                    })
+                temps_found = True
+                break
+
+            if not temps_found:
+                scan_results['ok'].append({
+                    'category': '🌡️ Température',
+                    'message': 'Capteurs température non accessibles (normal sur certains PC)'
+                })
+        except:
+            scan_results['ok'].append({
+                'category': '🌡️ Température',
+                'message': 'Capteurs température non accessibles (normal sur certains PC)'
+            })
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 2️⃣ VÉRIFICATION CPU & PROCESSUS GOURMANDS
+        # ═══════════════════════════════════════════════════════════════════
+        if PSUTIL_AVAILABLE:
+            cpu_percent = psutil.cpu_percent(interval=1)
+
+            if cpu_percent > 90:
+                scan_results['critical'].append({
+                    'category': '🖥️ CPU',
+                    'issue': f'CPU surchargé: {cpu_percent:.1f}%',
+                    'recommendation': 'Fermer applications inutilisées, vérifier processus avec Gestionnaire de tâches'
+                })
+            elif cpu_percent > 70:
+                scan_results['warning'].append({
+                    'category': '🖥️ CPU',
+                    'issue': f'CPU élevé: {cpu_percent:.1f}%',
+                    'recommendation': 'Surveiller utilisation CPU'
+                })
+            else:
+                scan_results['ok'].append({
+                    'category': '🖥️ CPU',
+                    'message': f'CPU normal ({cpu_percent:.1f}%)'
+                })
+
+            # Détecter top 5 processus gourmands
+            processes = []
+            for proc in psutil.process_iter(['name', 'cpu_percent']):
+                try:
+                    proc_info = proc.info
+                    if proc_info['cpu_percent'] and proc_info['cpu_percent'] > 10:
+                        processes.append((proc_info['name'], proc_info['cpu_percent']))
+                except:
+                    pass
+
+            processes.sort(key=lambda x: x[1], reverse=True)
+            if processes[:3]:  # Top 3
+                top_procs = ', '.join([f"{name} ({cpu:.0f}%)" for name, cpu in processes[:3]])
+                scan_results['warning'].append({
+                    'category': '⚙️ Processus',
+                    'issue': f'Processus gourmands: {top_procs}',
+                    'recommendation': 'Vérifier si ces processus sont nécessaires'
+                })
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 3️⃣ VÉRIFICATION RAM
+        # ═══════════════════════════════════════════════════════════════════
+        if PSUTIL_AVAILABLE:
+            ram = psutil.virtual_memory()
+            ram_percent = ram.percent
+
+            if ram_percent > 90:
+                scan_results['critical'].append({
+                    'category': '💾 RAM',
+                    'issue': f'RAM saturée: {ram_percent:.1f}% ({ram.used / (1024**3):.1f}/{ram.total / (1024**3):.1f} GB)',
+                    'recommendation': 'Fermer applications, redémarrer PC, envisager upgrade RAM'
+                })
+            elif ram_percent > 80:
+                scan_results['warning'].append({
+                    'category': '💾 RAM',
+                    'issue': f'RAM élevée: {ram_percent:.1f}% ({ram.used / (1024**3):.1f}/{ram.total / (1024**3):.1f} GB)',
+                    'recommendation': 'Fermer applications inutilisées'
+                })
+            else:
+                scan_results['ok'].append({
+                    'category': '💾 RAM',
+                    'message': f'RAM OK ({ram_percent:.1f}%, {ram.used / (1024**3):.1f}/{ram.total / (1024**3):.1f} GB)'
+                })
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 4️⃣ VÉRIFICATION DISQUES
+        # ═══════════════════════════════════════════════════════════════════
+        if PSUTIL_AVAILABLE:
+            for partition in psutil.disk_partitions():
+                try:
+                    usage = psutil.disk_usage(partition.mountpoint)
+                    percent = usage.percent
+
+                    if percent > 95:
+                        scan_results['critical'].append({
+                            'category': '💿 Disque',
+                            'issue': f'{partition.mountpoint} critique: {percent:.1f}% plein ({usage.free / (1024**3):.1f} GB libre)',
+                            'recommendation': 'Libérer espace URGENT: supprimer fichiers, vider corbeille, nettoyer disque Windows'
+                        })
+                    elif percent > 85:
+                        scan_results['warning'].append({
+                            'category': '💿 Disque',
+                            'issue': f'{partition.mountpoint} plein: {percent:.1f}% ({usage.free / (1024**3):.1f} GB libre)',
+                            'recommendation': 'Libérer espace: NiTriTe > Optimisations > Nettoyage'
+                        })
+                    else:
+                        scan_results['ok'].append({
+                            'category': '💿 Disque',
+                            'message': f'{partition.mountpoint} OK ({percent:.1f}% utilisé, {usage.free / (1024**3):.1f} GB libre)'
+                        })
+                except:
+                    pass
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 5️⃣ VÉRIFICATION WINDOWS DEFENDER
+        # ═══════════════════════════════════════════════════════════════════
+        try:
+            # Vérifier le status de Windows Defender via PowerShell
+            result = subprocess.run(
+                ['powershell', '-Command', 'Get-MpComputerStatus | Select-Object AntivirusEnabled, RealTimeProtectionEnabled, NISEnabled'],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+
+            if 'True' in result.stdout:
+                # Defender actif
+                scan_results['ok'].append({
+                    'category': '🛡️ Sécurité',
+                    'message': 'Windows Defender actif et fonctionnel'
+                })
+            else:
+                scan_results['critical'].append({
+                    'category': '🛡️ Sécurité',
+                    'issue': 'Windows Defender désactivé ou non fonctionnel',
+                    'recommendation': 'URGENT: Activer Windows Defender pour protéger votre PC'
+                })
+        except:
+            scan_results['warning'].append({
+                'category': '🛡️ Sécurité',
+                'issue': 'Impossible de vérifier status Windows Defender',
+                'recommendation': 'Vérifier manuellement: Paramètres > Sécurité Windows'
+            })
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 6️⃣ VÉRIFICATION MISES À JOUR WINDOWS
+        # ═══════════════════════════════════════════════════════════════════
+        try:
+            # Vérifier si des mises à jour sont en attente
+            result = subprocess.run(
+                ['powershell', '-Command', '(New-Object -ComObject Microsoft.Update.AutoUpdate).Results.LastSearchSuccessDate'],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+
+            # Si la dernière recherche est vieille (>7 jours), avertir
+            from datetime import datetime, timedelta
+            try:
+                last_search = result.stdout.strip()
+                if last_search and last_search != '':
+                    # Parser la date et comparer
+                    scan_results['ok'].append({
+                        'category': '🔄 Mises à jour',
+                        'message': 'Windows Update actif'
+                    })
+            except:
+                scan_results['warning'].append({
+                    'category': '🔄 Mises à jour',
+                    'issue': 'Impossible de vérifier status Windows Update',
+                    'recommendation': 'Vérifier manuellement: NiTriTe > Mises à jour'
+                })
+        except:
+            scan_results['warning'].append({
+                'category': '🔄 Mises à jour',
+                'issue': 'Impossible de vérifier status Windows Update',
+                'recommendation': 'Vérifier manuellement: NiTriTe > Mises à jour'
+            })
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 7️⃣ VÉRIFICATION SANTÉ DISQUES (SMART)
+        # ═══════════════════════════════════════════════════════════════════
+        try:
+            # Vérifier SMART status via WMI
+            import wmi
+            w = wmi.WMI()
+            for disk in w.Win32_DiskDrive():
+                status = disk.Status
+                if status and status.lower() != 'ok':
+                    scan_results['critical'].append({
+                        'category': '⚠️ Santé Disque',
+                        'issue': f'Disque {disk.Model}: Status {status}',
+                        'recommendation': 'URGENT: Sauvegarder données, remplacer disque. Utiliser CrystalDiskInfo (NiTriTe > Diagnostic)'
+                    })
+                else:
+                    scan_results['ok'].append({
+                        'category': '⚠️ Santé Disque',
+                        'message': f'{disk.Model}: Status OK'
+                    })
+        except:
+            pass
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 📊 AFFICHER RÉSULTATS DU SCAN
+        # ═══════════════════════════════════════════════════════════════════
+        self._show_scan_results(scan_results)
+
+        print("✅ Scan total terminé !")
+
+    def _show_scan_results(self, scan_results):
+        """Afficher les résultats du scan dans une fenêtre dédiée"""
+        import tkinter as tk
+        from tkinter import messagebox
+
+        # Créer fenêtre popup
+        results_window = tk.Toplevel(self)
+        results_window.title("🔍 Résultats du Scan Total")
+        results_window.geometry("900x700")
+        results_window.configure(bg=DesignTokens.BG_PRIMARY)
+
+        # Header
+        header = ctk.CTkFrame(results_window, fg_color=DesignTokens.BG_CARD, corner_radius=10)
+        header.pack(fill=tk.X, padx=20, pady=20)
+
+        title = ctk.CTkLabel(
+            header,
+            text="🔍 Résultats du Scan Total du PC",
+            font=(DesignTokens.FONT_FAMILY, 24, "bold"),
+            text_color=DesignTokens.TEXT_PRIMARY
+        )
+        title.pack(pady=15)
+
+        # Statistiques rapides
+        stats_frame = ctk.CTkFrame(results_window, fg_color="transparent")
+        stats_frame.pack(fill=tk.X, padx=20, pady=10)
+
+        critical_count = len(scan_results['critical'])
+        warning_count = len(scan_results['warning'])
+        ok_count = len(scan_results['ok'])
+
+        ModernStatsCard(
+            stats_frame,
+            "❌ Critiques",
+            str(critical_count),
+            "Problèmes urgents",
+            DesignTokens.ERROR
+        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+
+        ModernStatsCard(
+            stats_frame,
+            "⚠️ Avertissements",
+            str(warning_count),
+            "À surveiller",
+            DesignTokens.WARNING
+        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+
+        ModernStatsCard(
+            stats_frame,
+            "✅ OK",
+            str(ok_count),
+            "Tout va bien",
+            DesignTokens.SUCCESS
+        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+
+        # Scroll frame pour résultats détaillés
+        scroll_frame = ctk.CTkScrollableFrame(
+            results_window,
+            fg_color=DesignTokens.BG_PRIMARY
+        )
+        scroll_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
+
+        # PROBLÈMES CRITIQUES
+        if scan_results['critical']:
+            critical_card = ModernCard(scroll_frame)
+            critical_card.pack(fill=tk.X, pady=10)
+
+            ctk.CTkLabel(
+                critical_card,
+                text="❌ PROBLÈMES CRITIQUES (ACTION URGENTE REQUISE)",
+                font=(DesignTokens.FONT_FAMILY, 16, "bold"),
+                text_color=DesignTokens.ERROR
+            ).pack(anchor="w", padx=20, pady=10)
+
+            for item in scan_results['critical']:
+                issue_frame = ctk.CTkFrame(critical_card, fg_color=DesignTokens.BG_PRIMARY, corner_radius=8)
+                issue_frame.pack(fill=tk.X, padx=20, pady=5)
+
+                ctk.CTkLabel(
+                    issue_frame,
+                    text=f"{item['category']}: {item['issue']}",
+                    font=(DesignTokens.FONT_FAMILY, 13, "bold"),
+                    text_color=DesignTokens.ERROR,
+                    anchor="w",
+                    wraplength=800
+                ).pack(anchor="w", padx=10, pady=(10, 5))
+
+                ctk.CTkLabel(
+                    issue_frame,
+                    text=f"💡 Recommandation: {item['recommendation']}",
+                    font=(DesignTokens.FONT_FAMILY, 12),
+                    text_color=DesignTokens.TEXT_SECONDARY,
+                    anchor="w",
+                    wraplength=800
+                ).pack(anchor="w", padx=10, pady=(0, 10))
+
+        # AVERTISSEMENTS
+        if scan_results['warning']:
+            warning_card = ModernCard(scroll_frame)
+            warning_card.pack(fill=tk.X, pady=10)
+
+            ctk.CTkLabel(
+                warning_card,
+                text="⚠️ AVERTISSEMENTS (À SURVEILLER)",
+                font=(DesignTokens.FONT_FAMILY, 16, "bold"),
+                text_color=DesignTokens.WARNING
+            ).pack(anchor="w", padx=20, pady=10)
+
+            for item in scan_results['warning']:
+                issue_frame = ctk.CTkFrame(warning_card, fg_color=DesignTokens.BG_PRIMARY, corner_radius=8)
+                issue_frame.pack(fill=tk.X, padx=20, pady=5)
+
+                ctk.CTkLabel(
+                    issue_frame,
+                    text=f"{item['category']}: {item['issue']}",
+                    font=(DesignTokens.FONT_FAMILY, 13, "bold"),
+                    text_color=DesignTokens.WARNING,
+                    anchor="w",
+                    wraplength=800
+                ).pack(anchor="w", padx=10, pady=(10, 5))
+
+                ctk.CTkLabel(
+                    issue_frame,
+                    text=f"💡 Recommandation: {item['recommendation']}",
+                    font=(DesignTokens.FONT_FAMILY, 12),
+                    text_color=DesignTokens.TEXT_SECONDARY,
+                    anchor="w",
+                    wraplength=800
+                ).pack(anchor="w", padx=10, pady=(0, 10))
+
+        # STATUTS OK
+        if scan_results['ok']:
+            ok_card = ModernCard(scroll_frame)
+            ok_card.pack(fill=tk.X, pady=10)
+
+            ctk.CTkLabel(
+                ok_card,
+                text="✅ TOUT VA BIEN",
+                font=(DesignTokens.FONT_FAMILY, 16, "bold"),
+                text_color=DesignTokens.SUCCESS
+            ).pack(anchor="w", padx=20, pady=10)
+
+            for item in scan_results['ok']:
+                ctk.CTkLabel(
+                    ok_card,
+                    text=f"{item['category']}: {item['message']}",
+                    font=(DesignTokens.FONT_FAMILY, 12),
+                    text_color=DesignTokens.TEXT_SECONDARY,
+                    anchor="w"
+                ).pack(anchor="w", padx=30, pady=2)
+
+        # Bouton fermer
+        ctk.CTkButton(
+            results_window,
+            text="Fermer",
+            command=results_window.destroy,
+            width=200,
+            height=40,
+            font=(DesignTokens.FONT_FAMILY, 14, "bold")
+        ).pack(pady=20)
 
     # === MÉTHODES MASTER OUTILS ===
 
