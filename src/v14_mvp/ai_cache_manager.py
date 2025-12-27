@@ -283,7 +283,7 @@ class SmartCacheManager:
         response = self.l1_cache.get(key)
         if response:
             self.l1_hits += 1
-            logger.debug("SmartCache", f"✓ L1 HIT: {query[:50]}...")
+            logger.debug("SmartCache", f"[L1 HIT] {query[:50]}...")
             return response
 
         # Recherche L2 (SQLite)
@@ -291,7 +291,7 @@ class SmartCacheManager:
         if cache_entry:
             response = cache_entry['response']
             self.l2_hits += 1
-            logger.debug("SmartCache", f"✓ L2 HIT: {query[:50]}...")
+            logger.debug("SmartCache", f"[L2 HIT] {query[:50]}...")
 
             # Promouvoir en L1 pour accès futurs
             self.l1_cache.put(key, response)
@@ -299,7 +299,7 @@ class SmartCacheManager:
 
         # Miss complet
         self.misses += 1
-        logger.debug("SmartCache", f"✗ MISS: {query[:50]}...")
+        logger.debug("SmartCache", f"[MISS] {query[:50]}...")
         return None
 
     def put(self, query: str, response: str, model: str = None, metadata: Dict = None):
@@ -320,7 +320,7 @@ class SmartCacheManager:
         # Stocker dans L2 (SQLite)
         self.l2_cache.put(key, query, response, model, metadata)
 
-        logger.debug("SmartCache", f"✓ STORED: {query[:50]}...")
+        logger.debug("SmartCache", f"[STORED] {query[:50]}...")
 
     def clear_all(self):
         """Vide tous les caches"""
