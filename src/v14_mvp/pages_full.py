@@ -5852,38 +5852,20 @@ class DiagnosticPage(ctk.CTkFrame):
             pass
 
         # ═══════════════════════════════════════════════════════════════════
-        # 8️⃣ VÉRIFICATION BATTERIE DÉTAILLÉE (LAPTOP UNIQUEMENT)
+        # 8️⃣ VÉRIFICATION WINDOWS VERSION & ACTIVATION
         # ═══════════════════════════════════════════════════════════════════
         try:
-            # Exécuter battery report
-            battery_report_path = Path(get_portable_temp_dir()) / "battery-report.html"
-            subprocess.run(
-                ['powercfg', '/batteryreport', f'/output', str(battery_report_path)],
-                capture_output=True,
-                timeout=10
-            )
-
-            # Lire le rapport et extraire infos via PowerShell
-            battery_info_cmd = """
-            $battery = Get-WmiObject Win32_Battery
-            if ($battery) {
-                $designCapacity = $battery.DesignCapacity
-                $fullChargeCapacity = $battery.FullChargeCapacity
-                $estimatedChargeRemaining = $battery.EstimatedChargeRemaining
-                $batteryStatus = $battery.BatteryStatus
-
-                # Calculer wear
-                $wear = 0
-                if ($designCapacity -gt 0) {
-                    $wear = [math]::Round((1 - ($fullChargeCapacity / $designCapacity)) * 100, 1)
-                }
-
-                Write-Output "$designCapacity|$fullChargeCapacity|$estimatedChargeRemaining|$batteryStatus|$wear"
-            }
+            # Obtenir version Windows
+            win_version_cmd = """
+            $os = Get-WmiObject Win32_OperatingSystem
+            $productName = $os.Caption
+            $buildNumber = $os.BuildNumber
+            $version = $os.Version
+            Write-Output "$productName|$buildNumber|$version"
             """
 
             result = subprocess.run(
-                ['powershell', '-Command', battery_info_cmd],
+                ['powershell', '-Command', win_version_cmd],
                 capture_output=True,
                 text=True,
                 timeout=5
@@ -5891,70 +5873,171 @@ class DiagnosticPage(ctk.CTkFrame):
 
             if result.stdout.strip():
                 parts = result.stdout.strip().split('|')
-                if len(parts) == 5:
-                    design_capacity = int(parts[0])
-                    full_capacity = int(parts[1])
-                    current_charge = int(parts[2])
-                    battery_status = int(parts[3])
-                    wear_percent = float(parts[4])
+                if len(parts) >= 2:
+                    product_name = parts[0].replace('Microsoft ', '')
+                    build_number = parts[1]
 
-                    # Convertir en mWh (millliwatt-heures)
-                    design_mwh = design_capacity
-                    full_mwh = full_capacity
+                    scan_results['ok'].append({
+                        'category': '🪟 Windows Version',
+                        'message': f'{product_name} (Build {build_number})'
+                    })
 
-                    battery_detail = f"Capacité: {full_mwh} mWh / {design_mwh} mWh (Design) | Usure: {wear_percent}% | Charge: {current_charge}%"
+            # Obtenir statut activation
+            activation_cmd = "cscript //NoLogo %windir%\\System32\\slmgr.vbs /xpr"
+            result = subprocess.run(
+                activation_cmd,
+                capture_output=True,
+                text=True,
+                timeout=10,
+                shell=True
+            )
+
+            activation_status = result.stdout.strip()
+
+            if 'permanently activated' in activation_status.lower() or 'activé de manière permanente' in activation_status.lower():
+                scan_results['ok'].append({
+                    'category': '✅ Windows Activation',
+                    'message': 'Windows activé de manière permanente'
+                })
+            elif 'will expire' in activation_status.lower() or 'expirera' in activation_status.lower():
+                scan_results['warning'].append({
+                    'category': '⏰ Windows Activation',
+                    'issue': 'Activation temporaire (expirera bientôt)',
+                    'recommendation': 'Activer Windows de manière permanente'
+                })
+            else:
+                scan_results['critical'].append({
+                    'category': '❌ Windows Activation',
+                    'issue': 'Windows non activé',
+                    'recommendation': 'Activer Windows via NiTriTe > Diagnostic > Activer Windows/Office'
+                })
+        except:
+            scan_results['ok'].append({
+                'category': '🪟 Windows',
+                'message': 'Impossible de vérifier version/activation'
+            })
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 9️⃣ VÉRIFICATION BATTERIE DÉTAILLÉE (LAPTOP UNIQUEMENT)
+        # ═══════════════════════════════════════════════════════════════════
+
+        # Stocker le chemin du rapport pour le bouton
+        battery_report_path = None
+
+        try:
+            # Exécuter Battery Report (comme dans NiTriTe)
+            temp_dir = Path(get_portable_temp_dir())
+            temp_dir.mkdir(parents=True, exist_ok=True)
+            battery_report_path = temp_dir / "battery-report.html"
+
+            result = subprocess.run(
+                ['powercfg', '/batteryreport', '/output', str(battery_report_path)],
+                capture_output=True,
+                text=True,
+                timeout=10
+            )
+
+            # Si rapport créé avec succès, parser le HTML
+            if battery_report_path.exists():
+                # Lire le fichier HTML et extraire les infos
+                with open(battery_report_path, 'r', encoding='utf-8') as f:
+                    html_content = f.read()
+
+                # Parser les informations clés
+                import re
+
+                # Extraire Design Capacity
+                design_match = re.search(r'DESIGN CAPACITY</td>\s*<td[^>]*>([0-9,]+)\s*mWh', html_content, re.IGNORECASE)
+                full_match = re.search(r'FULL CHARGE CAPACITY</td>\s*<td[^>]*>([0-9,]+)\s*mWh', html_content, re.IGNORECASE)
+
+                if design_match and full_match:
+                    design_capacity = int(design_match.group(1).replace(',', ''))
+                    full_capacity = int(full_match.group(1).replace(',', ''))
+
+                    # Calculer usure
+                    wear_percent = ((design_capacity - full_capacity) / design_capacity) * 100
+
+                    battery_detail = f"Capacité: {full_capacity:,} mWh / {design_capacity:,} mWh (Design) | Usure: {wear_percent:.1f}%"
+
+                    # Ajouter le chemin du rapport pour le bouton
+                    battery_result = {
+                        'category': '🔋 Batterie',
+                        'battery_report_path': str(battery_report_path)
+                    }
 
                     if wear_percent > 50:
-                        scan_results['critical'].append({
-                            'category': '🔋 Batterie',
-                            'issue': f'Batterie fortement dégradée: {battery_detail}',
-                            'recommendation': 'URGENT: Remplacer batterie (usure >50%)'
-                        })
+                        battery_result['issue'] = f'Batterie fortement dégradée: {battery_detail}'
+                        battery_result['recommendation'] = 'URGENT: Remplacer batterie (usure >50%)'
+                        scan_results['critical'].append(battery_result)
                     elif wear_percent > 30:
-                        scan_results['warning'].append({
-                            'category': '🔋 Batterie',
-                            'issue': f'Batterie usée: {battery_detail}',
-                            'recommendation': 'Envisager remplacement batterie bientôt'
-                        })
+                        battery_result['issue'] = f'Batterie usée: {battery_detail}'
+                        battery_result['recommendation'] = 'Envisager remplacement batterie bientôt'
+                        scan_results['warning'].append(battery_result)
                     elif wear_percent > 10:
-                        scan_results['warning'].append({
-                            'category': '🔋 Batterie',
-                            'issue': f'Batterie légère usure: {battery_detail}',
-                            'recommendation': 'Surveiller évolution de l\'usure'
-                        })
+                        battery_result['issue'] = f'Batterie légère usure: {battery_detail}'
+                        battery_result['recommendation'] = 'Surveiller évolution de l\'usure'
+                        scan_results['warning'].append(battery_result)
                     else:
-                        scan_results['ok'].append({
-                            'category': '🔋 Batterie',
-                            'message': f'Batterie excellente: {battery_detail}'
-                        })
-        except:
-            # Pas de batterie (PC fixe) ou erreur
+                        battery_result['message'] = f'Batterie excellente: {battery_detail}'
+                        scan_results['ok'].append(battery_result)
+                else:
+                    # Rapport créé mais parsing échoué
+                    scan_results['ok'].append({
+                        'category': '🔋 Batterie',
+                        'message': 'Rapport batterie généré (voir rapport pour détails)',
+                        'battery_report_path': str(battery_report_path)
+                    })
+            else:
+                # Rapport non créé = pas de batterie
+                scan_results['ok'].append({
+                    'category': '🔋 Batterie',
+                    'message': 'Aucune batterie détectée (PC fixe)'
+                })
+
+        except Exception as e:
+            # Erreur lors de la génération du rapport
             scan_results['ok'].append({
                 'category': '🔋 Batterie',
-                'message': 'Aucune batterie détectée (PC fixe) ou erreur de lecture'
+                'message': 'Impossible de générer rapport batterie (PC fixe ou erreur)'
             })
 
         # ═══════════════════════════════════════════════════════════════════
         # 9️⃣ VÉRIFICATION MISES À JOUR DÉTAILLÉES
         # ═══════════════════════════════════════════════════════════════════
 
-        # WinGet Updates
+        # WinGet Updates - PARSING AMÉLIORÉ
         try:
             result = subprocess.run(
-                ['winget', 'upgrade'],
+                ['winget', 'upgrade', '--include-unknown'],
                 capture_output=True,
                 text=True,
-                timeout=30
+                timeout=30,
+                encoding='utf-8',
+                errors='ignore'
             )
 
-            # Compter le nombre de lignes avec "available" (mises à jour disponibles)
+            # Compter les lignes de paquets (contiennent des versions x.x.x ou < / >)
             updates_count = 0
-            for line in result.stdout.split('\n'):
-                if 'available' in line.lower() or '>' in line:
-                    updates_count += 1
+            in_table = False
 
-            # Soustraire les lignes d'en-tête (~3)
-            updates_count = max(0, updates_count - 3)
+            for line in result.stdout.split('\n'):
+                # Détecter le début du tableau (après "Name" "Id" "Version" etc.)
+                if 'Name' in line and 'Id' in line and 'Version' in line:
+                    in_table = True
+                    continue
+
+                # Ligne vide ou séparateur = fin du tableau
+                if in_table and (not line.strip() or line.startswith('-')):
+                    if not line.strip():
+                        break
+                    continue
+
+                # Dans le tableau : compter les lignes avec versions (pattern x.x.x)
+                if in_table and line.strip():
+                    # Vérifier si la ligne contient une version (chiffre.chiffre)
+                    import re
+                    if re.search(r'\d+\.\d+', line):
+                        updates_count += 1
 
             if updates_count > 10:
                 scan_results['warning'].append({
@@ -5972,7 +6055,7 @@ class DiagnosticPage(ctk.CTkFrame):
                     'category': '📦 WinGet',
                     'message': 'Tous les paquets WinGet à jour'
                 })
-        except:
+        except Exception as e:
             scan_results['ok'].append({
                 'category': '📦 WinGet',
                 'message': 'WinGet non accessible ou pas de paquets installés'
@@ -6202,7 +6285,18 @@ class DiagnosticPage(ctk.CTkFrame):
                     font=("Segoe UI", 12),
                     anchor="w",
                     wraplength=800
-                ).pack(anchor="w", padx=10, pady=(0, 10))
+                ).pack(anchor="w", padx=10, pady=(0, 5))
+
+                # Ajouter bouton pour rapport batterie si disponible
+                if 'battery_report_path' in item and item['battery_report_path']:
+                    ctk.CTkButton(
+                        issue_frame,
+                        text="📄 Voir Rapport Batterie Complet",
+                        command=lambda path=item['battery_report_path']: os.startfile(path),
+                        width=200,
+                        height=30,
+                        font=("Segoe UI", 11)
+                    ).pack(anchor="w", padx=10, pady=(0, 10))
 
         # AVERTISSEMENTS
         if scan_results['warning']:
@@ -6235,7 +6329,18 @@ class DiagnosticPage(ctk.CTkFrame):
                     font=("Segoe UI", 12),
                     anchor="w",
                     wraplength=800
-                ).pack(anchor="w", padx=10, pady=(0, 10))
+                ).pack(anchor="w", padx=10, pady=(0, 5))
+
+                # Ajouter bouton pour rapport batterie si disponible
+                if 'battery_report_path' in item and item['battery_report_path']:
+                    ctk.CTkButton(
+                        issue_frame,
+                        text="📄 Voir Rapport Batterie Complet",
+                        command=lambda path=item['battery_report_path']: os.startfile(path),
+                        width=200,
+                        height=30,
+                        font=("Segoe UI", 11)
+                    ).pack(anchor="w", padx=10, pady=(0, 10))
 
         # STATUTS OK
         if scan_results['ok']:
@@ -6250,12 +6355,26 @@ class DiagnosticPage(ctk.CTkFrame):
             ).pack(anchor="w", padx=20, pady=10)
 
             for item in scan_results['ok']:
+                item_frame = ctk.CTkFrame(ok_card, fg_color="transparent")
+                item_frame.pack(fill=tk.X, padx=20, pady=2)
+
                 ctk.CTkLabel(
-                    ok_card,
+                    item_frame,
                     text=f"{item['category']}: {item['message']}",
                     font=("Segoe UI", 12),
                     anchor="w"
-                ).pack(anchor="w", padx=30, pady=2)
+                ).pack(anchor="w", padx=10, side=tk.LEFT)
+
+                # Ajouter bouton pour rapport batterie si disponible
+                if 'battery_report_path' in item and item['battery_report_path']:
+                    ctk.CTkButton(
+                        item_frame,
+                        text="📄 Voir Rapport",
+                        command=lambda path=item['battery_report_path']: os.startfile(path),
+                        width=120,
+                        height=25,
+                        font=("Segoe UI", 10)
+                    ).pack(side=tk.RIGHT, padx=10)
 
         # Bouton fermer
         ctk.CTkButton(
