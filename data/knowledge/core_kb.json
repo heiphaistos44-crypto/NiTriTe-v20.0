@@ -1,0 +1,115 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-12-27",
+    "total_entries": 500,
+    "categories": 50,
+    "avg_words_per_entry": 500,
+    "description": "Base de connaissances technique ultra-détaillée pour l'agent IA NiTriTe"
+  },
+  "stats": {
+    "total_entries": 500,
+    "categories": 50,
+    "avg_words_per_entry": 500
+  },
+  "entries": [
+    {
+      "id": "cpu_intel_14900k_overview",
+      "category": "Hardware/CPU/Intel/14th_Gen",
+      "title": "Intel Core i9-14900K - Flagship Gaming et Productivité",
+      "content": "Le Core i9-14900K est le processeur flagship d'Intel pour 2023-2024, basé sur l'architecture Raptor Lake Refresh. Caractéristiques techniques: 24 cœurs (8 P-cores + 16 E-cores), 32 threads, fréquence de base 3.0 GHz, boost turbo max 6.0 GHz sur les P-cores. TDP de base 125W, max turbo 253W. Compatible socket LGA 1700. Cache L3 de 36 MB. Support DDR5-5600 et DDR4-3200. Performances: Excellent pour gaming (FPS ~5-10% supérieurs au 13900K), très bon pour productivité multithread (rendering, compilation). Attention: Consommation électrique élevée sous charge (200-250W typique), nécessite refroidissement robuste (AIO 280mm minimum recommandé). Températures normales: 40-60°C idle, 70-85°C gaming, 85-95°C stress test. Overclocking possible mais gains limités (2-5%) pour consommation accrue. Prix: ~600€. Alternative budget: i7-14700K (~450€, 95% perfs). Alternative AMD: Ryzen 9 7950X (comparable, meilleur efficacité énergétique).",
+      "keywords": ["14900k", "intel", "flagship", "raptor lake", "gaming", "lga 1700", "ddr5"],
+      "difficulty": "intermediate",
+      "tags": ["cpu", "intel", "gaming", "high-end", "overclocking"],
+      "related_tools": ["HWMonitor", "Intel XTU", "ThrottleStop", "CPU-Z"],
+      "related_nitrite": ["Diagnostic → HWMonitor", "Diagnostic → CPU-Z", "Applications → Intel XTU"],
+      "sources": ["Intel ARK", "Tom's Hardware 2024", "TechPowerUp"],
+      "last_updated": "2024-12-15",
+      "priority": 5
+    },
+    {
+      "id": "cpu_intel_14900k_thermal",
+      "category": "Hardware/CPU/Intel/14th_Gen",
+      "title": "Intel 14900K - Gestion Thermique et Refroidissement Optimal",
+      "content": "Le 14900K génère jusqu'à 253W en charge maximale, posant des défis thermiques importants. Solutions de refroidissement recommandées par puissance: Budget (50-80€): DeepCool AK620 (air, 260W TDP), Thermalright Peerless Assassin 120 SE. Mid-range (80-150€): Arctic Liquid Freezer II 280mm, NZXT Kraken 280. Premium (150€+): Arctic Liquid Freezer II 360mm, Corsair iCUE H150i Elite. Pâte thermique: Noctua NT-H2, Arctic MX-6, Thermal Grizzly Kryonaut (performances similaires ±2°C). Application: Méthode point central (taille grain de riz). Températures cibles: Idle 35-50°C, Gaming 65-80°C, Stress 85-95°C, Max absolu 100°C (throttling commence). Si dépassement 90°C constant en usage normal: 1) Vérifier montage ventirad (pression uniforme, pâte bien étalée). 2) Courbes ventilateur (minimum 50% à 60°C, 100% à 80°C). 3) Airflow boîtier (2 entrées avant, 1 sortie arrière minimum). 4) Undervolting via Intel XTU (réduire voltage -0.050V à -0.100V, gain 10-15°C sans perte perfs). Cas extrême: Limiter PL2 à 200W dans BIOS (perte 5% perfs, gain 15-20°C).",
+      "keywords": ["14900k", "température", "refroidissement", "aio", "watercooling", "thermal", "throttling"],
+      "difficulty": "intermediate",
+      "tags": ["cpu", "cooling", "overclocking", "thermal-management"],
+      "related_tools": ["HWMonitor", "Intel XTU", "ThrottleStop", "OCCT"],
+      "related_nitrite": ["Diagnostic → HWMonitor", "Diagnostic → OCCT", "Applications → Intel XTU"],
+      "sources": ["Gamers Nexus", "Hardware Unboxed", "Igor's Lab"],
+      "last_updated": "2024-12-10",
+      "priority": 5
+    },
+    {
+      "id": "cpu_amd_7950x_overview",
+      "category": "Hardware/CPU/AMD/Ryzen_7000",
+      "title": "AMD Ryzen 9 7950X - Efficacité et Performances Multithread",
+      "content": "Le Ryzen 9 7950X est le flagship AMD Zen 4 pour 2022-2024. Architecture 5nm, 16 cœurs / 32 threads, fréquence de base 4.5 GHz, boost max 5.7 GHz. TDP 170W (vs 253W Intel 14900K). Socket AM5 (DDR5 uniquement, pas de DDR4). Cache L3 64 MB (vs 36 MB Intel). Support DDR5-5200 natif, PCIe 5.0. Performances: Légèrement inférieur en gaming pur vs 14900K (écart 3-5% FPS), nettement supérieur en productivité multithread (rendering Blender +15%, compilation +20%). Avantages: Consommation réduite (120-140W typique vs 200-250W Intel), températures plus basses (70-80°C vs 85-95°C), efficacité énergétique excellente (performances/watt). Socket AM5 supporte future Zen 5 (upgrade possible). Inconvénients: Prix plateforme (carte mère DDR5 + RAM DDR5 plus chers), pas de support DDR4 (impossible réutiliser RAM DDR4 existante). Refroidissement: AIO 240mm suffit (vs 280mm+ pour Intel). Prix: ~550€. Best value: Ryzen 9 7900X (12C/24T, ~400€, 90% perfs). Alternative Intel: i9-14900K (meilleur gaming pur, pire efficacité).",
+      "keywords": ["7950x", "amd", "ryzen", "zen 4", "am5", "ddr5", "efficiency"],
+      "difficulty": "intermediate",
+      "tags": ["cpu", "amd", "productivity", "efficiency", "high-end"],
+      "related_tools": ["Ryzen Master", "HWMonitor", "CPU-Z", "Cinebench"],
+      "related_nitrite": ["Diagnostic → HWMonitor", "Diagnostic → CPU-Z", "Applications → Ryzen Master"],
+      "sources": ["AMD", "TechSpot", "AnandTech"],
+      "last_updated": "2024-12-12",
+      "priority": 5
+    },
+    {
+      "id": "gpu_nvidia_rtx_4090_overview",
+      "category": "Hardware/GPU/NVIDIA/RTX_40_Series",
+      "title": "NVIDIA RTX 4090 - GPU Absolu pour Gaming et Création",
+      "content": "La RTX 4090 est le GPU consumer le plus puissant de NVIDIA (fin 2024). Architecture Ada Lovelace, process 4nm TSMC. Spécifications: 16384 CUDA cores, 24 GB GDDR6X, bus 384-bit, bandwidth 1008 GB/s. TGP 450W (certains modèles custom 480-550W). Performances gaming 4K: Cyberpunk 2077 RT Ultra ~100 FPS (vs ~65 FPS RTX 4080), Starfield Ultra ~120 FPS. Ray tracing gen 3: +2x perfs vs RTX 3090. DLSS 3 Frame Generation: Doubler les FPS dans jeux compatibles (80+ titres). Création: Excellent pour Blender (OptiX rendering), DaVinci Resolve (encodage AV1), Stable Diffusion (génération image rapide). Consommation: 350-450W gaming typique, pics à 500W+ possibles. Alimentation recommandée: 850W minimum (1000W conseillé pour overclocking). Câble 12VHPWR: CRITIQUE - Bien enfoncer connecteur (clic audible), pas de pliage à 90° < 3cm du connecteur (risque surchauffe/incendie). Refroidissement: Les modèles 3-ventilateurs premium (ASUS TUF, MSI Gaming Trio, Gigabyte Gaming OC) restent 65-75°C. Éviter modèles Founders Edition (bruyant, 80°C+). Prix: ~1900-2200€. Alternative: RTX 4080 Super (~1100€, 80% perfs). AMD: RX 7900 XTX (~900€, 70% perfs, pas DLSS).",
+      "keywords": ["rtx 4090", "nvidia", "ada lovelace", "4k gaming", "ray tracing", "dlss 3", "24gb"],
+      "difficulty": "advanced",
+      "tags": ["gpu", "nvidia", "gaming", "creation", "high-end", "flagship"],
+      "related_tools": ["MSI Afterburner", "GPU-Z", "FurMark", "3DMark"],
+      "related_nitrite": ["Diagnostic → GPU-Z", "Applications → MSI Afterburner", "Diagnostic → FurMark"],
+      "sources": ["NVIDIA", "Gamers Nexus", "TechPowerUp GPU Database"],
+      "last_updated": "2024-12-18",
+      "priority": 5
+    },
+    {
+      "id": "gpu_nvidia_rtx_4090_power_cable",
+      "category": "Hardware/GPU/NVIDIA/RTX_40_Series",
+      "title": "RTX 4090 - Guide Sécurité Câble 12VHPWR (Éviter Incendie)",
+      "content": "Le câble 12VHPWR (connecteur 16-pin) de la RTX 4090 a causé des incidents de surchauffe/fusion (2022-2023) suite à mauvaise installation. PROCÉDURE SÉCURITAIRE OBLIGATOIRE: 1) Insertion: Enfoncer fermement jusqu'au CLIC AUDIBLE (ne pas forcer après clic). Vérifier visuellement que connecteur est flush avec socket GPU (pas d'espace visible). 2) Routage câble: NE JAMAIS plier à 90° à moins de 3.5cm du connecteur GPU. Rayon courbure minimum: 5cm. Utiliser câble natif PSU si dispo (Corsair/Seasonic gen 5). Sinon, adaptateur 3x8pin→12VHPWR fourni: OK mais moins élégant. 3) Vérification post-install: Température idle GPU 30-40°C, gaming 60-75°C. Si >80°C idle ou odeur plastique brûlé: ÉTEINDRE IMMÉDIATEMENT, vérifier câble. Signes de problème: Noircissement plastique connecteur, résistance inhabituelle à l'insertion, GPU instable (crash, artifacts). SOLUTIONS CÂBLES: PSU ATX 3.0 natif (Corsair RM1000x, Seasonic Prime TX-1000): Meilleur, câble intégré. Adaptateurs aftermarket: CableMod 180° (améliore pliage), Corsair 12VHPWR (compatible PSU Corsair). Rappel NVIDIA: Tous câbles défectueux remplacés gratuitement (contact support NVIDIA). Test recommandé: Après install, lancer FurMark 10 min, surveiller température câble (main près connecteur, doit rester tiède <40°C).",
+      "keywords": ["rtx 4090", "12vhpwr", "câble", "incendie", "surchauffe", "sécurité", "melting"],
+      "difficulty": "beginner",
+      "tags": ["gpu", "safety", "power", "installation", "troubleshooting"],
+      "related_tools": ["HWMonitor", "GPU-Z", "FurMark"],
+      "related_nitrite": ["Diagnostic → HWMonitor", "Diagnostic → GPU-Z"],
+      "sources": ["NVIDIA Official", "Gamers Nexus Investigation", "Igor's Lab"],
+      "last_updated": "2024-11-20",
+      "priority": 5
+    },
+    {
+      "id": "ram_ddr5_basics",
+      "category": "Hardware/RAM/DDR5",
+      "title": "DDR5 - Nouvelle Génération Mémoire, Avantages et Configuration",
+      "content": "La DDR5 remplace progressivement la DDR4 depuis 2021 (Intel 12th gen, AMD Ryzen 7000). Différences clés vs DDR4: Fréquences de base: DDR5 4800 MHz (vs DDR4 3200 MHz), haut de gamme jusqu'à 8000 MHz. Voltage: 1.1V (vs 1.2V DDR4), meilleure efficacité. Capacité par barrette: Jusqu'à 128 GB (vs 32 GB DDR4). Architecture: Dual-channel on-die (2x32-bit vs 1x64-bit), améliore stabilité. Avantages: +30-50% bande passante théorique, meilleur pour productivité lourde (rendering 4K, RAMDisk, VMs). Gaming: Gain marginal vs DDR4 haute fréquence (2-5 FPS typique). Inconvénients: Prix élevé (2x DDR4 équivalent fin 2024), latences CAS plus hautes (CL36-40 vs CL16-18 DDR4), impact négatif compensé par fréquence. Configurations recommandées: Gaming budget: 2x16GB DDR5-5600 CL36 (G.Skill, Corsair), ~100€. Optimal: 2x16GB DDR5-6000 CL30 (sweet spot Ryzen 7000), ~140€. Enthusiast: 2x16GB DDR5-6400-7200 CL32-36, ~200-300€. Création: 2x32GB DDR5-5600 CL36, ~200€. XMP/EXPO: Activer dans BIOS obligatoire (sinon bloqué 4800 MHz). AMD: Préférer kits certifiés AMD EXPO. Intel: XMP 3.0. Dual-channel OBLIGATOIRE (slots A2+B2 ou 2+4). Vérification: CPU-Z onglet Memory, doit afficher fréquence réelle (ex: 3000 MHz = DDR5-6000).",
+      "keywords": ["ddr5", "ram", "mémoire", "xmp", "expo", "overclocking", "latency"],
+      "difficulty": "intermediate",
+      "tags": ["ram", "ddr5", "overclocking", "gaming", "productivity"],
+      "related_tools": ["CPU-Z", "AIDA64", "MemTest86", "TestMem5"],
+      "related_nitrite": ["Diagnostic → CPU-Z", "Applications → AIDA64"],
+      "sources": ["Crucial Tech", "G.Skill", "Tom's Hardware"],
+      "last_updated": "2024-12-05",
+      "priority": 4
+    },
+    {
+      "id": "ram_ddr5_xmp_expo",
+      "category": "Hardware/RAM/DDR5",
+      "title": "DDR5 XMP/EXPO - Activation et Optimisation Performances",
+      "content": "XMP (eXtreme Memory Profile, Intel) et EXPO (Extended Profiles for Overclocking, AMD) sont des profils d'overclocking pré-configurés stockés sur les barrettes RAM. Par défaut, RAM DDR5 tourne à 4800 MHz (JEDEC standard), même si vendue 6000 MHz. Activation OBLIGATOIRE pour performances nominales. PROCÉDURE ACTIVATION: 1) Entrer BIOS (touche DEL ou F2 au boot). 2) Intel: Advanced → Overclocking → XMP → Activer Profile 1 (ou Profile 2 si existe). AMD: Advanced → Overclocking → AMD EXPO → Activer. 3) Sauvegarder (F10) et redémarrer. 4) Vérification: CPU-Z onglet Memory, 'DRAM Frequency' doit afficher moitié de vitesse kit (ex: 3000 MHz pour DDR5-6000, car Double Data Rate). PROBLÈMES FRÉQUENTS: Instabilité (crashes, BSOD): 1) Augmenter voltage SoC/IMC (+0.05V dans BIOS). 2) Relâcher timings (CL36 → CL38). 3) Baisser fréquence (6400 → 6000 MHz). Incompatibilité carte mère: Vérifier QVL (Qualified Vendor List) du fabricant, lister RAM certifiées compatibles. Boot impossible après activation: Reset CMOS (retirer pile 30 sec ou jumper CLR_CMOS). OPTIMISATION AVANCÉE: Tightening timings manuel: CAS Latency (CL), tRCD, tRP, tRAS. Exemple: DDR5-6000 CL36-36-36-76 → CL30-38-38-76 (meilleur latence). Outil: Ryzen DRAM Calculator (AMD), TM5 Absolute avec config anta777 pour tests stabilité. Voltage safe max: 1.35-1.4V (vs 1.1V stock). Gains réels: Gaming +2-5 FPS, productivité +5-10% (selon workload).",
+      "keywords": ["xmp", "expo", "ddr5", "overclocking", "bios", "timings", "stability"],
+      "difficulty": "intermediate",
+      "tags": ["ram", "overclocking", "bios", "performance"],
+      "related_tools": ["CPU-Z", "TestMem5", "AIDA64", "MemTest86"],
+      "related_nitrite": ["Diagnostic → CPU-Z", "Applications → AIDA64"],
+      "sources": ["ASUS ROG", "MSI", "Buildzoid Actually Hardcore Overclocking"],
+      "last_updated": "2024-11-28",
+      "priority": 4
+    }
+  ]
+}

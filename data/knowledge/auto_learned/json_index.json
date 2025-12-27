@@ -1,0 +1,118 @@
+{
+  "version": "1.0.0",
+  "files": [
+    {
+      "path": "data\\programs.json",
+      "hash": "756d3470db83aba39789c33af88c1a58",
+      "type": "applications_catalog",
+      "entries_count": 0,
+      "structure": {
+        "top_level_keys": [
+          "Outils OrdiPlus",
+          "Pack Office",
+          "Navigateurs",
+          "Antivirus",
+          "Sécurité",
+          "Bureautique",
+          "Multimédia",
+          "Développement",
+          "Utilitaires",
+          "Communication",
+          "Jeux",
+          "Désinstallateurs Antivirus",
+          "Internet",
+          "Réseaux Sociaux",
+          "Streaming Vidéo",
+          "Streaming Audio",
+          "IA & Assistants",
+          "Utilitaires Système",
+          "Imprimantes & Scan",
+          "Services Apple",
+          "Suites Professionnelles",
+          "Productivité",
+          "Stockage Cloud",
+          "PDF et Documents",
+          "Compression"
+        ],
+        "data_types": {
+          "Outils OrdiPlus": "dict",
+          "Pack Office": "dict",
+          "Navigateurs": "dict",
+          "Antivirus": "dict",
+          "Sécurité": "dict",
+          "Bureautique": "dict",
+          "Multimédia": "dict",
+          "Développement": "dict",
+          "Utilitaires": "dict",
+          "Communication": "dict",
+          "Jeux": "dict",
+          "Désinstallateurs Antivirus": "dict",
+          "Internet": "dict",
+          "Réseaux Sociaux": "dict",
+          "Streaming Vidéo": "dict",
+          "Streaming Audio": "dict",
+          "IA & Assistants": "dict",
+          "Utilitaires Système": "dict",
+          "Imprimantes & Scan": "dict",
+          "Services Apple": "dict",
+          "Suites Professionnelles": "dict",
+          "Productivité": "dict",
+          "Stockage Cloud": "dict",
+          "PDF et Documents": "dict",
+          "Compression": "dict"
+        }
+      },
+      "sample_entries": [],
+      "file_size_kb": 223.357421875,
+      "indexed_at": "2025-12-27T21:53:33.297192"
+    },
+    {
+      "path": "data\\portable_apps.json",
+      "hash": "eeb6fecd501338605cc569b620642523",
+      "type": "portable_catalog",
+      "entries_count": 0,
+      "structure": {
+        "top_level_keys": [
+          "Outils Système",
+          "Multimédia",
+          "Réseau",
+          "Utilitaires",
+          "Développement",
+          "Sécurité",
+          "Nettoyage"
+        ],
+        "data_types": {
+          "Outils Système": "dict",
+          "Multimédia": "dict",
+          "Réseau": "dict",
+          "Utilitaires": "dict",
+          "Développement": "dict",
+          "Sécurité": "dict",
+          "Nettoyage": "dict"
+        }
+      },
+      "sample_entries": [],
+      "file_size_kb": 33.8359375,
+      "indexed_at": "2025-12-27T21:53:33.298393"
+    },
+    {
+      "path": "data\\custom_packs.json",
+      "hash": "9a9b47079f941b0cbf26da23bbac68c1",
+      "type": "installation_packs",
+      "entries_count": 0,
+      "structure": {
+        "top_level_keys": [
+          "Pack Gaming"
+        ],
+        "data_types": {
+          "Pack Gaming": "dict"
+        }
+      },
+      "sample_entries": [],
+      "file_size_kb": 0.4521484375,
+      "indexed_at": "2025-12-27T21:53:33.298393"
+    }
+  ],
+  "last_scan": "2025-12-27T21:53:47.337860",
+  "total_entries": 3
+}

@@ -9,7 +9,7 @@ Toutes les APIs sont gratuites ou ont un tier gratuit généreux
 import requests
 import json
 from typing import Optional, Dict, List, Tuple, Generator
-from v14_mvp.logger_system import logger
+from logger_system import logger
 
 # Essayer d'importer google-generativeai
 try:
@@ -20,7 +20,7 @@ except ImportError:
 
 # Import Ollama Manager
 try:
-    from v14_mvp.ai_ollama_manager import get_ollama_manager
+    from ai_ollama_manager import get_ollama_manager
     OLLAMA_AVAILABLE = True
 except ImportError:
     OLLAMA_AVAILABLE = False
@@ -28,7 +28,7 @@ except ImportError:
 
 # Import Smart Cache
 try:
-    from v14_mvp.ai_cache_manager import get_cache_manager
+    from ai_cache_manager import get_cache_manager
     CACHE_AVAILABLE = True
 except ImportError:
     CACHE_AVAILABLE = False

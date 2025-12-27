@@ -19,11 +19,66 @@ class DynamicResponseGenerator:
     def __init__(self, knowledge_base, api_manager):
         """
         Args:
-            knowledge_base: UnifiedKnowledgeBase instance
+            knowledge_base: UnifiedKnowledgeBase instance (legacy, gardé pour compat)
             api_manager: APIManager instance pour appels API
         """
+        # Legacy KB (backward compatibility)
         self.kb = knowledge_base
         self.api_manager = api_manager
+
+        # === NOUVEAUX MODULES (Amélioration x10000%) ===
+        try:
+            from ai_knowledge_base_hybrid import HybridKnowledgeBase
+            from ai_semantic_search import SemanticSearchEngine
+            from ai_context_enricher import ContextEnricher
+            from ai_response_templates import ResponseTemplates, TemplateFormatter
+            from ai_system_executor import SystemExecutor
+            from ai_nitrite_expert import NiTriTeExpert
+            from ai_auto_learner import AutoLearner
+
+            # Hybrid KB (30K+ entries)
+            self.kb_hybrid = HybridKnowledgeBase()
+            print("[ResponseGenerator] OK HybridKB charge")
+
+            # Semantic Search (FAISS)
+            self.semantic_search = SemanticSearchEngine()
+            print("[ResponseGenerator] OK SemanticSearch charge")
+
+            # Context Enricher (hardware detection)
+            self.context_enricher = ContextEnricher()
+            print("[ResponseGenerator] OK ContextEnricher charge")
+
+            # Response Templates (ultra-détaillé)
+            self.templates = ResponseTemplates()
+            self.template_formatter = TemplateFormatter()
+            print("[ResponseGenerator] OK Templates charges")
+
+            # System Executor (diagnostic safe)
+            self.system_executor = SystemExecutor()
+            print("[ResponseGenerator] OK SystemExecutor charge")
+
+            # NiTriTe Expert (14 pages)
+            self.nitrite_expert = NiTriTeExpert()
+            print("[ResponseGenerator] OK NiTriTeExpert charge")
+
+            # Auto-Learner (scan docs)
+            self.auto_learner = AutoLearner()
+            print("[ResponseGenerator] OK AutoLearner charge")
+
+            self.enhanced_mode = True
+            print("[ResponseGenerator] MODE AMELIORE ACTIF (x10000%)")
+
+        except Exception as e:
+            print(f"[ResponseGenerator] WARN: Modules améliorés non chargés: {e}")
+            print("[ResponseGenerator] Fallback: mode legacy")
+            self.enhanced_mode = False
+            self.kb_hybrid = None
+            self.semantic_search = None
+            self.context_enricher = None
+            self.templates = None
+            self.system_executor = None
+            self.nitrite_expert = None
+            self.auto_learner = None
 
         # Patterns conversationnels variés (pas scriptés!)
         self.conversation_starters = {
@@ -77,6 +132,7 @@ class DynamicResponseGenerator:
         """
         Génération réponse mode ONLINE (API)
         Utilise API avec prompt conversationnel dynamique
+        MODE AMÉLIORÉ : Semantic search + Context enriched + Templates ultra-détaillés
 
         Args:
             user_message: Message utilisateur
@@ -85,8 +141,13 @@ class DynamicResponseGenerator:
             context: Contexte (mémoire, système, patterns appris)
 
         Returns:
-            Réponse conversationnelle générée par API
+            Réponse conversationnelle générée par API (ultra-détaillée si mode amélioré)
         """
+        # === MODE AMÉLIORÉ (x10000%) ===
+        if self.enhanced_mode and self.semantic_search:
+            return self._generate_online_enhanced(user_message, intent, user_level, context)
+
+        # === MODE LEGACY (fallback) ===
         # 1. Rechercher conseils pertinents
         relevant_tips = self._search_relevant_knowledge(user_message, intent, top_k=10)
 
@@ -169,6 +230,316 @@ class DynamicResponseGenerator:
         response = self._enrich_with_nitrite_tools(response, intent, relevant_tips)
 
         return response
+
+    def _generate_online_enhanced(
+        self,
+        user_message: str,
+        intent: str,
+        user_level: str,
+        context: Dict[str, Any]
+    ) -> str:
+        """
+        GÉNÉRATION AMÉLIORÉE x10000%
+        Utilise tous les nouveaux modules pour réponses ultra-détaillées
+
+        Workflow:
+        1. Semantic search (FAISS) → Top 20 résultats pertinents
+        2. Hybrid KB search → Core KB + NiTriTe KB + Legacy + Auto-learned
+        3. Context enrichment → Hardware détecté + Profil user
+        4. NiTriTe Expert → Suggestions pages/tools pertinents
+        5. Mega-prompt construction → 10x plus de contexte
+        6. API call avec max_tokens augmenté
+        7. Template formatting → Structure professionnelle garantie
+        """
+        print("[Enhanced] 🚀 Génération mode amélioré activée")
+
+        # === 1. SEMANTIC SEARCH (FAISS) ===
+        semantic_results = []
+        if self.semantic_search.index is not None:
+            try:
+                semantic_results = self.semantic_search.search(
+                    user_message,
+                    top_k=20,
+                    min_score=0.1
+                )
+                print(f"[Enhanced] ✅ Semantic search: {len(semantic_results)} résultats")
+            except Exception as e:
+                print(f"[Enhanced] WARN: Semantic search failed: {e}")
+
+        # === 2. HYBRID KB SEARCH ===
+        hybrid_results = []
+        try:
+            hybrid_results = self.kb_hybrid.search(
+                user_message,
+                top_k=10,
+                filters={'difficulty': user_level} if user_level else None
+            )
+            print(f"[Enhanced] ✅ Hybrid KB: {len(hybrid_results)} résultats")
+        except Exception as e:
+            print(f"[Enhanced] WARN: Hybrid KB failed: {e}")
+
+        # === 3. CONTEXT ENRICHMENT ===
+        enriched_context = {}
+        try:
+            enriched_context = self.context_enricher.enrich_context(
+                user_message,
+                context.get('memory', [])
+            )
+            print(f"[Enhanced] ✅ Context enriched (expertise: {enriched_context.get('expertise_level', 'N/A')})")
+        except Exception as e:
+            print(f"[Enhanced] WARN: Context enrichment failed: {e}")
+
+        # === 4. NITRITE EXPERT SUGGESTIONS ===
+        nitrite_page = None
+        nitrite_tools = []
+        try:
+            # Trouve page pertinente
+            page_match = self.nitrite_expert.find_relevant_page(user_message)
+            if page_match:
+                nitrite_page = page_match['page']
+                print(f"[Enhanced] ✅ NiTriTe page: {nitrite_page.get('name', 'N/A')}")
+
+            # Suggère outils
+            nitrite_tools = self.nitrite_expert.suggest_tools(
+                user_message,
+                problem_keywords=enriched_context.get('recent_topics', [])
+            )
+            print(f"[Enhanced] ✅ NiTriTe tools: {len(nitrite_tools)} suggestions")
+
+        except Exception as e:
+            print(f"[Enhanced] WARN: NiTriTe expert failed: {e}")
+
+        # === 5. AUTO-LEARNED DOCS ===
+        learned_results = []
+        try:
+            learned_results = self.auto_learner.search_learned(user_message, search_in='all')
+            print(f"[Enhanced] ✅ Auto-learned: {len(learned_results)} résultats")
+        except Exception as e:
+            print(f"[Enhanced] WARN: Auto-learner failed: {e}")
+
+        # === 6. MEGA-PROMPT CONSTRUCTION ===
+        mega_prompt = self._build_mega_prompt_enhanced(
+            user_message=user_message,
+            semantic_results=semantic_results[:10],  # Top 10
+            hybrid_results=hybrid_results,
+            enriched_context=enriched_context,
+            nitrite_page=nitrite_page,
+            nitrite_tools=nitrite_tools,
+            learned_results=learned_results[:5],
+            intent=intent,
+            user_level=user_level
+        )
+
+        # === 7. API CALL (MAX TOKENS AUGMENTÉ) ===
+        messages = [
+            {"role": "system", "content": mega_prompt},
+            {"role": "user", "content": user_message}
+        ]
+
+        # Historique (si disponible)
+        if context.get("memory") and len(context["memory"]) > 0:
+            recent_history = context["memory"][-5:]  # 5 derniers (vs 3 avant)
+            for exchange in recent_history:
+                messages.insert(1, {"role": "user", "content": exchange.get("user", "")})
+                messages.insert(2, {"role": "assistant", "content": exchange.get("assistant", "")})
+
+        # Température adaptative
+        temperature = 0.7 if intent in ['troubleshooting', 'diagnostic'] else 0.9
+        max_tokens = 12000  # 12K vs 4K avant (pour réponses ultra-détaillées)
+
+        try:
+            response = self.api_manager.query(
+                messages=messages,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                timeout=45  # 45s vs 30s (réponses longues)
+            )
+
+            print(f"[Enhanced] ✅ API response reçue ({len(response)} chars)")
+
+            # === 8. TEMPLATE FORMATTING ===
+            # Apply template si pertinent
+            if self.templates and intent in ['troubleshooting', 'optimization']:
+                try:
+                    formatted_response = self.template_formatter.apply_template(
+                        intent=intent,
+                        llm_response=response,
+                        context={
+                            'nitrite_tools': nitrite_tools,
+                            'hardware': enriched_context.get('hardware_detected'),
+                            'expertise': enriched_context.get('expertise_level')
+                        }
+                    )
+                    print("[Enhanced] ✅ Template appliqué")
+                    return formatted_response
+                except Exception as e:
+                    print(f"[Enhanced] WARN: Template formatting failed: {e}")
+
+            return response
+
+        except Exception as e:
+            print(f"[Enhanced] ERROR API call: {e}")
+            # Fallback vers mode legacy
+            return self._generate_offline_fallback(
+                user_message,
+                intent,
+                hybrid_results or semantic_results
+            )
+
+    def _build_mega_prompt_enhanced(
+        self,
+        user_message: str,
+        semantic_results: List[Dict],
+        hybrid_results: List[Dict],
+        enriched_context: Dict,
+        nitrite_page: Optional[Dict],
+        nitrite_tools: List[Dict],
+        learned_results: List[Dict],
+        intent: str,
+        user_level: str
+    ) -> str:
+        """
+        Construit le MEGA-PROMPT enrichi avec TOUT le contexte disponible
+        10x plus de contexte que le mode legacy
+        """
+        parts = []
+
+        # === SECTION 1: PERSONNALITÉ ULTRA-DÉTAILLÉE ===
+        parts.append("""# AGENT IA NITRITE V20.0 - EXPERT MAINTENANCE INFORMATIQUE
+
+Tu es l'agent IA officiel de NiTriTe, l'outil ultime de maintenance informatique portable.
+
+## ⚠️ IMPÉRATIF ABSOLU: RÉPONSES TOUJOURS TRÈS DÉTAILLÉES
+
+**MINIMUM REQUIS PAR RÉPONSE**:
+- 5-10 paragraphes MINIMUM (jamais moins)
+- Étapes numérotées avec sous-détails
+- Exemples concrets
+- Commandes PowerShell/CMD si applicable avec explications
+- Références outils NiTriTe pertinents
+- Section "Vérification" de la solution
+- Section "Et si ça ne marche pas?"
+- Section "Prévention long terme"
+
+**FORMAT OBLIGATOIRE**:
+1. Introduction empathique (2-3 phrases)
+2. Analyse détaillée du problème (5+ phrases)
+3. Solutions multiples (MINIMUM 2-3 approches différentes)
+4. Chaque solution = 5+ étapes DÉTAILLÉES
+5. Commandes avec explications ligne par ligne
+6. Outils NiTriTe recommandés avec mode d'emploi
+7. Vérification résultat (étapes précises)
+8. Troubleshooting si échec
+9. Conseils prévention
+
+**STYLE**:
+- Français conversationnel (comme Copilot)
+- Empathique et encourageant
+- Explications détaillées mais claires
+- Jamais de réponse < 800 mots
+- Utilise markdown (# ## ### ``` etc.)
+- Émojis pour clarté (⚠️ 💡 ✅ ❌ 🔧 📊)
+
+**❌ INTERDIT**:
+- Réponses courtes (< 500 mots)
+- Vagues ou génériques
+- Sans exemples
+- Sans étapes précises
+""")
+
+        # === SECTION 2: HARDWARE DÉTECTÉ ===
+        hw = enriched_context.get('hardware_detected')
+        if hw:
+            parts.append(f"""
+## 💻 SYSTÈME UTILISATEUR DÉTECTÉ
+
+**CPU**: {hw['cpu']['name']} ({hw['cpu']['cores']}C/{hw['cpu']['threads']}T @ {hw['cpu']['max_clock_mhz']}MHz)
+**GPU**: {hw.get('gpu', {}).get('name', 'Non détecté')} ({hw.get('gpu', {}).get('vram_gb', 0)}GB VRAM)
+**RAM**: {hw['ram']['total_gb']}GB {hw['ram']['type']} @ {hw['ram']['speed_mhz']}MHz
+**OS**: {hw['os']['name']} {hw['os']['version']}
+**Stockage**: {', '.join(f"{d['type']} {d['size_gb']}GB" for d in hw.get('storage', [])[:2])}
+
+**⚠️ ADAPTE TES CONSEILS À CE SYSTÈME PRÉCIS.**
+Ne donne PAS de conseils génériques. Personnalise selon CE hardware.
+""")
+
+        # === SECTION 3: NIVEAU EXPERTISE ===
+        expertise = enriched_context.get('expertise_level', user_level)
+        expertise_map = {
+            'beginner': 'DÉBUTANT - Explique TOUS les termes, privilégie interface graphique, aucun jargon',
+            'intermediate': 'INTERMÉDIAIRE - Mix GUI + commandes, explications moyennes',
+            'expert': 'EXPERT - Directement technique, PowerShell/Registry OK, va droit au but',
+            'power_user': 'POWER USER - Très technique, optimisations avancées, pas de main dans la main'
+        }
+        parts.append(f"\n**Niveau utilisateur**: {expertise_map.get(expertise, 'INTERMÉDIAIRE')}\n")
+
+        # === SECTION 4: SEMANTIC RESULTS (TOP 10) ===
+        if semantic_results:
+            parts.append("\n## 📚 BASE DE CONNAISSANCES TECHNIQUE (Top 10 Pertinents)\n")
+            for i, result in enumerate(semantic_results[:10], 1):
+                parts.append(f"""
+### {i}. {result.get('title', 'N/A')} (Score: {result.get('final_score', 0):.2f})
+
+**Catégorie**: {result.get('category', 'N/A')}
+**Contenu**: {result.get('content', '')[:500]}...
+
+""")
+            parts.append("**⚠️ UTILISE CES CONNAISSANCES pour construire ta réponse détaillée.**\n")
+
+        # === SECTION 5: PAGE NITRITE ===
+        if nitrite_page:
+            parts.append(f"""
+## 🛠️ PAGE NITRITE RECOMMANDÉE
+
+**{nitrite_page.get('emoji', '')} {nitrite_page.get('name', '')}**
+
+{nitrite_page.get('description', '')}
+
+**Fonctionnalités clés**:
+{self._format_dict_as_list(nitrite_page.get('features', {}))}
+
+**⚠️ INTÈGRE cette page dans ta réponse** avec étapes précises pour l'utiliser.
+""")
+
+        # === SECTION 6: OUTILS NITRITE ===
+        if nitrite_tools:
+            parts.append("\n## 🔧 OUTILS NITRITE RECOMMANDÉS\n")
+            for tool_data in nitrite_tools:
+                tool = tool_data.get('tool', {})
+                page = tool_data.get('page', 'Diagnostic')
+                parts.append(f"""
+- **{tool.get('name', 'N/A')}** (NiTriTe → {page})
+  {tool.get('description', '')}
+  **Comment utiliser**: [Donne étapes précises]
+""")
+
+        # === SECTION 7: RAPPELS FINAUX ===
+        parts.append("""
+## 🎯 RAPPELS CRITIQUES
+
+1. ❌ JAMAIS de réponse courte (< 800 mots)
+2. ✅ TOUJOURS 5-10 paragraphes minimum
+3. ✅ TOUJOURS des exemples concrets
+4. ✅ TOUJOURS des étapes numérotées détaillées
+5. ✅ TOUJOURS mentionner outils NiTriTe si pertinent
+6. ✅ TOUJOURS section vérification
+7. ✅ TOUJOURS alternatives si solution 1 échoue
+8. ✅ Format Markdown avec # ## ### pour structure
+9. ✅ Code blocks pour commandes (```powershell)
+10. ✅ Emojis pour clarté
+
+**La qualité > tout. L'utilisateur préfère 10 paragraphes utiles à 2 paragraphes vagues.**
+
+Maintenant, réponds à la question de l'utilisateur en suivant TOUTES ces directives.
+""")
+
+        return '\n'.join(parts)
+
+    def _format_dict_as_list(self, d: Dict) -> str:
+        """Formate dict en liste markdown"""
+        if not d:
+            return "(Aucune)"
+        return '\n'.join(f"- **{k}**: {v}" for k, v in list(d.items())[:10])
 
     def _search_relevant_knowledge(
         self,

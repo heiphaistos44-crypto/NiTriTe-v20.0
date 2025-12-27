@@ -1,0 +1,710 @@
+{
+  "metadata": {
+    "version": "20.0",
+    "created": "2025-12-27",
+    "description": "Base de connaissances complète NiTriTe V20.0 - Toutes fonctionnalités, pages, apps, workflows",
+    "total_pages": 14,
+    "total_apps": 716,
+    "total_portables": 168,
+    "total_scripts": 50
+  },
+
+  "stats": {
+    "total_pages": 14,
+    "total_apps": 716,
+    "total_portables": 168,
+    "total_scripts": 50,
+    "total_diagnostic_tools": 30
+  },
+
+  "pages": {
+    "applications": {
+      "id": "applications",
+      "name": "Applications",
+      "emoji": "💻",
+      "description": "Installation de 716 applications via WinGet réparties en 25 catégories",
+      "path": "src/v14_mvp/pages_optimized.py",
+      "file_data": "data/programs.json",
+      "categories": [
+        "Outils OrdiPlus", "Pack Office", "Navigateurs", "Antivirus", "Sécurité",
+        "Bureautique", "Multimédia", "Développement", "Utilitaires", "Communication",
+        "Jeux", "Désinstallateurs Antivirus", "Internet", "Réseaux Sociaux",
+        "Streaming Vidéo", "Streaming Audio", "IA & Assistants", "Utilitaires Système",
+        "Imprimantes & Scan", "Services Apple", "Suites Professionnelles",
+        "Productivité", "Stockage Cloud", "PDF et Documents", "Compression"
+      ],
+      "features": {
+        "search": "Recherche par nom/description en temps réel",
+        "filters": "Filtres par catégorie",
+        "installation": "Installation automatique via WinGet",
+        "tracking": "Logs dans temp/downloads/",
+        "bulk_install": "Installation multiple simultanée"
+      },
+      "common_tasks": [
+        {
+          "task": "Installer navigateur Chrome",
+          "query_variants": ["installer chrome", "télécharger google chrome", "chrome"],
+          "steps": [
+            "Ouvrir page Applications (💻)",
+            "Catégorie 'Navigateurs'",
+            "Trouver 'Google Chrome'",
+            "Cliquer bouton 'Installer'",
+            "Attendre fin installation WinGet (1-2 min)"
+          ],
+          "duration": "1-2 minutes",
+          "admin_required": false
+        },
+        {
+          "task": "Installer pack complet bureautique",
+          "query_variants": ["installer office", "pack bureautique", "suite office"],
+          "redirect_to": "master_install",
+          "suggestion": "Utilisez plutôt Master Install → Pack Bureautique pour installer LibreOffice, Adobe Reader, WPS Office en une fois"
+        }
+      ],
+      "top_apps": [
+        {"name": "Google Chrome", "category": "Navigateurs", "winget_id": "Google.Chrome"},
+        {"name": "Mozilla Firefox", "category": "Navigateurs", "winget_id": "Mozilla.Firefox"},
+        {"name": "Brave", "category": "Navigateurs", "winget_id": "Brave.Brave"},
+        {"name": "VLC Media Player", "category": "Multimédia", "winget_id": "VideoLAN.VLC"},
+        {"name": "7-Zip", "category": "Compression", "winget_id": "7zip.7zip"},
+        {"name": "Malwarebytes", "category": "Sécurité", "winget_id": "Malwarebytes.Malwarebytes"},
+        {"name": "qBittorrent", "category": "Internet", "winget_id": "qBittorrent.qBittorrent"},
+        {"name": "Discord", "category": "Communication", "winget_id": "Discord.Discord"},
+        {"name": "Steam", "category": "Jeux", "winget_id": "Valve.Steam"},
+        {"name": "Visual Studio Code", "category": "Développement", "winget_id": "Microsoft.VisualStudioCode"}
+      ]
+    },
+
+    "master_install": {
+      "id": "master_install",
+      "name": "Master Install",
+      "emoji": "🎯",
+      "description": "Installation de packs pré-configurés d'applications en une seule fois",
+      "path": "src/v14_mvp/page_master_install.py",
+      "file_data": "data/custom_packs.json",
+      "features": {
+        "predefined_packs": "Packs Gaming, Bureautique, Développement, Médias, Sécurité",
+        "custom_packs": "Création de packs personnalisés",
+        "bulk_install": "Installation de tous les apps d'un pack simultanément",
+        "progress_tracking": "Barre de progression par app"
+      },
+      "packs": {
+        "gaming": {
+          "name": "Pack Gaming",
+          "apps_count": 14,
+          "apps": [
+            "Steam", "Epic Games Store", "EA App", "Brave", "qBittorrent",
+            "Malwarebytes", "Spybot", "AdwCleaner", "Wise Disk Cleaner",
+            "VLC", "Discord", "GOG Galaxy", "Rockstar Games Launcher", "MSI Afterburner"
+          ],
+          "duration": "15-20 minutes",
+          "size": "~5-8 GB"
+        },
+        "bureautique": {
+          "name": "Pack Bureautique",
+          "apps_count": 8,
+          "apps": [
+            "LibreOffice", "Adobe Acrobat Reader", "WPS Office", "OnlyOffice",
+            "Notepad++", "7-Zip", "Google Chrome", "Mozilla Firefox"
+          ],
+          "duration": "10-12 minutes",
+          "size": "~2-3 GB"
+        }
+      },
+      "common_tasks": [
+        {
+          "task": "Installer Pack Gaming",
+          "query_variants": ["pack gaming", "installer jeux", "steam discord"],
+          "steps": [
+            "Ouvrir Master Install (🎯)",
+            "Carte 'Pack Gaming'",
+            "Cliquer 'Installer le Pack'",
+            "Confirmer (14 applications)",
+            "Attendre fin (15-20 min)"
+          ],
+          "tips": [
+            "Le PC reste utilisable pendant l'installation",
+            "Installations en arrière-plan via WinGet",
+            "Logs disponibles dans page Logs"
+          ]
+        }
+      ]
+    },
+
+    "diagnostic": {
+      "id": "diagnostic",
+      "name": "Diagnostic",
+      "emoji": "🔍",
+      "description": "30+ outils de diagnostic intégrés pour tester hardware et performance",
+      "path": "src/v14_mvp/pages_full.py",
+      "features": {
+        "battery_test": "Test santé batterie laptop avec rapport HTML",
+        "disk_health": "CrystalDiskInfo pour santé disques SMART",
+        "temperature": "HWMonitor pour températures temps réel",
+        "hardware_info": "CPU-Z, GPU-Z pour specs détaillées",
+        "benchmarks": "CrystalDiskMark, OCCT pour tests performance",
+        "custom_apps": "Ajout d'apps diagnostics personnalisées"
+      },
+      "tools": [
+        {
+          "name": "Battery Test",
+          "category": "Hardware",
+          "description": "Test santé batterie laptop via PowerCfg",
+          "command": "powercfg /batteryreport",
+          "output_file": "temp/battery-report.html",
+          "metrics": [
+            "Design Capacity (mAh)",
+            "Full Charge Capacity (mAh)",
+            "Wear % = (1 - Full/Design) * 100",
+            "Charge Cycles"
+          ],
+          "interpretation": {
+            "good": "Wear < 10%",
+            "average": "Wear 10-30%",
+            "replace_soon": "Wear 30-50%",
+            "critical": "Wear > 50% - Remplacement urgent"
+          },
+          "typical_queries": ["ma batterie tient plus", "autonomie faible", "batterie morte"],
+          "laptop_only": true
+        },
+        {
+          "name": "CrystalDiskInfo",
+          "category": "Storage",
+          "description": "Santé disque dur/SSD via SMART monitoring",
+          "executable": "logiciel/CrystalDiskInfo.exe",
+          "metrics": [
+            "Health Status (Good/Caution/Bad)",
+            "Temperature (°C)",
+            "Power On Hours",
+            "Reallocated Sectors Count",
+            "Current Pending Sectors"
+          ],
+          "interpretation": {
+            "good": "Health 100%, température < 45°C",
+            "warning": "Caution ou température 45-55°C",
+            "critical": "Bad status ou température > 55°C - Backup immédiat"
+          },
+          "typical_queries": ["disque dur fait bruit", "ssd santé", "smart status", "pc lent"]
+        },
+        {
+          "name": "HWMonitor",
+          "category": "Monitoring",
+          "description": "Températures, voltages, vitesses ventilateurs en temps réel",
+          "executable": "logiciel/HWMonitor.exe",
+          "metrics": [
+            "CPU Temperature (°C)",
+            "GPU Temperature (°C)",
+            "Motherboard Temperature",
+            "Fan Speeds (RPM)",
+            "Voltages (V)"
+          ],
+          "normal_values": {
+            "cpu_idle": "35-50°C",
+            "cpu_load": "60-85°C",
+            "cpu_critical": "> 90°C",
+            "gpu_idle": "35-45°C",
+            "gpu_load": "60-80°C",
+            "gpu_critical": "> 85°C"
+          },
+          "typical_queries": ["température cpu", "pc chauffe", "ventilateur tourne fort", "throttling"]
+        },
+        {
+          "name": "CPU-Z",
+          "category": "Hardware Info",
+          "description": "Informations détaillées processeur, RAM, carte mère",
+          "executable": "logiciel/CPU-Z.exe",
+          "info_provided": [
+            "CPU: Modèle, génération, fréquence, cache",
+            "RAM: Type (DDR4/DDR5), fréquence, timings, dual-channel",
+            "Carte mère: Modèle, chipset, BIOS version",
+            "Benchmark: Score single/multi-thread"
+          ],
+          "typical_queries": ["quelle cpu j'ai", "ram fréquence", "carte mère modèle"]
+        },
+        {
+          "name": "GPU-Z",
+          "category": "Hardware Info",
+          "description": "Informations détaillées carte graphique",
+          "executable": "logiciel/GPU-Z.exe",
+          "info_provided": [
+            "GPU: Modèle, architecture, VRAM",
+            "Fréquences: Core, Memory, Boost",
+            "Températures et utilisation",
+            "Driver version"
+          ],
+          "typical_queries": ["quelle carte graphique", "vram combien", "driver version"]
+        },
+        {
+          "name": "CrystalDiskMark",
+          "category": "Benchmark",
+          "description": "Test vitesse lecture/écriture disques",
+          "executable": "logiciel/CrystalDiskMark.exe",
+          "metrics": [
+            "Sequential Read/Write (MB/s)",
+            "Random 4K Read/Write (MB/s)",
+            "Queue Depth performance"
+          ],
+          "expected_speeds": {
+            "nvme_gen4": "Read 5000-7000 MB/s, Write 4000-6000 MB/s",
+            "nvme_gen3": "Read 2000-3500 MB/s, Write 1500-3000 MB/s",
+            "sata_ssd": "Read 500-550 MB/s, Write 450-520 MB/s",
+            "hdd": "Read 100-200 MB/s, Write 80-180 MB/s"
+          },
+          "typical_queries": ["disque lent", "vitesse ssd", "benchmark stockage"]
+        },
+        {
+          "name": "OCCT",
+          "category": "Stress Test",
+          "description": "Tests stabilité CPU, GPU, PSU sous charge maximale",
+          "executable": "logiciel/OCCT.exe",
+          "tests": [
+            "CPU Test: Charge 100% tous cores",
+            "GPU Test: Charge 100% carte graphique",
+            "Power Test: Test alimentation",
+            "Memory Test: Test RAM"
+          ],
+          "duration": "10-30 minutes recommandé",
+          "warnings": [
+            "Températures vont monter significativement",
+            "Arrêter si > 95°C CPU ou > 90°C GPU",
+            "PC peut être bruyant (ventilateurs max)"
+          ],
+          "typical_queries": ["test stabilité", "overclock stable", "crash sous charge"]
+        }
+      ],
+      "workflows": {
+        "diagnostic_complet": {
+          "name": "Diagnostic Complet Système",
+          "duration": "15-20 minutes",
+          "steps": [
+            {"step": 1, "tool": "Battery Test", "if": "laptop", "duration": "1 min"},
+            {"step": 2, "tool": "CrystalDiskInfo", "action": "Vérifier Health Status disques", "duration": "2 min"},
+            {"step": 3, "tool": "HWMonitor", "action": "Surveiller températures idle", "duration": "2 min"},
+            {"step": 4, "tool": "CPU-Z / GPU-Z", "action": "Noter specs hardware", "duration": "5 min"},
+            {"step": 5, "tool": "CrystalDiskMark", "action": "Tester vitesse disques", "duration": "5 min"},
+            {"step": 6, "tool": "OCCT", "action": "Test stabilité 10 min (optionnel)", "duration": "10 min"}
+          ],
+          "typical_queries": ["diagnostic complet", "vérifier pc", "check hardware"]
+        },
+        "probleme_lenteur": {
+          "name": "Diagnostic PC Lent",
+          "duration": "10-15 minutes",
+          "steps": [
+            {"step": 1, "tool": "HWMonitor", "check": "Températures CPU/GPU (> 85°C = problème)"},
+            {"step": 2, "tool": "CrystalDiskInfo", "check": "Health disques (Caution/Bad = problème)"},
+            {"step": 3, "tool": "CrystalDiskMark", "check": "Vitesse disque (< 100 MB/s HDD ou < 400 MB/s SSD = problème)"},
+            {"step": 4, "action": "Task Manager", "check": "RAM > 90% ou CPU 100% constant"},
+            {"step": 5, "redirect": "ai_agents", "query": "PC lent, températures X°C, RAM Y% utilisée"}
+          ],
+          "typical_queries": ["pc lent", "ralentissements", "lag", "freeze"]
+        },
+        "probleme_surchauffe": {
+          "name": "Diagnostic Surchauffe",
+          "steps": [
+            {"step": 1, "tool": "HWMonitor", "check": "Températures actuelles"},
+            {"step": 2, "analysis": "CPU > 90°C ou GPU > 85°C = Surchauffe confirmée"},
+            {"step": 3, "solutions": [
+              "Nettoyer ventilateurs (bombe air comprimé)",
+              "Vérifier pâte thermique (si > 2 ans)",
+              "Améliorer airflow boîtier",
+              "Optimisations → Limiter boost CPU/GPU"
+            ]}
+          ],
+          "typical_queries": ["pc chauffe", "température élevée", "ventilateur bruyant", "throttling"]
+        }
+      }
+    },
+
+    "updates": {
+      "id": "updates",
+      "name": "Mises à jour",
+      "emoji": "⬆️",
+      "description": "Installation Windows Update et drivers (NVIDIA, AMD, Intel, USB, Chipset, Bluetooth, Imprimantes)",
+      "path": "src/v14_mvp/pages_full.py",
+      "features": {
+        "windows_update": "Installation automatique mises à jour Windows",
+        "driver_nvidia": "Drivers NVIDIA GeForce (auto-détection GPU)",
+        "driver_amd_gpu": "Drivers AMD Radeon",
+        "driver_amd_chipset": "Drivers AMD Chipset pour Ryzen",
+        "driver_intel_gpu": "Drivers Intel Graphics",
+        "driver_individual": "Installation drivers individuels (USB, Chipset, Bluetooth, Imprimantes)",
+        "bios_links": "Liens fabricants pour BIOS/UEFI"
+      },
+      "drivers": {
+        "nvidia": {
+          "name": "NVIDIA GeForce Drivers",
+          "url": "https://www.nvidia.com/Download/index.aspx",
+          "detection": "Auto-détecte modèle GPU via wmi",
+          "install_method": "Téléchargement + installation automatique",
+          "typical_queries": ["driver nvidia", "geforce", "rtx driver"]
+        },
+        "amd_gpu": {
+          "name": "AMD Radeon Software",
+          "url": "https://www.amd.com/en/support",
+          "models": ["RX 6000 Series", "RX 7000 Series", "RX 5000 Series"],
+          "typical_queries": ["driver amd", "radeon", "rx 7900"]
+        },
+        "individual": {
+          "usb": "Drivers contrôleurs USB (si périphériques non reconnus)",
+          "chipset": "Drivers chipset carte mère (améliore stabilité)",
+          "bluetooth": "Drivers Bluetooth (si connexion impossible)",
+          "printers": "Drivers imprimantes (si impression ne fonctionne pas)"
+        }
+      },
+      "common_tasks": [
+        {
+          "task": "Installer driver NVIDIA",
+          "query_variants": ["driver nvidia", "geforce update", "rtx driver"],
+          "steps": [
+            "Ouvrir Updates (⬆️)",
+            "Section 'Drivers Graphiques'",
+            "Cliquer 'NVIDIA GeForce'",
+            "Attendre détection GPU automatique",
+            "Confirmer installation",
+            "Redémarrer après installation"
+          ],
+          "duration": "5-10 minutes",
+          "size": "~700-900 MB"
+        },
+        {
+          "task": "Installer tous drivers",
+          "query_variants": ["tous drivers", "drivers complets", "fresh install drivers"],
+          "steps": [
+            "Updates → 'Installer Tous Drivers'",
+            "Confirmer (NVIDIA + Chipset + USB + Bluetooth)",
+            "Attendre fin (10-15 min)",
+            "Redémarrer PC"
+          ],
+          "when": "Après installation Windows fraîche"
+        }
+      ]
+    },
+
+    "optimizations": {
+      "id": "optimizations",
+      "name": "Optimisations",
+      "emoji": "⚡",
+      "description": "Nettoyage système, défragmentation, désactivation services, réparation Windows",
+      "path": "src/v14_mvp/pages_full.py",
+      "features": {
+        "cleanup": "Nettoyage fichiers temporaires, cache, corbeille",
+        "defrag": "Défragmentation HDD / TRIM SSD automatique",
+        "services": "Désactivation services Windows inutiles",
+        "startup": "Optimisation démarrage automatique",
+        "animations": "Désactivation animations Windows (gain FPS)",
+        "repair": "SFC, DISM, CHKDSK pour réparation système"
+      },
+      "optimizations": [
+        {
+          "name": "Nettoyage Système",
+          "description": "Supprime temp, cache, corbeille, logs",
+          "space_freed": "500 MB - 10 GB typique",
+          "duration": "2-5 minutes",
+          "safe": true,
+          "typical_queries": ["nettoyer pc", "libérer espace", "supprimer temp"]
+        },
+        {
+          "name": "Défragmentation / TRIM",
+          "description": "HDD: Défragmente. SSD: Execute TRIM",
+          "when": "HDD: Mensuel. SSD: Automatique Windows",
+          "duration": "10-60 minutes selon taille",
+          "typical_queries": ["défragmenter", "optimiser disque"]
+        },
+        {
+          "name": "Désactiver Services Inutiles",
+          "description": "Arrête services Windows non essentiels",
+          "services_list": [
+            "Xbox Game Bar", "Telemetry", "Windows Search (si SSD)",
+            "Superfetch (si SSD)", "Print Spooler (si pas imprimante)"
+          ],
+          "ram_freed": "200-500 MB",
+          "typical_queries": ["désactiver services", "optimiser ram"]
+        },
+        {
+          "name": "Désactiver Animations",
+          "description": "Désactive effets visuels Windows",
+          "fps_gain": "+5-15 FPS en jeu (selon config)",
+          "typical_queries": ["fps boost", "optimiser gaming", "désactiver effets"]
+        },
+        {
+          "name": "Réparation Système (SFC + DISM)",
+          "description": "Répare fichiers système corrompus",
+          "commands": [
+            "sfc /scannow",
+            "DISM /Online /Cleanup-Image /RestoreHealth"
+          ],
+          "duration": "15-30 minutes",
+          "when": "Erreurs Windows, instabilités, BSODs",
+          "typical_queries": ["réparer windows", "sfc", "dism", "erreur système"]
+        }
+      ]
+    },
+
+    "terminal": {
+      "id": "terminal",
+      "name": "Terminal",
+      "emoji": "⚡",
+      "description": "6 terminaux intégrés: CMD, PowerShell, Git Bash, WSL, Azure Cloud Shell",
+      "path": "src/v14_mvp/page_terminal.py",
+      "terminals": [
+        {
+          "name": "CMD",
+          "description": "Windows Command Prompt classique",
+          "typical_uses": ["dir", "cd", "ipconfig", "ping", "tracert"]
+        },
+        {
+          "name": "PowerShell",
+          "description": "PowerShell moderne (7+)",
+          "typical_uses": ["Get-Process", "systeminfo", "Test-Connection"]
+        },
+        {
+          "name": "Windows PowerShell",
+          "description": "PowerShell 5.1 legacy",
+          "typical_uses": ["Scripts Windows anciens"]
+        },
+        {
+          "name": "Git Bash",
+          "description": "Terminal Unix-like pour Windows",
+          "typical_uses": ["git", "ls", "grep", "ssh"]
+        },
+        {
+          "name": "WSL (Ubuntu)",
+          "description": "Windows Subsystem for Linux",
+          "requirement": "WSL doit être installé",
+          "typical_uses": ["apt", "bash scripts", "linux tools"]
+        },
+        {
+          "name": "Azure Cloud Shell",
+          "description": "Terminal Azure dans le cloud",
+          "requirement": "Compte Microsoft Azure",
+          "typical_uses": ["az commands", "cloud management"]
+        }
+      ],
+      "features": {
+        "history": "Flèches haut/bas pour historique commandes",
+        "timeout": "30 secondes par défaut (configurable)",
+        "async": "Exécution asynchrone (non-bloquant)",
+        "colors": "Sortie colorée (stdout vert, stderr rouge)"
+      }
+    },
+
+    "ai_agents": {
+      "id": "ai_agents",
+      "name": "Agents IA",
+      "emoji": "🤖",
+      "description": "Agent IA expert avec 143 catégories techniques, 5000+ tips, support Ollama/Gemini/GPT-4",
+      "path": "src/v14_mvp/page_ai_agents.py",
+      "knowledge_base": "src/v14_mvp/ai_knowledge_unified.py",
+      "features": {
+        "knowledge": "143 catégories techniques, 5000+ expert tips",
+        "apis": "Google Gemini, OpenAI GPT-4, Anthropic Claude, Ollama (local)",
+        "rag": "Web search intégré (DuckDuckGo)",
+        "memory": "Historique conversations multi-sessions",
+        "learning": "Feedback system pour amélioration continue"
+      },
+      "capabilities": [
+        "Troubleshooting hardware (CPU, GPU, RAM, stockage)",
+        "Optimisations gaming (FPS, latence, settings)",
+        "Diagnostics Windows (BSOD, erreurs, crashes)",
+        "Conseils overclocking",
+        "Recommandations hardware (build PC)",
+        "Résolution problèmes réseau",
+        "Sécurité et antivirus",
+        "NiTriTe guidance (quelle page, quel outil)"
+      ],
+      "typical_queries": [
+        "Mon PC est lent, que faire?",
+        "Quelle carte graphique acheter pour 1440p gaming?",
+        "Comment overclocker RAM DDR5?",
+        "BSOD MEMORY_MANAGEMENT, solution?",
+        "Optimiser Windows 11 pour gaming?",
+        "Quelle température normale CPU?",
+        "Comment installer driver NVIDIA avec NiTriTe?"
+      ]
+    },
+
+    "settings": {
+      "id": "settings",
+      "name": "Paramètres",
+      "emoji": "⚙️",
+      "description": "Thèmes UI, personnalisation complète, statistiques application",
+      "path": "src/v14_mvp/pages_settings.py",
+      "features": {
+        "themes": "4 thèmes pré-configurés + personnalisation complète",
+        "colors": "Couleurs primary, secondary, accent personnalisables",
+        "fonts": "Famille, taille de police",
+        "stats": "Statistiques (716 apps, 168 portables, 5000 tips IA)",
+        "website": "Lien site web NiTriTe"
+      },
+      "themes": [
+        {"name": "Bleu Professionnel", "description": "Thème par défaut, élégant"},
+        {"name": "Vert Tech", "description": "Style Matrix, moderne"},
+        {"name": "Orange Énergie", "description": "Dynamique, punchy"},
+        {"name": "Violet Moderne", "description": "Élégant, premium"}
+      ]
+    }
+  },
+
+  "workflows": [
+    {
+      "id": "fresh_windows_install",
+      "name": "Installation Windows Fraîche - Workflow Complet",
+      "description": "Guide pas-à-pas après installation Windows 10/11",
+      "duration": "30-45 minutes",
+      "difficulty": "facile",
+      "steps": [
+        {
+          "step": 1,
+          "page": "master_install",
+          "action": "Installer Pack Bureautique",
+          "apps": ["LibreOffice", "Adobe Reader", "WPS Office", "Notepad++", "7-Zip", "Chrome"],
+          "why": "Suite bureautique complète gratuite pour démarrer",
+          "duration": "10-12 min"
+        },
+        {
+          "step": 2,
+          "page": "updates",
+          "action": "Installer tous drivers",
+          "details": "NVIDIA/AMD GPU + Chipset + USB + Bluetooth",
+          "why": "Matériel fonctionnel et performant dès le début",
+          "duration": "10-15 min"
+        },
+        {
+          "step": 3,
+          "page": "optimizations",
+          "action": "Nettoyage système + Désactiver animations",
+          "why": "Windows plus rapide et réactif",
+          "duration": "5 min"
+        },
+        {
+          "step": 4,
+          "page": "diagnostic",
+          "action": "Battery Test (laptop) + HWMonitor",
+          "why": "Vérifier santé matériel baseline",
+          "duration": "5 min"
+        },
+        {
+          "step": 5,
+          "page": "ai_agents",
+          "action": "Demander optimisations personnalisées",
+          "query_example": "Comment optimiser Windows 11 pour gaming avec mon matériel?",
+          "why": "Conseils adaptés à votre configuration spécifique",
+          "duration": "5 min"
+        }
+      ],
+      "typical_queries": ["fresh install", "nouveau windows", "après installation windows", "que faire nouveau pc"]
+    },
+    {
+      "id": "gaming_optimization",
+      "name": "Optimisation PC Gaming",
+      "description": "Maximiser FPS et réduire latence",
+      "duration": "15-20 minutes",
+      "difficulty": "intermédiaire",
+      "steps": [
+        {
+          "step": 1,
+          "page": "updates",
+          "action": "Installer dernier driver GPU",
+          "why": "Optimisations jeux récents (+5-10 FPS typique)"
+        },
+        {
+          "step": 2,
+          "page": "optimizations",
+          "action": "Désactiver animations + Services inutiles",
+          "why": "Libère RAM et CPU (+5-15 FPS)"
+        },
+        {
+          "step": 3,
+          "page": "diagnostic",
+          "action": "HWMonitor pendant jeu",
+          "why": "Vérifier pas de throttling thermique"
+        },
+        {
+          "step": 4,
+          "page": "ai_agents",
+          "action": "Demander settings in-game optimaux",
+          "query_example": "Meilleurs settings Cyberpunk 2077 pour RTX 4070 1440p 144Hz?",
+          "why": "Balance qualité/FPS optimale"
+        }
+      ],
+      "typical_queries": ["optimiser gaming", "améliorer fps", "jeu lag", "réduire latence"]
+    },
+    {
+      "id": "troubleshooting_pc_lent",
+      "name": "Diagnostic et Résolution PC Lent",
+      "description": "Identifier et résoudre ralentissements",
+      "duration": "20-30 minutes",
+      "difficulty": "intermédiaire",
+      "steps": [
+        {
+          "step": 1,
+          "page": "diagnostic",
+          "tool": "HWMonitor",
+          "check": "Températures CPU/GPU (> 85°C = problème thermique)"
+        },
+        {
+          "step": 2,
+          "page": "diagnostic",
+          "tool": "CrystalDiskInfo",
+          "check": "Health disques (Caution/Bad = disque défaillant)"
+        },
+        {
+          "step": 3,
+          "page": "diagnostic",
+          "tool": "CrystalDiskMark",
+          "check": "Vitesse disque (< 100 MB/s HDD ou < 400 MB/s SSD = problème)"
+        },
+        {
+          "step": 4,
+          "action": "Task Manager",
+          "check": "RAM > 90% OU CPU 100% constant = saturation"
+        },
+        {
+          "step": 5,
+          "page": "ai_agents",
+          "action": "Rapport complet à l'IA",
+          "query_example": "PC lent, températures CPU 85°C, RAM 92%, disque HDD 80 MB/s. Que faire?",
+          "why": "Diagnostic et solutions personnalisées"
+        },
+        {
+          "step": 6,
+          "page": "optimizations",
+          "action": "Appliquer solutions recommandées",
+          "examples": ["Nettoyage si disque plein", "Désactiver services si RAM haute", "Améliorer refroidissement si température haute"]
+        }
+      ],
+      "typical_queries": ["pc lent", "ralentissements", "lag", "freeze", "ordinateur rame"]
+    }
+  ],
+
+  "query_mapping": {
+    "installer": ["applications", "master_install"],
+    "télécharger": ["applications", "portables"],
+    "portable": ["portables"],
+    "pack": ["master_install"],
+    "driver": ["updates"],
+    "mise à jour": ["updates"],
+    "update": ["updates"],
+    "backup": ["backup"],
+    "sauvegarde": ["backup"],
+    "nettoyer": ["optimizations"],
+    "optimiser": ["optimizations"],
+    "optimisation": ["optimizations"],
+    "diagnostic": ["diagnostic"],
+    "test": ["diagnostic"],
+    "batterie": ["diagnostic"],
+    "température": ["diagnostic"],
+    "chaleur": ["diagnostic"],
+    "script": ["scripts"],
+    "terminal": ["terminal"],
+    "cmd": ["terminal"],
+    "powershell": ["terminal"],
+    "bash": ["terminal"],
+    "ia": ["ai_agents"],
+    "aide": ["ai_agents"],
+    "question": ["ai_agents"],
+    "thème": ["settings"],
+    "couleur": ["settings"],
+    "paramètres": ["settings"]
+  }
+}
