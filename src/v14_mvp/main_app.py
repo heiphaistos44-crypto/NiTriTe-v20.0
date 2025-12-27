@@ -61,7 +61,7 @@ def resource_path(relative_path):
     return os.path.abspath(os.path.join(base_path, relative_path))
 
 from v14_mvp.design_system import DesignTokens, ModernColors, ThemePalettes
-from v14_mvp.navigation import ModernNavigation
+from v14_mvp.navigation_colored import ModernNavigationColored
 from v14_mvp.pages_simple import SimplePlaceholderPage
 from v14_mvp.pages_optimized import OptimizedApplicationsPage, OptimizedToolsPage
 from v14_mvp.pages_settings import SettingsPage
@@ -216,8 +216,8 @@ class NiTriTeV18(ctk.CTk):
         main_container = ctk.CTkFrame(self, fg_color=DesignTokens.BG_PRIMARY)
         main_container.pack(fill=tk.BOTH, expand=True)
         
-        # Navigation
-        self.navigation = ModernNavigation(
+        # Navigation avec icônes colorées
+        self.navigation = ModernNavigationColored(
             main_container,
             on_page_change=self._show_page
         )

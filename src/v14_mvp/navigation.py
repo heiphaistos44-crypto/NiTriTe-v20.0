@@ -118,19 +118,19 @@ class ModernNavigation(ctk.CTkFrame):
     def _create_nav_buttons(self):
         """Créer boutons navigation"""
         pages = [
-            ("applications", "📱", "Applications"),
-            ("tools", "🔧", "Outils"),
-            ("master_install", "📦", "Master Install"),
-            ("portables", "💾", "Apps Portables"),
-            ("os_downloads", "💿", "OS & USB Tools"),
-            ("terminal", "⌨️", "Terminal"),
-            ("updates", "🔄", "Mises à jour"),
-            ("backup", "💾", "Sauvegarde"),
-            ("optimizations", "⚡", "Optimisations"),
-            ("diagnostic", "🔍", "Diagnostic"),
-            ("logs", "📋", "Logs"),
-            ("scripts", "📜", "Scripts Windows"),
-            ("ai_agents", "🤖", "Agents IA"),
+            ("applications", "💻", "Applications"),
+            ("tools", "🛠️", "Outils"),
+            ("master_install", "🎯", "Master Install"),
+            ("portables", "📦", "Apps Portables"),
+            ("os_downloads", "🔌", "OS & USB Tools"),
+            ("terminal", "⚡", "Terminal"),
+            ("updates", "⬆️", "Mises à jour"),
+            ("backup", "💼", "Sauvegarde"),
+            ("optimizations", "🚀", "Optimisations"),
+            ("diagnostic", "🔬", "Diagnostic"),
+            ("logs", "📝", "Logs"),
+            ("scripts", "🪟", "Scripts Windows"),
+            ("ai_agents", "🧠", "Agents IA"),
             ("settings", "⚙️", "Paramètres"),
         ]
         

@@ -123,9 +123,19 @@ class OSDownloadsPage(ctk.CTkFrame):
         )
         self.usb_tools_arrow.pack(side=tk.LEFT, padx=(0, 10))
 
+        # Icône colorée
+        try:
+            from v14_mvp.icons_system import ColoredIconsManager
+            icon_img = ColoredIconsManager.create_colored_icon("🔧", size=20)
+            icon_lbl = ctk.CTkLabel(title_frame, image=icon_img, text="")
+            icon_lbl.image = icon_img
+            icon_lbl.pack(side=tk.LEFT, padx=(0, 10))
+        except:
+            pass
+
         title = ctk.CTkLabel(
             title_frame,
-            text=" Outils de Création USB Bootable",
+            text="Outils de Création USB Bootable",
             font=(DesignTokens.FONT_FAMILY, 18, "bold"),
             text_color="#FFFFFF"
         )
@@ -306,9 +316,19 @@ class OSDownloadsPage(ctk.CTkFrame):
         )
         self.windows_arrow.pack(side=tk.LEFT, padx=(0, 10))
 
+        # Icône colorée
+        try:
+            from v14_mvp.icons_system import ColoredIconsManager
+            icon_img = ColoredIconsManager.create_colored_icon("🪟", size=20)
+            icon_lbl = ctk.CTkLabel(title_frame, image=icon_img, text="")
+            icon_lbl.image = icon_img
+            icon_lbl.pack(side=tk.LEFT, padx=(0, 10))
+        except:
+            pass
+
         title = ctk.CTkLabel(
             title_frame,
-            text="🪟 Windows",
+            text="Windows",
             font=(DesignTokens.FONT_FAMILY, 18, "bold"),
             text_color="#FFFFFF"
         )
@@ -357,9 +377,21 @@ class OSDownloadsPage(ctk.CTkFrame):
         )
         self.linux_arrow.pack(side=tk.LEFT, padx=(0, 10))
 
+        # Icône colorée
+        try:
+            from v14_mvp.icons_system import ColoredIconsManager
+            icon_img = ColoredIconsManager.create_colored_icon("🐧", size=20)
+            icon_lbl = ctk.CTkLabel(title_frame, image=icon_img, text="")
+            icon_lbl.image = icon_img
+            icon_lbl.pack(side=tk.LEFT, padx=(0, 10))
+        except Exception as e:
+            print(f"ERREUR icone coloree Linux: {e}")
+            import traceback
+            traceback.print_exc()
+
         title = ctk.CTkLabel(
             title_frame,
-            text=" Linux",
+            text="Linux",
             font=(DesignTokens.FONT_FAMILY, 18, "bold"),
             text_color="#FFFFFF"
         )
@@ -417,9 +449,21 @@ class OSDownloadsPage(ctk.CTkFrame):
         )
         self.macos_arrow.pack(side=tk.LEFT, padx=(0, 10))
 
+        # Icône colorée
+        try:
+            from v14_mvp.icons_system import ColoredIconsManager
+            icon_img = ColoredIconsManager.create_colored_icon("🍎", size=20)
+            icon_lbl = ctk.CTkLabel(title_frame, image=icon_img, text="")
+            icon_lbl.image = icon_img
+            icon_lbl.pack(side=tk.LEFT, padx=(0, 10))
+        except Exception as e:
+            print(f"ERREUR icone coloree macOS: {e}")
+            import traceback
+            traceback.print_exc()
+
         title = ctk.CTkLabel(
             title_frame,
-            text=" macOS",
+            text="macOS",
             font=(DesignTokens.FONT_FAMILY, 18, "bold"),
             text_color="#FFFFFF"
         )
@@ -480,9 +524,21 @@ class OSDownloadsPage(ctk.CTkFrame):
         )
         self.other_os_arrow.pack(side=tk.LEFT, padx=(0, 10))
 
+        # Icône colorée
+        try:
+            from v14_mvp.icons_system import ColoredIconsManager
+            icon_img = ColoredIconsManager.create_colored_icon("💿", size=20)
+            icon_lbl = ctk.CTkLabel(title_frame, image=icon_img, text="")
+            icon_lbl.image = icon_img
+            icon_lbl.pack(side=tk.LEFT, padx=(0, 10))
+        except Exception as e:
+            print(f"ERREUR icone coloree Autres OS: {e}")
+            import traceback
+            traceback.print_exc()
+
         title = ctk.CTkLabel(
             title_frame,
-            text=" Autres Systèmes d'Exploitation",
+            text="Autres Systèmes d'Exploitation",
             font=(DesignTokens.FONT_FAMILY, 18, "bold"),
             text_color="#FFFFFF"
         )

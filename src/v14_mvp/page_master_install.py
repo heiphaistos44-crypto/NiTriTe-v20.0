@@ -397,14 +397,6 @@ class MasterInstallPage(ctk.CTkFrame):
 
         ModernButton(
             right_frame,
-            text=f"{get_category_emoji('Outils OrdiPlus')} Gérer OrdiPlus",
-            variant="outlined",
-            size="md",
-            command=self._manage_ordiplus
-        ).pack(side=tk.LEFT, padx=5)
-
-        ModernButton(
-            right_frame,
             text=" Installer Tout",
             variant="filled",
             command=self._install_all
@@ -430,21 +422,53 @@ class MasterInstallPage(ctk.CTkFrame):
         header_content = ctk.CTkFrame(header, fg_color="transparent")
         header_content.pack(fill=tk.X, padx=15, pady=12)
 
+        # Gauche - Titre et description
+        left_header = ctk.CTkFrame(header_content, fg_color="transparent")
+        left_header.pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        # Frame pour icône + titre
+        title_frame = ctk.CTkFrame(left_header, fg_color="transparent")
+        title_frame.pack(anchor="w")
+
+        # Icône colorée
+        try:
+            from v14_mvp.icons_system import ColoredIconsManager
+            icon_img = ColoredIconsManager.create_colored_icon("🔧", size=20)
+            icon_lbl = ctk.CTkLabel(title_frame, image=icon_img, text="")
+            icon_lbl.image = icon_img
+            icon_lbl.pack(side=tk.LEFT, padx=(0, 10))
+        except Exception as e:
+            print(f"ERREUR icone coloree OrdiPlus: {e}")
+            import traceback
+            traceback.print_exc()
+
         title = ctk.CTkLabel(
-            header_content,
-            text=" OrdiPlus - Pack Professionnel",
+            title_frame,
+            text="OrdiPlus - Pack Professionnel",
             font=(DesignTokens.FONT_FAMILY, 18, "bold"),
             text_color="#FFFFFF"
         )
-        title.pack(anchor="w")
+        title.pack(side=tk.LEFT)
 
         desc = ctk.CTkLabel(
-            header_content,
+            left_header,
             text="Pack complet pour maintenance professionnelle",
             font=(DesignTokens.FONT_FAMILY, DesignTokens.FONT_SIZE_SM),
             text_color="#FFFFFF"
         )
         desc.pack(anchor="w", pady=(5, 0))
+
+        # Droite - Bouton Gérer
+        btn_frame = ctk.CTkFrame(header_content, fg_color="transparent")
+        btn_frame.pack(side=tk.RIGHT)
+
+        ModernButton(
+            btn_frame,
+            text=f"{get_category_emoji('Outils OrdiPlus')} Gérer OrdiPlus",
+            variant="outlined",
+            size="md",
+            command=self._manage_ordiplus
+        ).pack()
 
         # Liste apps
         apps_frame = ctk.CTkFrame(
@@ -492,12 +516,28 @@ class MasterInstallPage(ctk.CTkFrame):
                     height=20
                 ).pack()
 
+                # Frame pour icône + titre
+                packs_title_frame = ctk.CTkFrame(scroll, fg_color="transparent")
+                packs_title_frame.pack(anchor="w", pady=(10, 15))
+
+                # Icône colorée
+                try:
+                    from v14_mvp.icons_system import ColoredIconsManager
+                    icon_img = ColoredIconsManager.create_colored_icon("📦", size=20)
+                    icon_lbl = ctk.CTkLabel(packs_title_frame, image=icon_img, text="")
+                    icon_lbl.image = icon_img
+                    icon_lbl.pack(side=tk.LEFT, padx=(0, 10))
+                except Exception as e:
+                    print(f"ERREUR icone coloree Packs Personnalisés: {e}")
+                    import traceback
+                    traceback.print_exc()
+
                 ctk.CTkLabel(
-                    scroll,
-                    text=" Packs Personnalisés",
+                    packs_title_frame,
+                    text="Packs Personnalisés",
                     font=(DesignTokens.FONT_FAMILY, 20, "bold"),
                     text_color=DesignTokens.TEXT_PRIMARY
-                ).pack(anchor="w", pady=(10, 15))
+                ).pack(side=tk.LEFT)
 
                 # Créer une carte pour chaque pack personnalisé
                 for pack_name, pack_data in self.custom_packs.items():
@@ -531,13 +571,29 @@ class MasterInstallPage(ctk.CTkFrame):
         left_header = ctk.CTkFrame(header_content, fg_color="transparent")
         left_header.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
+        # Frame pour icône + titre
+        pack_title_frame = ctk.CTkFrame(left_header, fg_color="transparent")
+        pack_title_frame.pack(anchor="w")
+
+        # Icône colorée
+        try:
+            from v14_mvp.icons_system import ColoredIconsManager
+            icon_img = ColoredIconsManager.create_colored_icon("📋", size=20)
+            icon_lbl = ctk.CTkLabel(pack_title_frame, image=icon_img, text="")
+            icon_lbl.image = icon_img
+            icon_lbl.pack(side=tk.LEFT, padx=(0, 10))
+        except Exception as e:
+            print(f"ERREUR icone coloree pack {pack_name}: {e}")
+            import traceback
+            traceback.print_exc()
+
         title = ctk.CTkLabel(
-            left_header,
-            text=f" {pack_name}",
+            pack_title_frame,
+            text=pack_name,
             font=(DesignTokens.FONT_FAMILY, 18, "bold"),
             text_color="#FFFFFF"
         )
-        title.pack(anchor="w")
+        title.pack(side=tk.LEFT)
 
         desc = ctk.CTkLabel(
             left_header,

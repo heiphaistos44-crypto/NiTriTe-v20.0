@@ -22,6 +22,13 @@ import sys
 import requests
 from pathlib import Path
 
+# ACTIVER LES ICÔNES COLORÉES
+try:
+    import v14_mvp.auto_color_icons
+    print("Icones colorees activees pour pages_optimized.py")
+except:
+    pass
+
 
 def is_admin():
     """Vérifier si l'application a les droits administrateur"""
@@ -229,7 +236,7 @@ class OptimizedApplicationsPage(ctk.CTkFrame):
             self._create_category_section(category_name, apps)
     
     def _create_category_section(self, category_name, apps):
-        """Créer une section de catégorie repliable"""
+        """Créer une section de catégorie repliable avec icône colorée"""
         # Card pour la catégorie
         card = ctk.CTkFrame(
             self.grid_container,
@@ -237,36 +244,71 @@ class OptimizedApplicationsPage(ctk.CTkFrame):
             corner_radius=DesignTokens.RADIUS_MD
         )
         card.pack(fill=tk.X, pady=5)
-        
+
         # Container pour apps (caché par défaut)
         apps_container = ctk.CTkFrame(card, fg_color="transparent")
         apps_container.pack_forget()
-        
+
         # État de la catégorie
         category_state = {
             'container': apps_container,
             'visible': False,
             'apps': apps
         }
-        
-        # Header cliquable avec emoji
+
+        # Header cliquable avec icône colorée
         emoji = get_category_emoji(category_name)
-        header = ctk.CTkButton(
+        print(f"DEBUG: Creation header pour '{category_name}' avec emoji '{emoji}'")
+
+        # Frame cliquable pour le header
+        header_frame = ctk.CTkFrame(
             card,
-            text=f"{emoji} {category_name} ({len(apps)} applications) ▶",
-            command=lambda: self._toggle_category(card, category_state, category_name),
             fg_color="transparent",
-            hover_color=DesignTokens.BG_HOVER,
-            text_color=DesignTokens.ACCENT_PRIMARY,
-            font=(DesignTokens.FONT_FAMILY, 16, "bold"),
-            anchor="w",
             corner_radius=0,
             height=50
         )
-        header.pack(fill=tk.X, padx=10, pady=5)
-        
-        # Stocker header pour mise à jour texte
-        category_state['header'] = header
+        header_frame.pack(fill=tk.X, padx=10, pady=5)
+
+        # Rendre le frame cliquable
+        header_frame.bind("<Button-1>", lambda e: self._toggle_category(card, category_state, category_name))
+
+        # Container horizontal pour icône + texte
+        content_frame = ctk.CTkFrame(header_frame, fg_color="transparent")
+        content_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        content_frame.bind("<Button-1>", lambda e: self._toggle_category(card, category_state, category_name))
+
+        # Icône colorée
+        try:
+            from v14_mvp.icons_system import ColoredIconsManager
+            icon_image = ColoredIconsManager.create_colored_icon(emoji, size=24)
+            icon_label = ctk.CTkLabel(
+                content_frame,
+                image=icon_image,
+                text=""
+            )
+            icon_label.image = icon_image
+            icon_label.pack(side=tk.LEFT, padx=(0, 10))
+            icon_label.bind("<Button-1>", lambda e: self._toggle_category(card, category_state, category_name))
+        except Exception as e:
+            print(f"ERREUR icone coloree pour {category_name}: {e}")
+            import traceback
+            traceback.print_exc()
+
+        # Texte du header
+        header_text = ctk.CTkLabel(
+            content_frame,
+            text=f"{category_name} ({len(apps)} applications) ▶",
+            font=(DesignTokens.FONT_FAMILY, 16, "bold"),
+            text_color=DesignTokens.ACCENT_PRIMARY,
+            anchor="w"
+        )
+        header_text.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        header_text.bind("<Button-1>", lambda e: self._toggle_category(card, category_state, category_name))
+
+        # Stocker pour mise à jour
+        category_state['header_frame'] = header_frame
+        category_state['header_text'] = header_text
+        category_state['emoji'] = emoji
     
     def _toggle_category(self, card, category_state, category_name):
         """Basculer affichage catégorie"""
@@ -274,8 +316,7 @@ class OptimizedApplicationsPage(ctk.CTkFrame):
             # Cacher
             category_state['container'].pack_forget()
             category_state['visible'] = False
-            emoji = get_category_emoji(category_name)
-            category_state['header'].configure(text=f"{emoji} {category_name} ({len(category_state['apps'])} applications) ▶")
+            category_state['header_text'].configure(text=f"{category_name} ({len(category_state['apps'])} applications) ▶")
         else:
             # Afficher
             # Clear container
@@ -302,8 +343,7 @@ class OptimizedApplicationsPage(ctk.CTkFrame):
 
             category_state['container'].pack(fill=tk.X, padx=5, pady=(0, 10))
             category_state['visible'] = True
-            emoji = get_category_emoji(category_name)
-            category_state['header'].configure(text=f"{emoji} {category_name} ({len(category_state['apps'])} applications) ▼")
+            category_state['header_text'].configure(text=f"{category_name} ({len(category_state['apps'])} applications) ▼")
     
     def _create_app_card_in_grid(self, parent, app, row, col):
         """Créer carte app dans grille"""

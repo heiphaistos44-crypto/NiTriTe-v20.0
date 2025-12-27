@@ -20,7 +20,7 @@ class DesignTokens:
     ACCENT_PRIMARY = "#ff6b35"   # Orange principal
     ACCENT_HOVER = "#ff8555"     # Orange hover
     ACCENT_PRESSED = "#ff5020"   # Orange pressed
-    ACCENT_SUBTLE = "#ff6b3520"  # Orange transparent
+    ACCENT_SUBTLE = "#ff6b35"    # Orange (sans transparence)
     
     # Texte
     TEXT_PRIMARY = "#ffffff"     # Blanc pur
@@ -75,31 +75,31 @@ class ThemePalettes:
             "ACCENT_PRIMARY": "#ff6b35",
             "ACCENT_HOVER": "#ff8555",
             "ACCENT_PRESSED": "#ff5020",
-            "ACCENT_SUBTLE": "#ff6b3520"
+            "ACCENT_SUBTLE": "#ff6b35"
         },
         "Bleu Pro": {
             "ACCENT_PRIMARY": "#2196f3",
             "ACCENT_HOVER": "#42a5f5",
             "ACCENT_PRESSED": "#1976d2",
-            "ACCENT_SUBTLE": "#2196f320"
+            "ACCENT_SUBTLE": "#2196f3"
         },
         "Vert Tech": {
             "ACCENT_PRIMARY": "#4caf50",
             "ACCENT_HOVER": "#66bb6a",
             "ACCENT_PRESSED": "#388e3c",
-            "ACCENT_SUBTLE": "#4caf5020"
+            "ACCENT_SUBTLE": "#4caf50"
         },
         "Violet Creative": {
             "ACCENT_PRIMARY": "#9c27b0",
             "ACCENT_HOVER": "#ab47bc",
             "ACCENT_PRESSED": "#7b1fa2",
-            "ACCENT_SUBTLE": "#9c27b020"
+            "ACCENT_SUBTLE": "#9c27b0"
         },
         "Rouge Energy": {
             "ACCENT_PRIMARY": "#f44336",
             "ACCENT_HOVER": "#e57373",
             "ACCENT_PRESSED": "#d32f2f",
-            "ACCENT_SUBTLE": "#f4433620"
+            "ACCENT_SUBTLE": "#f44336"
         }
     }
 

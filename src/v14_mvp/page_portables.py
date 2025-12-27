@@ -208,38 +208,73 @@ class PortableAppsPage(ctk.CTkFrame):
             self._create_category_section(category_name, apps)
     
     def _create_category_section(self, category_name, apps):
-        """Créer section de catégorie repliable"""
+        """Créer section de catégorie repliable avec icône colorée"""
         card = ModernCard(self.content_container)
         card.pack(fill=tk.X, pady=5)
-        
+
         # Container pour apps (caché par défaut)
         apps_container = ctk.CTkFrame(card, fg_color="transparent")
         apps_container.pack_forget()
-        
+
         # État
         category_state = {
             'container': apps_container,
             'visible': False,
             'apps': apps
         }
-        
-        # Header cliquable
+
+        # Header cliquable avec icône colorée
         emoji = get_category_emoji(category_name)
-        header = ctk.CTkButton(
+
+        # Frame cliquable pour le header
+        header_frame = ctk.CTkFrame(
             card,
-            text=f"{emoji} {category_name} ({len(apps)} applications) ▶",
-            command=lambda: self._toggle_category(card, category_state, category_name),
             fg_color="transparent",
-            hover_color=DesignTokens.BG_HOVER,
-            text_color=DesignTokens.ACCENT_PRIMARY,
-            font=(DesignTokens.FONT_FAMILY, 16, "bold"),
-            anchor="w",
             corner_radius=0,
             height=50
         )
-        header.pack(fill=tk.X, padx=10, pady=5)
-        
-        category_state['header'] = header
+        header_frame.pack(fill=tk.X, padx=10, pady=5)
+
+        # Rendre le frame cliquable
+        header_frame.bind("<Button-1>", lambda e: self._toggle_category(card, category_state, category_name))
+
+        # Container horizontal pour icône + texte
+        content_frame = ctk.CTkFrame(header_frame, fg_color="transparent")
+        content_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        content_frame.bind("<Button-1>", lambda e: self._toggle_category(card, category_state, category_name))
+
+        # Icône colorée
+        try:
+            from v14_mvp.icons_system import ColoredIconsManager
+            icon_image = ColoredIconsManager.create_colored_icon(emoji, size=24)
+            icon_label = ctk.CTkLabel(
+                content_frame,
+                image=icon_image,
+                text=""
+            )
+            icon_label.image = icon_image
+            icon_label.pack(side=tk.LEFT, padx=(0, 10))
+            icon_label.bind("<Button-1>", lambda e: self._toggle_category(card, category_state, category_name))
+        except Exception as e:
+            print(f"ERREUR icone coloree pour {category_name}: {e}")
+            import traceback
+            traceback.print_exc()
+
+        # Texte du header
+        header_text = ctk.CTkLabel(
+            content_frame,
+            text=f"{category_name} ({len(apps)} applications) ▶",
+            font=(DesignTokens.FONT_FAMILY, 16, "bold"),
+            text_color=DesignTokens.ACCENT_PRIMARY,
+            anchor="w"
+        )
+        header_text.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        header_text.bind("<Button-1>", lambda e: self._toggle_category(card, category_state, category_name))
+
+        # Stocker pour mise à jour
+        category_state['header_frame'] = header_frame
+        category_state['header_text'] = header_text
+        category_state['emoji'] = emoji
     
     def _toggle_category(self, card, category_state, category_name):
         """Basculer affichage catégorie"""
@@ -247,22 +282,20 @@ class PortableAppsPage(ctk.CTkFrame):
             # Cacher
             category_state['container'].pack_forget()
             category_state['visible'] = False
-            emoji = get_category_emoji(category_name)
-            category_state['header'].configure(text=f"{emoji} {category_name} ({len(category_state['apps'])} applications) ▶")
+            category_state['header_text'].configure(text=f"{category_name} ({len(category_state['apps'])} applications) ▶")
         else:
             # Afficher
             # Clear
             for widget in category_state['container'].winfo_children():
                 widget.destroy()
-            
+
             # Créer grille
             for app in category_state['apps']:
                 self._create_app_card(category_state['container'], app)
 
             category_state['container'].pack(fill=tk.X, padx=10, pady=(0, 10))
             category_state['visible'] = True
-            emoji = get_category_emoji(category_name)
-            category_state['header'].configure(text=f"{emoji} {category_name} ({len(category_state['apps'])} applications) ▼")
+            category_state['header_text'].configure(text=f"{category_name} ({len(category_state['apps'])} applications) ▼")
     
     def _create_app_card(self, parent, app):
         """Créer carte d'application"""

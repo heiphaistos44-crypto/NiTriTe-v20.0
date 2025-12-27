@@ -15,9 +15,9 @@
 **Modifications** :
 - **Ligne 315** : Version mise à jour "NiTriTe V17.0 Beta" → "NiTriTe V20.0"
 - **Lignes 318-323** : Nouvelles statistiques ajoutées :
-  - ✨ 200+ applications via WinGet
-  - 🔧 25+ outils diagnostiques portables
-  - 🤖 500+ scénarios IA
+  - ✨ 716 applications via WinGet (25 catégories)
+  - 🔧 168 applications portables + 30 outils diagnostiques intégrés
+  - 🤖 143 catégories IA avec 5000+ conseils de maintenance
   - 🎨 Système de thèmes personnalisables
   - 💾 Mode 100% portable
   - ⌨️ 6 terminaux intégrés

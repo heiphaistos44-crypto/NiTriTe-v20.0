@@ -18,7 +18,14 @@ import ctypes
 from datetime import datetime
 from pathlib import Path
 from v14_mvp.design_system import DesignTokens
-from v14_mvp.components import ModernCard, ModernButton, ModernStatsCard, ModernSearchBar
+from v14_mvp.components import ModernCard, ModernButton, ModernStatsCard, ModernSearchBar, SectionHeader
+
+# ACTIVER LES ICÔNES COLORÉES AUTOMATIQUEMENT
+try:
+    import v14_mvp.auto_color_icons
+    print("Icones colorees activees pour pages_full.py")
+except Exception as e:
+    print(f"Impossible d'activer les icones colorees: {e}")
 
 # Import du système de chemins portables
 try:
@@ -153,13 +160,8 @@ class UpdatesPage(ctk.CTkFrame):
         container = ctk.CTkFrame(header, fg_color="transparent")
         container.pack(fill=tk.X, padx=20, pady=15)
         
-        title = ctk.CTkLabel(
-            container,
-            text="🔄 Mises à Jour",
-            font=(DesignTokens.FONT_FAMILY, 24, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY
-        )
-        title.pack(side=tk.LEFT)
+        title_frame = SectionHeader(container, text="🔄 Mises à Jour")
+        title_frame.pack(side=tk.LEFT)
 
         # Actions
         actions = ctk.CTkFrame(container, fg_color="transparent")
@@ -167,14 +169,14 @@ class UpdatesPage(ctk.CTkFrame):
         
         ModernButton(
             actions,
-            text=" Rechercher",
+            text="🔎 Rechercher",
             variant="filled",
             command=self._check_updates
         ).pack(side=tk.LEFT, padx=5)
         
         ModernButton(
             actions,
-            text="📥 Tout Mettre à Jour",
+            text="⚡ Tout Mettre à Jour",
             variant="outlined",
             command=self._update_all
         ).pack(side=tk.LEFT, padx=5)
@@ -188,13 +190,7 @@ class UpdatesPage(ctk.CTkFrame):
         header_frame = ctk.CTkFrame(self.terminal_card, fg_color="transparent")
         header_frame.pack(fill=tk.X, padx=20, pady=(15, 5))
 
-        term_title = ctk.CTkLabel(
-            header_frame,
-            text=" Terminal",
-            font=(DesignTokens.FONT_FAMILY, 16, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
+        term_title = SectionHeader(header_frame, text="⚡ Terminal")
         term_title.pack(side=tk.LEFT)
 
         # Boutons de taille
@@ -296,13 +292,7 @@ class UpdatesPage(ctk.CTkFrame):
         header_frame = ctk.CTkFrame(self.updates_card, fg_color="transparent")
         header_frame.pack(fill=tk.X, padx=20, pady=15)
 
-        header = ctk.CTkLabel(
-            header_frame,
-            text=" Mises à jour disponibles",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
+        header = SectionHeader(header_frame, text="📋 Mises à jour disponibles")
         header.pack(side=tk.LEFT)
 
         # Boutons de taille
@@ -393,14 +383,8 @@ class UpdatesPage(ctk.CTkFrame):
         card = ModernCard(self.main_scroll)
         card.pack(fill=tk.X, padx=20, pady=10)
 
-        title = ctk.CTkLabel(
-            card,
-            text=" Gestionnaires de Paquets",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="📦 Gestionnaires de Paquets")
+        title.pack(fill=tk.X)
 
         content = ctk.CTkFrame(card, fg_color="transparent")
         content.pack(fill=tk.X, padx=20, pady=(0, 15))
@@ -415,14 +399,14 @@ class UpdatesPage(ctk.CTkFrame):
 
         ModernButton(
             row1,
-            text=" WinGet (Scan + Update)",
+            text="🔄 WinGet (Scan + Update)",
             variant="outlined",
             command=self._update_winget
         ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
 
         ModernButton(
             row1,
-            text=" Chocolatey (Auto-install + Update)",
+            text="🍫 Chocolatey (Auto-install + Update)",
             variant="outlined",
             command=self._update_chocolatey
         ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
@@ -440,7 +424,7 @@ class UpdatesPage(ctk.CTkFrame):
 
         ModernButton(
             row2,
-            text=" pip (Python packages)",
+            text="🐍 pip (Python packages)",
             variant="outlined",
             command=self._update_pip
         ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
@@ -451,7 +435,7 @@ class UpdatesPage(ctk.CTkFrame):
 
         ModernButton(
             row3,
-            text=" npm (Node.js packages)",
+            text="📦 npm (Node.js packages)",
             variant="outlined",
             command=self._update_npm
         ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
@@ -461,14 +445,8 @@ class UpdatesPage(ctk.CTkFrame):
         card = ModernCard(self.main_scroll)
         card.pack(fill=tk.X, padx=20, pady=10)
 
-        title = ctk.CTkLabel(
-            card,
-            text=" Outils de Mise à Jour Constructeurs",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="🏭 Outils de Mise à Jour Constructeurs")
+        title.pack(fill=tk.X)
 
         content = ctk.CTkFrame(card, fg_color="transparent")
         content.pack(fill=tk.X, padx=20, pady=(0, 15))
@@ -478,15 +456,15 @@ class UpdatesPage(ctk.CTkFrame):
         button_grid.pack(fill=tk.X)
 
         manufacturers = [
-            (" Dell SupportAssist", "https://www.dell.com/support/home/"),
-            (" HP Support Assistant", "https://support.hp.com/drivers"),
-            (" Lenovo Vantage", "https://support.lenovo.com/solutions/ht505081"),
-            (" Intel Driver Assistant", "https://www.intel.com/content/www/us/en/support/detect.html"),
-            (" NVIDIA GeForce Experience", "https://www.nvidia.com/geforce/geforce-experience/"),
-            (" AMD Software Adrenalin", "https://www.amd.com/support"),
-            (" ASUS MyASUS", "https://www.asus.com/support/download-center/"),
-            (" MSI Center", "https://www.msi.com/Landing/msi-center"),
-            (" Acer Care Center", "https://www.acer.com/ac/en/US/content/software-download"),
+            ("💻 Dell SupportAssist", "https://www.dell.com/support/home/"),
+            ("🖨️ HP Support Assistant", "https://support.hp.com/drivers"),
+            ("💼 Lenovo Vantage", "https://support.lenovo.com/solutions/ht505081"),
+            ("⚡ Intel Driver Assistant", "https://www.intel.com/content/www/us/en/support/detect.html"),
+            ("🎮 NVIDIA GeForce Experience", "https://www.nvidia.com/geforce/geforce-experience/"),
+            ("🔴 AMD Software Adrenalin", "https://www.amd.com/support"),
+            ("⚙️ ASUS MyASUS", "https://www.asus.com/support/download-center/"),
+            ("🐉 MSI Center", "https://www.msi.com/Landing/msi-center"),
+            ("🌟 Acer Care Center", "https://www.acer.com/ac/en/US/content/software-download"),
         ]
 
         row = 0
@@ -513,14 +491,8 @@ class UpdatesPage(ctk.CTkFrame):
         card = ModernCard(self.main_scroll)
         card.pack(fill=tk.X, padx=20, pady=10)
 
-        title = ctk.CTkLabel(
-            card,
-            text="🪟 Pilotes Génériques Windows",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="🪟 Pilotes Génériques Windows")
+        title.pack(fill=tk.X)
 
         # Description
         desc = ctk.CTkLabel(
@@ -569,7 +541,7 @@ class UpdatesPage(ctk.CTkFrame):
 
         ModernButton(
             row2,
-            text="📦 Installer TOUS les Pilotes Génériques",
+            text="🎯 Installer TOUS les Pilotes Génériques",
             variant="filled",
             command=self._install_all_generic_drivers
         ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
@@ -587,7 +559,7 @@ class UpdatesPage(ctk.CTkFrame):
 
         ModernButton(
             row3,
-            text="💿 Installer Pilotes Chipset",
+            text="⚙️ Installer Pilotes Chipset",
             variant="outlined",
             command=self._install_chipset_drivers
         ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
@@ -615,14 +587,8 @@ class UpdatesPage(ctk.CTkFrame):
         card = ModernCard(self.main_scroll)
         card.pack(fill=tk.X, padx=20, pady=10)
 
-        title = ctk.CTkLabel(
-            card,
-            text=" Snappy Driver Installer",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="💿 Snappy Driver Installer")
+        title.pack(fill=tk.X)
 
         content = ctk.CTkFrame(card, fg_color="transparent")
         content.pack(fill=tk.X, padx=20, pady=(0, 15))
@@ -646,14 +612,14 @@ class UpdatesPage(ctk.CTkFrame):
 
         ModernButton(
             btn_frame,
-            text=" Télécharger Snappy Full (~40 GB)",
+            text="⬇️ Télécharger Snappy Full (~40 GB)",
             variant="filled",
             command=self._download_snappy_full
         ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
 
         ModernButton(
             btn_frame,
-            text=" Télécharger Snappy Lite (~2 GB)",
+            text="⬇️ Télécharger Snappy Lite (~2 GB)",
             variant="outlined",
             command=self._download_snappy_lite
         ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
@@ -1859,7 +1825,7 @@ pause
                         # Bouton pour ouvrir Windows Update
                         ModernButton(
                             wu_frame,
-                            text=" Ouvrir Windows Update",
+                            text="🪟 Ouvrir Windows Update",
                             variant="outlined",
                             size="sm",
                             command=self._open_windows_update
@@ -1961,13 +1927,8 @@ class BackupPage(ctk.CTkFrame):
         container = ctk.CTkFrame(header, fg_color="transparent")
         container.pack(fill=tk.X, padx=20, pady=15)
         
-        title = ctk.CTkLabel(
-            container,
-            text="💾 Sauvegarde",
-            font=(DesignTokens.FONT_FAMILY, 24, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY
-        )
-        title.pack(side=tk.LEFT)
+        title_frame = SectionHeader(container, text="💾 Sauvegarde")
+        title_frame.pack(side=tk.LEFT)
 
         location = ctk.CTkLabel(
             container,
@@ -1991,14 +1952,8 @@ class BackupPage(ctk.CTkFrame):
         card = ModernCard(parent)
         card.pack(fill=tk.X, pady=10)
         
-        title = ctk.CTkLabel(
-            card,
-            text=" Créer une Sauvegarde",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="💾 Créer une Sauvegarde")
+        title.pack(fill=tk.X)
         
         content = ctk.CTkFrame(card, fg_color="transparent")
         content.pack(fill=tk.X, padx=20, pady=(0, 15))
@@ -2027,7 +1982,7 @@ class BackupPage(ctk.CTkFrame):
         # Bouton
         ModernButton(
             content,
-            text=" Créer Sauvegarde",
+            text="💾 Créer Sauvegarde",
             variant="filled",
             command=self._create_backup
         ).pack(pady=15)
@@ -2037,14 +1992,8 @@ class BackupPage(ctk.CTkFrame):
         card = ModernCard(parent)
         card.pack(fill=tk.X, pady=10)
         
-        title = ctk.CTkLabel(
-            card,
-            text=" Restaurer une Sauvegarde",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="♻️ Restaurer une Sauvegarde")
+        title.pack(fill=tk.X)
         
         content = ctk.CTkFrame(card, fg_color="transparent")
         content.pack(fill=tk.X, padx=20, pady=(0, 15))
@@ -2063,14 +2012,8 @@ class BackupPage(ctk.CTkFrame):
         card = ModernCard(parent)
         card.pack(fill=tk.X, pady=10)
         
-        title = ctk.CTkLabel(
-            card,
-            text=" Sauvegardes Disponibles",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="📂 Sauvegardes Disponibles")
+        title.pack(fill=tk.X)
         
         self.backups_container = ctk.CTkFrame(card, fg_color="transparent")
         self.backups_container.pack(fill=tk.X, padx=20, pady=(0, 15))
@@ -2147,7 +2090,7 @@ class BackupPage(ctk.CTkFrame):
         
         ModernButton(
             buttons,
-            text=" Restaurer",
+            text="♻️ Restaurer",
             variant="filled",
             size="sm",
             command=lambda: self._restore_backup(filepath)
@@ -2476,13 +2419,8 @@ class DiagnosticPage(ctk.CTkFrame):
         container = ctk.CTkFrame(header, fg_color="transparent")
         container.pack(fill=tk.X, padx=20, pady=15)
         
-        title = ctk.CTkLabel(
-            container,
-            text="🔍 Diagnostic",
-            font=(DesignTokens.FONT_FAMILY, 24, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY
-        )
-        title.pack(side=tk.LEFT)
+        title_frame = SectionHeader(container, text="🔍 Diagnostic")
+        title_frame.pack(side=tk.LEFT)
 
         # Boutons d'action
         btn_frame = ctk.CTkFrame(container, fg_color="transparent")
@@ -2490,14 +2428,14 @@ class DiagnosticPage(ctk.CTkFrame):
 
         ModernButton(
             btn_frame,
-            text=" Exporter",
+            text="💾 Exporter",
             variant="outlined",
             command=self._export_pc_info
         ).pack(side=tk.LEFT, padx=5)
 
         ModernButton(
             btn_frame,
-            text=" Analyser",
+            text="🔬 Analyser",
             variant="filled",
             command=self._run_diagnostic
         ).pack(side=tk.LEFT)
@@ -2567,17 +2505,17 @@ class DiagnosticPage(ctk.CTkFrame):
     def _create_system_section(self, parent):
         """Section système"""
         items = [
-            ("OS", f"{self.system_info['os']} {self.system_info['os_release']}", ""),
-            ("Version", self.system_info['os_version'][:50], ""),
-            ("Architecture", self.system_info['architecture'], ""),
-            ("Hostname", self.system_info['hostname'], ""),
+            ("🪟 OS", f"{self.system_info['os']} {self.system_info['os_release']}", ""),
+            ("📄 Version", self.system_info['os_version'][:50], ""),
+            ("⚙️ Architecture", self.system_info['architecture'], ""),
+            ("🖥️ Hostname", self.system_info['hostname'], ""),
         ]
-        
+
         # Carte mère si disponible
         if 'motherboard_product' in self.system_info:
             mb_info = f"{self.system_info.get('motherboard_manufacturer', 'N/A')} {self.system_info.get('motherboard_product', 'N/A')}"
-            items.append(("Carte mère", mb_info, ""))
-        
+            items.append(("🔧 Carte mère", mb_info, ""))
+
         self._create_diagnostic_section(parent, "💻 Système", items)
     
     def _create_hardware_section(self, parent):
@@ -2629,7 +2567,7 @@ class DiagnosticPage(ctk.CTkFrame):
                     module_info += f" @ {module['speed_mhz']}MHz"
                 if module['device_locator'] != "Unknown":
                     module_info += f" ({module['device_locator']})"
-                items.append((f"  Module {i}", module_info, ""))
+                items.append((f"💾 Module {i}", module_info, ""))
 
             if PSUTIL_AVAILABLE:
                 ram_used = self.system_info.get('ram_used', 0)
@@ -2655,20 +2593,20 @@ class DiagnosticPage(ctk.CTkFrame):
                     gpu_info = f"{gpu_name} ({gpu_ram:.0f} GB VRAM)"
                 else:
                     gpu_info = gpu_name
-                items.append((f"GPU {i}" if len(self.system_info['gpus']) > 1 else "🎮 GPU", gpu_info, ""))
+                items.append((f"🎮 GPU {i}" if len(self.system_info['gpus']) > 1 else "🎮 GPU", gpu_info, ""))
         
         self._create_diagnostic_section(parent, "🔧 Matériel", items)
     
     def _create_storage_section(self, parent):
         """Section stockage avec modèles de disques"""
         items = []
-        
+
         # Disques physiques avec modèles
         if 'storage_devices' in self.system_info and self.system_info['storage_devices']:
             for i, device in enumerate(self.system_info['storage_devices'], 1):
                 device_info = f"{device['model']} - {device['size_gb']:.0f} GB ({device['interface']})"
-                items.append((f"Disque {i}", device_info, ""))
-        
+                items.append((f"💿 Disque {i}", device_info, ""))
+
         # Partitions avec usage
         if PSUTIL_AVAILABLE and self.system_info.get('disks'):
             if items:  # Si on a déjà des disques physiques
@@ -2676,19 +2614,19 @@ class DiagnosticPage(ctk.CTkFrame):
             for disk in self.system_info['disks']:
                 try:
                     percent = float(disk.get('percent', 0))
-                    status = "" if percent < 80 else ""
+                    status = "✅" if percent < 80 else "⚠️"
                     used = float(disk.get('used', 0))
                     total = float(disk.get('total', 0))
                     items.append((
-                        f"Partition {disk['mount']}",
+                        f"📂 Partition {disk['mount']}",
                         f"{used:.1f} / {total:.1f} GB ({percent:.1f}%) - {disk.get('fstype', 'N/A')}",
                         status
                     ))
                 except (TypeError, ValueError, KeyError):
                     continue
         elif not items:
-            items = [("Disques", "Informations non disponibles", "")]
-        
+            items = [("💿 Disques", "Informations non disponibles", "")]
+
         self._create_diagnostic_section(parent, "💿 Stockage", items)
     
     def _create_network_section(self, parent):
@@ -2697,8 +2635,8 @@ class DiagnosticPage(ctk.CTkFrame):
 
         if PSUTIL_AVAILABLE:
             # Données envoyées/reçues
-            items.append(("Données envoyées", f"{self.system_info['net_sent']:.1f} MB", ""))
-            items.append(("Données reçues", f"{self.system_info['net_recv']:.1f} MB", ""))
+            items.append(("⬆️ Données envoyées", f"{self.system_info['net_sent']:.1f} MB", ""))
+            items.append(("⬇️ Données reçues", f"{self.system_info['net_recv']:.1f} MB", ""))
 
             # Informations réseau détaillées via psutil (portable)
             try:
@@ -2706,7 +2644,7 @@ class DiagnosticPage(ctk.CTkFrame):
 
                 # Nom d'hôte
                 hostname = socket.gethostname()
-                items.append(("Nom d'hôte", hostname, ""))
+                items.append(("🖥️ Nom d'hôte", hostname, ""))
 
                 # Utiliser psutil.net_if_addrs() au lieu de netifaces (portable)
                 net_if_addrs = psutil.net_if_addrs()
@@ -2717,12 +2655,12 @@ class DiagnosticPage(ctk.CTkFrame):
                         if addr.family == socket.AF_INET:
                             if not addr.address.startswith('127.'):
                                 netmask = addr.netmask if addr.netmask else 'N/A'
-                                items.append((f"IPv4 ({iface_name})", f"{addr.address} / {netmask}", ""))
+                                items.append((f"🌐 IPv4 ({iface_name})", f"{addr.address} / {netmask}", ""))
 
                         # IPv6
                         elif addr.family == socket.AF_INET6:
                             if not addr.address.startswith('::1') and not addr.address.startswith('fe80'):
-                                items.append((f"IPv6 ({iface_name})", addr.address.split('%')[0], ""))
+                                items.append((f"🌍 IPv6 ({iface_name})", addr.address.split('%')[0], ""))
 
                 # Obtenir la passerelle via ipconfig (Windows uniquement - portable)
                 if platform.system() == "Windows":
@@ -2736,13 +2674,13 @@ class DiagnosticPage(ctk.CTkFrame):
                             if 'Passerelle par défaut' in line or 'Default Gateway' in line:
                                 gateway = line.split(':')[-1].strip()
                                 if gateway and gateway != '' and not gateway.startswith('fe80'):
-                                    items.append(("Passerelle par défaut", gateway, ""))
+                                    items.append(("🔌 Passerelle par défaut", gateway, ""))
                                     break
                     except Exception as e:
                         pass  # Ignorer les erreurs de parsing
 
             except Exception as e:
-                items.append(("Erreur réseau", str(e)[:50], ""))
+                items.append(("❌ Erreur réseau", str(e)[:50], ""))
         else:
             items = [("🌐 Réseau", "psutil requis", "")]
 
@@ -2750,36 +2688,38 @@ class DiagnosticPage(ctk.CTkFrame):
         card = ModernCard(parent)
         card.pack(fill=tk.X, pady=10)
 
-        # Header
-        header_frame = ctk.CTkFrame(card, fg_color="transparent")
-        header_frame.pack(fill=tk.X, padx=20, pady=15)
+        # Header avec icône colorée
+        header_container = ctk.CTkFrame(card, fg_color="transparent")
+        header_container.pack(fill=tk.X)
 
-        header_label = ctk.CTkLabel(
-            header_frame,
-            text=" Réseau",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        header_label.pack(side=tk.LEFT)
+        header_left = ctk.CTkFrame(header_container, fg_color="transparent")
+        header_left.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
-        # Bouton Speed Test Web
-        ModernButton(
-            header_frame,
-            text="🌐 Speedtest Web",
-            variant="outlined",
-            size="sm",
-            command=self._launch_speedtest_web
-        ).pack(side=tk.RIGHT, padx=5)
+        # Utiliser SectionHeader pour le titre avec icône colorée
+        header_section = SectionHeader(header_left, text="🌐 Réseau")
+        header_section.pack(fill=tk.X)
+
+        # Boutons à droite
+        buttons_frame = ctk.CTkFrame(header_container, fg_color="transparent")
+        buttons_frame.pack(side=tk.RIGHT, padx=20, pady=15)
 
         # Bouton Speed Test CLI
         ModernButton(
-            header_frame,
+            buttons_frame,
             text="⚡ Speedtest CLI",
             variant="filled",
             size="sm",
             command=self._launch_speedtest_portable
         ).pack(side=tk.RIGHT)
+
+        # Bouton Speed Test Web
+        ModernButton(
+            buttons_frame,
+            text="🌐 Speedtest Web",
+            variant="outlined",
+            size="sm",
+            command=self._launch_speedtest_web
+        ).pack(side=tk.RIGHT, padx=(0, 5))
 
         # Items
         content = ctk.CTkFrame(card, fg_color="transparent")
@@ -2821,27 +2761,28 @@ class DiagnosticPage(ctk.CTkFrame):
         self.tools_card = ModernCard(parent)
         self.tools_card.pack(fill=tk.X, pady=10)
 
-        # Header avec titre + bouton ajouter
-        header_container = ctk.CTkFrame(self.tools_card, fg_color="transparent")
-        header_container.pack(fill=tk.X, padx=20, pady=15)
+        # Header avec icône colorée et bouton
+        header_main = ctk.CTkFrame(self.tools_card, fg_color="transparent")
+        header_main.pack(fill=tk.X)
 
-        header = ctk.CTkLabel(
-            header_container,
-            text="🔧 Outils de Diagnostic",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        header.pack(side=tk.LEFT)
+        header_left = ctk.CTkFrame(header_main, fg_color="transparent")
+        header_left.pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        # Utiliser SectionHeader pour le titre avec icône colorée
+        header_section = SectionHeader(header_left, text="🔧 Outils de Diagnostic")
+        header_section.pack(fill=tk.X)
 
         # Bouton pour ajouter une app personnalisée
+        button_frame = ctk.CTkFrame(header_main, fg_color="transparent")
+        button_frame.pack(side=tk.RIGHT, padx=20, pady=15)
+
         ModernButton(
-            header_container,
+            button_frame,
             text="➕ Ajouter Application",
             variant="outlined",
             size="sm",
             command=self._add_custom_tool_dialog
-        ).pack(side=tk.RIGHT)
+        ).pack()
 
         # Barre de recherche
         search_frame = ctk.CTkFrame(self.tools_card, fg_color="transparent")
@@ -3052,7 +2993,7 @@ class DiagnosticPage(ctk.CTkFrame):
         # Header
         header = ctk.CTkLabel(
             content,
-            text=" Test de Vitesse de Connexion",
+            text="🚀 Test de Vitesse de Connexion",
             font=(DesignTokens.FONT_FAMILY, 24, "bold"),
             text_color=DesignTokens.TEXT_PRIMARY
         )
@@ -3171,7 +3112,7 @@ class DiagnosticPage(ctk.CTkFrame):
         # Bouton fermer
         close_btn = ModernButton(
             content,
-            text="Fermer",
+            text="✖️ Fermer",
             variant="outlined",
             command=test_window.destroy
         )
@@ -3651,7 +3592,7 @@ class DiagnosticPage(ctk.CTkFrame):
             # Header
             header = ctk.CTkLabel(
                 scroll_frame,
-                text=" Diagnostic Complet de la Batterie",
+                text="🔋 Diagnostic Complet de la Batterie",
                 font=(DesignTokens.FONT_FAMILY, 24, "bold"),
                 text_color=DesignTokens.TEXT_PRIMARY
             )
@@ -3752,7 +3693,7 @@ class DiagnosticPage(ctk.CTkFrame):
 
                     details_title = ctk.CTkLabel(
                         details_card,
-                        text=" DÉTAILS TECHNIQUES",
+                        text="⚙️ DÉTAILS TECHNIQUES",
                         font=(DesignTokens.FONT_FAMILY, 18, "bold"),
                         text_color=DesignTokens.TEXT_PRIMARY
                     )
@@ -3879,7 +3820,7 @@ class DiagnosticPage(ctk.CTkFrame):
 
                     extra_title = ctk.CTkLabel(
                         extra_card,
-                        text=" INFORMATIONS SUPPLÉMENTAIRES",
+                        text="ℹ️ INFORMATIONS SUPPLÉMENTAIRES",
                         font=(DesignTokens.FONT_FAMILY, 18, "bold"),
                         text_color=DesignTokens.TEXT_PRIMARY
                     )
@@ -4023,7 +3964,7 @@ class DiagnosticPage(ctk.CTkFrame):
 
                     advanced_title = ctk.CTkLabel(
                         advanced_card,
-                        text=" INFORMATIONS AVANCÉES",
+                        text="🔬 INFORMATIONS AVANCÉES",
                         font=(DesignTokens.FONT_FAMILY, 18, "bold"),
                         text_color=DesignTokens.TEXT_PRIMARY
                     )
@@ -4137,7 +4078,7 @@ class DiagnosticPage(ctk.CTkFrame):
 
                     powercfg_title = ctk.CTkLabel(
                         powercfg_card,
-                        text=" RAPPORT POWERCFG (Windows)",
+                        text="📊 RAPPORT POWERCFG (Windows)",
                         font=(DesignTokens.FONT_FAMILY, 18, "bold"),
                         text_color=DesignTokens.TEXT_PRIMARY
                     )
@@ -4208,7 +4149,7 @@ class DiagnosticPage(ctk.CTkFrame):
 
                         ModernButton(
                             powercfg_card,
-                            text=" Ouvrir Rapport Complet",
+                            text="📄 Ouvrir Rapport Complet",
                             variant="outlined",
                             size="sm",
                             command=open_full_report
@@ -4260,7 +4201,7 @@ class DiagnosticPage(ctk.CTkFrame):
 
             recommendations_title = ctk.CTkLabel(
                 recommendations_card,
-                text=" RECOMMANDATIONS",
+                text="💡 RECOMMANDATIONS",
                 font=(DesignTokens.FONT_FAMILY, 18, "bold"),
                 text_color=DesignTokens.TEXT_PRIMARY
             )
@@ -4284,7 +4225,7 @@ class DiagnosticPage(ctk.CTkFrame):
             # Bouton fermer
             close_btn = ModernButton(
                 battery_window,
-                text="Fermer",
+                text="✖️ Fermer",
                 variant="filled",
                 command=battery_window.destroy
             )
@@ -5404,22 +5345,17 @@ class DiagnosticPage(ctk.CTkFrame):
             )
 
     def _create_diagnostic_section(self, parent, title, items):
-        """Section de diagnostic"""
+        """Section de diagnostic avec icônes colorées"""
         card = ModernCard(parent)
         card.pack(fill=tk.X, pady=10)
-        
-        header = ctk.CTkLabel(
-            card,
-            text=title,
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        header.pack(fill=tk.X, padx=20, pady=15)
-        
+
+        # Utiliser SectionHeader pour le titre avec icône colorée
+        header = SectionHeader(card, text=title)
+        header.pack(fill=tk.X)
+
         content = ctk.CTkFrame(card, fg_color="transparent")
         content.pack(fill=tk.X, padx=20, pady=(0, 15))
-        
+
         for label, value, status in items:
             row = ctk.CTkFrame(
                 content,
@@ -5427,20 +5363,60 @@ class DiagnosticPage(ctk.CTkFrame):
                 corner_radius=DesignTokens.RADIUS_SM
             )
             row.pack(fill=tk.X, pady=3)
-            
+
             row_content = ctk.CTkFrame(row, fg_color="transparent")
             row_content.pack(fill=tk.X, padx=12, pady=8)
-            
-            label_widget = ctk.CTkLabel(
-                row_content,
-                text=label,
-                font=(DesignTokens.FONT_FAMILY, DesignTokens.FONT_SIZE_SM, "bold"),
-                text_color=DesignTokens.TEXT_PRIMARY,
-                anchor="w",
-                width=150
-            )
-            label_widget.pack(side=tk.LEFT)
-            
+
+            # Extraire l'emoji du label si présent
+            try:
+                from v14_mvp.auto_color_icons import extract_emoji
+                from v14_mvp.icons_system import ColoredIconsManager
+                emoji, clean_label = extract_emoji(label)
+
+                # Si emoji détecté, créer une icône colorée
+                if emoji:
+                    icon_image = ColoredIconsManager.create_colored_icon(emoji, size=20)
+                    icon_label = ctk.CTkLabel(
+                        row_content,
+                        image=icon_image,
+                        text=""
+                    )
+                    icon_label.image = icon_image  # Garder référence
+                    icon_label.pack(side=tk.LEFT, padx=(0, 8))
+
+                    # Label sans emoji
+                    label_widget = ctk.CTkLabel(
+                        row_content,
+                        text=clean_label,
+                        font=(DesignTokens.FONT_FAMILY, DesignTokens.FONT_SIZE_SM, "bold"),
+                        text_color=DesignTokens.TEXT_PRIMARY,
+                        anchor="w",
+                        width=130
+                    )
+                    label_widget.pack(side=tk.LEFT)
+                else:
+                    # Pas d'emoji, affichage classique
+                    label_widget = ctk.CTkLabel(
+                        row_content,
+                        text=label,
+                        font=(DesignTokens.FONT_FAMILY, DesignTokens.FONT_SIZE_SM, "bold"),
+                        text_color=DesignTokens.TEXT_PRIMARY,
+                        anchor="w",
+                        width=150
+                    )
+                    label_widget.pack(side=tk.LEFT)
+            except Exception as e:
+                # Fallback en cas d'erreur
+                label_widget = ctk.CTkLabel(
+                    row_content,
+                    text=label,
+                    font=(DesignTokens.FONT_FAMILY, DesignTokens.FONT_SIZE_SM, "bold"),
+                    text_color=DesignTokens.TEXT_PRIMARY,
+                    anchor="w",
+                    width=150
+                )
+                label_widget.pack(side=tk.LEFT)
+
             value_widget = ctk.CTkLabel(
                 row_content,
                 text=value,
@@ -5449,7 +5425,7 @@ class DiagnosticPage(ctk.CTkFrame):
                 anchor="w"
             )
             value_widget.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=10)
-            
+
             status_widget = ctk.CTkLabel(
                 row_content,
                 text=status,
@@ -6085,7 +6061,7 @@ class DiagnosticPage(ctk.CTkFrame):
         # Titre
         title = ctk.CTkLabel(
             main_container,
-            text="Ajouter une Application Personnalisée",
+            text="➕ Ajouter une Application Personnalisée",
             font=(DesignTokens.FONT_FAMILY, 18, "bold")
         )
         title.pack(pady=(0, 20))
@@ -6235,7 +6211,7 @@ class DiagnosticPage(ctk.CTkFrame):
 
         save_btn = ModernButton(
             btn_frame,
-            text="Enregistrer",
+            text="💾 Enregistrer",
             variant="filled",
             command=save_tool
         )
@@ -6243,7 +6219,7 @@ class DiagnosticPage(ctk.CTkFrame):
 
         cancel_btn = ModernButton(
             btn_frame,
-            text="Annuler",
+            text="❌ Annuler",
             variant="outlined",
             command=dialog.destroy
         )
@@ -6334,17 +6310,12 @@ class OptimizationsPage(ctk.CTkFrame):
         container = ctk.CTkFrame(header, fg_color="transparent")
         container.pack(fill=tk.X, padx=20, pady=15)
         
-        title = ctk.CTkLabel(
-            container,
-            text="⚡ Optimisations",
-            font=(DesignTokens.FONT_FAMILY, 24, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY
-        )
-        title.pack(side=tk.LEFT)
+        title_frame = SectionHeader(container, text="⚡ Optimisations")
+        title_frame.pack(side=tk.LEFT)
 
         ModernButton(
             container,
-            text=" Optimiser Tout",
+            text="🚀 Optimiser Tout",
             variant="filled",
             command=self._optimize_all
         ).pack(side=tk.RIGHT)
@@ -6364,14 +6335,8 @@ class OptimizationsPage(ctk.CTkFrame):
         card = ModernCard(parent)
         card.pack(fill=tk.X, pady=10)
         
-        title = ctk.CTkLabel(
-            card,
-            text="🧹 Nettoyage",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="🧹 Nettoyage")
+        title.pack(fill=tk.X)
         
         content = ctk.CTkFrame(card, fg_color="transparent")
         content.pack(fill=tk.X, padx=20, pady=(0, 15))
@@ -6391,14 +6356,8 @@ class OptimizationsPage(ctk.CTkFrame):
         card = ModernCard(parent)
         card.pack(fill=tk.X, pady=10)
         
-        title = ctk.CTkLabel(
-            card,
-            text="⚡ Performance",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="⚡ Performance")
+        title.pack(fill=tk.X)
         
         content = ctk.CTkFrame(card, fg_color="transparent")
         content.pack(fill=tk.X, padx=20, pady=(0, 15))
@@ -6420,14 +6379,8 @@ class OptimizationsPage(ctk.CTkFrame):
         card = ModernCard(parent)
         card.pack(fill=tk.X, pady=10)
         
-        title = ctk.CTkLabel(
-            card,
-            text="⚙️ Services",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="⚙️ Services")
+        title.pack(fill=tk.X)
         
         content = ctk.CTkFrame(card, fg_color="transparent")
         content.pack(fill=tk.X, padx=20, pady=(0, 15))
@@ -6453,14 +6406,8 @@ class OptimizationsPage(ctk.CTkFrame):
         card = ModernCard(parent)
         card.pack(fill=tk.X, pady=10)
         
-        title = ctk.CTkLabel(
-            card,
-            text="🚀 Démarrage",
-            font=(DesignTokens.FONT_FAMILY, 18, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY,
-            anchor="w"
-        )
-        title.pack(fill=tk.X, padx=20, pady=15)
+        title = SectionHeader(card, text="🚀 Démarrage")
+        title.pack(fill=tk.X)
         
         content = ctk.CTkFrame(card, fg_color="transparent")
         content.pack(fill=tk.X, padx=20, pady=(0, 15))
@@ -6516,7 +6463,7 @@ class OptimizationsPage(ctk.CTkFrame):
         
         ModernButton(
             container,
-            text=" Exécuter",
+            text="▶️ Exécuter",
             variant="filled",
             size="sm",
             command=command

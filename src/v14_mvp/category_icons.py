@@ -7,21 +7,21 @@ Module centralisé pour éviter la duplication
 
 CATEGORY_EMOJIS = {
     "Antivirus": "🛡️",
-    "Bureautique": "💼",
+    "Bureautique": "📝",
     "Communication": "💬",
     "Compression": "📦",
     "Désinstallateurs Antivirus": "🗑️",
     "Développement": "💻",
     "IA & Assistants": "🤖",
     "Imprimantes & Scan": "🖨️",
-    "Internet": "🌐",
+    "Internet": "🌍",
     "Jeux": "🎮",
     "Multimédia": "🎵",
     "Navigateurs": "🌐",
     "Outils OrdiPlus": "🏢",
     "PDF et Documents": "📄",
     "Pack Office": "📊",
-    "Productivité": "⚙️",
+    "Productivité": "⚡",
     "Réseaux Sociaux": "👥",
     "Services Apple": "🍎",
     "Stockage Cloud": "☁️",
@@ -29,8 +29,8 @@ CATEGORY_EMOJIS = {
     "Streaming Vidéo": "🎬",
     "Suites Professionnelles": "💼",
     "Sécurité": "🔐",
-    "Utilitaires": "🔧",
-    "Utilitaires Système": "⚡"
+    "Utilitaires": "🔨",
+    "Utilitaires Système": "⚙️"
 }
 
 
