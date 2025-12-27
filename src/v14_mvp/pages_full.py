@@ -21,9 +21,10 @@ from v14_mvp.design_system import DesignTokens
 from v14_mvp.components import ModernCard, ModernButton, ModernStatsCard, ModernSearchBar, SectionHeader
 
 # ACTIVER LES ICÔNES COLORÉES AUTOMATIQUEMENT
+# Note: auto_color_icons supprimé, remplacé par icons_system.py
 try:
-    import v14_mvp.auto_color_icons
-    print("Icones colorees activees pour pages_full.py")
+    from v14_mvp.icons_system import ColoredIconsManager
+    print("Icones colorees activees pour pages_full.py (nouveau système)")
 except Exception as e:
     print(f"Impossible d'activer les icones colorees: {e}")
 

@@ -23,9 +23,10 @@ import requests
 from pathlib import Path
 
 # ACTIVER LES ICÔNES COLORÉES
+# Note: auto_color_icons supprimé, remplacé par icons_system.py
 try:
-    import v14_mvp.auto_color_icons
-    print("Icones colorees activees pour pages_optimized.py")
+    from v14_mvp.icons_system import ColoredIconsManager
+    print("Icones colorees activees pour pages_optimized.py (nouveau système)")
 except:
     pass
 

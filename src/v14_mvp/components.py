@@ -162,12 +162,13 @@ class ModernStatsCard(ctk.CTkFrame):
         # Extraire l'emoji du titre si présent
         emoji = None
         clean_title = title
-        if title and COLORED_ICONS_AVAILABLE:
-            try:
-                from v14_mvp.auto_color_icons import extract_emoji
-                emoji, clean_title = extract_emoji(title)
-            except:
-                pass
+        # Note: auto_color_icons.extract_emoji désactivé (module n'existe plus)
+        # if title and COLORED_ICONS_AVAILABLE:
+        #     try:
+        #         from v14_mvp.auto_color_icons import extract_emoji
+        #         emoji, clean_title = extract_emoji(title)
+        #     except:
+        #         pass
 
         # Container
         container = ctk.CTkFrame(self, fg_color="transparent")
@@ -246,9 +247,10 @@ class SectionHeader(ctk.CTkFrame):
         container.pack(fill=tk.X, padx=20, pady=15)
 
         # Extraire emoji du texte si présent
-        if not emoji and text:
-            from v14_mvp.auto_color_icons import extract_emoji
-            emoji, text = extract_emoji(text)
+        # Note: auto_color_icons.extract_emoji désactivé (module n'existe plus)
+        # if not emoji and text:
+        #     from v14_mvp.auto_color_icons import extract_emoji
+        #     emoji, text = extract_emoji(text)
 
         # Icône colorée si emoji fourni
         if emoji and COLORED_ICONS_AVAILABLE:
