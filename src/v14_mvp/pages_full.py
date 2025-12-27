@@ -5863,11 +5863,10 @@ class DiagnosticPage(ctk.CTkFrame):
         import tkinter as tk
         from tkinter import messagebox
 
-        # Créer fenêtre popup
-        results_window = tk.Toplevel(self)
+        # Créer fenêtre popup (CTkToplevel pour CustomTkinter)
+        results_window = ctk.CTkToplevel(self)
         results_window.title("🔍 Résultats du Scan Total")
         results_window.geometry("900x700")
-        results_window.configure(bg=DesignTokens.BG_PRIMARY)
 
         # Header
         header = ctk.CTkFrame(results_window, fg_color=DesignTokens.BG_CARD, corner_radius=10)
