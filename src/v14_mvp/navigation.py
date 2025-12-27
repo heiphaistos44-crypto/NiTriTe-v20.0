@@ -125,12 +125,12 @@ class ModernNavigation(ctk.CTkFrame):
             ("os_downloads", "🔌", "OS & USB Tools"),
             ("terminal", "⚡", "Terminal"),
             ("updates", "⬆️", "Mises à jour"),
-            ("backup", "💼", "Sauvegarde"),
-            ("optimizations", "🚀", "Optimisations"),
-            ("diagnostic", "🔬", "Diagnostic"),
-            ("logs", "📝", "Logs"),
-            ("scripts", "🪟", "Scripts Windows"),
-            ("ai_agents", "🧠", "Agents IA"),
+            ("backup", "💾", "Sauvegarde"),
+            ("optimizations", "⚡", "Optimisations"),
+            ("diagnostic", "🔍", "Diagnostic"),
+            ("logs", "📋", "Logs"),
+            ("scripts", "📜", "Scripts Windows"),
+            ("ai_agents", "🤖", "Agents IA"),
             ("settings", "⚙️", "Paramètres"),
         ]
         
