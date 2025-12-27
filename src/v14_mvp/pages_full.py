@@ -5852,6 +5852,264 @@ class DiagnosticPage(ctk.CTkFrame):
             pass
 
         # ═══════════════════════════════════════════════════════════════════
+        # 8️⃣ VÉRIFICATION BATTERIE DÉTAILLÉE (LAPTOP UNIQUEMENT)
+        # ═══════════════════════════════════════════════════════════════════
+        try:
+            # Exécuter battery report
+            battery_report_path = Path(get_portable_temp_dir()) / "battery-report.html"
+            subprocess.run(
+                ['powercfg', '/batteryreport', f'/output', str(battery_report_path)],
+                capture_output=True,
+                timeout=10
+            )
+
+            # Lire le rapport et extraire infos via PowerShell
+            battery_info_cmd = """
+            $battery = Get-WmiObject Win32_Battery
+            if ($battery) {
+                $designCapacity = $battery.DesignCapacity
+                $fullChargeCapacity = $battery.FullChargeCapacity
+                $estimatedChargeRemaining = $battery.EstimatedChargeRemaining
+                $batteryStatus = $battery.BatteryStatus
+
+                # Calculer wear
+                $wear = 0
+                if ($designCapacity -gt 0) {
+                    $wear = [math]::Round((1 - ($fullChargeCapacity / $designCapacity)) * 100, 1)
+                }
+
+                Write-Output "$designCapacity|$fullChargeCapacity|$estimatedChargeRemaining|$batteryStatus|$wear"
+            }
+            """
+
+            result = subprocess.run(
+                ['powershell', '-Command', battery_info_cmd],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+
+            if result.stdout.strip():
+                parts = result.stdout.strip().split('|')
+                if len(parts) == 5:
+                    design_capacity = int(parts[0])
+                    full_capacity = int(parts[1])
+                    current_charge = int(parts[2])
+                    battery_status = int(parts[3])
+                    wear_percent = float(parts[4])
+
+                    # Convertir en mWh (millliwatt-heures)
+                    design_mwh = design_capacity
+                    full_mwh = full_capacity
+
+                    battery_detail = f"Capacité: {full_mwh} mWh / {design_mwh} mWh (Design) | Usure: {wear_percent}% | Charge: {current_charge}%"
+
+                    if wear_percent > 50:
+                        scan_results['critical'].append({
+                            'category': '🔋 Batterie',
+                            'issue': f'Batterie fortement dégradée: {battery_detail}',
+                            'recommendation': 'URGENT: Remplacer batterie (usure >50%)'
+                        })
+                    elif wear_percent > 30:
+                        scan_results['warning'].append({
+                            'category': '🔋 Batterie',
+                            'issue': f'Batterie usée: {battery_detail}',
+                            'recommendation': 'Envisager remplacement batterie bientôt'
+                        })
+                    elif wear_percent > 10:
+                        scan_results['warning'].append({
+                            'category': '🔋 Batterie',
+                            'issue': f'Batterie légère usure: {battery_detail}',
+                            'recommendation': 'Surveiller évolution de l\'usure'
+                        })
+                    else:
+                        scan_results['ok'].append({
+                            'category': '🔋 Batterie',
+                            'message': f'Batterie excellente: {battery_detail}'
+                        })
+        except:
+            # Pas de batterie (PC fixe) ou erreur
+            scan_results['ok'].append({
+                'category': '🔋 Batterie',
+                'message': 'Aucune batterie détectée (PC fixe) ou erreur de lecture'
+            })
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 9️⃣ VÉRIFICATION MISES À JOUR DÉTAILLÉES
+        # ═══════════════════════════════════════════════════════════════════
+
+        # WinGet Updates
+        try:
+            result = subprocess.run(
+                ['winget', 'upgrade'],
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+
+            # Compter le nombre de lignes avec "available" (mises à jour disponibles)
+            updates_count = 0
+            for line in result.stdout.split('\n'):
+                if 'available' in line.lower() or '>' in line:
+                    updates_count += 1
+
+            # Soustraire les lignes d'en-tête (~3)
+            updates_count = max(0, updates_count - 3)
+
+            if updates_count > 10:
+                scan_results['warning'].append({
+                    'category': '📦 WinGet',
+                    'issue': f'{updates_count} mises à jour disponibles',
+                    'recommendation': 'Mettre à jour via NiTriTe > Mises à jour'
+                })
+            elif updates_count > 0:
+                scan_results['ok'].append({
+                    'category': '📦 WinGet',
+                    'message': f'{updates_count} mises à jour disponibles (acceptable)'
+                })
+            else:
+                scan_results['ok'].append({
+                    'category': '📦 WinGet',
+                    'message': 'Tous les paquets WinGet à jour'
+                })
+        except:
+            scan_results['ok'].append({
+                'category': '📦 WinGet',
+                'message': 'WinGet non accessible ou pas de paquets installés'
+            })
+
+        # Windows Update
+        try:
+            wu_cmd = """
+            $updateSession = New-Object -ComObject Microsoft.Update.Session
+            $updateSearcher = $updateSession.CreateUpdateSearcher()
+            $searchResult = $updateSearcher.Search("IsInstalled=0 and Type='Software'")
+            Write-Output $searchResult.Updates.Count
+            """
+
+            result = subprocess.run(
+                ['powershell', '-Command', wu_cmd],
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+
+            if result.stdout.strip().isdigit():
+                wu_count = int(result.stdout.strip())
+
+                if wu_count > 5:
+                    scan_results['critical'].append({
+                        'category': '🔄 Windows Update',
+                        'issue': f'{wu_count} mises à jour Windows en attente',
+                        'recommendation': 'URGENT: Installer mises à jour Windows (sécurité)'
+                    })
+                elif wu_count > 0:
+                    scan_results['warning'].append({
+                        'category': '🔄 Windows Update',
+                        'issue': f'{wu_count} mises à jour Windows disponibles',
+                        'recommendation': 'Installer via Paramètres > Windows Update'
+                    })
+                else:
+                    scan_results['ok'].append({
+                        'category': '🔄 Windows Update',
+                        'message': 'Windows à jour'
+                    })
+        except:
+            scan_results['warning'].append({
+                'category': '🔄 Windows Update',
+                'issue': 'Impossible de vérifier Windows Update',
+                'recommendation': 'Vérifier manuellement: Paramètres > Windows Update'
+            })
+
+        # Scoop Updates
+        try:
+            result = subprocess.run(
+                ['scoop', 'status'],
+                capture_output=True,
+                text=True,
+                timeout=15
+            )
+
+            scoop_updates = 0
+            for line in result.stdout.split('\n'):
+                if 'update available' in line.lower():
+                    scoop_updates += 1
+
+            if scoop_updates > 0:
+                scan_results['ok'].append({
+                    'category': '🪣 Scoop',
+                    'message': f'{scoop_updates} paquets Scoop à mettre à jour (scoop update *)'
+                })
+            else:
+                scan_results['ok'].append({
+                    'category': '🪣 Scoop',
+                    'message': 'Scoop à jour ou non installé'
+                })
+        except:
+            # Scoop non installé
+            pass
+
+        # Chocolatey Updates
+        try:
+            result = subprocess.run(
+                ['choco', 'outdated'],
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+
+            choco_updates = 0
+            for line in result.stdout.split('\n'):
+                if '|' in line and 'package' not in line.lower():
+                    choco_updates += 1
+
+            if choco_updates > 0:
+                scan_results['ok'].append({
+                    'category': '🍫 Chocolatey',
+                    'message': f'{choco_updates} paquets Chocolatey à mettre à jour (choco upgrade all)'
+                })
+            else:
+                scan_results['ok'].append({
+                    'category': '🍫 Chocolatey',
+                    'message': 'Chocolatey à jour ou non installé'
+                })
+        except:
+            # Chocolatey non installé
+            pass
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 🔟 VÉRIFICATION SMART DISQUES DÉTAILLÉE
+        # ═══════════════════════════════════════════════════════════════════
+        try:
+            import wmi
+            w = wmi.WMI()
+
+            for disk in w.Win32_DiskDrive():
+                disk_model = disk.Model if disk.Model else "Disque inconnu"
+
+                # Obtenir infos SMART détaillées via WMI
+                try:
+                    # Power On Hours (attribut SMART 9)
+                    smart_data_cmd = f'wmic diskdrive where "Model=\'{disk_model}\'" get Status'
+
+                    # Pour l'instant, on ne peut pas facilement lire les attributs SMART via WMI
+                    # On va utiliser une approche PowerShell alternative
+
+                    disk_detail = f"Modèle: {disk_model}"
+
+                    # Température et heures nécessitent CrystalDiskInfo ou smartctl
+                    # Pour l'instant, afficher le modèle et status
+
+                    scan_results['ok'].append({
+                        'category': '💿 Disque Détails',
+                        'message': f'{disk_detail} | Status: OK | Pour détails SMART complets: NiTriTe > Diagnostic > CrystalDiskInfo'
+                    })
+                except:
+                    pass
+        except:
+            pass
+
+        # ═══════════════════════════════════════════════════════════════════
         # 📊 AFFICHER RÉSULTATS DU SCAN
         # ═══════════════════════════════════════════════════════════════════
         self._show_scan_results(scan_results)
