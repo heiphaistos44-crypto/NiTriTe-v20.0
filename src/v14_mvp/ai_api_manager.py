@@ -8,7 +8,7 @@ Toutes les APIs sont gratuites ou ont un tier gratuit généreux
 
 import requests
 import json
-from typing import Optional, Dict, List, Tuple
+from typing import Optional, Dict, List, Tuple, Generator
 from v14_mvp.logger_system import logger
 
 # Essayer d'importer google-generativeai
@@ -18,13 +18,50 @@ try:
 except ImportError:
     GENAI_AVAILABLE = False
 
+# Import Ollama Manager
+try:
+    from v14_mvp.ai_ollama_manager import get_ollama_manager
+    OLLAMA_AVAILABLE = True
+except ImportError:
+    OLLAMA_AVAILABLE = False
+    logger.warning("API_Manager", "ai_ollama_manager non disponible")
+
+# Import Smart Cache
+try:
+    from v14_mvp.ai_cache_manager import get_cache_manager
+    CACHE_AVAILABLE = True
+except ImportError:
+    CACHE_AVAILABLE = False
+    logger.warning("API_Manager", "ai_cache_manager non disponible")
+
 
 class APIManager:
-    """Gestionnaire multi-API avec fallback automatique"""
+    """Gestionnaire multi-API avec fallback automatique + Ollama local"""
 
     def __init__(self):
+        # Ollama Manager (priorité absolue si disponible)
+        self.ollama_manager = None
+        if OLLAMA_AVAILABLE:
+            self.ollama_manager = get_ollama_manager()
+
+        # Smart Cache Manager
+        self.cache_manager = None
+        if CACHE_AVAILABLE:
+            self.cache_manager = get_cache_manager()
+
         # Configuration des APIs par priorité
+        # Priority 0 = Ollama (local, gratuit, privé)
+        # Priority 1-13 = APIs cloud
         self.api_configs = {
+            "ollama": {
+                "name": "Ollama (Local)",
+                "models": [],  # Rempli dynamiquement
+                "free": True,
+                "performance": "★★★★★ (Gratuit, Privé, Offline)",
+                "priority": 0,  # PRIORITÉ LA PLUS ÉLEVÉE
+                "enabled": False,  # Activé si Ollama détecté
+                "api_key": "local"  # Pas besoin de clé
+            },
             "deepseek": {
                 "name": "DeepSeek",
                 "endpoint": "https://api.deepseek.com/v1/chat/completions",
@@ -301,6 +338,14 @@ class APIManager:
         # 🔑 AUTO-CHARGEMENT des clés depuis config/api_keys.json
         self._load_api_keys_from_file()
 
+        # 🚀 AUTO-ACTIVATION d'Ollama si disponible
+        if self.ollama_manager and self.ollama_manager.ollama_installed:
+            self.api_configs["ollama"]["enabled"] = True
+            self.api_configs["ollama"]["models"] = self.ollama_manager.available_models
+            logger.info("API_Manager", f"✓ Ollama activé avec {len(self.ollama_manager.available_models)} modèles")
+        else:
+            logger.info("API_Manager", "Ollama non disponible - Utilisez les APIs cloud ou installez Ollama")
+
     def _load_api_keys_from_file(self):
         """Charge automatiquement les clés API depuis config/api_keys.json"""
         import os
@@ -367,20 +412,66 @@ class APIManager:
         enabled.sort(key=lambda x: x[1])
         return [name for name, _ in enabled]
 
-    def query(self, user_message: str, system_prompt: str = "", temperature: float = 0.9, max_tokens: int = 8000) -> Tuple[Optional[str], Optional[str]]:
+    def query(self, user_message: str, system_prompt: str = "", temperature: float = 0.9, max_tokens: int = 8000, use_cache: bool = True) -> Tuple[Optional[str], Optional[str]]:
         """
         Interroge les APIs dans l'ordre de priorité avec fallback automatique
+        Vérifie d'abord le cache, puis Ollama local, puis APIs cloud
 
         Returns:
             (response_text, api_used) ou (None, None) si échec total
         """
+        # === ÉTAPE 1: VÉRIFIER LE CACHE ===
+        if use_cache and self.cache_manager:
+            cached_response = self.cache_manager.get(user_message)
+            if cached_response:
+                logger.info("APIManager", "✓ Réponse trouvée dans le cache")
+                return (cached_response, "cache")
+
+        # === ÉTAPE 2: ESSAYER OLLAMA (LOCAL) ===
+        if self.ollama_manager and self.ollama_manager.ollama_installed:
+            if self.ollama_manager.available_models:
+                try:
+                    logger.info("APIManager", "Tentative avec Ollama (local)...")
+                    model = self.ollama_manager.auto_select_model("technical")
+
+                    # Construire le prompt complet
+                    full_prompt = f"{system_prompt}\n\n{user_message}" if system_prompt else user_message
+
+                    # Query Ollama (non-streaming pour compatibilité)
+                    result = self.ollama_manager.query_local(
+                        full_prompt,
+                        model=model,
+                        temperature=temperature,
+                        max_tokens=max_tokens,
+                        stream=False
+                    )
+
+                    if result:
+                        logger.info("APIManager", f"✓ Succès avec Ollama ({model})")
+
+                        # Mettre en cache
+                        if use_cache and self.cache_manager:
+                            self.cache_manager.put(user_message, result, model="ollama:" + model)
+
+                        self.last_successful_api = "ollama"
+                        return (result, "ollama")
+
+                except Exception as e:
+                    logger.error("APIManager", f"Erreur Ollama: {e}")
+                    # Continuer avec APIs cloud
+
+        # === ÉTAPE 3: ESSAYER APIS CLOUD ===
         enabled_apis = self.get_enabled_apis()
 
-        if not enabled_apis:
-            return ("Aucune API configurée. Veuillez ajouter au moins une clé API dans les paramètres.", None)
+        if not enabled_apis and not (self.ollama_manager and self.ollama_manager.ollama_installed):
+            return ("Aucune API configurée et Ollama non disponible. Veuillez configurer au moins une API ou installer Ollama.", None)
 
         # Essayer chaque API dans l'ordre de priorité
         for api_name in enabled_apis:
+            # Skip Ollama car déjà essayé
+            if api_name == "ollama":
+                continue
+
             try:
                 logger.info("APIManager", f"Tentative avec {api_name}...")
 
@@ -430,6 +521,11 @@ class APIManager:
                 if result:
                     self.last_successful_api = api_name
                     logger.info("APIManager", f"Succès avec {api_name}")
+
+                    # Mettre en cache la réponse cloud
+                    if use_cache and self.cache_manager:
+                        self.cache_manager.put(user_message, result, model=api_name)
+
                     return (result, api_name)
 
             except Exception as e:
