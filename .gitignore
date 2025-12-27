@@ -47,3 +47,6 @@ logiciel/
 # Exclude .exe files from archives
 archives_versions/**/*.exe
 archives_versions/**/*.zip
+.claude/
+test_*.py
+*_colored.py
