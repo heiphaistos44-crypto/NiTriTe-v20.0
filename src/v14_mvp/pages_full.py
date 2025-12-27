@@ -5868,78 +5868,72 @@ class DiagnosticPage(ctk.CTkFrame):
         results_window.title("🔍 Résultats du Scan Total")
         results_window.geometry("900x700")
 
-        # Header
-        header = ctk.CTkFrame(results_window, fg_color=DesignTokens.BG_CARD, corner_radius=10)
+        # Header simplifié
+        header = ctk.CTkFrame(results_window, corner_radius=10)
         header.pack(fill=tk.X, padx=20, pady=20)
 
         title = ctk.CTkLabel(
             header,
             text="🔍 Résultats du Scan Total du PC",
-            font=(DesignTokens.FONT_FAMILY, 24, "bold"),
-            text_color=DesignTokens.TEXT_PRIMARY
+            font=("Segoe UI", 24, "bold")
         )
         title.pack(pady=15)
 
-        # Statistiques rapides
-        stats_frame = ctk.CTkFrame(results_window, fg_color="transparent")
+        # Statistiques rapides - VERSION SIMPLIFIÉE
+        stats_frame = ctk.CTkFrame(results_window)
         stats_frame.pack(fill=tk.X, padx=20, pady=10)
 
         critical_count = len(scan_results['critical'])
         warning_count = len(scan_results['warning'])
         ok_count = len(scan_results['ok'])
 
-        ModernStatsCard(
+        # Stats cards simplifiées (sans ModernStatsCard)
+        ctk.CTkLabel(
             stats_frame,
-            "❌ Critiques",
-            str(critical_count),
-            "Problèmes urgents",
-            DesignTokens.ERROR
-        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+            text=f"❌ Critiques: {critical_count}",
+            font=("Segoe UI", 16, "bold"),
+            text_color="#FF4444"
+        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5, pady=10)
 
-        ModernStatsCard(
+        ctk.CTkLabel(
             stats_frame,
-            "⚠️ Avertissements",
-            str(warning_count),
-            "À surveiller",
-            DesignTokens.WARNING
-        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+            text=f"⚠️ Avertissements: {warning_count}",
+            font=("Segoe UI", 16, "bold"),
+            text_color="#FFA500"
+        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5, pady=10)
 
-        ModernStatsCard(
+        ctk.CTkLabel(
             stats_frame,
-            "✅ OK",
-            str(ok_count),
-            "Tout va bien",
-            DesignTokens.SUCCESS
-        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+            text=f"✅ OK: {ok_count}",
+            font=("Segoe UI", 16, "bold"),
+            text_color="#00FF00"
+        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5, pady=10)
 
         # Scroll frame pour résultats détaillés
-        scroll_frame = ctk.CTkScrollableFrame(
-            results_window,
-            fg_color=DesignTokens.BG_PRIMARY
-        )
+        scroll_frame = ctk.CTkScrollableFrame(results_window)
         scroll_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
 
         # PROBLÈMES CRITIQUES
         if scan_results['critical']:
-            critical_card = ModernCard(scroll_frame)
+            critical_card = ctk.CTkFrame(scroll_frame, corner_radius=10)
             critical_card.pack(fill=tk.X, pady=10)
 
             ctk.CTkLabel(
                 critical_card,
                 text="❌ PROBLÈMES CRITIQUES (ACTION URGENTE REQUISE)",
-                font=(DesignTokens.FONT_FAMILY, 16, "bold"),
-                text_color=DesignTokens.ERROR
+                font=("Segoe UI", 16, "bold"),
+                text_color="#FF4444"
             ).pack(anchor="w", padx=20, pady=10)
 
             for item in scan_results['critical']:
-                issue_frame = ctk.CTkFrame(critical_card, fg_color=DesignTokens.BG_PRIMARY, corner_radius=8)
+                issue_frame = ctk.CTkFrame(critical_card, corner_radius=8)
                 issue_frame.pack(fill=tk.X, padx=20, pady=5)
 
                 ctk.CTkLabel(
                     issue_frame,
                     text=f"{item['category']}: {item['issue']}",
-                    font=(DesignTokens.FONT_FAMILY, 13, "bold"),
-                    text_color=DesignTokens.ERROR,
+                    font=("Segoe UI", 13, "bold"),
+                    text_color="#FF4444",
                     anchor="w",
                     wraplength=800
                 ).pack(anchor="w", padx=10, pady=(10, 5))
@@ -5947,33 +5941,32 @@ class DiagnosticPage(ctk.CTkFrame):
                 ctk.CTkLabel(
                     issue_frame,
                     text=f"💡 Recommandation: {item['recommendation']}",
-                    font=(DesignTokens.FONT_FAMILY, 12),
-                    text_color=DesignTokens.TEXT_SECONDARY,
+                    font=("Segoe UI", 12),
                     anchor="w",
                     wraplength=800
                 ).pack(anchor="w", padx=10, pady=(0, 10))
 
         # AVERTISSEMENTS
         if scan_results['warning']:
-            warning_card = ModernCard(scroll_frame)
+            warning_card = ctk.CTkFrame(scroll_frame, corner_radius=10)
             warning_card.pack(fill=tk.X, pady=10)
 
             ctk.CTkLabel(
                 warning_card,
                 text="⚠️ AVERTISSEMENTS (À SURVEILLER)",
-                font=(DesignTokens.FONT_FAMILY, 16, "bold"),
-                text_color=DesignTokens.WARNING
+                font=("Segoe UI", 16, "bold"),
+                text_color="#FFA500"
             ).pack(anchor="w", padx=20, pady=10)
 
             for item in scan_results['warning']:
-                issue_frame = ctk.CTkFrame(warning_card, fg_color=DesignTokens.BG_PRIMARY, corner_radius=8)
+                issue_frame = ctk.CTkFrame(warning_card, corner_radius=8)
                 issue_frame.pack(fill=tk.X, padx=20, pady=5)
 
                 ctk.CTkLabel(
                     issue_frame,
                     text=f"{item['category']}: {item['issue']}",
-                    font=(DesignTokens.FONT_FAMILY, 13, "bold"),
-                    text_color=DesignTokens.WARNING,
+                    font=("Segoe UI", 13, "bold"),
+                    text_color="#FFA500",
                     anchor="w",
                     wraplength=800
                 ).pack(anchor="w", padx=10, pady=(10, 5))
@@ -5981,30 +5974,28 @@ class DiagnosticPage(ctk.CTkFrame):
                 ctk.CTkLabel(
                     issue_frame,
                     text=f"💡 Recommandation: {item['recommendation']}",
-                    font=(DesignTokens.FONT_FAMILY, 12),
-                    text_color=DesignTokens.TEXT_SECONDARY,
+                    font=("Segoe UI", 12),
                     anchor="w",
                     wraplength=800
                 ).pack(anchor="w", padx=10, pady=(0, 10))
 
         # STATUTS OK
         if scan_results['ok']:
-            ok_card = ModernCard(scroll_frame)
+            ok_card = ctk.CTkFrame(scroll_frame, corner_radius=10)
             ok_card.pack(fill=tk.X, pady=10)
 
             ctk.CTkLabel(
                 ok_card,
                 text="✅ TOUT VA BIEN",
-                font=(DesignTokens.FONT_FAMILY, 16, "bold"),
-                text_color=DesignTokens.SUCCESS
+                font=("Segoe UI", 16, "bold"),
+                text_color="#00FF00"
             ).pack(anchor="w", padx=20, pady=10)
 
             for item in scan_results['ok']:
                 ctk.CTkLabel(
                     ok_card,
                     text=f"{item['category']}: {item['message']}",
-                    font=(DesignTokens.FONT_FAMILY, 12),
-                    text_color=DesignTokens.TEXT_SECONDARY,
+                    font=("Segoe UI", 12),
                     anchor="w"
                 ).pack(anchor="w", padx=30, pady=2)
 
@@ -6015,7 +6006,7 @@ class DiagnosticPage(ctk.CTkFrame):
             command=results_window.destroy,
             width=200,
             height=40,
-            font=(DesignTokens.FONT_FAMILY, 14, "bold")
+            font=("Segoe UI", 14, "bold")
         ).pack(pady=20)
 
     # === MÉTHODES MASTER OUTILS ===
