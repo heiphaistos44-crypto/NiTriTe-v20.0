@@ -28,13 +28,32 @@ class DynamicResponseGenerator:
 
         # === NOUVEAUX MODULES (Amélioration x10000%) ===
         try:
-            from ai_knowledge_base_hybrid import HybridKnowledgeBase
-            from ai_semantic_search import SemanticSearchEngine
-            from ai_context_enricher import ContextEnricher
-            from ai_response_templates import ResponseTemplates, TemplateFormatter
-            from ai_system_executor import SystemExecutor
-            from ai_nitrite_expert import NiTriTeExpert
-            from ai_auto_learner import AutoLearner
+            # Try imports avec fallback pour compatibilité multi-contexte
+            try:
+                from v14_mvp.ai_knowledge_base_hybrid import HybridKnowledgeBase
+                from v14_mvp.ai_semantic_search import SemanticSearchEngine
+                from v14_mvp.ai_context_enricher import ContextEnricher
+                from v14_mvp.ai_response_templates import ResponseTemplates, TemplateFormatter
+                from v14_mvp.ai_system_executor import SystemExecutor
+                from v14_mvp.ai_nitrite_expert import NiTriTeExpert
+                from v14_mvp.ai_auto_learner import AutoLearner
+            except ImportError:
+                try:
+                    from ai_knowledge_base_hybrid import HybridKnowledgeBase
+                    from ai_semantic_search import SemanticSearchEngine
+                    from ai_context_enricher import ContextEnricher
+                    from ai_response_templates import ResponseTemplates, TemplateFormatter
+                    from ai_system_executor import SystemExecutor
+                    from ai_nitrite_expert import NiTriTeExpert
+                    from ai_auto_learner import AutoLearner
+                except ImportError:
+                    from .ai_knowledge_base_hybrid import HybridKnowledgeBase
+                    from .ai_semantic_search import SemanticSearchEngine
+                    from .ai_context_enricher import ContextEnricher
+                    from .ai_response_templates import ResponseTemplates, TemplateFormatter
+                    from .ai_system_executor import SystemExecutor
+                    from .ai_nitrite_expert import NiTriTeExpert
+                    from .ai_auto_learner import AutoLearner
 
             # Hybrid KB (30K+ entries)
             self.kb_hybrid = HybridKnowledgeBase()

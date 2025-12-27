@@ -97,6 +97,38 @@
         "intent": "performance",
         "user_level": "beginner"
       }
+    },
+    {
+      "role": "user",
+      "content": "mmon pc surcahuffe",
+      "timestamp": "2025-12-27T20:29:41.993979",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "Ah classique ça! Pas de souci.\n\nVoici ce que tu dois savoir:\n\n**1.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\n\n**2.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\n\n**3.** PC noise optimization - Detailed tip 8: Configuration, optimization, and best practices for optimal results and troubleshooting common issues\n\n**4.** PC noise optimization - Detailed tip 7: Configuration, optimization, and best practices for optimal results and troubleshooting common issues\nHésite pas si t'as besoin de plus de détails!",
+      "timestamp": "2025-12-27T20:29:53.678069",
+      "metadata": {
+        "mode": "offline",
+        "intent": "general_question",
+        "user_level": "beginner"
+      }
+    },
+    {
+      "role": "user",
+      "content": "vbhgh",
+      "timestamp": "2025-12-27T20:29:53.757313",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "Salut! Je suis là pour t'aider avec ton PC! 🚀\n\nTu peux me poser des questions sur:\n• Performance et optimisation\n• Problèmes de surchauffe\n• Gaming et FPS\n• Nettoyage et maintenance\n• Hardware et drivers\n• Diagnostics et dépannage\n\nAlors, qu'est-ce qui t'amène?",
+      "timestamp": "2025-12-27T20:29:53.765123",
+      "metadata": {
+        "mode": "offline",
+        "intent": "general_question",
+        "user_level": "beginner"
+      }
     }
   ],
   "topics": [
