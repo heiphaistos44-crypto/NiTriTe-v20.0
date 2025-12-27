@@ -250,6 +250,98 @@ class DynamicResponseGenerator:
 
         return response
 
+    def _correct_common_typos(self, query: str) -> str:
+        """
+        Corrige les fautes d'orthographe courantes pour améliorer la recherche
+
+        Args:
+            query: Query utilisateur (peut contenir des fautes)
+
+        Returns:
+            Query avec corrections communes appliquées
+        """
+        # Dictionnaire corrections courantes
+        corrections = {
+            # Fautes de frappe courantes
+            'temprature': 'température',
+            'temperatur': 'température',
+            'instalation': 'installation',
+            'instal': 'installation',
+            'programe': 'programme',
+            'programm': 'programme',
+            'ordi': 'ordinateur',
+            'orditeur': 'ordinateur',
+            'procesor': 'processeur',
+            'proceseur': 'processeur',
+            'memoire': 'mémoire',
+            'memwar': 'mémoire',
+            'demarage': 'démarrage',
+            'demarer': 'démarrer',
+
+            # Abréviations
+            'pb': 'problème',
+            'pbs': 'problèmes',
+            'pc': 'ordinateur',
+            'ram': 'mémoire',
+            'gpu': 'carte graphique',
+            'cpu': 'processeur',
+            'hdd': 'disque dur',
+            'ssd': 'disque ssd',
+
+            # Synonymes et variantes
+            'lent': 'ralenti',
+            'lag': 'ralenti',
+            'freeze': 'bloqué',
+            'bug': 'problème',
+            'plante': 'crash',
+            'surchofe': 'surchauffe',
+            'surchauf': 'surchauffe',
+            'batery': 'batterie',
+            'batrie': 'batterie',
+
+            # Phonétiques
+            'koi': 'quoi',
+            'kestion': 'question',
+            'safiche': 'affiche',
+            'aparait': 'apparait',
+        }
+
+        # Applique corrections
+        query_lower = query.lower()
+        corrected = query_lower
+
+        for faute, correction in corrections.items():
+            # Remplace le mot entier (pas dans un autre mot)
+            import re
+            pattern = r'\b' + re.escape(faute) + r'\b'
+            corrected = re.sub(pattern, correction, corrected, flags=re.IGNORECASE)
+
+        return corrected
+
+    def _deduplicate_results(self, results: List[Dict], key: str = 'content') -> List[Dict]:
+        """
+        Élimine les doublons dans les résultats
+
+        Args:
+            results: Liste résultats
+            key: Clé à utiliser pour détecter doublons
+
+        Returns:
+            Liste sans doublons
+        """
+        seen = set()
+        unique = []
+
+        for result in results:
+            # Utilise hash du contenu pour détecter doublons
+            content_hash = hash(str(result.get(key, '')))
+
+            if content_hash not in seen:
+                seen.add(content_hash)
+                unique.append(result)
+
+        return unique
+
     def _generate_online_enhanced(
         self,
         user_message: str,
@@ -262,26 +354,35 @@ class DynamicResponseGenerator:
         Utilise tous les nouveaux modules pour réponses ultra-détaillées
 
         Workflow:
+        0. Correction fautes orthographe (fuzzy matching)
         1. Semantic search (FAISS) → Top 20 résultats pertinents
         2. Hybrid KB search → Core KB + NiTriTe KB + Legacy + Auto-learned
         3. Context enrichment → Hardware détecté + Profil user
         4. NiTriTe Expert → Suggestions pages/tools pertinents
-        5. Mega-prompt construction → 10x plus de contexte
-        6. API call avec max_tokens augmenté
-        7. Template formatting → Structure professionnelle garantie
+        5. Déduplication résultats
+        6. Mega-prompt construction → 10x plus de contexte
+        7. API call avec max_tokens augmenté (FRANÇAIS OBLIGATOIRE)
+        8. Template formatting → Structure professionnelle garantie
         """
-        print("[Enhanced] 🚀 Génération mode amélioré activée")
+        print("[Enhanced] Generation mode ameliore activee")
+
+        # === 0. CORRECTION FAUTES ORTHOGRAPHE ===
+        corrected_message = self._correct_common_typos(user_message)
+        if corrected_message != user_message.lower():
+            print(f"[Enhanced] Correction orthographe appliquee")
+
+        # Utilise message corrigé pour recherches
 
         # === 1. SEMANTIC SEARCH (FAISS) ===
         semantic_results = []
         if self.semantic_search.index is not None:
             try:
                 semantic_results = self.semantic_search.search(
-                    user_message,
+                    corrected_message,  # Utilise message corrigé
                     top_k=20,
                     min_score=0.1
                 )
-                print(f"[Enhanced] ✅ Semantic search: {len(semantic_results)} résultats")
+                print(f"[Enhanced] Semantic search: {len(semantic_results)} resultats")
             except Exception as e:
                 print(f"[Enhanced] WARN: Semantic search failed: {e}")
 
@@ -289,13 +390,18 @@ class DynamicResponseGenerator:
         hybrid_results = []
         try:
             hybrid_results = self.kb_hybrid.search(
-                user_message,
+                corrected_message,  # Utilise message corrigé
                 top_k=10,
                 filters={'difficulty': user_level} if user_level else None
             )
-            print(f"[Enhanced] ✅ Hybrid KB: {len(hybrid_results)} résultats")
+            print(f"[Enhanced] Hybrid KB: {len(hybrid_results)} resultats")
         except Exception as e:
             print(f"[Enhanced] WARN: Hybrid KB failed: {e}")
+
+        # === DÉDUPLICATION ===
+        if semantic_results:
+            semantic_results = self._deduplicate_results(semantic_results, key='content')
+            print(f"[Enhanced] Apres deduplication: {len(semantic_results)} resultats uniques")
 
         # === 3. CONTEXT ENRICHMENT ===
         enriched_context = {}
@@ -332,9 +438,36 @@ class DynamicResponseGenerator:
         learned_results = []
         try:
             learned_results = self.auto_learner.search_learned(user_message, search_in='all')
-            print(f"[Enhanced] ✅ Auto-learned: {len(learned_results)} résultats")
+            print(f"[Enhanced] Auto-learned: {len(learned_results)} resultats")
         except Exception as e:
             print(f"[Enhanced] WARN: Auto-learner failed: {e}")
+
+        # === DÉTECTION ABSENCE DE RÉPONSE + LOGGING ===
+        total_results = len(semantic_results) + len(hybrid_results) + len(learned_results)
+        has_nitrite_info = nitrite_page is not None or len(nitrite_tools) > 0
+
+        if total_results == 0 and not has_nitrite_info:
+            # Aucune info trouvée - LOG pour future implémentation
+            self._log_missing_knowledge(user_message, corrected_message, intent)
+            print(f"[Enhanced] WARN: Aucune info pertinente - Question loggee pour implementation")
+
+            # Ajoute note dans le mega-prompt
+            mega_prompt_note = f"""
+## ⚠️ ATTENTION: Connaissance Limitée
+
+Cette question semble nouvelle ou hors périmètre actuel.
+
+**Instructions**:
+1. Réponds EN FRANÇAIS avec tes connaissances générales
+2. Sois honnête: "Je n'ai pas d'information spécifique dans ma base, mais voici ce que je sais..."
+3. Propose des solutions génériques pertinentes
+4. Suggère à l'utilisateur de vérifier la documentation officielle
+5. MINIMUM 5 paragraphes quand même (pas d'excuse pour réponse courte)
+
+**Question originale**: {user_message}
+"""
+        else:
+            mega_prompt_note = ""
 
         # === 6. MEGA-PROMPT CONSTRUCTION ===
         mega_prompt = self._build_mega_prompt_enhanced(
@@ -348,6 +481,10 @@ class DynamicResponseGenerator:
             intent=intent,
             user_level=user_level
         )
+
+        # Ajoute note si pas de résultats
+        if mega_prompt_note:
+            mega_prompt = mega_prompt_note + "\n\n" + mega_prompt
 
         # === 7. API CALL (MAX TOKENS AUGMENTÉ) ===
         messages = [
@@ -428,6 +565,30 @@ class DynamicResponseGenerator:
 
 Tu es l'agent IA officiel de NiTriTe, l'outil ultime de maintenance informatique portable.
 
+## 🇫🇷 IMPÉRATIF LANGUE : TOUJOURS RÉPONDRE EN FRANÇAIS
+
+**OBLIGATOIRE** :
+- ✅ TOUTES tes réponses DOIVENT être en français (100% français, aucune exception)
+- ✅ Même si la question contient de l'anglais, réponds EN FRANÇAIS
+- ✅ Traduis automatiquement les termes techniques anglais en français
+- ✅ Si un terme n'a pas de traduction, donne l'anglais entre parenthèses
+- ❌ JAMAIS de réponses en anglais ou autre langue
+
+## 🔍 COMPRÉHENSION DES FAUTES D'ORTHOGRAPHE
+
+**TU DOIS COMPRENDRE** :
+- Les fautes de frappe (ex: "temprature" = "température")
+- Les fautes d'orthographe (ex: "instalation" = "installation")
+- Les abréviations (ex: "pb" = "problème", "pc" = "ordinateur")
+- Les phonétiques (ex: "ordi" = "ordinateur", "programe" = "programme")
+- Les synonymes (ex: "lent" = "ralenti" = "lag")
+
+**SI LA QUESTION A DES FAUTES** :
+1. Comprends l'intention malgré les fautes
+2. Ne mentionne PAS les fautes (sois empathique)
+3. Réponds comme si la question était parfaite
+4. Utilise le vocabulaire CORRECT dans ta réponse (sans mentionner la correction)
+
 ## ⚠️ IMPÉRATIF ABSOLU: RÉPONSES TOUJOURS TRÈS DÉTAILLÉES
 
 **MINIMUM REQUIS PAR RÉPONSE**:
@@ -441,29 +602,32 @@ Tu es l'agent IA officiel de NiTriTe, l'outil ultime de maintenance informatique
 - Section "Prévention long terme"
 
 **FORMAT OBLIGATOIRE**:
-1. Introduction empathique (2-3 phrases)
-2. Analyse détaillée du problème (5+ phrases)
-3. Solutions multiples (MINIMUM 2-3 approches différentes)
-4. Chaque solution = 5+ étapes DÉTAILLÉES
-5. Commandes avec explications ligne par ligne
-6. Outils NiTriTe recommandés avec mode d'emploi
-7. Vérification résultat (étapes précises)
-8. Troubleshooting si échec
-9. Conseils prévention
+1. Introduction empathique (2-3 phrases EN FRANÇAIS)
+2. Analyse détaillée du problème (5+ phrases EN FRANÇAIS)
+3. Solutions multiples (MINIMUM 2-3 approches différentes EN FRANÇAIS)
+4. Chaque solution = 5+ étapes DÉTAILLÉES EN FRANÇAIS
+5. Commandes avec explications ligne par ligne EN FRANÇAIS
+6. Outils NiTriTe recommandés avec mode d'emploi EN FRANÇAIS
+7. Vérification résultat (étapes précises EN FRANÇAIS)
+8. Troubleshooting si échec EN FRANÇAIS
+9. Conseils prévention EN FRANÇAIS
 
 **STYLE**:
-- Français conversationnel (comme Copilot)
+- Français conversationnel (comme Copilot France)
 - Empathique et encourageant
 - Explications détaillées mais claires
 - Jamais de réponse < 800 mots
 - Utilise markdown (# ## ### ``` etc.)
 - Émojis pour clarté (⚠️ 💡 ✅ ❌ 🔧 📊)
 
-**❌ INTERDIT**:
+**❌ ABSOLUMENT INTERDIT**:
 - Réponses courtes (< 500 mots)
 - Vagues ou génériques
 - Sans exemples
 - Sans étapes précises
+- **RÉPONSES EN ANGLAIS OU AUTRE LANGUE**
+- Doublons ou répétitions inutiles
+- Mentionner les fautes d'orthographe de l'utilisateur
 """)
 
         # === SECTION 2: HARDWARE DÉTECTÉ ===
@@ -559,6 +723,55 @@ Maintenant, réponds à la question de l'utilisateur en suivant TOUTES ces direc
         if not d:
             return "(Aucune)"
         return '\n'.join(f"- **{k}**: {v}" for k, v in list(d.items())[:10])
+
+    def _log_missing_knowledge(self, original_query: str, corrected_query: str, intent: str):
+        """
+        Log les questions sans réponse pour future implémentation
+
+        Args:
+            original_query: Question originale utilisateur
+            corrected_query: Question après correction orthographe
+            intent: Intent détecté
+        """
+        import json
+        from datetime import datetime
+        from pathlib import Path
+
+        # Fichier log
+        log_dir = Path("data/learning")
+        log_dir.mkdir(parents=True, exist_ok=True)
+        log_file = log_dir / "missing_knowledge_requests.json"
+
+        # Charge logs existants
+        if log_file.exists():
+            try:
+                with open(log_file, 'r', encoding='utf-8') as f:
+                    logs = json.load(f)
+            except:
+                logs = []
+        else:
+            logs = []
+
+        # Nouvelle entrée
+        log_entry = {
+            'timestamp': datetime.now().isoformat(),
+            'original_query': original_query,
+            'corrected_query': corrected_query,
+            'intent': intent,
+            'status': 'pending_implementation'
+        }
+
+        logs.append(log_entry)
+
+        # Sauvegarde (garde dernières 1000 entrées)
+        logs = logs[-1000:]
+
+        try:
+            with open(log_file, 'w', encoding='utf-8') as f:
+                json.dump(logs, f, indent=2, ensure_ascii=False)
+            print(f"[Logger] Question loggee dans {log_file}")
+        except Exception as e:
+            print(f"[Logger] ERROR saving log: {e}")
 
     def _search_relevant_knowledge(
         self,
