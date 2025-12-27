@@ -6193,6 +6193,83 @@ class DiagnosticPage(ctk.CTkFrame):
             pass
 
         # ═══════════════════════════════════════════════════════════════════
+        # 1️⃣1️⃣ ANALYSE DOSSIER UTILISATEUR
+        # ═══════════════════════════════════════════════════════════════════
+        try:
+            import os
+            from pathlib import Path
+
+            # Obtenir le dossier utilisateur
+            user_folder = Path.home()
+
+            def get_folder_size(folder_path):
+                """Calculer la taille d'un dossier en Go"""
+                total_size = 0
+                try:
+                    for dirpath, dirnames, filenames in os.walk(folder_path):
+                        for filename in filenames:
+                            filepath = os.path.join(dirpath, filename)
+                            try:
+                                total_size += os.path.getsize(filepath)
+                            except:
+                                pass
+                except:
+                    pass
+                return total_size / (1024**3)  # Convertir en Go
+
+            # Analyser dossier utilisateur total
+            print(f"📁 Analyse du dossier utilisateur: {user_folder}")
+            user_folder_size = get_folder_size(user_folder)
+
+            # Analyser sous-dossiers principaux
+            subfolders_to_check = {
+                'Documents': user_folder / 'Documents',
+                'Téléchargements': user_folder / 'Downloads',
+                'Bureau': user_folder / 'Desktop',
+                'Images': user_folder / 'Pictures',
+                'Vidéos': user_folder / 'Videos',
+                'Musique': user_folder / 'Music',
+                'AppData': user_folder / 'AppData'
+            }
+
+            subfolder_sizes = {}
+            for name, path in subfolders_to_check.items():
+                if path.exists():
+                    size = get_folder_size(path)
+                    subfolder_sizes[name] = size
+
+            # Trier par taille décroissante
+            sorted_folders = sorted(subfolder_sizes.items(), key=lambda x: x[1], reverse=True)
+
+            # Préparer message détaillé
+            top_folders_msg = "\n".join([f"  • {name}: {size:.2f} Go" for name, size in sorted_folders[:5]])
+
+            # Évaluer si le dossier est trop volumineux
+            if user_folder_size > 500:
+                scan_results['warning'].append({
+                    'category': '📁 Dossier Utilisateur',
+                    'issue': f'Dossier utilisateur très volumineux: {user_folder_size:.2f} Go\n\nTop 5 dossiers:\n{top_folders_msg}',
+                    'recommendation': 'Nettoyer fichiers inutiles, déplacer données vers disque secondaire, utiliser Nettoyage de disque'
+                })
+            elif user_folder_size > 200:
+                scan_results['warning'].append({
+                    'category': '📁 Dossier Utilisateur',
+                    'issue': f'Dossier utilisateur volumineux: {user_folder_size:.2f} Go\n\nTop 5 dossiers:\n{top_folders_msg}',
+                    'recommendation': 'Surveiller espace, nettoyer si nécessaire'
+                })
+            else:
+                scan_results['ok'].append({
+                    'category': '📁 Dossier Utilisateur',
+                    'message': f'Taille normale: {user_folder_size:.2f} Go\n\nTop 3 dossiers:\n' + "\n".join([f"  • {name}: {size:.2f} Go" for name, size in sorted_folders[:3]])
+                })
+
+        except Exception as e:
+            scan_results['ok'].append({
+                'category': '📁 Dossier Utilisateur',
+                'message': f'Impossible d\'analyser le dossier utilisateur: {str(e)}'
+            })
+
+        # ═══════════════════════════════════════════════════════════════════
         # 📊 AFFICHER RÉSULTATS DU SCAN
         # ═══════════════════════════════════════════════════════════════════
         self._show_scan_results(scan_results)
@@ -6376,15 +6453,498 @@ class DiagnosticPage(ctk.CTkFrame):
                         font=("Segoe UI", 10)
                     ).pack(side=tk.RIGHT, padx=10)
 
+        # Frame pour boutons export et fermer
+        bottom_frame = ctk.CTkFrame(results_window, fg_color="transparent")
+        bottom_frame.pack(pady=20)
+
+        # Label export
+        ctk.CTkLabel(
+            bottom_frame,
+            text="📤 Exporter le scan:",
+            font=("Segoe UI", 12, "bold")
+        ).pack(side=tk.LEFT, padx=(0, 10))
+
+        # Boutons export
+        ctk.CTkButton(
+            bottom_frame,
+            text="💾 TXT",
+            command=lambda: self._export_scan_to_txt(scan_results),
+            width=100,
+            height=35,
+            font=("Segoe UI", 12)
+        ).pack(side=tk.LEFT, padx=5)
+
+        ctk.CTkButton(
+            bottom_frame,
+            text="🌐 HTML",
+            command=lambda: self._export_scan_to_html(scan_results),
+            width=100,
+            height=35,
+            font=("Segoe UI", 12)
+        ).pack(side=tk.LEFT, padx=5)
+
+        ctk.CTkButton(
+            bottom_frame,
+            text="📝 MD",
+            command=lambda: self._export_scan_to_md(scan_results),
+            width=100,
+            height=35,
+            font=("Segoe UI", 12)
+        ).pack(side=tk.LEFT, padx=5)
+
         # Bouton fermer
         ctk.CTkButton(
-            results_window,
-            text="Fermer",
+            bottom_frame,
+            text="✖️ Fermer",
             command=results_window.destroy,
-            width=200,
-            height=40,
-            font=("Segoe UI", 14, "bold")
-        ).pack(pady=20)
+            width=120,
+            height=35,
+            font=("Segoe UI", 12, "bold"),
+            fg_color="#FF4444",
+            hover_color="#CC0000"
+        ).pack(side=tk.LEFT, padx=(20, 0))
+
+    def _export_scan_to_txt(self, scan_results):
+        """Exporter résultats scan en fichier TXT"""
+        from tkinter import messagebox
+        from datetime import datetime
+        from pathlib import Path
+
+        try:
+            # Créer le dossier exports si nécessaire
+            export_dir = Path("temp/scan_exports")
+            export_dir.mkdir(parents=True, exist_ok=True)
+
+            # Nom de fichier avec timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = export_dir / f"scan_total_{timestamp}.txt"
+
+            # Générer contenu TXT
+            content = []
+            content.append("=" * 80)
+            content.append("NITRITE V20.0 - SCAN TOTAL DU PC")
+            content.append("=" * 80)
+            content.append(f"Date: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+            content.append("=" * 80)
+            content.append("")
+
+            # Statistiques
+            critical_count = len(scan_results['critical'])
+            warning_count = len(scan_results['warning'])
+            ok_count = len(scan_results['ok'])
+
+            content.append("RÉSUMÉ:")
+            content.append(f"  - Problèmes critiques: {critical_count}")
+            content.append(f"  - Avertissements: {warning_count}")
+            content.append(f"  - Statuts OK: {ok_count}")
+            content.append("")
+            content.append("=" * 80)
+
+            # Problèmes critiques
+            if scan_results['critical']:
+                content.append("")
+                content.append("❌ PROBLÈMES CRITIQUES (ACTION URGENTE REQUISE)")
+                content.append("-" * 80)
+                for item in scan_results['critical']:
+                    content.append(f"\n[{item['category']}]")
+                    content.append(f"  Problème: {item['issue']}")
+                    content.append(f"  Recommandation: {item['recommendation']}")
+                    content.append("")
+
+            # Avertissements
+            if scan_results['warning']:
+                content.append("")
+                content.append("⚠️ AVERTISSEMENTS (À SURVEILLER)")
+                content.append("-" * 80)
+                for item in scan_results['warning']:
+                    content.append(f"\n[{item['category']}]")
+                    content.append(f"  Problème: {item['issue']}")
+                    content.append(f"  Recommandation: {item['recommendation']}")
+                    content.append("")
+
+            # Statuts OK
+            if scan_results['ok']:
+                content.append("")
+                content.append("✅ TOUT VA BIEN")
+                content.append("-" * 80)
+                for item in scan_results['ok']:
+                    content.append(f"[{item['category']}] {item['message']}")
+
+            content.append("")
+            content.append("=" * 80)
+            content.append("Fin du rapport - NiTriTe V20.0")
+            content.append("=" * 80)
+
+            # Écrire fichier
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write('\n'.join(content))
+
+            messagebox.showinfo(
+                "Export réussi",
+                f"Scan exporté avec succès !\n\nFichier: {filename}"
+            )
+
+            # Ouvrir le fichier
+            os.startfile(filename)
+
+        except Exception as e:
+            messagebox.showerror("Erreur export", f"Impossible d'exporter: {str(e)}")
+
+    def _export_scan_to_html(self, scan_results):
+        """Exporter résultats scan en fichier HTML stylisé"""
+        from tkinter import messagebox
+        from datetime import datetime
+        from pathlib import Path
+
+        try:
+            # Créer le dossier exports si nécessaire
+            export_dir = Path("temp/scan_exports")
+            export_dir.mkdir(parents=True, exist_ok=True)
+
+            # Nom de fichier avec timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = export_dir / f"scan_total_{timestamp}.html"
+
+            # Statistiques
+            critical_count = len(scan_results['critical'])
+            warning_count = len(scan_results['warning'])
+            ok_count = len(scan_results['ok'])
+
+            # Générer HTML
+            html = f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NiTriTe - Scan Total PC</title>
+    <style>
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            color: #333;
+        }}
+        .container {{
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }}
+        .header {{
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }}
+        .header h1 {{
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }}
+        .header p {{
+            font-size: 1.1em;
+            opacity: 0.9;
+        }}
+        .stats {{
+            display: flex;
+            justify-content: space-around;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #e9ecef;
+        }}
+        .stat-card {{
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 150px;
+        }}
+        .stat-card.critical {{
+            background: #ffe5e5;
+            border: 2px solid #ff4444;
+        }}
+        .stat-card.warning {{
+            background: #fff4e5;
+            border: 2px solid #ffa500;
+        }}
+        .stat-card.ok {{
+            background: #e5ffe5;
+            border: 2px solid #00ff00;
+        }}
+        .stat-card h3 {{
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }}
+        .stat-card.critical h3 {{ color: #ff4444; }}
+        .stat-card.warning h3 {{ color: #ffa500; }}
+        .stat-card.ok h3 {{ color: #00aa00; }}
+        .content {{
+            padding: 30px;
+        }}
+        .section {{
+            margin-bottom: 30px;
+        }}
+        .section-title {{
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid;
+        }}
+        .section-title.critical {{
+            color: #ff4444;
+            border-color: #ff4444;
+        }}
+        .section-title.warning {{
+            color: #ffa500;
+            border-color: #ffa500;
+        }}
+        .section-title.ok {{
+            color: #00aa00;
+            border-color: #00aa00;
+        }}
+        .item {{
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 5px solid;
+        }}
+        .item.critical {{ border-color: #ff4444; }}
+        .item.warning {{ border-color: #ffa500; }}
+        .item.ok {{ border-color: #00aa00; }}
+        .item-category {{
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }}
+        .item-issue {{
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }}
+        .item-recommendation {{
+            color: #555;
+            font-style: italic;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-top: 10px;
+        }}
+        .footer {{
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 NiTriTe V20.0</h1>
+            <p>Scan Total du PC - {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card critical">
+                <h3>{critical_count}</h3>
+                <p>Problèmes Critiques</p>
+            </div>
+            <div class="stat-card warning">
+                <h3>{warning_count}</h3>
+                <p>Avertissements</p>
+            </div>
+            <div class="stat-card ok">
+                <h3>{ok_count}</h3>
+                <p>Statuts OK</p>
+            </div>
+        </div>
+
+        <div class="content">
+"""
+
+            # Problèmes critiques
+            if scan_results['critical']:
+                html += """
+            <div class="section">
+                <h2 class="section-title critical">❌ PROBLÈMES CRITIQUES (ACTION URGENTE REQUISE)</h2>
+"""
+                for item in scan_results['critical']:
+                    issue = item['issue'].replace('\n', '<br>')
+                    recommendation = item['recommendation'].replace('\n', '<br>')
+                    html += f"""
+                <div class="item critical">
+                    <div class="item-category">{item['category']}</div>
+                    <div class="item-issue">{issue}</div>
+                    <div class="item-recommendation">💡 Recommandation: {recommendation}</div>
+                </div>
+"""
+                html += "            </div>\n"
+
+            # Avertissements
+            if scan_results['warning']:
+                html += """
+            <div class="section">
+                <h2 class="section-title warning">⚠️ AVERTISSEMENTS (À SURVEILLER)</h2>
+"""
+                for item in scan_results['warning']:
+                    issue = item['issue'].replace('\n', '<br>')
+                    recommendation = item['recommendation'].replace('\n', '<br>')
+                    html += f"""
+                <div class="item warning">
+                    <div class="item-category">{item['category']}</div>
+                    <div class="item-issue">{issue}</div>
+                    <div class="item-recommendation">💡 Recommandation: {recommendation}</div>
+                </div>
+"""
+                html += "            </div>\n"
+
+            # Statuts OK
+            if scan_results['ok']:
+                html += """
+            <div class="section">
+                <h2 class="section-title ok">✅ TOUT VA BIEN</h2>
+"""
+                for item in scan_results['ok']:
+                    message = item['message'].replace('\n', '<br>')
+                    html += f"""
+                <div class="item ok">
+                    <div class="item-category">{item['category']}</div>
+                    <div class="item-issue">{message}</div>
+                </div>
+"""
+                html += "            </div>\n"
+
+            html += """
+        </div>
+
+        <div class="footer">
+            <p>📊 Rapport généré par NiTriTe V20.0 - L'outil ultime de maintenance PC</p>
+        </div>
+    </div>
+</body>
+</html>
+"""
+
+            # Écrire fichier
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(html)
+
+            messagebox.showinfo(
+                "Export réussi",
+                f"Scan exporté avec succès en HTML !\n\nFichier: {filename}"
+            )
+
+            # Ouvrir le fichier dans le navigateur
+            os.startfile(filename)
+
+        except Exception as e:
+            messagebox.showerror("Erreur export", f"Impossible d'exporter en HTML: {str(e)}")
+
+    def _export_scan_to_md(self, scan_results):
+        """Exporter résultats scan en fichier Markdown"""
+        from tkinter import messagebox
+        from datetime import datetime
+        from pathlib import Path
+
+        try:
+            # Créer le dossier exports si nécessaire
+            export_dir = Path("temp/scan_exports")
+            export_dir.mkdir(parents=True, exist_ok=True)
+
+            # Nom de fichier avec timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = export_dir / f"scan_total_{timestamp}.md"
+
+            # Statistiques
+            critical_count = len(scan_results['critical'])
+            warning_count = len(scan_results['warning'])
+            ok_count = len(scan_results['ok'])
+
+            # Générer Markdown
+            md = []
+            md.append("# 🔍 NiTriTe V20.0 - Scan Total du PC")
+            md.append("")
+            md.append(f"**Date:** {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+            md.append("")
+            md.append("---")
+            md.append("")
+
+            # Résumé
+            md.append("## 📊 Résumé")
+            md.append("")
+            md.append("| Catégorie | Nombre |")
+            md.append("|-----------|--------|")
+            md.append(f"| ❌ Problèmes Critiques | {critical_count} |")
+            md.append(f"| ⚠️ Avertissements | {warning_count} |")
+            md.append(f"| ✅ Statuts OK | {ok_count} |")
+            md.append("")
+            md.append("---")
+            md.append("")
+
+            # Problèmes critiques
+            if scan_results['critical']:
+                md.append("## ❌ PROBLÈMES CRITIQUES (ACTION URGENTE REQUISE)")
+                md.append("")
+                for i, item in enumerate(scan_results['critical'], 1):
+                    md.append(f"### {i}. {item['category']}")
+                    md.append("")
+                    md.append(f"**Problème:**")
+                    md.append(f"{item['issue']}")
+                    md.append("")
+                    md.append(f"**💡 Recommandation:**")
+                    md.append(f"{item['recommendation']}")
+                    md.append("")
+                    md.append("---")
+                    md.append("")
+
+            # Avertissements
+            if scan_results['warning']:
+                md.append("## ⚠️ AVERTISSEMENTS (À SURVEILLER)")
+                md.append("")
+                for i, item in enumerate(scan_results['warning'], 1):
+                    md.append(f"### {i}. {item['category']}")
+                    md.append("")
+                    md.append(f"**Problème:**")
+                    md.append(f"{item['issue']}")
+                    md.append("")
+                    md.append(f"**💡 Recommandation:**")
+                    md.append(f"{item['recommendation']}")
+                    md.append("")
+                    md.append("---")
+                    md.append("")
+
+            # Statuts OK
+            if scan_results['ok']:
+                md.append("## ✅ TOUT VA BIEN")
+                md.append("")
+                for item in scan_results['ok']:
+                    md.append(f"- **{item['category']}:** {item['message']}")
+                md.append("")
+
+            md.append("---")
+            md.append("")
+            md.append("*📊 Rapport généré par NiTriTe V20.0 - L'outil ultime de maintenance PC*")
+
+            # Écrire fichier
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write('\n'.join(md))
+
+            messagebox.showinfo(
+                "Export réussi",
+                f"Scan exporté avec succès en Markdown !\n\nFichier: {filename}"
+            )
+
+            # Ouvrir le fichier
+            os.startfile(filename)
+
+        except Exception as e:
+            messagebox.showerror("Erreur export", f"Impossible d'exporter en Markdown: {str(e)}")
 
     # === MÉTHODES MASTER OUTILS ===
 

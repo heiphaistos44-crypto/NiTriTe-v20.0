@@ -151,6 +151,22 @@
       "content": "ecran bsod",
       "timestamp": "2025-12-27T22:17:25.719253",
       "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "mon pc surchauffe",
+      "timestamp": "2025-12-27T22:51:56.721223",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "Bon alors, voilà ce que je te conseille:\n\nProblème de surchauffe! On va diagnostiquer et régler ça méthodiquement:\n\n**🌡️ Étape 1: Diagnostic températures**\n- Lance HWMonitor (NiTriTe > Diagnostic)\n- CPU normal: 40-70°C idle, max 85-90°C charge\n- GPU normal: 40-60°C idle, max 80-85°C jeu\n\n**🧹 Étape 2: Nettoyage physique**\n- Éteins PC, débranche alimentation\n- Bombe à air comprimé sur ventilos CPU/GPU/PSU\n- Poussière = isolation = surchauffe!\n\n**🌀 Étape 3: Ventilos**\n- Vérifie RPM dans HWMonitor\n- 0 RPM = ventilo mort à remplacer\n\n**🔧 Étape 4: Pâte thermique**\n- Si >3 ans: renouvelle pâte thermique CPU/GPU\n- Arctic MX-4 ou Noctua NT-H1 (5-10€)\n\n**⚡ Étape 5: Undervolting**\n- ThrottleStop (Intel) ou Ryzen Master (AMD)\n- -50 à -100mV = -10°C sans perte perfs\nVoici ce que tu dois savoir:\n\n**1.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\n\n**2.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\n\n**3.** PC noise optimization - Detailed tip 2: Configuration, optimization, and best practices for optimal results and troubleshooting common issues\n\n**4.** PC noise optimization - Detailed tip 1: Configuration, optimization, and best practices for optimal results and troubleshooting common issues\nÇa devrait régler ton problème. Sinon reviens me voir!\n\n💡 **Outils utiles dans NiTriTe:**\n- 🖥️ CPU-Z (Diagnostic > CPU-Z)\n- 🎮 GPU-Z (Diagnostic > GPU-Z)\n",
+      "timestamp": "2025-12-27T22:51:56.802297",
+      "metadata": {
+        "mode": "offline",
+        "intent": "troubleshooting",
+        "user_level": "beginner"
+      }
     }
   ],
   "topics": [
