@@ -6636,7 +6636,7 @@ class DiagnosticPage(ctk.CTkFrame):
         # Créer fenêtre popup (CTkToplevel pour CustomTkinter)
         results_window = ctk.CTkToplevel(self)
         results_window.title("🔍 Résultats du Scan Total - NiTriTe V20.0")
-        results_window.geometry("950x750")
+        results_window.geometry("1200x800")
 
         # Header amélioré avec gradient visuel
         header = ctk.CTkFrame(results_window, corner_radius=15, fg_color="#2196F3")
@@ -6776,54 +6776,63 @@ class DiagnosticPage(ctk.CTkFrame):
             critical_card = ctk.CTkFrame(scroll_frame, corner_radius=10, border_width=2, border_color="#FF4444")
             critical_card.pack(fill=tk.X, pady=(0, 10))
 
+            # Système de colonnes : 5 items par ligne
+            items_per_row = 5
+            row_frame = None
+
             for i, item in enumerate(scan_results['critical'], 1):
-                issue_frame = ctk.CTkFrame(critical_card, corner_radius=8, fg_color="white", border_width=2, border_color="#FF8888")
-                issue_frame.pack(fill=tk.X, padx=15, pady=8)
+                # Créer une nouvelle ligne tous les 5 items
+                if (i - 1) % items_per_row == 0:
+                    row_frame = ctk.CTkFrame(critical_card, fg_color="transparent")
+                    row_frame.pack(fill=tk.X, padx=5, pady=1)
+
+                issue_frame = ctk.CTkFrame(row_frame, corner_radius=6, fg_color="white", border_width=1, border_color="#FF8888")
+                issue_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=3, pady=0)
 
                 # Numéro + Catégorie
-                header_frame = ctk.CTkFrame(issue_frame, fg_color="#FFE5E5", corner_radius=6)
-                header_frame.pack(fill=tk.X, padx=10, pady=10)
+                header_frame = ctk.CTkFrame(issue_frame, fg_color="#FFE5E5", corner_radius=4)
+                header_frame.pack(fill=tk.X, padx=6, pady=3)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=f"#{i}",
-                    font=("Segoe UI", 13, "bold"),
+                    font=("Segoe UI", 11, "bold"),
                     text_color="#CC0000",
-                    width=35
-                ).pack(side=tk.LEFT, padx=(10, 5), pady=8)
+                    width=30
+                ).pack(side=tk.LEFT, padx=(6, 3), pady=2)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=item['category'],
-                    font=("Segoe UI", 15, "bold"),
+                    font=("Segoe UI", 12, "bold"),
                     text_color="#990000",
                     anchor="w"
-                ).pack(side=tk.LEFT, padx=5, pady=8)
+                ).pack(side=tk.LEFT, padx=3, pady=2)
 
                 # Problème
                 ctk.CTkLabel(
                     issue_frame,
                     text=f"❌ {item['issue']}",
-                    font=("Segoe UI", 13),
+                    font=("Segoe UI", 10),
                     text_color="#CC0000",
                     anchor="w",
-                    wraplength=820,
+                    wraplength=150,
                     justify="left"
-                ).pack(anchor="w", padx=15, pady=(10, 10))
+                ).pack(anchor="w", padx=8, pady=(3, 3))
 
                 # Recommandation avec fond
-                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=6, border_width=1, border_color="#FFD699")
-                reco_frame.pack(fill=tk.X, padx=10, pady=(0, 10))
+                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=4, border_width=1, border_color="#FFD699")
+                reco_frame.pack(fill=tk.X, padx=6, pady=(0, 3))
 
                 ctk.CTkLabel(
                     reco_frame,
-                    text=f"💡 Recommandation : {item['recommendation']}",
-                    font=("Segoe UI", 12),
+                    text=f"💡 {item['recommendation']}",
+                    font=("Segoe UI", 9),
                     text_color="#664400",
                     anchor="w",
-                    wraplength=800,
+                    wraplength=140,
                     justify="left"
-                ).pack(anchor="w", padx=12, pady=10)
+                ).pack(anchor="w", padx=8, pady=5)
 
                 # Ajouter bouton pour rapport batterie si disponible
                 if 'battery_report_path' in item and item['battery_report_path']:
@@ -6834,7 +6843,7 @@ class DiagnosticPage(ctk.CTkFrame):
                         width=200,
                         height=30,
                         font=("Segoe UI", 11)
-                    ).pack(anchor="w", padx=10, pady=(0, 10))
+                    ).pack(anchor="w", padx=10, pady=(0, 5))
 
                 # Bouton CrystalDiskInfo pour problèmes disques
                 if '💿' in item.get('category', '') or 'disque' in item.get('category', '').lower() or 'disk' in item.get('category', '').lower():
@@ -6847,7 +6856,7 @@ class DiagnosticPage(ctk.CTkFrame):
                         font=("Segoe UI", 11),
                         fg_color="#2196F3",
                         hover_color="#1976D2"
-                    ).pack(anchor="w", padx=10, pady=(0, 10))
+                    ).pack(anchor="w", padx=10, pady=(0, 5))
 
         # AVERTISSEMENTS
         if scan_results['warning']:
@@ -6873,54 +6882,63 @@ class DiagnosticPage(ctk.CTkFrame):
             warning_card = ctk.CTkFrame(scroll_frame, corner_radius=10, border_width=2, border_color="#FFA500")
             warning_card.pack(fill=tk.X, pady=(0, 10))
 
+            # Système de colonnes : 5 items par ligne
+            items_per_row = 5
+            row_frame = None
+
             for i, item in enumerate(scan_results['warning'], 1):
-                issue_frame = ctk.CTkFrame(warning_card, corner_radius=8, fg_color="white", border_width=2, border_color="#FFAA44")
-                issue_frame.pack(fill=tk.X, padx=15, pady=8)
+                # Créer une nouvelle ligne tous les 5 items
+                if (i - 1) % items_per_row == 0:
+                    row_frame = ctk.CTkFrame(warning_card, fg_color="transparent")
+                    row_frame.pack(fill=tk.X, padx=5, pady=1)
+
+                issue_frame = ctk.CTkFrame(row_frame, corner_radius=6, fg_color="white", border_width=1, border_color="#FFAA44")
+                issue_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=3, pady=0)
 
                 # Numéro + Catégorie
-                header_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=6)
-                header_frame.pack(fill=tk.X, padx=10, pady=10)
+                header_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=4)
+                header_frame.pack(fill=tk.X, padx=6, pady=3)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=f"#{i}",
-                    font=("Segoe UI", 13, "bold"),
+                    font=("Segoe UI", 10, "bold"),
                     text_color="#CC6600",
-                    width=35
-                ).pack(side=tk.LEFT, padx=(10, 5), pady=8)
+                    width=25
+                ).pack(side=tk.LEFT, padx=(6, 3), pady=2)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=item['category'],
-                    font=("Segoe UI", 15, "bold"),
+                    font=("Segoe UI", 11, "bold"),
                     text_color="#994C00",
                     anchor="w"
-                ).pack(side=tk.LEFT, padx=5, pady=8)
+                ).pack(side=tk.LEFT, padx=3, pady=2)
 
                 # Problème
                 ctk.CTkLabel(
                     issue_frame,
                     text=f"⚠️ {item['issue']}",
-                    font=("Segoe UI", 13),
+                    font=("Segoe UI", 9),
                     text_color="#CC6600",
                     anchor="w",
-                    wraplength=820,
+                    wraplength=110,
                     justify="left"
-                ).pack(anchor="w", padx=15, pady=(10, 10))
+                ).pack(anchor="w", padx=6, pady=(2, 2))
 
                 # Recommandation
-                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF8E5", corner_radius=6, border_width=1, border_color="#FFE5AA")
-                reco_frame.pack(fill=tk.X, padx=10, pady=(0, 10))
+                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF8E5", corner_radius=4, border_width=1, border_color="#FFE5AA")
+                reco_frame.pack(fill=tk.X, padx=4, pady=(0, 2))
 
                 ctk.CTkLabel(
                     reco_frame,
-                    text=f"💡 Recommandation : {item['recommendation']}",
-                    font=("Segoe UI", 12),
+                    text=f"💡 {item['recommendation']}",
+                    font=("Segoe UI", 8),
                     text_color="#665500",
                     anchor="w",
-                    wraplength=800,
+                    wraplength=100,
                     justify="left"
-                ).pack(anchor="w", padx=12, pady=10)
+                ).pack(anchor="w", padx=6, pady=4)
 
                 # Ajouter bouton pour rapport batterie si disponible
                 if 'battery_report_path' in item and item['battery_report_path']:
@@ -6931,7 +6949,7 @@ class DiagnosticPage(ctk.CTkFrame):
                         width=200,
                         height=30,
                         font=("Segoe UI", 11)
-                    ).pack(anchor="w", padx=10, pady=(0, 10))
+                    ).pack(anchor="w", padx=10, pady=(0, 5))
 
                 # Bouton CrystalDiskInfo pour problèmes disques
                 if '💿' in item.get('category', '') or 'disque' in item.get('category', '').lower() or 'disk' in item.get('category', '').lower():
@@ -6944,7 +6962,7 @@ class DiagnosticPage(ctk.CTkFrame):
                         font=("Segoe UI", 11),
                         fg_color="#2196F3",
                         hover_color="#1976D2"
-                    ).pack(anchor="w", padx=10, pady=(0, 10))
+                    ).pack(anchor="w", padx=10, pady=(0, 5))
 
         # STATUTS OK - VERSION AMÉLIORÉE AVEC MEILLEURE ORGANISATION
         if scan_results['ok']:
@@ -6970,44 +6988,54 @@ class DiagnosticPage(ctk.CTkFrame):
             ok_card = ctk.CTkFrame(scroll_frame, corner_radius=10, border_width=2, border_color="#4CAF50")
             ok_card.pack(fill=tk.X, pady=(0, 10))
 
+            # Système de colonnes : 5 items par ligne
+            items_per_row = 5
+            row_frame = None
+
             for i, item in enumerate(scan_results['ok'], 1):
-                item_frame = ctk.CTkFrame(ok_card, corner_radius=8, fg_color="white", border_width=1, border_color="#88DD88")
-                item_frame.pack(fill=tk.X, padx=15, pady=5)
+                # Créer une nouvelle ligne tous les 5 items
+                if (i - 1) % items_per_row == 0:
+                    row_frame = ctk.CTkFrame(ok_card, fg_color="transparent")
+                    row_frame.pack(fill=tk.X, padx=5, pady=1)
+
+                # Item avec largeur proportionnelle
+                item_frame = ctk.CTkFrame(row_frame, corner_radius=6, fg_color="white", border_width=1, border_color="#88DD88")
+                item_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=3, pady=0)
 
                 # Header avec numéro + catégorie
-                header_frame = ctk.CTkFrame(item_frame, fg_color="#E8F5E9", corner_radius=6)
-                header_frame.pack(fill=tk.X, padx=10, pady=8)
+                header_frame = ctk.CTkFrame(item_frame, fg_color="#E8F5E9", corner_radius=4)
+                header_frame.pack(fill=tk.X, padx=6, pady=3)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=f"#{i}",
-                    font=("Segoe UI", 12, "bold"),
+                    font=("Segoe UI", 11, "bold"),
                     text_color="#2E7D32",
                     width=30
-                ).pack(side=tk.LEFT, padx=(10, 5), pady=6)
+                ).pack(side=tk.LEFT, padx=(6, 3), pady=2)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=item['category'],
-                    font=("Segoe UI", 14, "bold"),
+                    font=("Segoe UI", 12, "bold"),
                     text_color="#1B5E20",
                     anchor="w"
-                ).pack(side=tk.LEFT, padx=5, pady=6)
+                ).pack(side=tk.LEFT, padx=3, pady=2)
 
                 # Message
                 ctk.CTkLabel(
                     item_frame,
                     text=f"✓ {item['message']}",
-                    font=("Segoe UI", 12),
+                    font=("Segoe UI", 10),
                     text_color="#2E7D32",
                     anchor="w",
-                    wraplength=800,
+                    wraplength=150,
                     justify="left"
-                ).pack(anchor="w", padx=15, pady=(8, 10))
+                ).pack(anchor="w", padx=8, pady=(3, 4))
 
                 # Boutons actions
                 button_frame = ctk.CTkFrame(item_frame, fg_color="transparent")
-                button_frame.pack(fill=tk.X, padx=10, pady=(0, 8))
+                button_frame.pack(fill=tk.X, padx=10, pady=(0, 4))
 
                 # Ajouter bouton pour rapport batterie si disponible OU si catégorie batterie
                 if 'battery_report_path' in item and item['battery_report_path']:

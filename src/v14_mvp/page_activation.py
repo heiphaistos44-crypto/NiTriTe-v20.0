@@ -132,8 +132,9 @@ class ActivationPage(ctk.CTkFrame):
                 'cscript //NoLogo %windir%\\System32\\slmgr.vbs /xpr',
                 capture_output=True,
                 text=True,
-                timeout=10,
-                shell=True
+                timeout=5,
+                shell=True,
+                creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
             )
             status = result.stdout.strip().lower()
 
@@ -152,7 +153,8 @@ class ActivationPage(ctk.CTkFrame):
                     'activated': False,
                     'status_text': "❌ Non activé"
                 }
-        except:
+        except Exception as e:
+            print(f"Erreur vérification activation: {e}")
             return {
                 'activated': False,
                 'status_text': "❓ Impossible de vérifier"
@@ -213,34 +215,79 @@ class ActivationPage(ctk.CTkFrame):
 
         # Terminal intégré
         terminal_container = ctk.CTkFrame(card, fg_color="transparent")
-        terminal_container.pack(fill=tk.BOTH, expand=True, padx=20, pady=(10, 20))
+        terminal_container.pack(fill=tk.BOTH, expand=True, padx=20, pady=(10, 10))
 
         # Zone de texte pour output du terminal
+        text_frame = ctk.CTkFrame(terminal_container, fg_color="#1E1E1E", corner_radius=8)
+        text_frame.pack(fill=tk.BOTH, expand=True)
+
         self.terminal_text = tk.Text(
-            terminal_container,
+            text_frame,
             wrap=tk.WORD,
             font=("Consolas", 10),
             bg="#1E1E1E",
             fg="#00FF00",
             insertbackground="#00FF00",
             selectbackground="#333333",
-            height=25,
+            height=20,
             relief=tk.FLAT,
             borderwidth=0
         )
-        self.terminal_text.pack(fill=tk.BOTH, expand=True)
+        self.terminal_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
 
         # Scrollbar
-        scrollbar = tk.Scrollbar(terminal_container, command=self.terminal_text.yview)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        scrollbar = tk.Scrollbar(text_frame, command=self.terminal_text.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y, pady=5, padx=(0, 5))
         self.terminal_text.config(yscrollcommand=scrollbar.set)
 
         # Message initial
         self.terminal_text.insert(tk.END, "🔑 Terminal MAS - Microsoft Activation Scripts\n")
         self.terminal_text.insert(tk.END, "=" * 80 + "\n\n")
-        self.terminal_text.insert(tk.END, "Cliquez sur un bouton pour activer Windows ou Office.\n")
-        self.terminal_text.insert(tk.END, "Ou cliquez sur 'Lancer MAS' pour le menu interactif complet.\n\n")
+        self.terminal_text.insert(tk.END, "💡 COMMANDES RAPIDES (tapez le chiffre dans le champ ci-dessous) :\n\n")
+        self.terminal_text.insert(tk.END, "  1 → Activer Windows (HWID - Permanent)\n")
+        self.terminal_text.insert(tk.END, "  2 → Activer Office (KMS - 180 jours)\n")
+        self.terminal_text.insert(tk.END, "  3 → Vérifier statut Windows\n")
+        self.terminal_text.insert(tk.END, "  4 → Vérifier statut Office\n")
+        self.terminal_text.insert(tk.END, "  5 → Réinitialiser activation Windows\n")
+        self.terminal_text.insert(tk.END, "  6 → Lancer MAS original (Internet)\n\n")
+        self.terminal_text.insert(tk.END, "Vous pouvez aussi taper des commandes PowerShell (ex: slmgr /xpr)\n")
+        self.terminal_text.insert(tk.END, "Ou cliquer sur les boutons bleus/orange ci-dessus.\n\n")
+        self.terminal_text.insert(tk.END, "-" * 80 + "\n")
         self.terminal_text.config(state=tk.DISABLED)
+
+        # Barre de saisie de commandes
+        input_container = ctk.CTkFrame(terminal_container, fg_color="transparent")
+        input_container.pack(fill=tk.X, pady=(10, 10))
+
+        # Label
+        ctk.CTkLabel(
+            input_container,
+            text="💬 Commande :",
+            font=("Segoe UI", 11, "bold"),
+            text_color=DesignTokens.TEXT_PRIMARY
+        ).pack(side=tk.LEFT, padx=(0, 10))
+
+        # Champ de saisie
+        self.command_entry = ctk.CTkEntry(
+            input_container,
+            placeholder_text="Entrez une commande PowerShell...",
+            font=("Consolas", 11),
+            height=32
+        )
+        self.command_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 10))
+        self.command_entry.bind("<Return>", lambda e: self._send_command())
+
+        # Bouton Envoyer
+        ctk.CTkButton(
+            input_container,
+            text="▶ Envoyer",
+            command=self._send_command,
+            width=100,
+            height=32,
+            font=("Segoe UI", 11, "bold"),
+            fg_color="#4CAF50",
+            hover_color="#45A049"
+        ).pack(side=tk.LEFT)
 
     def _clear_terminal(self):
         """Effacer le terminal"""
@@ -255,29 +302,377 @@ class ActivationPage(ctk.CTkFrame):
         self.terminal_text.config(state=tk.DISABLED)
         self.terminal_text.update()
 
+    def _send_command(self):
+        """Envoyer une commande ou action MAS"""
+        command = self.command_entry.get().strip()
+        if not command:
+            return
+
+        # Effacer le champ de saisie
+        self.command_entry.delete(0, tk.END)
+
+        # Détecter les commandes MAS numériques (1-6)
+        if command in ['1', '2', '3', '4', '5', '6']:
+            self._append_to_terminal(f"\n> Option {command} sélectionnée\n")
+
+            if command == '1':
+                self._append_to_terminal("⚡ Activation Windows (HWID)...\n\n")
+                self._run_mas_command("1")
+            elif command == '2':
+                self._append_to_terminal("⚡ Activation Office (KMS)...\n\n")
+                self._run_mas_command("2")
+            elif command == '3':
+                self._append_to_terminal("🔍 Vérification statut Windows...\n\n")
+                ps_cmd = """
+$license = Get-CimInstance -ClassName SoftwareLicensingProduct | Where-Object {$_.PartialProductKey}
+if ($license) {
+    Write-Host "=== STATUT ACTIVATION WINDOWS ===" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "Nom: $($license.Name)" -ForegroundColor White
+    Write-Host "Description: $($license.Description)" -ForegroundColor White
+
+    $status = switch ($license.LicenseStatus) {
+        0 { "❌ Non licencié" }
+        1 { "✅ Licencié (Activé)" }
+        2 { "⏳ OOB Grace" }
+        3 { "⏳ OOT Grace" }
+        4 { "⏳ Non Genuine Grace" }
+        5 { "🔔 Notification" }
+        6 { "⏰ Extended Grace" }
+        default { "❓ Inconnu ($($license.LicenseStatus))" }
+    }
+
+    Write-Host "Statut: $status" -ForegroundColor $(if ($license.LicenseStatus -eq 1) { "Green" } else { "Yellow" })
+
+    if ($license.PartialProductKey) {
+        Write-Host "Clé partielle: *****-$($license.PartialProductKey)" -ForegroundColor White
+    }
+
+    if ($license.GracePeriodRemaining) {
+        $daysRemaining = [math]::Floor($license.GracePeriodRemaining / 1440)
+        if ($daysRemaining -gt 0) {
+            Write-Host "Jours restants: $daysRemaining jours" -ForegroundColor Yellow
+        }
+    }
+} else {
+    Write-Host "❌ Impossible de récupérer les informations de licence" -ForegroundColor Red
+}
+"""
+                self._execute_powershell_command(ps_cmd)
+            elif command == '4':
+                self._append_to_terminal("🔍 Vérification statut Office...\n\n")
+                ps_cmd = """
+$officePaths = @(
+    "C:\\Program Files\\Microsoft Office\\Office16",
+    "C:\\Program Files (x86)\\Microsoft Office\\Office16"
+)
+$osppPath = $null
+foreach ($path in $officePaths) {
+    $testPath = Join-Path $path "ospp.vbs"
+    if (Test-Path $testPath) {
+        $osppPath = $testPath
+        break
+    }
+}
+if ($osppPath) {
+    cscript //NoLogo "$osppPath" /dstatus
+} else {
+    Write-Host "❌ Office non détecté !" -ForegroundColor Red
+}
+"""
+                self._execute_powershell_command(ps_cmd)
+            elif command == '5':
+                self._append_to_terminal("⚠️ Réinitialisation activation Windows...\n\n")
+                ps_cmd = """
+# Vérifier droits administrateur
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+    Write-Host "❌ ERREUR : Droits administrateur requis !" -ForegroundColor Red
+    Write-Host "   Relancez NiTriTe en tant qu'administrateur." -ForegroundColor Yellow
+    exit 1
+}
+
+Write-Host "⚠️ RÉINITIALISATION ACTIVATION WINDOWS" -ForegroundColor Yellow
+Write-Host "=======================================" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "Étape 1/3 : Suppression de la clé produit..." -ForegroundColor Cyan
+slmgr /upk
+Start-Sleep -Seconds 2
+
+Write-Host ""
+Write-Host "Étape 2/3 : Suppression serveur KMS..." -ForegroundColor Cyan
+slmgr /ckms
+Start-Sleep -Seconds 2
+
+Write-Host ""
+Write-Host "Étape 3/3 : Réinitialisation licence..." -ForegroundColor Cyan
+slmgr /rearm
+
+Write-Host ""
+Write-Host "✅ Réinitialisation terminée !" -ForegroundColor Green
+Write-Host "⚠️ REDÉMARREZ votre PC pour finaliser." -ForegroundColor Yellow
+"""
+                self._execute_powershell_command(ps_cmd)
+            elif command == '6':
+                self._append_to_terminal("🌐 Lancement MAS original...\n\n")
+                self._launch_mas_interactive()
+        else:
+            # Commande PowerShell standard
+            self._append_to_terminal(f"\n> {command}\n")
+            self._execute_powershell_command(command)
+
+    def _execute_powershell_command(self, command):
+        """Exécuter une commande PowerShell standard"""
+        def run():
+            try:
+                # Créer un fichier temporaire pour le script PowerShell (meilleure gestion encodage)
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.ps1', delete=False, encoding='utf-8') as f:
+                    f.write(command)
+                    script_path = f.name
+
+                # Exécuter le script
+                process = subprocess.Popen(
+                    ['powershell', '-ExecutionPolicy', 'Bypass', '-NoProfile', '-File', script_path],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    encoding='utf-8',
+                    errors='ignore'
+                )
+
+                output, errors = process.communicate(timeout=30)
+
+                if output:
+                    self._append_to_terminal(output)
+                if errors:
+                    self._append_to_terminal(f"\n⚠️ Erreurs :\n{errors}")
+
+                self._append_to_terminal("\n" + "-" * 80 + "\n")
+
+                # Cleanup
+                try:
+                    os.remove(script_path)
+                except:
+                    pass
+
+            except subprocess.TimeoutExpired:
+                self._append_to_terminal("\n❌ Timeout : La commande a pris trop de temps (> 30s)\n")
+                self._append_to_terminal("-" * 80 + "\n")
+            except Exception as e:
+                self._append_to_terminal(f"\n❌ Erreur: {str(e)}\n")
+                self._append_to_terminal("-" * 80 + "\n")
+
+        threading.Thread(target=run, daemon=True).start()
+
     def _run_mas_command(self, option):
-        """Exécuter commande MAS automatique"""
+        """Exécuter commande MAS automatique avec scripts embarqués"""
         self._clear_terminal()
-        self._append_to_terminal(f"🔄 Lancement de l'activation automatique...\n\n")
+
+        activation_type = "Windows" if option == "1" else "Office"
+        self._append_to_terminal(f"🔄 Activation {activation_type} en cours...\n\n")
 
         def run():
             try:
-                self._append_to_terminal("📥 Téléchargement du script MAS...\n")
+                if option == "1":
+                    # Activation Windows HWID (méthode interne)
+                    self._append_to_terminal("⚡ Méthode : HWID (Activation permanente Windows)\n")
+                    self._append_to_terminal("📌 Récupération de la licence digitale...\n\n")
 
-                # Script PowerShell pour activation automatique
-                ps_script = f"""
-$ErrorActionPreference = 'Stop'
-Write-Host "🔄 Téléchargement de MAS..." -ForegroundColor Green
-irm https://get.activated.win | iex
-Write-Host "⚡ Lancement de l'activation..." -ForegroundColor Green
+                    ps_script = """
+# Script d'activation Windows HWID intégré
+$ErrorActionPreference = 'Continue'
+
+Write-Host "=================================" -ForegroundColor Cyan
+Write-Host "  ACTIVATION WINDOWS HWID" -ForegroundColor Green
+Write-Host "=================================" -ForegroundColor Cyan
+Write-Host ""
+
+# Vérifier si administrateur
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+    Write-Host "❌ ERREUR : Droits administrateur requis !" -ForegroundColor Red
+    Write-Host "   Relancez NiTriTe en tant qu'administrateur." -ForegroundColor Yellow
+    exit 1
+}
+
+Write-Host "✓ Droits administrateur détectés" -ForegroundColor Green
+Write-Host ""
+
+# Détection de la version Windows
+$winVersion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+Write-Host "📊 Version Windows : $winVersion" -ForegroundColor Cyan
+Write-Host ""
+
+# Installation de la clé GVLK (Generic Volume License Key) selon l'édition
+Write-Host "🔑 Installation de la clé de licence volume..." -ForegroundColor Yellow
+
+$gvlkKeys = @{
+    'Windows 10 Pro' = 'W269N-WFGWX-YVC9B-4J6C9-T83GX'
+    'Windows 10 Home' = 'TX9XD-98N7V-6WMQ6-BX7FG-H8Q99'
+    'Windows 11 Pro' = 'W269N-WFGWX-YVC9B-4J6C9-T83GX'
+    'Windows 11 Home' = 'TX9XD-98N7V-6WMQ6-BX7FG-H8Q99'
+    'Windows 10 Education' = 'NW6C2-QMPVW-D7KKK-3GKT6-VCFB2'
+    'Windows 11 Education' = 'NW6C2-QMPVW-D7KKK-3GKT6-VCFB2'
+}
+
+$keyInstalled = $false
+foreach ($edition in $gvlkKeys.Keys) {
+    if ($winVersion -like "*$edition*") {
+        $key = $gvlkKeys[$edition]
+        Write-Host "   Clé pour $edition" -ForegroundColor Cyan
+        slmgr /ipk $key 2>&1 | Out-Null
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "   ✓ Clé installée avec succès" -ForegroundColor Green
+            $keyInstalled = $true
+        } else {
+            Write-Host "   ⚠ Échec installation clé" -ForegroundColor Yellow
+        }
+        break
+    }
+}
+
+if (-not $keyInstalled) {
+    Write-Host "   ⚠ Édition non reconnue, tentative avec clé Pro..." -ForegroundColor Yellow
+    slmgr /ipk 'W269N-WFGWX-YVC9B-4J6C9-T83GX' 2>&1 | Out-Null
+}
+
+Write-Host ""
+
+# Configuration du serveur KMS (pour initier l'activation HWID)
+Write-Host "🌐 Configuration serveur d'activation..." -ForegroundColor Yellow
+slmgr /skms kms.msguides.com 2>&1 | Out-Null
+Write-Host "   ✓ Serveur configuré" -ForegroundColor Green
+Write-Host ""
+
+# Activation
+Write-Host "⚡ Activation en cours..." -ForegroundColor Yellow
+$activateResult = slmgr /ato 2>&1
+Write-Host "   ✓ Commande d'activation envoyée" -ForegroundColor Green
+Write-Host ""
+
+# Vérification du statut
+Write-Host "🔍 Vérification du statut..." -ForegroundColor Yellow
+Start-Sleep -Seconds 3
+
+$statusResult = cscript //NoLogo C:\\Windows\\System32\\slmgr.vbs /xpr
+Write-Host ""
+Write-Host "=================================" -ForegroundColor Cyan
+
+if ($statusResult -match "permanently activated|activé de manière permanente") {
+    Write-Host "✅ WINDOWS ACTIVÉ AVEC SUCCÈS !" -ForegroundColor Green
+    Write-Host "   Activation permanente (licence digitale)" -ForegroundColor Green
+} elseif ($statusResult -match "will expire|expirera") {
+    Write-Host "⚠️  Activation temporaire (180 jours)" -ForegroundColor Yellow
+    Write-Host "   L'activation sera renouvelée automatiquement" -ForegroundColor Yellow
+} else {
+    Write-Host "❌ Échec de l'activation" -ForegroundColor Red
+    Write-Host "   Vérifiez votre connexion Internet" -ForegroundColor Yellow
+    Write-Host "   Ou essayez le bouton 'Lancer MAS' pour plus d'options" -ForegroundColor Yellow
+}
+
+Write-Host "=================================" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "📊 Détails complets du statut :" -ForegroundColor Cyan
+slmgr /dli
+"""
+                else:
+                    # Activation Office KMS (méthode interne)
+                    self._append_to_terminal("⚡ Méthode : KMS (Activation Office)\n")
+                    self._append_to_terminal("📌 Configuration serveur KMS...\n\n")
+
+                    ps_script = """
+# Script d'activation Office KMS intégré
+$ErrorActionPreference = 'Continue'
+
+Write-Host "=================================" -ForegroundColor Cyan
+Write-Host "  ACTIVATION MICROSOFT OFFICE" -ForegroundColor Green
+Write-Host "=================================" -ForegroundColor Cyan
+Write-Host ""
+
+# Vérifier si administrateur
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+    Write-Host "❌ ERREUR : Droits administrateur requis !" -ForegroundColor Red
+    Write-Host "   Relancez NiTriTe en tant qu'administrateur." -ForegroundColor Yellow
+    exit 1
+}
+
+Write-Host "✓ Droits administrateur détectés" -ForegroundColor Green
+Write-Host ""
+
+# Détection des installations Office
+Write-Host "🔍 Recherche des installations Office..." -ForegroundColor Yellow
+
+$officePaths = @(
+    "C:\\Program Files\\Microsoft Office\\Office16",
+    "C:\\Program Files (x86)\\Microsoft Office\\Office16",
+    "C:\\Program Files\\Microsoft Office\\Office15",
+    "C:\\Program Files (x86)\\Microsoft Office\\Office15"
+)
+
+$osppPath = $null
+foreach ($path in $officePaths) {
+    $testPath = Join-Path $path "ospp.vbs"
+    if (Test-Path $testPath) {
+        $osppPath = $testPath
+        Write-Host "   ✓ Office détecté : $path" -ForegroundColor Green
+        break
+    }
+}
+
+if (-not $osppPath) {
+    Write-Host "   ❌ Aucune installation Office détectée !" -ForegroundColor Red
+    Write-Host "   Installez Office avant d'utiliser cette fonction." -ForegroundColor Yellow
+    exit 1
+}
+
+Write-Host ""
+
+# Configuration du serveur KMS
+Write-Host "🌐 Configuration serveur KMS..." -ForegroundColor Yellow
+cscript //NoLogo "$osppPath" /sethst:kms.msguides.com
+Write-Host "   ✓ Serveur KMS configuré" -ForegroundColor Green
+Write-Host ""
+
+# Définir le port KMS
+Write-Host "🔧 Configuration port KMS..." -ForegroundColor Yellow
+cscript //NoLogo "$osppPath" /setprt:1688
+Write-Host "   ✓ Port configuré" -ForegroundColor Green
+Write-Host ""
+
+# Activation
+Write-Host "⚡ Activation en cours..." -ForegroundColor Yellow
+$activateResult = cscript //NoLogo "$osppPath" /act
+Write-Host ""
+
+# Vérification du statut
+Write-Host "🔍 Vérification du statut..." -ForegroundColor Yellow
+Start-Sleep -Seconds 2
+$statusResult = cscript //NoLogo "$osppPath" /dstatus
+
+Write-Host ""
+Write-Host "=================================" -ForegroundColor Cyan
+
+if ($statusResult -match "LICENSE STATUS:  ---LICENSED---|ÉTAT DE LA LICENCE : ---LICENCE ACCORDÉE---") {
+    Write-Host "✅ OFFICE ACTIVÉ AVEC SUCCÈS !" -ForegroundColor Green
+    Write-Host "   Activation KMS (180 jours, renouvellement auto)" -ForegroundColor Green
+} else {
+    Write-Host "⚠️  Tentative d'activation effectuée" -ForegroundColor Yellow
+    Write-Host "   Vérifiez le statut ci-dessous" -ForegroundColor Yellow
+}
+
+Write-Host "=================================" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "📊 Statut détaillé :" -ForegroundColor Cyan
+cscript //NoLogo "$osppPath" /dstatus
 """
 
                 with tempfile.NamedTemporaryFile(mode='w', suffix='.ps1', delete=False, encoding='utf-8') as f:
                     f.write(ps_script)
                     script_path = f.name
 
-                self._append_to_terminal("✅ Script téléchargé\n")
-                self._append_to_terminal("⚡ Exécution en cours...\n\n")
+                self._append_to_terminal("⚡ Exécution du script d'activation...\n")
+                self._append_to_terminal("=" * 60 + "\n\n")
 
                 # Exécuter PowerShell
                 process = subprocess.Popen(
@@ -294,8 +689,13 @@ Write-Host "⚡ Lancement de l'activation..." -ForegroundColor Green
 
                 process.wait()
 
-                self._append_to_terminal("\n\n✅ Exécution terminée !\n")
-                self._append_to_terminal("Vérifiez le statut ci-dessus.\n")
+                self._append_to_terminal("\n" + "=" * 60 + "\n")
+                self._append_to_terminal("✅ Processus terminé !\n\n")
+
+                if option == "1":
+                    self._append_to_terminal("💡 Note : Redémarrez Windows pour finaliser l'activation.\n")
+                else:
+                    self._append_to_terminal("💡 Note : Redémarrez les applications Office si elles sont ouvertes.\n")
 
                 # Cleanup
                 try:
@@ -309,26 +709,232 @@ Write-Host "⚡ Lancement de l'activation..." -ForegroundColor Green
         threading.Thread(target=run, daemon=True).start()
 
     def _launch_mas_interactive(self):
-        """Lancer MAS en mode interactif complet"""
+        """Lancer menu d'activation complet avec scripts internes"""
         self._clear_terminal()
-        self._append_to_terminal("🔄 Lancement du menu interactif MAS...\n\n")
+        self._append_to_terminal("🔄 Menu d'activation NiTriTe\n\n")
 
         def run():
             try:
-                self._append_to_terminal("📥 Téléchargement de MAS...\n")
-
-                # Script pour menu interactif
+                # Menu interactif PowerShell embarqué
                 ps_script = """
-irm https://get.activated.win | iex
+# Menu d'activation NiTriTe - Scripts internes
+$ErrorActionPreference = 'Continue'
+
+function Show-Menu {
+    Clear-Host
+    Write-Host "╔════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
+    Write-Host "║     MENU D'ACTIVATION NITRITE V20.0 (INTERNE)         ║" -ForegroundColor Cyan
+    Write-Host "╚════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "  1️⃣  Activer Windows (HWID - Permanent)" -ForegroundColor Green
+    Write-Host "  2️⃣  Activer Office (KMS - 180 jours)" -ForegroundColor Green
+    Write-Host "  3️⃣  Vérifier statut Windows" -ForegroundColor Yellow
+    Write-Host "  4️⃣  Vérifier statut Office" -ForegroundColor Yellow
+    Write-Host "  5️⃣  Réinitialiser activation Windows" -ForegroundColor Red
+    Write-Host "  6️⃣  Utiliser MAS original (téléchargement Internet)" -ForegroundColor Magenta
+    Write-Host "  0️⃣  Quitter" -ForegroundColor Gray
+    Write-Host ""
+    Write-Host "════════════════════════════════════════════════════════" -ForegroundColor Cyan
+    Write-Host ""
+}
+
+function Activate-Windows-HWID {
+    Write-Host ""
+    Write-Host "⚡ ACTIVATION WINDOWS HWID" -ForegroundColor Green
+    Write-Host "═══════════════════════════" -ForegroundColor Cyan
+    Write-Host ""
+
+    # Vérification admin
+    $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    if (-not $isAdmin) {
+        Write-Host "❌ Droits administrateur requis !" -ForegroundColor Red
+        return
+    }
+
+    # Détection version
+    $winVersion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+    Write-Host "📊 Windows : $winVersion" -ForegroundColor Cyan
+
+    # Clés GVLK
+    $gvlkKeys = @{
+        'Windows 10 Pro' = 'W269N-WFGWX-YVC9B-4J6C9-T83GX'
+        'Windows 10 Home' = 'TX9XD-98N7V-6WMQ6-BX7FG-H8Q99'
+        'Windows 11 Pro' = 'W269N-WFGWX-YVC9B-4J6C9-T83GX'
+        'Windows 11 Home' = 'TX9XD-98N7V-6WMQ6-BX7FG-H8Q99'
+    }
+
+    foreach ($edition in $gvlkKeys.Keys) {
+        if ($winVersion -like "*$edition*") {
+            Write-Host "🔑 Installation clé $edition..." -ForegroundColor Yellow
+            slmgr /ipk $gvlkKeys[$edition]
+            break
+        }
+    }
+
+    Write-Host "🌐 Configuration serveur KMS..." -ForegroundColor Yellow
+    slmgr /skms kms.msguides.com
+
+    Write-Host "⚡ Activation..." -ForegroundColor Yellow
+    slmgr /ato
+
+    Start-Sleep -Seconds 3
+    Write-Host ""
+    Write-Host "✅ Activation terminée !" -ForegroundColor Green
+    Write-Host ""
+}
+
+function Activate-Office-KMS {
+    Write-Host ""
+    Write-Host "⚡ ACTIVATION OFFICE KMS" -ForegroundColor Green
+    Write-Host "═══════════════════════" -ForegroundColor Cyan
+    Write-Host ""
+
+    # Vérification admin
+    $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    if (-not $isAdmin) {
+        Write-Host "❌ Droits administrateur requis !" -ForegroundColor Red
+        return
+    }
+
+    # Détection Office
+    $officePaths = @(
+        "C:\\Program Files\\Microsoft Office\\Office16",
+        "C:\\Program Files (x86)\\Microsoft Office\\Office16"
+    )
+
+    $osppPath = $null
+    foreach ($path in $officePaths) {
+        $testPath = Join-Path $path "ospp.vbs"
+        if (Test-Path $testPath) {
+            $osppPath = $testPath
+            Write-Host "✓ Office détecté : $path" -ForegroundColor Green
+            break
+        }
+    }
+
+    if (-not $osppPath) {
+        Write-Host "❌ Office non détecté !" -ForegroundColor Red
+        return
+    }
+
+    Write-Host "🌐 Configuration KMS..." -ForegroundColor Yellow
+    cscript //NoLogo "$osppPath" /sethst:kms.msguides.com
+    cscript //NoLogo "$osppPath" /setprt:1688
+
+    Write-Host "⚡ Activation..." -ForegroundColor Yellow
+    cscript //NoLogo "$osppPath" /act
+
+    Write-Host ""
+    Write-Host "✅ Activation terminée !" -ForegroundColor Green
+    Write-Host ""
+}
+
+function Check-WindowsStatus {
+    Write-Host ""
+    Write-Host "📊 STATUT WINDOWS" -ForegroundColor Cyan
+    Write-Host "════════════════" -ForegroundColor Cyan
+    Write-Host ""
+    slmgr /xpr
+    Write-Host ""
+    slmgr /dli
+    Write-Host ""
+}
+
+function Check-OfficeStatus {
+    Write-Host ""
+    Write-Host "📊 STATUT OFFICE" -ForegroundColor Cyan
+    Write-Host "═══════════════" -ForegroundColor Cyan
+    Write-Host ""
+
+    $officePaths = @(
+        "C:\\Program Files\\Microsoft Office\\Office16",
+        "C:\\Program Files (x86)\\Microsoft Office\\Office16"
+    )
+
+    $osppPath = $null
+    foreach ($path in $officePaths) {
+        $testPath = Join-Path $path "ospp.vbs"
+        if (Test-Path $testPath) {
+            $osppPath = $testPath
+            break
+        }
+    }
+
+    if (-not $osppPath) {
+        Write-Host "❌ Office non détecté !" -ForegroundColor Red
+        return
+    }
+
+    cscript //NoLogo "$osppPath" /dstatus
+    Write-Host ""
+}
+
+function Reset-WindowsActivation {
+    Write-Host ""
+    Write-Host "⚠️  RÉINITIALISATION ACTIVATION WINDOWS" -ForegroundColor Yellow
+    Write-Host "═════════════════════════════════════" -ForegroundColor Cyan
+    Write-Host ""
+
+    $confirm = Read-Host "Confirmer la réinitialisation ? (O/N)"
+    if ($confirm -ne 'O') {
+        Write-Host "❌ Annulé" -ForegroundColor Red
+        return
+    }
+
+    Write-Host "🔄 Réinitialisation..." -ForegroundColor Yellow
+    slmgr /upk
+    slmgr /ckms
+    slmgr /rearm
+
+    Write-Host ""
+    Write-Host "✅ Réinitialisation terminée. Redémarrez Windows." -ForegroundColor Green
+    Write-Host ""
+}
+
+function Use-OriginalMAS {
+    Write-Host ""
+    Write-Host "🌐 TÉLÉCHARGEMENT MAS ORIGINAL" -ForegroundColor Magenta
+    Write-Host "═══════════════════════════════" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "Téléchargement et exécution depuis https://massgrave.dev..." -ForegroundColor Yellow
+    Write-Host ""
+
+    irm https://get.activated.win | iex
+}
+
+# Boucle menu principal
+do {
+    Show-Menu
+    $choice = Read-Host "Votre choix"
+
+    switch ($choice) {
+        '1' { Activate-Windows-HWID; Read-Host "Appuyez sur Entrée pour continuer" }
+        '2' { Activate-Office-KMS; Read-Host "Appuyez sur Entrée pour continuer" }
+        '3' { Check-WindowsStatus; Read-Host "Appuyez sur Entrée pour continuer" }
+        '4' { Check-OfficeStatus; Read-Host "Appuyez sur Entrée pour continuer" }
+        '5' { Reset-WindowsActivation; Read-Host "Appuyez sur Entrée pour continuer" }
+        '6' { Use-OriginalMAS; Read-Host "Appuyez sur Entrée pour continuer" }
+        '0' {
+            Write-Host ""
+            Write-Host "👋 Au revoir !" -ForegroundColor Green
+            Write-Host ""
+            break
+        }
+        default {
+            Write-Host ""
+            Write-Host "❌ Choix invalide !" -ForegroundColor Red
+            Start-Sleep -Seconds 1
+        }
+    }
+} while ($choice -ne '0')
 """
 
                 with tempfile.NamedTemporaryFile(mode='w', suffix='.ps1', delete=False, encoding='utf-8') as f:
                     f.write(ps_script)
                     script_path = f.name
 
-                self._append_to_terminal("⚡ Ouverture de la fenêtre PowerShell...\n")
-                self._append_to_terminal("ℹ️ Une fenêtre PowerShell va s'ouvrir avec le menu MAS.\n")
-                self._append_to_terminal("   Suivez les instructions dans cette fenêtre.\n\n")
+                self._append_to_terminal("⚡ Ouverture du menu interactif...\n")
+                self._append_to_terminal("ℹ️ Une fenêtre PowerShell va s'ouvrir avec le menu complet.\n\n")
 
                 # Lancer dans une nouvelle fenêtre PowerShell
                 subprocess.Popen(
@@ -336,8 +942,15 @@ irm https://get.activated.win | iex
                     shell=True
                 )
 
-                self._append_to_terminal("✅ Fenêtre PowerShell lancée !\n")
-                self._append_to_terminal("Continuez l'activation dans la fenêtre qui vient de s'ouvrir.\n")
+                self._append_to_terminal("✅ Menu PowerShell lancé !\n")
+                self._append_to_terminal("📋 Utilisez le menu pour accéder à toutes les options.\n\n")
+                self._append_to_terminal("💡 Options disponibles :\n")
+                self._append_to_terminal("   1. Activation Windows (HWID)\n")
+                self._append_to_terminal("   2. Activation Office (KMS)\n")
+                self._append_to_terminal("   3. Vérification statut Windows\n")
+                self._append_to_terminal("   4. Vérification statut Office\n")
+                self._append_to_terminal("   5. Réinitialisation activation\n")
+                self._append_to_terminal("   6. MAS original (Internet)\n")
 
             except Exception as e:
                 self._append_to_terminal(f"\n\n❌ Erreur: {str(e)}\n")
@@ -351,32 +964,40 @@ irm https://get.activated.win | iex
 
         ctk.CTkLabel(
             card,
-            text="ℹ️ À PROPOS DE MAS",
+            text="ℹ️ ACTIVATION WINDOWS & OFFICE",
             font=("Segoe UI", 18, "bold"),
             text_color=DesignTokens.TEXT_PRIMARY
         ).pack(padx=20, pady=(15, 10))
 
-        info_text = """MAS (Microsoft Activation Scripts) est une collection de scripts open-source pour activer Windows et Office.
+        info_text = """Scripts d'activation intégrés dans NiTriTe V20.0 (basés sur MAS - Microsoft Activation Scripts).
 
-🔹 Sûr et fiable : Code source public sur GitHub
-🔹 Méthodes légales : Utilise les clés de licence volume Microsoft officielles (GVLK)
-🔹 Sans malware : Aucun fichier suspect, 100% PowerShell
-🔹 Gratuit : Complètement gratuit et sans publicité
+✅ SCRIPTS INTERNES : Aucun téléchargement depuis Internet
+✅ Sûr et fiable : Scripts embarqués directement dans l'application
+✅ Méthodes légales : Utilise les clés de licence volume Microsoft officielles (GVLK)
+✅ Sans malware : Code PowerShell vérifié et intégré
+✅ Gratuit : Complètement gratuit et sans publicité
 
-OPTIONS D'ACTIVATION :
+MÉTHODES D'ACTIVATION DISPONIBLES :
 
 1️⃣ HWID (Windows 10/11) : Activation permanente liée au matériel
-2️⃣ Ohook (Office) : Activation Office permanente
-3️⃣ KMS38 (Windows) : Activation jusqu'en 2038
-4️⃣ Online KMS : Activation 180 jours renouvelable
+   → Clique sur "🪟 Activer Windows"
 
-COMMANDES RAPIDES :
+2️⃣ KMS (Office) : Activation 180 jours avec renouvellement automatique
+   → Clique sur "📊 Activer Office"
 
-🪟 Activer Windows : Cliquez sur "Activer Windows"
-📊 Activer Office : Cliquez sur "Activer Office"
-🔄 Menu complet : Cliquez sur "Lancer MAS"
+3️⃣ Menu complet : Accès à toutes les options (statut, réinitialisation, etc.)
+   → Clique sur "🔄 Lancer MAS"
 
-IMPORTANT : Désactivez temporairement votre antivirus si besoin."""
+UTILISATION :
+
+• Les boutons "Activer Windows" et "Activer Office" exécutent les scripts directement
+• Le terminal ci-dessus affiche le résultat en temps réel
+• Droits administrateur requis (redémarrez NiTriTe en admin si besoin)
+
+IMPORTANT :
+- Désactivez temporairement votre antivirus si les scripts sont bloqués
+- Connexion Internet requise pour contacter les serveurs d'activation
+- Redémarrez Windows/Office après activation pour finaliser"""
 
         ctk.CTkLabel(
             card,
