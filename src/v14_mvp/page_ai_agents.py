@@ -2893,21 +2893,23 @@ class AIAgentsPage(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, fg_color=DesignTokens.BG_PRIMARY)
 
-        self.ai_agent = MaintenanceAIAgent()
+        # CORRECTION FREEZE: Initialisation lazy de l'agent (seulement au premier message)
+        self.ai_agent = None
         self.chat_messages = []
 
         self._create_ui()
 
         # Message de bienvenue
         self._add_bot_message(
-            " Bonjour ! Je suis votre assistant IA de maintenance informatique.\n\n"
+            "🤖 Bonjour ! Je suis votre assistant IA de maintenance informatique.\n\n"
             "Je peux vous aider avec :\n"
             "• Diagnostic et résolution de problèmes\n"
             "• Optimisation des performances\n"
             "• Conseils de sécurité\n"
             "• Problèmes réseau\n"
             "• Et bien plus encore !\n\n"
-            "Posez-moi une question ou tapez 'aide' pour commencer."
+            "Posez-moi une question ou tapez 'aide' pour commencer.\n\n"
+            "💡 L'agent IA sera initialisé au premier message (peut prendre quelques secondes)."
         )
 
     def _create_ui(self):
@@ -3163,7 +3165,28 @@ class AIAgentsPage(ctk.CTkFrame):
         # Effacer input
         self.input_field.delete(0, tk.END)
 
-        # Générer réponse directement (pas de threading pour éviter les problèmes)
+        # INITIALISATION LAZY: Créer l'agent au premier message (évite freeze au démarrage)
+        if self.ai_agent is None:
+            self._add_bot_message("⏳ Initialisation de l'agent IA (première utilisation)...\nCela peut prendre 10-20 secondes. L'interface reste utilisable.")
+
+            # Initialisation dans un thread pour ne pas bloquer l'UI
+            def init_agent():
+                try:
+                    self.ai_agent = MaintenanceAIAgent()
+                    self.after(0, lambda: self._add_bot_message("✅ Agent IA initialisé avec succès !\n\nTraitement de votre message..."))
+                    self.after(0, lambda: self._process_user_message(message))
+                except Exception as e:
+                    self.after(0, lambda: self._add_bot_message(f"❌ Erreur lors de l'initialisation de l'agent IA:\n{str(e)}\n\nL'agent IA nécessite Ollama ou une connexion Internet."))
+
+            import threading
+            threading.Thread(target=init_agent, daemon=True).start()
+            return
+
+        # Traiter le message
+        self._process_user_message(message)
+
+    def _process_user_message(self, message):
+        """Traiter un message utilisateur (séparé pour permettre appel depuis thread)"""
         try:
             response = self.ai_agent.process_message(message)
 
@@ -3172,7 +3195,7 @@ class AIAgentsPage(ctk.CTkFrame):
 
             self._add_bot_message(response_with_tools)
         except Exception as e:
-            self._add_bot_message(f" Erreur: {str(e)}\n\nVeuillez réessayer ou reformuler votre question.")
+            self._add_bot_message(f"❌ Erreur: {str(e)}\n\nVeuillez réessayer ou reformuler votre question.")
 
     def _clear_chat(self):
         """Effacer le chat"""
