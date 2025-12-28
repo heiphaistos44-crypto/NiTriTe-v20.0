@@ -5813,14 +5813,17 @@ class DiagnosticPage(ctk.CTkFrame):
         # ═══════════════════════════════════════════════════════════════════
         update_progress(35, "Vérification mémoire RAM...")
 
-        # Obtenir détails RAM (type, vitesse)
+        # Obtenir détails RAM (type, vitesse) - CORRIGÉ
         ram_details = ""
         if 'ram_modules' in self.system_info and self.system_info['ram_modules']:
             first_module = self.system_info['ram_modules'][0]
-            ram_type = first_module.get('type', 'Unknown')
-            ram_speed = first_module.get('speed', 0)
+            ram_type = first_module.get('type_name', 'Unknown')  # CORRIGÉ: type_name au lieu de type
+            ram_speed = first_module.get('speed_mhz', 0)  # CORRIGÉ: speed_mhz au lieu de speed
             ram_count = len(self.system_info['ram_modules'])
-            ram_details = f"\n{ram_count}x {ram_type} @ {ram_speed} MHz"
+            if ram_speed > 0:
+                ram_details = f"\n{ram_count}x {ram_type} @ {ram_speed} MHz"
+            else:
+                ram_details = f"\n{ram_count}x {ram_type}"
 
         if PSUTIL_AVAILABLE:
             ram = psutil.virtual_memory()
@@ -5847,7 +5850,7 @@ class DiagnosticPage(ctk.CTkFrame):
                 })
 
         # ═══════════════════════════════════════════════════════════════════
-        # 4️⃣ VÉRIFICATION DISQUES
+        # 4️⃣ VÉRIFICATION DISQUES - REGROUPÉS
         # ═══════════════════════════════════════════════════════════════════
 
         # Obtenir modèles de disques
@@ -5863,6 +5866,8 @@ class DiagnosticPage(ctk.CTkFrame):
         except:
             pass
 
+        # Collecter toutes les partitions
+        disk_partitions_info = []
         if PSUTIL_AVAILABLE:
             partition_index = 0
             for partition in psutil.disk_partitions():
@@ -5873,56 +5878,88 @@ class DiagnosticPage(ctk.CTkFrame):
                     free_gb = usage.free / (1024**3)
 
                     # Essayer de trouver le modèle du disque
-                    disk_info = ""
+                    disk_model = ""
                     if disk_models and partition_index < len(disk_models):
                         disk_list = list(disk_models.values())
                         if partition_index < len(disk_list):
-                            model = disk_list[partition_index]['model']
-                            disk_info = f"\n{model} ({total_gb:.0f} GB)"
+                            disk_model = disk_list[partition_index]['model']
 
-                    if percent > 95:
-                        scan_results['critical'].append({
-                            'category': '💿 Disque',
-                            'issue': f'{partition.mountpoint} critique: {percent:.1f}% plein ({free_gb:.1f}/{total_gb:.1f} GB){disk_info}',
-                            'recommendation': 'Libérer espace URGENT: supprimer fichiers, vider corbeille, nettoyer disque Windows'
-                        })
-                    elif percent > 85:
-                        scan_results['warning'].append({
-                            'category': '💿 Disque',
-                            'issue': f'{partition.mountpoint} plein: {percent:.1f}% ({free_gb:.1f}/{total_gb:.1f} GB){disk_info}',
-                            'recommendation': 'Libérer espace: NiTriTe > Optimisations > Nettoyage'
-                        })
-                    else:
-                        scan_results['ok'].append({
-                            'category': '💿 Disque',
-                            'message': f'{partition.mountpoint} OK: {percent:.1f}% utilisé ({free_gb:.1f}/{total_gb:.1f} GB){disk_info}'
-                        })
-
+                    disk_partitions_info.append({
+                        'mountpoint': partition.mountpoint,
+                        'percent': percent,
+                        'free_gb': free_gb,
+                        'total_gb': total_gb,
+                        'model': disk_model
+                    })
                     partition_index += 1
                 except:
                     pass
 
+        # Regrouper tous les disques dans une seule catégorie
+        if disk_partitions_info:
+            # Vérifier s'il y a des problèmes critiques/warnings
+            critical_disks = [d for d in disk_partitions_info if d['percent'] > 95]
+            warning_disks = [d for d in disk_partitions_info if 85 < d['percent'] <= 95]
+            ok_disks = [d for d in disk_partitions_info if d['percent'] <= 85]
+
+            if critical_disks:
+                disk_summary = "\n".join([
+                    f"{d['mountpoint']}: {d['percent']:.1f}% plein ({d['free_gb']:.1f}/{d['total_gb']:.1f} GB)" +
+                    (f" - {d['model']}" if d['model'] else "")
+                    for d in critical_disks
+                ])
+                scan_results['critical'].append({
+                    'category': '💿 Disques',
+                    'issue': f"Disques critiques:\n{disk_summary}",
+                    'recommendation': 'URGENT: Libérer espace (supprimer fichiers, nettoyer disque)'
+                })
+
+            if warning_disks:
+                disk_summary = "\n".join([
+                    f"{d['mountpoint']}: {d['percent']:.1f}% ({d['free_gb']:.1f}/{d['total_gb']:.1f} GB)" +
+                    (f" - {d['model']}" if d['model'] else "")
+                    for d in warning_disks
+                ])
+                scan_results['warning'].append({
+                    'category': '💿 Disques',
+                    'issue': f"Disques pleins:\n{disk_summary}",
+                    'recommendation': 'Libérer espace: NiTriTe > Optimisations > Nettoyage'
+                })
+
+            if ok_disks:
+                disk_summary = "\n".join([
+                    f"{d['mountpoint']}: {d['percent']:.1f}% ({d['free_gb']:.1f}/{d['total_gb']:.1f} GB)" +
+                    (f" - {d['model']}" if d['model'] else "")
+                    for d in ok_disks
+                ])
+                scan_results['ok'].append({
+                    'category': '💿 Disques',
+                    'message': f"Disques OK:\n{disk_summary}"
+                })
+
         # ═══════════════════════════════════════════════════════════════════
-        # 4️⃣-B INFORMATION GPU
+        # 4️⃣-B INFORMATION GPU - REGROUPÉS
         # ═══════════════════════════════════════════════════════════════════
 
-        # Ajouter info GPU au scan
+        # Ajouter info GPU au scan (tous regroupés)
         if 'gpus' in self.system_info and self.system_info['gpus']:
+            gpu_info_list = []
             for i, gpu in enumerate(self.system_info['gpus'], 1):
                 gpu_name = gpu.get('name', 'GPU Inconnu')
                 gpu_ram_gb = gpu.get('ram_bytes', 0) / (1024**3) if gpu.get('ram_bytes', 0) > 0 else 0
                 gpu_driver = gpu.get('driver_version', 'N/A')
 
-                gpu_info = f"{gpu_name}"
+                gpu_line = f"GPU #{i}: {gpu_name}"
                 if gpu_ram_gb > 0:
-                    gpu_info += f"\nVRAM: {gpu_ram_gb:.1f} GB | Driver: {gpu_driver}"
-                else:
-                    gpu_info += f"\nDriver: {gpu_driver}"
+                    gpu_line += f" - {gpu_ram_gb:.1f} GB VRAM"
+                gpu_line += f" - Driver: {gpu_driver}"
+                gpu_info_list.append(gpu_line)
 
-                scan_results['ok'].append({
-                    'category': f'🎮 GPU #{i}' if len(self.system_info['gpus']) > 1 else '🎮 GPU',
-                    'message': gpu_info
-                })
+            gpu_summary = "\n".join(gpu_info_list)
+            scan_results['ok'].append({
+                'category': '🎮 GPU',
+                'message': gpu_summary
+            })
         else:
             scan_results['ok'].append({
                 'category': '🎮 GPU',
@@ -6173,10 +6210,20 @@ class DiagnosticPage(ctk.CTkFrame):
             scan_results['ok'].append(battery_msg)
 
         # ═══════════════════════════════════════════════════════════════════
-        # 9️⃣ VÉRIFICATION MISES À JOUR DÉTAILLÉES
+        # 9️⃣ VÉRIFICATION MISES À JOUR DÉTAILLÉES - REGROUPÉES
         # ═══════════════════════════════════════════════════════════════════
 
-        # WinGet Updates - PARSING AMÉLIORÉ
+        update_progress(85, "Vérification mises à jour...")
+
+        # Collecter toutes les infos de mises à jour
+        updates_info = {
+            'winget': {'count': 0, 'error': False},
+            'windows_update': {'count': 0, 'error': False},
+            'scoop': {'count': 0, 'error': False},
+            'chocolatey': {'count': 0, 'error': False}
+        }
+
+        # WinGet Updates
         try:
             result = subprocess.run(
                 ['winget', 'upgrade', '--include-unknown'],
@@ -6187,50 +6234,23 @@ class DiagnosticPage(ctk.CTkFrame):
                 errors='ignore'
             )
 
-            # Compter les lignes de paquets (contiennent des versions x.x.x ou < / >)
             updates_count = 0
             in_table = False
-
             for line in result.stdout.split('\n'):
-                # Détecter le début du tableau (après "Name" "Id" "Version" etc.)
                 if 'Name' in line and 'Id' in line and 'Version' in line:
                     in_table = True
                     continue
-
-                # Ligne vide ou séparateur = fin du tableau
                 if in_table and (not line.strip() or line.startswith('-')):
                     if not line.strip():
                         break
                     continue
-
-                # Dans le tableau : compter les lignes avec versions (pattern x.x.x)
                 if in_table and line.strip():
-                    # Vérifier si la ligne contient une version (chiffre.chiffre)
                     import re
                     if re.search(r'\d+\.\d+', line):
                         updates_count += 1
-
-            if updates_count > 10:
-                scan_results['warning'].append({
-                    'category': '📦 WinGet',
-                    'issue': f'{updates_count} mises à jour disponibles',
-                    'recommendation': 'Mettre à jour via NiTriTe > Mises à jour'
-                })
-            elif updates_count > 0:
-                scan_results['ok'].append({
-                    'category': '📦 WinGet',
-                    'message': f'{updates_count} mises à jour disponibles (acceptable)'
-                })
-            else:
-                scan_results['ok'].append({
-                    'category': '📦 WinGet',
-                    'message': 'Tous les paquets WinGet à jour'
-                })
-        except Exception as e:
-            scan_results['ok'].append({
-                'category': '📦 WinGet',
-                'message': 'WinGet non accessible ou pas de paquets installés'
-            })
+            updates_info['winget']['count'] = updates_count
+        except:
+            updates_info['winget']['error'] = True
 
         # Windows Update
         try:
@@ -6240,40 +6260,16 @@ class DiagnosticPage(ctk.CTkFrame):
             $searchResult = $updateSearcher.Search("IsInstalled=0 and Type='Software'")
             Write-Output $searchResult.Updates.Count
             """
-
             result = subprocess.run(
                 ['powershell', '-Command', wu_cmd],
                 capture_output=True,
                 text=True,
                 timeout=30
             )
-
             if result.stdout.strip().isdigit():
-                wu_count = int(result.stdout.strip())
-
-                if wu_count > 5:
-                    scan_results['critical'].append({
-                        'category': '🔄 Windows Update',
-                        'issue': f'{wu_count} mises à jour Windows en attente',
-                        'recommendation': 'URGENT: Installer mises à jour Windows (sécurité)'
-                    })
-                elif wu_count > 0:
-                    scan_results['warning'].append({
-                        'category': '🔄 Windows Update',
-                        'issue': f'{wu_count} mises à jour Windows disponibles',
-                        'recommendation': 'Installer via Paramètres > Windows Update'
-                    })
-                else:
-                    scan_results['ok'].append({
-                        'category': '🔄 Windows Update',
-                        'message': 'Windows à jour'
-                    })
+                updates_info['windows_update']['count'] = int(result.stdout.strip())
         except:
-            scan_results['warning'].append({
-                'category': '🔄 Windows Update',
-                'issue': 'Impossible de vérifier Windows Update',
-                'recommendation': 'Vérifier manuellement: Paramètres > Windows Update'
-            })
+            updates_info['windows_update']['error'] = True
 
         # Scoop Updates
         try:
@@ -6283,25 +6279,13 @@ class DiagnosticPage(ctk.CTkFrame):
                 text=True,
                 timeout=15
             )
-
             scoop_updates = 0
             for line in result.stdout.split('\n'):
                 if 'update available' in line.lower():
                     scoop_updates += 1
-
-            if scoop_updates > 0:
-                scan_results['ok'].append({
-                    'category': '🪣 Scoop',
-                    'message': f'{scoop_updates} paquets Scoop à mettre à jour (scoop update *)'
-                })
-            else:
-                scan_results['ok'].append({
-                    'category': '🪣 Scoop',
-                    'message': 'Scoop à jour ou non installé'
-                })
+            updates_info['scoop']['count'] = scoop_updates
         except:
-            # Scoop non installé
-            pass
+            updates_info['scoop']['error'] = True
 
         # Chocolatey Updates
         try:
@@ -6311,25 +6295,62 @@ class DiagnosticPage(ctk.CTkFrame):
                 text=True,
                 timeout=30
             )
-
             choco_updates = 0
             for line in result.stdout.split('\n'):
                 if '|' in line and 'package' not in line.lower():
                     choco_updates += 1
-
-            if choco_updates > 0:
-                scan_results['ok'].append({
-                    'category': '🍫 Chocolatey',
-                    'message': f'{choco_updates} paquets Chocolatey à mettre à jour (choco upgrade all)'
-                })
-            else:
-                scan_results['ok'].append({
-                    'category': '🍫 Chocolatey',
-                    'message': 'Chocolatey à jour ou non installé'
-                })
+            updates_info['chocolatey']['count'] = choco_updates
         except:
-            # Chocolatey non installé
-            pass
+            updates_info['chocolatey']['error'] = True
+
+        # Regrouper toutes les mises à jour dans une seule catégorie
+        update_lines = []
+        total_updates = 0
+
+        if not updates_info['windows_update']['error']:
+            wu_count = updates_info['windows_update']['count']
+            total_updates += wu_count
+            if wu_count > 0:
+                update_lines.append(f"Windows Update: {wu_count} MAJ")
+            else:
+                update_lines.append("Windows Update: À jour")
+
+        if not updates_info['winget']['error']:
+            wg_count = updates_info['winget']['count']
+            total_updates += wg_count
+            if wg_count > 0:
+                update_lines.append(f"WinGet: {wg_count} paquets")
+            else:
+                update_lines.append("WinGet: À jour")
+
+        if not updates_info['scoop']['error'] and updates_info['scoop']['count'] > 0:
+            sc_count = updates_info['scoop']['count']
+            total_updates += sc_count
+            update_lines.append(f"Scoop: {sc_count} paquets")
+
+        if not updates_info['chocolatey']['error'] and updates_info['chocolatey']['count'] > 0:
+            ch_count = updates_info['chocolatey']['count']
+            total_updates += ch_count
+            update_lines.append(f"Chocolatey: {ch_count} paquets")
+
+        # Ajouter le résultat regroupé
+        if total_updates == 0:
+            scan_results['ok'].append({
+                'category': '🔄 Mises à jour',
+                'message': "\n".join(update_lines) if update_lines else "Tous les systèmes à jour"
+            })
+        elif total_updates > 15 or updates_info['windows_update']['count'] > 5:
+            scan_results['critical'].append({
+                'category': '🔄 Mises à jour',
+                'issue': f"Total: {total_updates} mises à jour\n" + "\n".join(update_lines),
+                'recommendation': 'URGENT: Installer les mises à jour (surtout Windows Update)'
+            })
+        else:
+            scan_results['warning'].append({
+                'category': '🔄 Mises à jour',
+                'issue': f"Total: {total_updates} mises à jour\n" + "\n".join(update_lines),
+                'recommendation': 'Mettre à jour via NiTriTe > Mises à jour'
+            })
 
         # ═══════════════════════════════════════════════════════════════════
         # 🔟 VÉRIFICATION SMART DISQUES DÉTAILLÉE

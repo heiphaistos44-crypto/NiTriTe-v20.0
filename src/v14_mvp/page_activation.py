@@ -425,10 +425,15 @@ Write-Host "⚠️ REDÉMARREZ votre PC pour finaliser." -ForegroundColor Yellow
         """Exécuter une commande PowerShell standard"""
         def run():
             try:
+                self._append_to_terminal(f"[DEBUG] Création script PowerShell...\n")
+
                 # Créer un fichier temporaire pour le script PowerShell (meilleure gestion encodage)
                 with tempfile.NamedTemporaryFile(mode='w', suffix='.ps1', delete=False, encoding='utf-8') as f:
                     f.write(command)
                     script_path = f.name
+
+                self._append_to_terminal(f"[DEBUG] Script créé: {script_path}\n")
+                self._append_to_terminal(f"[DEBUG] Exécution du script...\n\n")
 
                 # Exécuter le script
                 process = subprocess.Popen(
@@ -437,13 +442,17 @@ Write-Host "⚠️ REDÉMARREZ votre PC pour finaliser." -ForegroundColor Yellow
                     stderr=subprocess.PIPE,
                     text=True,
                     encoding='utf-8',
-                    errors='ignore'
+                    errors='ignore',
+                    creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
                 )
 
-                output, errors = process.communicate(timeout=30)
+                output, errors = process.communicate(timeout=60)
 
                 if output:
                     self._append_to_terminal(output)
+                else:
+                    self._append_to_terminal("[DEBUG] Aucune sortie du script\n")
+
                 if errors:
                     self._append_to_terminal(f"\n⚠️ Erreurs :\n{errors}")
 
@@ -452,14 +461,21 @@ Write-Host "⚠️ REDÉMARREZ votre PC pour finaliser." -ForegroundColor Yellow
                 # Cleanup
                 try:
                     os.remove(script_path)
-                except:
-                    pass
+                    self._append_to_terminal(f"[DEBUG] Script temporaire supprimé\n")
+                except Exception as e:
+                    self._append_to_terminal(f"[DEBUG] Impossible de supprimer {script_path}: {e}\n")
 
             except subprocess.TimeoutExpired:
-                self._append_to_terminal("\n❌ Timeout : La commande a pris trop de temps (> 30s)\n")
+                self._append_to_terminal("\n❌ Timeout : La commande a pris trop de temps (> 60s)\n")
                 self._append_to_terminal("-" * 80 + "\n")
+                try:
+                    process.kill()
+                except:
+                    pass
             except Exception as e:
-                self._append_to_terminal(f"\n❌ Erreur: {str(e)}\n")
+                self._append_to_terminal(f"\n❌ Erreur d'exécution: {str(e)}\n")
+                import traceback
+                self._append_to_terminal(f"Trace: {traceback.format_exc()}\n")
                 self._append_to_terminal("-" * 80 + "\n")
 
         threading.Thread(target=run, daemon=True).start()
