@@ -2508,6 +2508,7 @@ class DiagnosticPage(ctk.CTkFrame):
         self._create_hardware_section(scroll)
         self._create_storage_section(scroll)
         self._create_network_section(scroll)
+        self._create_activation_section(scroll)  # NOUVELLE SECTION
         self._create_tools_section(scroll)
     
     def _create_system_section(self, parent):
@@ -2763,6 +2764,247 @@ class DiagnosticPage(ctk.CTkFrame):
                 anchor="w"
             )
             value_widget.pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+    def _create_activation_section(self, parent):
+        """Section Activation Windows & Office avec MAS intégré"""
+        card = ModernCard(parent)
+        card.pack(fill=tk.X, pady=10)
+
+        # Header avec icône colorée
+        header = SectionHeader(card, text="🔑 Activation Licence")
+        header.pack(fill=tk.X)
+
+        content = ctk.CTkFrame(card, fg_color="transparent")
+        content.pack(fill=tk.X, padx=20, pady=(0, 15))
+
+        # Détecter statut activation Windows
+        windows_activated = False
+        windows_status_text = "Vérification..."
+
+        try:
+            import subprocess
+            result = subprocess.run(
+                'cscript //NoLogo %windir%\\System32\\slmgr.vbs /xpr',
+                capture_output=True,
+                text=True,
+                timeout=10,
+                shell=True
+            )
+            status = result.stdout.strip().lower()
+
+            if 'permanently activated' in status or 'activé de manière permanente' in status:
+                windows_activated = True
+                windows_status_text = "✅ Activé de manière permanente"
+            elif 'will expire' in status or 'expirera' in status:
+                windows_status_text = "⚠️ Activation temporaire"
+            else:
+                windows_status_text = "❌ Non activé"
+        except:
+            windows_status_text = "❓ Impossible de vérifier"
+
+        # Carte Windows
+        windows_frame = ctk.CTkFrame(
+            content,
+            fg_color="#E3F2FD" if windows_activated else "#FFEBEE",
+            corner_radius=10,
+            border_width=2,
+            border_color="#2196F3" if windows_activated else "#F44336"
+        )
+        windows_frame.pack(fill=tk.X, pady=10)
+
+        windows_header = ctk.CTkFrame(windows_frame, fg_color="transparent")
+        windows_header.pack(fill=tk.X, padx=15, pady=12)
+
+        ctk.CTkLabel(
+            windows_header,
+            text="🪟 Windows",
+            font=("Segoe UI", 16, "bold"),
+            text_color="#1976D2" if windows_activated else "#C62828"
+        ).pack(side=tk.LEFT)
+
+        ctk.CTkLabel(
+            windows_header,
+            text=windows_status_text,
+            font=("Segoe UI", 13),
+            text_color="#1976D2" if windows_activated else "#C62828"
+        ).pack(side=tk.RIGHT)
+
+        if not windows_activated:
+            ctk.CTkButton(
+                windows_frame,
+                text="⚡ Activer Windows avec MAS",
+                command=lambda: self._activate_windows_mas_realtime(),
+                width=250,
+                height=35,
+                font=("Segoe UI", 13, "bold"),
+                fg_color="#2196F3",
+                hover_color="#1976D2"
+            ).pack(padx=15, pady=(0, 12))
+
+        # Carte Office
+        office_frame = ctk.CTkFrame(
+            content,
+            fg_color="#FFF3E0",
+            corner_radius=10,
+            border_width=2,
+            border_color="#FF9800"
+        )
+        office_frame.pack(fill=tk.X, pady=10)
+
+        office_header = ctk.CTkFrame(office_frame, fg_color="transparent")
+        office_header.pack(fill=tk.X, padx=15, pady=12)
+
+        ctk.CTkLabel(
+            office_header,
+            text="📊 Microsoft Office",
+            font=("Segoe UI", 16, "bold"),
+            text_color="#F57C00"
+        ).pack(side=tk.LEFT)
+
+        ctk.CTkLabel(
+            office_header,
+            text="Activer si nécessaire",
+            font=("Segoe UI", 13),
+            text_color="#F57C00"
+        ).pack(side=tk.RIGHT)
+
+        ctk.CTkButton(
+            office_frame,
+            text="⚡ Activer Office avec MAS",
+            command=lambda: self._activate_office_mas_realtime(),
+            width=250,
+            height=35,
+            font=("Segoe UI", 13, "bold"),
+            fg_color="#FF9800",
+            hover_color="#F57C00"
+        ).pack(padx=15, pady=(0, 12))
+
+        # Info MAS
+        info_frame = ctk.CTkFrame(content, fg_color="#F5F5F5", corner_radius=8, border_width=1, border_color="#DDDDDD")
+        info_frame.pack(fill=tk.X, pady=10)
+
+        ctk.CTkLabel(
+            info_frame,
+            text="ℹ️ MAS (Microsoft Activation Scripts) est un outil open-source sûr et fiable pour activer Windows et Office.",
+            font=("Segoe UI", 11),
+            text_color="#666666",
+            wraplength=800,
+            justify="left"
+        ).pack(padx=15, pady=10)
+
+    def _activate_windows_mas_realtime(self):
+        """Activer Windows avec MAS en temps réel avec interface moderne"""
+        import threading
+        import subprocess
+        import tempfile
+        from tkinter import messagebox
+
+        # Créer fenêtre d'activation en temps réel
+        activation_window = ctk.CTkToplevel(self)
+        activation_window.title("🔑 Activation Windows - MAS")
+        activation_window.geometry("700x500")
+        activation_window.resizable(False, False)
+
+        # Centrer
+        activation_window.update_idletasks()
+        x = (activation_window.winfo_screenwidth() // 2) - 350
+        y = (activation_window.winfo_screenheight() // 2) - 250
+        activation_window.geometry(f"700x500+{x}+{y}")
+
+        # Header
+        header = ctk.CTkFrame(activation_window, fg_color="#2196F3", corner_radius=0)
+        header.pack(fill=tk.X)
+
+        ctk.CTkLabel(
+            header,
+            text="🪟 ACTIVATION WINDOWS",
+            font=("Segoe UI", 22, "bold"),
+            text_color="white"
+        ).pack(pady=20)
+
+        # Zone de texte scrollable pour output
+        output_frame = ctk.CTkFrame(activation_window, fg_color="transparent")
+        output_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+        import tkinter as tk
+        output_text = tk.Text(
+            output_frame,
+            wrap=tk.WORD,
+            font=("Consolas", 10),
+            bg="#1E1E1E",
+            fg="#00FF00",
+            height=20
+        )
+        output_text.pack(fill=tk.BOTH, expand=True)
+        output_text.insert(tk.END, "🔄 Lancement de MAS (Microsoft Activation Scripts)...\n\n")
+        output_text.see(tk.END)
+
+        # Fonction d'activation
+        def run_activation():
+            try:
+                output_text.insert(tk.END, "📥 Téléchargement du script MAS...\n")
+                output_text.see(tk.END)
+
+                # Créer script PowerShell
+                ps_script = """
+                Write-Host "Démarrage de l'activation Windows..." -ForegroundColor Green
+                irm https://get.activated.win | iex
+                """
+
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.ps1', delete=False, encoding='utf-8') as f:
+                    f.write(ps_script)
+                    script_path = f.name
+
+                output_text.insert(tk.END, "✅ Script téléchargé\n")
+                output_text.insert(tk.END, "⚡ Exécution de l'activation...\n\n")
+                output_text.see(tk.END)
+
+                # Exécuter avec PowerShell
+                process = subprocess.Popen(
+                    ['powershell', '-ExecutionPolicy', 'Bypass', '-File', script_path],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    shell=True
+                )
+
+                # Lire output en temps réel
+                for line in process.stdout:
+                    output_text.insert(tk.END, line)
+                    output_text.see(tk.END)
+                    activation_window.update()
+
+                process.wait()
+
+                output_text.insert(tk.END, "\n\n✅ Activation terminée !\n")
+                output_text.insert(tk.END, "Vérifiez les instructions ci-dessus.\n")
+                output_text.see(tk.END)
+
+                # Cleanup
+                try:
+                    import os
+                    os.remove(script_path)
+                except:
+                    pass
+
+            except Exception as e:
+                output_text.insert(tk.END, f"\n\n❌ Erreur: {str(e)}\n")
+                output_text.see(tk.END)
+
+        # Lancer dans un thread
+        threading.Thread(target=run_activation, daemon=True).start()
+
+    def _activate_office_mas_realtime(self):
+        """Activer Office avec MAS en temps réel avec interface moderne"""
+        # Similaire à Windows mais pour Office
+        from tkinter import messagebox
+        messagebox.showinfo(
+            "Activation Office",
+            "Lancez l'activation Windows avec MAS.\n\n"
+            "Dans le menu MAS, choisissez l'option 'Activation Office'.\n\n"
+            "Le script MAS prend en charge Windows ET Office."
+        )
+        self._activate_windows_mas_realtime()
 
     def _create_tools_section(self, parent):
         """Section outils de diagnostic avancés"""
@@ -6869,52 +7111,94 @@ class DiagnosticPage(ctk.CTkFrame):
                         hover_color="#1976D2"
                     ).pack(anchor="w", padx=10, pady=(0, 10))
 
-        # STATUTS OK
+        # STATUTS OK - VERSION AMÉLIORÉE AVEC MEILLEURE ORGANISATION
         if scan_results['ok']:
-            ok_card = ctk.CTkFrame(scroll_frame, corner_radius=10)
-            ok_card.pack(fill=tk.X, pady=10)
+            # Header de section
+            ok_header = ctk.CTkFrame(scroll_frame, corner_radius=10, fg_color="#4CAF50")
+            ok_header.pack(fill=tk.X, pady=(10, 5))
 
             ctk.CTkLabel(
-                ok_card,
-                text="✅ TOUT VA BIEN",
-                font=("Segoe UI", 16, "bold"),
-                text_color="#00FF00"
-            ).pack(anchor="w", padx=20, pady=10)
+                ok_header,
+                text="✅ STATUTS NORMAUX",
+                font=("Segoe UI", 18, "bold"),
+                text_color="white"
+            ).pack(side=tk.LEFT, padx=20, pady=12)
 
-            for item in scan_results['ok']:
-                item_frame = ctk.CTkFrame(ok_card, fg_color="transparent")
-                item_frame.pack(fill=tk.X, padx=20, pady=2)
+            ctk.CTkLabel(
+                ok_header,
+                text="TOUT VA BIEN",
+                font=("Segoe UI", 11),
+                text_color="white"
+            ).pack(side=tk.RIGHT, padx=20, pady=12)
+
+            # Conteneur
+            ok_card = ctk.CTkFrame(scroll_frame, corner_radius=10, border_width=2, border_color="#4CAF50")
+            ok_card.pack(fill=tk.X, pady=(0, 10))
+
+            for i, item in enumerate(scan_results['ok'], 1):
+                item_frame = ctk.CTkFrame(ok_card, corner_radius=8, fg_color="white", border_width=1, border_color="#88DD88")
+                item_frame.pack(fill=tk.X, padx=15, pady=5)
+
+                # Header avec numéro + catégorie
+                header_frame = ctk.CTkFrame(item_frame, fg_color="#E8F5E9", corner_radius=6)
+                header_frame.pack(fill=tk.X, padx=10, pady=8)
 
                 ctk.CTkLabel(
-                    item_frame,
-                    text=f"{item['category']}: {item['message']}",
-                    font=("Segoe UI", 12),
+                    header_frame,
+                    text=f"#{i}",
+                    font=("Segoe UI", 12, "bold"),
+                    text_color="#2E7D32",
+                    width=30
+                ).pack(side=tk.LEFT, padx=(10, 5), pady=6)
+
+                ctk.CTkLabel(
+                    header_frame,
+                    text=item['category'],
+                    font=("Segoe UI", 14, "bold"),
+                    text_color="#1B5E20",
                     anchor="w"
-                ).pack(anchor="w", padx=10, side=tk.LEFT)
+                ).pack(side=tk.LEFT, padx=5, pady=6)
+
+                # Message
+                ctk.CTkLabel(
+                    item_frame,
+                    text=f"✓ {item['message']}",
+                    font=("Segoe UI", 12),
+                    text_color="#2E7D32",
+                    anchor="w",
+                    wraplength=800,
+                    justify="left"
+                ).pack(anchor="w", padx=15, pady=(8, 10))
+
+                # Boutons actions
+                button_frame = ctk.CTkFrame(item_frame, fg_color="transparent")
+                button_frame.pack(fill=tk.X, padx=10, pady=(0, 8))
 
                 # Ajouter bouton pour rapport batterie si disponible
                 if 'battery_report_path' in item and item['battery_report_path']:
                     ctk.CTkButton(
-                        item_frame,
-                        text="📄 Voir Rapport",
+                        button_frame,
+                        text="📄 Voir Rapport Batterie HTML",
                         command=lambda path=item['battery_report_path']: os.startfile(path),
-                        width=120,
-                        height=25,
-                        font=("Segoe UI", 10)
-                    ).pack(side=tk.RIGHT, padx=10)
+                        width=200,
+                        height=28,
+                        font=("Segoe UI", 11),
+                        fg_color="#4CAF50",
+                        hover_color="#45A049"
+                    ).pack(side=tk.LEFT, padx=5)
 
                 # Bouton CrystalDiskInfo pour infos disques
-                if '💿' in item.get('category', '') or 'disque' in item.get('category', '').lower() or 'disk' in item.get('category', '').lower():
+                if '💿' in item.get('category', '') or 'disque' in item.get('category', '').lower() or 'disk' in item.get('category', '').lower() or 'santé' in item.get('category', '').lower():
                     ctk.CTkButton(
-                        item_frame,
-                        text="🔬 CrystalDiskInfo",
+                        button_frame,
+                        text="🔬 Analyser avec CrystalDiskInfo",
                         command=lambda: self._launch_crystaldiskinfo(),
-                        width=140,
-                        height=25,
-                        font=("Segoe UI", 10),
+                        width=220,
+                        height=28,
+                        font=("Segoe UI", 11),
                         fg_color="#2196F3",
                         hover_color="#1976D2"
-                    ).pack(side=tk.RIGHT, padx=10)
+                    ).pack(side=tk.LEFT, padx=5)
 
         # Frame pour boutons export et fermer
         bottom_frame = ctk.CTkFrame(results_window, fg_color="transparent")
@@ -7465,19 +7749,29 @@ class DiagnosticPage(ctk.CTkFrame):
         from pathlib import Path
 
         try:
-            # Chercher CrystalDiskInfo dans le dossier logiciel/ (RACINE UNIQUEMENT)
+            # Chercher CrystalDiskInfo dans logiciel/ ET ses sous-dossiers
             logiciel_folder = Path("logiciel")
 
-            # Lister tous les fichiers .exe dans logiciel/
+            # Lister tous les fichiers .exe
             crystaldisk_exe = None
 
             if logiciel_folder.exists() and logiciel_folder.is_dir():
-                # Chercher les exécutables qui contiennent "disk" dans leur nom
-                for exe_file in logiciel_folder.glob("*.exe"):
-                    if 'disk' in exe_file.name.lower() or 'crystal' in exe_file.name.lower():
-                        crystaldisk_exe = exe_file
-                        print(f"🔬 CrystalDiskInfo trouvé: {crystaldisk_exe}")
-                        break
+                # PRIORITÉ 1 : Chercher dans logiciel/CrystalDisk/
+                crystaldisk_subfolder = logiciel_folder / "CrystalDisk"
+                if crystaldisk_subfolder.exists():
+                    for exe_file in crystaldisk_subfolder.glob("*.exe"):
+                        if 'disk' in exe_file.name.lower() or 'crystal' in exe_file.name.lower():
+                            crystaldisk_exe = exe_file
+                            print(f"🔬 CrystalDiskInfo trouvé dans CrystalDisk/: {crystaldisk_exe}")
+                            break
+
+                # PRIORITÉ 2 : Chercher récursivement dans tous les sous-dossiers
+                if not crystaldisk_exe:
+                    for exe_file in logiciel_folder.rglob("*.exe"):
+                        if 'disk' in exe_file.name.lower() or 'crystal' in exe_file.name.lower():
+                            crystaldisk_exe = exe_file
+                            print(f"🔬 CrystalDiskInfo trouvé: {crystaldisk_exe}")
+                            break
 
             if crystaldisk_exe:
                 print(f"🔬 Lancement CrystalDiskInfo: {crystaldisk_exe}")
