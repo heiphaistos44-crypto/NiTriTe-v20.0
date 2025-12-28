@@ -6193,50 +6193,90 @@ class DiagnosticPage(ctk.CTkFrame):
             pass
 
         # ═══════════════════════════════════════════════════════════════════
-        # 1️⃣1️⃣ ANALYSE DOSSIER UTILISATEUR
+        # 1️⃣1️⃣ ANALYSE DOSSIER UTILISATEUR (OPTIMISÉE - RAPIDE)
         # ═══════════════════════════════════════════════════════════════════
         try:
             import os
             from pathlib import Path
+            import time
 
             # Obtenir le dossier utilisateur
             user_folder = Path.home()
 
-            def get_folder_size(folder_path):
-                """Calculer la taille d'un dossier en Go"""
+            def get_folder_size_fast(folder_path, max_depth=None, timeout=10):
+                """
+                Calculer la taille d'un dossier en Go (version RAPIDE avec timeout)
+
+                Args:
+                    folder_path: Chemin du dossier
+                    max_depth: Profondeur maximale (None = illimité)
+                    timeout: Timeout en secondes (évite les freeze)
+                """
                 total_size = 0
+                start_time = time.time()
+
                 try:
-                    for dirpath, dirnames, filenames in os.walk(folder_path):
-                        for filename in filenames:
-                            filepath = os.path.join(dirpath, filename)
-                            try:
-                                total_size += os.path.getsize(filepath)
-                            except:
-                                pass
-                except:
+                    # Utiliser os.scandir (plus rapide que os.walk)
+                    def scan_dir(path, current_depth=0):
+                        nonlocal total_size
+
+                        # Vérifier timeout (évite freeze)
+                        if time.time() - start_time > timeout:
+                            return
+
+                        # Vérifier profondeur max
+                        if max_depth is not None and current_depth > max_depth:
+                            return
+
+                        try:
+                            with os.scandir(path) as entries:
+                                for entry in entries:
+                                    # Skip si timeout dépassé
+                                    if time.time() - start_time > timeout:
+                                        return
+
+                                    try:
+                                        if entry.is_file(follow_symlinks=False):
+                                            total_size += entry.stat(follow_symlinks=False).st_size
+                                        elif entry.is_dir(follow_symlinks=False):
+                                            # Ignorer dossiers système cachés (performance)
+                                            if not entry.name.startswith('.') and not entry.name.startswith('$'):
+                                                scan_dir(entry.path, current_depth + 1)
+                                    except (PermissionError, OSError):
+                                        pass  # Ignorer fichiers inaccessibles
+                        except (PermissionError, OSError):
+                            pass
+
+                    scan_dir(str(folder_path))
+
+                except Exception:
                     pass
+
                 return total_size / (1024**3)  # Convertir en Go
 
-            # Analyser dossier utilisateur total
-            print(f"📁 Analyse du dossier utilisateur: {user_folder}")
-            user_folder_size = get_folder_size(user_folder)
+            # Analyser UNIQUEMENT les sous-dossiers principaux (pas tout le dossier!)
+            print(f"📁 Analyse rapide du dossier utilisateur...")
 
-            # Analyser sous-dossiers principaux
             subfolders_to_check = {
-                'Documents': user_folder / 'Documents',
-                'Téléchargements': user_folder / 'Downloads',
-                'Bureau': user_folder / 'Desktop',
-                'Images': user_folder / 'Pictures',
-                'Vidéos': user_folder / 'Videos',
-                'Musique': user_folder / 'Music',
-                'AppData': user_folder / 'AppData'
+                'Documents': (user_folder / 'Documents', None, 10),
+                'Téléchargements': (user_folder / 'Downloads', None, 10),
+                'Bureau': (user_folder / 'Desktop', None, 5),
+                'Images': (user_folder / 'Pictures', None, 10),
+                'Vidéos': (user_folder / 'Videos', None, 10),
+                'Musique': (user_folder / 'Music', None, 10),
+                'AppData': (user_folder / 'AppData', 2, 5)  # Limite 2 niveaux + 5s max (AppData énorme!)
             }
 
             subfolder_sizes = {}
-            for name, path in subfolders_to_check.items():
+            for name, (path, max_depth, timeout_val) in subfolders_to_check.items():
                 if path.exists():
-                    size = get_folder_size(path)
+                    print(f"  Scan {name}... (timeout: {timeout_val}s)")
+                    size = get_folder_size_fast(path, max_depth=max_depth, timeout=timeout_val)
                     subfolder_sizes[name] = size
+                    print(f"    → {size:.2f} Go")
+
+            # Calculer taille totale (somme des sous-dossiers scannés)
+            user_folder_size = sum(subfolder_sizes.values())
 
             # Trier par taille décroissante
             sorted_folders = sorted(subfolder_sizes.items(), key=lambda x: x[1], reverse=True)
@@ -6248,25 +6288,28 @@ class DiagnosticPage(ctk.CTkFrame):
             if user_folder_size > 500:
                 scan_results['warning'].append({
                     'category': '📁 Dossier Utilisateur',
-                    'issue': f'Dossier utilisateur très volumineux: {user_folder_size:.2f} Go\n\nTop 5 dossiers:\n{top_folders_msg}',
+                    'issue': f'Dossier utilisateur très volumineux: ~{user_folder_size:.2f} Go\n\nTop 5 dossiers:\n{top_folders_msg}',
                     'recommendation': 'Nettoyer fichiers inutiles, déplacer données vers disque secondaire, utiliser Nettoyage de disque'
                 })
             elif user_folder_size > 200:
                 scan_results['warning'].append({
                     'category': '📁 Dossier Utilisateur',
-                    'issue': f'Dossier utilisateur volumineux: {user_folder_size:.2f} Go\n\nTop 5 dossiers:\n{top_folders_msg}',
+                    'issue': f'Dossier utilisateur volumineux: ~{user_folder_size:.2f} Go\n\nTop 5 dossiers:\n{top_folders_msg}',
                     'recommendation': 'Surveiller espace, nettoyer si nécessaire'
                 })
             else:
                 scan_results['ok'].append({
                     'category': '📁 Dossier Utilisateur',
-                    'message': f'Taille normale: {user_folder_size:.2f} Go\n\nTop 3 dossiers:\n' + "\n".join([f"  • {name}: {size:.2f} Go" for name, size in sorted_folders[:3]])
+                    'message': f'Taille: ~{user_folder_size:.2f} Go\n\nTop 3 dossiers:\n' + "\n".join([f"  • {name}: {size:.2f} Go" for name, size in sorted_folders[:3]])
                 })
 
+            print(f"📁 Analyse terminée: ~{user_folder_size:.2f} Go total")
+
         except Exception as e:
+            print(f"❌ Erreur analyse dossier: {str(e)}")
             scan_results['ok'].append({
                 'category': '📁 Dossier Utilisateur',
-                'message': f'Impossible d\'analyser le dossier utilisateur: {str(e)}'
+                'message': f'Analyse non disponible'
             })
 
         # ═══════════════════════════════════════════════════════════════════
