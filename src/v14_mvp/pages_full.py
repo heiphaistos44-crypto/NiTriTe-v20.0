@@ -5761,25 +5761,32 @@ class DiagnosticPage(ctk.CTkFrame):
         # 2️⃣ VÉRIFICATION CPU & PROCESSUS GOURMANDS
         # ═══════════════════════════════════════════════════════════════════
         update_progress(25, "Analyse CPU et processus...")
+
+        # Obtenir nom complet du CPU
+        cpu_name = self.system_info.get('cpu_name', 'CPU')
+        cpu_cores = self.system_info.get('cpu_cores', 'N/A')
+        cpu_threads = self.system_info.get('cpu_threads', 'N/A')
+        cpu_specs = f"{cpu_name} ({cpu_cores}C/{cpu_threads}T)"
+
         if PSUTIL_AVAILABLE:
             cpu_percent = psutil.cpu_percent(interval=1)
 
             if cpu_percent > 90:
                 scan_results['critical'].append({
                     'category': '🖥️ CPU',
-                    'issue': f'CPU surchargé: {cpu_percent:.1f}%',
+                    'issue': f'CPU surchargé: {cpu_percent:.1f}%\n{cpu_specs}',
                     'recommendation': 'Fermer applications inutilisées, vérifier processus avec Gestionnaire de tâches'
                 })
             elif cpu_percent > 70:
                 scan_results['warning'].append({
                     'category': '🖥️ CPU',
-                    'issue': f'CPU élevé: {cpu_percent:.1f}%',
+                    'issue': f'CPU élevé: {cpu_percent:.1f}%\n{cpu_specs}',
                     'recommendation': 'Surveiller utilisation CPU'
                 })
             else:
                 scan_results['ok'].append({
                     'category': '🖥️ CPU',
-                    'message': f'CPU normal ({cpu_percent:.1f}%)'
+                    'message': f'Usage normal: {cpu_percent:.1f}%\n{cpu_specs}'
                 })
 
             # Détecter top 5 processus gourmands
@@ -5805,56 +5812,122 @@ class DiagnosticPage(ctk.CTkFrame):
         # 3️⃣ VÉRIFICATION RAM
         # ═══════════════════════════════════════════════════════════════════
         update_progress(35, "Vérification mémoire RAM...")
+
+        # Obtenir détails RAM (type, vitesse)
+        ram_details = ""
+        if 'ram_modules' in self.system_info and self.system_info['ram_modules']:
+            first_module = self.system_info['ram_modules'][0]
+            ram_type = first_module.get('type', 'Unknown')
+            ram_speed = first_module.get('speed', 0)
+            ram_count = len(self.system_info['ram_modules'])
+            ram_details = f"\n{ram_count}x {ram_type} @ {ram_speed} MHz"
+
         if PSUTIL_AVAILABLE:
             ram = psutil.virtual_memory()
             ram_percent = ram.percent
+            ram_total_gb = ram.total / (1024**3)
+            ram_used_gb = ram.used / (1024**3)
 
             if ram_percent > 90:
                 scan_results['critical'].append({
                     'category': '💾 RAM',
-                    'issue': f'RAM saturée: {ram_percent:.1f}% ({ram.used / (1024**3):.1f}/{ram.total / (1024**3):.1f} GB)',
+                    'issue': f'RAM saturée: {ram_percent:.1f}% ({ram_used_gb:.1f}/{ram_total_gb:.1f} GB){ram_details}',
                     'recommendation': 'Fermer applications, redémarrer PC, envisager upgrade RAM'
                 })
             elif ram_percent > 80:
                 scan_results['warning'].append({
                     'category': '💾 RAM',
-                    'issue': f'RAM élevée: {ram_percent:.1f}% ({ram.used / (1024**3):.1f}/{ram.total / (1024**3):.1f} GB)',
+                    'issue': f'RAM élevée: {ram_percent:.1f}% ({ram_used_gb:.1f}/{ram_total_gb:.1f} GB){ram_details}',
                     'recommendation': 'Fermer applications inutilisées'
                 })
             else:
                 scan_results['ok'].append({
                     'category': '💾 RAM',
-                    'message': f'RAM OK ({ram_percent:.1f}%, {ram.used / (1024**3):.1f}/{ram.total / (1024**3):.1f} GB)'
+                    'message': f'Usage normal: {ram_percent:.1f}% ({ram_used_gb:.1f}/{ram_total_gb:.1f} GB){ram_details}'
                 })
 
         # ═══════════════════════════════════════════════════════════════════
         # 4️⃣ VÉRIFICATION DISQUES
         # ═══════════════════════════════════════════════════════════════════
+
+        # Obtenir modèles de disques
+        disk_models = {}
+        try:
+            import wmi
+            w = wmi.WMI()
+            for disk in w.Win32_DiskDrive():
+                # Associer le modèle au premier mountpoint trouvé
+                model = disk.Model.strip() if disk.Model else "Disque"
+                size_gb = int(disk.Size) / (1024**3) if disk.Size else 0
+                disk_models[disk.DeviceID] = {'model': model, 'size': size_gb}
+        except:
+            pass
+
         if PSUTIL_AVAILABLE:
+            partition_index = 0
             for partition in psutil.disk_partitions():
                 try:
                     usage = psutil.disk_usage(partition.mountpoint)
                     percent = usage.percent
+                    total_gb = usage.total / (1024**3)
+                    free_gb = usage.free / (1024**3)
+
+                    # Essayer de trouver le modèle du disque
+                    disk_info = ""
+                    if disk_models and partition_index < len(disk_models):
+                        disk_list = list(disk_models.values())
+                        if partition_index < len(disk_list):
+                            model = disk_list[partition_index]['model']
+                            disk_info = f"\n{model} ({total_gb:.0f} GB)"
 
                     if percent > 95:
                         scan_results['critical'].append({
                             'category': '💿 Disque',
-                            'issue': f'{partition.mountpoint} critique: {percent:.1f}% plein ({usage.free / (1024**3):.1f} GB libre)',
+                            'issue': f'{partition.mountpoint} critique: {percent:.1f}% plein ({free_gb:.1f}/{total_gb:.1f} GB){disk_info}',
                             'recommendation': 'Libérer espace URGENT: supprimer fichiers, vider corbeille, nettoyer disque Windows'
                         })
                     elif percent > 85:
                         scan_results['warning'].append({
                             'category': '💿 Disque',
-                            'issue': f'{partition.mountpoint} plein: {percent:.1f}% ({usage.free / (1024**3):.1f} GB libre)',
+                            'issue': f'{partition.mountpoint} plein: {percent:.1f}% ({free_gb:.1f}/{total_gb:.1f} GB){disk_info}',
                             'recommendation': 'Libérer espace: NiTriTe > Optimisations > Nettoyage'
                         })
                     else:
                         scan_results['ok'].append({
                             'category': '💿 Disque',
-                            'message': f'{partition.mountpoint} OK ({percent:.1f}% utilisé, {usage.free / (1024**3):.1f} GB libre)'
+                            'message': f'{partition.mountpoint} OK: {percent:.1f}% utilisé ({free_gb:.1f}/{total_gb:.1f} GB){disk_info}'
                         })
+
+                    partition_index += 1
                 except:
                     pass
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 4️⃣-B INFORMATION GPU
+        # ═══════════════════════════════════════════════════════════════════
+
+        # Ajouter info GPU au scan
+        if 'gpus' in self.system_info and self.system_info['gpus']:
+            for i, gpu in enumerate(self.system_info['gpus'], 1):
+                gpu_name = gpu.get('name', 'GPU Inconnu')
+                gpu_ram_gb = gpu.get('ram_bytes', 0) / (1024**3) if gpu.get('ram_bytes', 0) > 0 else 0
+                gpu_driver = gpu.get('driver_version', 'N/A')
+
+                gpu_info = f"{gpu_name}"
+                if gpu_ram_gb > 0:
+                    gpu_info += f"\nVRAM: {gpu_ram_gb:.1f} GB | Driver: {gpu_driver}"
+                else:
+                    gpu_info += f"\nDriver: {gpu_driver}"
+
+                scan_results['ok'].append({
+                    'category': f'🎮 GPU #{i}' if len(self.system_info['gpus']) > 1 else '🎮 GPU',
+                    'message': gpu_info
+                })
+        else:
+            scan_results['ok'].append({
+                'category': '🎮 GPU',
+                'message': 'Carte graphique: Informations non disponibles'
+            })
 
         # ═══════════════════════════════════════════════════════════════════
         # 5️⃣ VÉRIFICATION WINDOWS DEFENDER
@@ -6089,11 +6162,15 @@ class DiagnosticPage(ctk.CTkFrame):
                 })
 
         except Exception as e:
-            # Erreur lors de la génération du rapport
-            scan_results['ok'].append({
+            # Erreur lors de la génération du rapport - mais on ajoute quand même le chemin s'il existe
+            battery_msg = {
                 'category': '🔋 Batterie',
                 'message': 'Impossible de générer rapport batterie (PC fixe ou erreur)'
-            })
+            }
+            # Ajouter le chemin du rapport s'il a été créé avant l'erreur
+            if battery_report_path and battery_report_path.exists():
+                battery_msg['battery_report_path'] = str(battery_report_path)
+            scan_results['ok'].append(battery_msg)
 
         # ═══════════════════════════════════════════════════════════════════
         # 9️⃣ VÉRIFICATION MISES À JOUR DÉTAILLÉES
@@ -6932,7 +7009,7 @@ class DiagnosticPage(ctk.CTkFrame):
                 button_frame = ctk.CTkFrame(item_frame, fg_color="transparent")
                 button_frame.pack(fill=tk.X, padx=10, pady=(0, 8))
 
-                # Ajouter bouton pour rapport batterie si disponible
+                # Ajouter bouton pour rapport batterie si disponible OU si catégorie batterie
                 if 'battery_report_path' in item and item['battery_report_path']:
                     ctk.CTkButton(
                         button_frame,
@@ -6943,6 +7020,32 @@ class DiagnosticPage(ctk.CTkFrame):
                         font=("Segoe UI", 11),
                         fg_color="#4CAF50",
                         hover_color="#45A049"
+                    ).pack(side=tk.LEFT, padx=5)
+                elif '🔋' in item.get('category', '') or 'batterie' in item.get('category', '').lower():
+                    # Bouton pour générer le rapport si pas encore fait
+                    def generate_battery_report():
+                        import subprocess
+                        from pathlib import Path
+                        try:
+                            temp_dir = Path(get_portable_temp_dir())
+                            temp_dir.mkdir(parents=True, exist_ok=True)
+                            report_path = temp_dir / "battery-report.html"
+                            subprocess.run(['powercfg', '/batteryreport', '/output', str(report_path)], check=True)
+                            if report_path.exists():
+                                os.startfile(str(report_path))
+                        except Exception as e:
+                            from tkinter import messagebox
+                            messagebox.showerror("Erreur", f"Impossible de générer le rapport batterie:\n{str(e)}")
+
+                    ctk.CTkButton(
+                        button_frame,
+                        text="🔋 Générer Rapport Batterie",
+                        command=generate_battery_report,
+                        width=200,
+                        height=28,
+                        font=("Segoe UI", 11),
+                        fg_color="#FF9800",
+                        hover_color="#F57C00"
                     ).pack(side=tk.LEFT, padx=5)
 
                 # Bouton CrystalDiskInfo pour infos disques
