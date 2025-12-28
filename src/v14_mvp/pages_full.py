@@ -6258,16 +6258,28 @@ class DiagnosticPage(ctk.CTkFrame):
                         'message': f'%temp%: {temp_size:.2f} Go (normal)'
                     })
 
-            # Analyser %AppData%
-            appdata_path = Path(os.environ.get('APPDATA', ''))
-            if appdata_path.exists():
-                print("📁 Analyse %AppData%...")
-                appdata_size = get_folder_size_quick(appdata_path, timeout=5)
+            # Analyser %AppData% (Roaming)
+            appdata_roaming_path = Path(os.environ.get('APPDATA', ''))
+            if appdata_roaming_path.exists():
+                print("📁 Analyse %AppData% (Roaming)...")
+                appdata_roaming_size = get_folder_size_quick(appdata_roaming_path, timeout=5)
+            else:
+                appdata_roaming_size = 0
 
-                scan_results['ok'].append({
-                    'category': '📂 AppData',
-                    'message': f'%AppData%: {appdata_size:.2f} Go (Roaming)'
-                })
+            # Analyser %AppData%\Local
+            appdata_local_path = Path(os.environ.get('LOCALAPPDATA', ''))
+            if appdata_local_path.exists():
+                print("📁 Analyse %AppData%\\Local...")
+                appdata_local_size = get_folder_size_quick(appdata_local_path, timeout=5)
+            else:
+                appdata_local_size = 0
+
+            # Afficher les deux AppData
+            appdata_total = appdata_roaming_size + appdata_local_size
+            scan_results['ok'].append({
+                'category': '📂 AppData',
+                'message': f'%AppData% Total: {appdata_total:.2f} Go\n  • Roaming: {appdata_roaming_size:.2f} Go\n  • Local: {appdata_local_size:.2f} Go'
+            })
 
         except Exception as e:
             print(f"Erreur analyse temp/appdata: {e}")
@@ -6445,89 +6457,198 @@ class DiagnosticPage(ctk.CTkFrame):
         """Afficher les résultats du scan dans une fenêtre dédiée"""
         import tkinter as tk
         from tkinter import messagebox
+        from datetime import datetime
 
         # Créer fenêtre popup (CTkToplevel pour CustomTkinter)
         results_window = ctk.CTkToplevel(self)
-        results_window.title("🔍 Résultats du Scan Total")
-        results_window.geometry("900x700")
+        results_window.title("🔍 Résultats du Scan Total - NiTriTe V20.0")
+        results_window.geometry("950x750")
 
-        # Header simplifié
-        header = ctk.CTkFrame(results_window, corner_radius=10)
+        # Header amélioré avec gradient visuel
+        header = ctk.CTkFrame(results_window, corner_radius=15, fg_color="#2196F3")
         header.pack(fill=tk.X, padx=20, pady=20)
 
+        # Titre principal
         title = ctk.CTkLabel(
             header,
-            text="🔍 Résultats du Scan Total du PC",
-            font=("Segoe UI", 24, "bold")
+            text="🔍 SCAN TOTAL DU PC",
+            font=("Segoe UI", 28, "bold"),
+            text_color="white"
         )
-        title.pack(pady=15)
+        title.pack(pady=(20, 5))
 
-        # Statistiques rapides - VERSION SIMPLIFIÉE
-        stats_frame = ctk.CTkFrame(results_window)
-        stats_frame.pack(fill=tk.X, padx=20, pady=10)
+        # Sous-titre avec date/heure
+        subtitle = ctk.CTkLabel(
+            header,
+            text=f"Rapport généré le {datetime.now().strftime('%d/%m/%Y à %H:%M:%S')}",
+            font=("Segoe UI", 12),
+            text_color="white"
+        )
+        subtitle.pack(pady=(0, 15))
+
+        # Ligne décorative
+        ctk.CTkFrame(header, height=3, fg_color="white").pack(fill=tk.X, padx=40, pady=(0, 15))
+
+        # Statistiques rapides - VERSION AMÉLIORÉE
+        stats_container = ctk.CTkFrame(results_window, fg_color="transparent")
+        stats_container.pack(fill=tk.X, padx=20, pady=15)
 
         critical_count = len(scan_results['critical'])
         warning_count = len(scan_results['warning'])
         ok_count = len(scan_results['ok'])
+        total_count = critical_count + warning_count + ok_count
 
-        # Stats cards simplifiées (sans ModernStatsCard)
+        # Titre stats
         ctk.CTkLabel(
-            stats_frame,
-            text=f"❌ Critiques: {critical_count}",
-            font=("Segoe UI", 16, "bold"),
+            stats_container,
+            text="📊 RÉSUMÉ DU SCAN",
+            font=("Segoe UI", 18, "bold")
+        ).pack(pady=(0, 10))
+
+        # Stats cards avec meilleur design
+        stats_frame = ctk.CTkFrame(stats_container, fg_color="transparent")
+        stats_frame.pack(fill=tk.X)
+
+        # Stat card CRITIQUES (rouge)
+        critical_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#FFE5E5", border_width=2, border_color="#FF4444")
+        critical_card.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+
+        ctk.CTkLabel(
+            critical_card,
+            text=str(critical_count),
+            font=("Segoe UI", 36, "bold"),
             text_color="#FF4444"
-        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5, pady=10)
+        ).pack(pady=(15, 0))
 
         ctk.CTkLabel(
-            stats_frame,
-            text=f"⚠️ Avertissements: {warning_count}",
-            font=("Segoe UI", 16, "bold"),
+            critical_card,
+            text="❌ Critiques",
+            font=("Segoe UI", 13),
+            text_color="#CC0000"
+        ).pack(pady=(0, 15))
+
+        # Stat card AVERTISSEMENTS (orange)
+        warning_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#FFF4E5", border_width=2, border_color="#FFA500")
+        warning_card.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+
+        ctk.CTkLabel(
+            warning_card,
+            text=str(warning_count),
+            font=("Segoe UI", 36, "bold"),
             text_color="#FFA500"
-        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5, pady=10)
+        ).pack(pady=(15, 0))
 
         ctk.CTkLabel(
-            stats_frame,
-            text=f"✅ OK: {ok_count}",
-            font=("Segoe UI", 16, "bold"),
-            text_color="#00FF00"
-        ).pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5, pady=10)
+            warning_card,
+            text="⚠️ Avertissements",
+            font=("Segoe UI", 13),
+            text_color="#CC7A00"
+        ).pack(pady=(0, 15))
+
+        # Stat card OK (vert)
+        ok_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#E5FFE5", border_width=2, border_color="#00AA00")
+        ok_card.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+
+        ctk.CTkLabel(
+            ok_card,
+            text=str(ok_count),
+            font=("Segoe UI", 36, "bold"),
+            text_color="#00AA00"
+        ).pack(pady=(15, 0))
+
+        ctk.CTkLabel(
+            ok_card,
+            text="✅ Statuts OK",
+            font=("Segoe UI", 13),
+            text_color="#007700"
+        ).pack(pady=(0, 15))
+
+        # Total checks
+        ctk.CTkLabel(
+            stats_container,
+            text=f"Total : {total_count} vérifications effectuées",
+            font=("Segoe UI", 11),
+            text_color="gray"
+        ).pack(pady=(10, 0))
 
         # Scroll frame pour résultats détaillés
         scroll_frame = ctk.CTkScrollableFrame(results_window)
         scroll_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
 
+        # Séparateur
+        ctk.CTkFrame(scroll_frame, height=2, fg_color="#DDDDDD").pack(fill=tk.X, pady=15)
+
         # PROBLÈMES CRITIQUES
         if scan_results['critical']:
-            critical_card = ctk.CTkFrame(scroll_frame, corner_radius=10)
-            critical_card.pack(fill=tk.X, pady=10)
+            # Header de section avec fond coloré
+            critical_header = ctk.CTkFrame(scroll_frame, corner_radius=10, fg_color="#FF4444")
+            critical_header.pack(fill=tk.X, pady=(10, 5))
 
             ctk.CTkLabel(
-                critical_card,
-                text="❌ PROBLÈMES CRITIQUES (ACTION URGENTE REQUISE)",
-                font=("Segoe UI", 16, "bold"),
-                text_color="#FF4444"
-            ).pack(anchor="w", padx=20, pady=10)
+                critical_header,
+                text="❌ PROBLÈMES CRITIQUES",
+                font=("Segoe UI", 18, "bold"),
+                text_color="white"
+            ).pack(side=tk.LEFT, padx=20, pady=12)
 
-            for item in scan_results['critical']:
-                issue_frame = ctk.CTkFrame(critical_card, corner_radius=8)
-                issue_frame.pack(fill=tk.X, padx=20, pady=5)
+            ctk.CTkLabel(
+                critical_header,
+                text="⚠️ ACTION URGENTE REQUISE",
+                font=("Segoe UI", 11),
+                text_color="white"
+            ).pack(side=tk.RIGHT, padx=20, pady=12)
+
+            # Conteneur pour les items critiques
+            critical_card = ctk.CTkFrame(scroll_frame, corner_radius=10, border_width=2, border_color="#FF4444")
+            critical_card.pack(fill=tk.X, pady=(0, 10))
+
+            for i, item in enumerate(scan_results['critical'], 1):
+                issue_frame = ctk.CTkFrame(critical_card, corner_radius=8, fg_color="#FFF0F0", border_width=1, border_color="#FFCCCC")
+                issue_frame.pack(fill=tk.X, padx=15, pady=8)
+
+                # Numéro + Catégorie
+                header_frame = ctk.CTkFrame(issue_frame, fg_color="transparent")
+                header_frame.pack(fill=tk.X, padx=10, pady=(10, 5))
 
                 ctk.CTkLabel(
-                    issue_frame,
-                    text=f"{item['category']}: {item['issue']}",
-                    font=("Segoe UI", 13, "bold"),
+                    header_frame,
+                    text=f"#{i}",
+                    font=("Segoe UI", 12, "bold"),
                     text_color="#FF4444",
-                    anchor="w",
-                    wraplength=800
-                ).pack(anchor="w", padx=10, pady=(10, 5))
+                    width=30
+                ).pack(side=tk.LEFT)
 
                 ctk.CTkLabel(
+                    header_frame,
+                    text=item['category'],
+                    font=("Segoe UI", 14, "bold"),
+                    text_color="#FF4444",
+                    anchor="w"
+                ).pack(side=tk.LEFT, padx=5)
+
+                # Problème
+                ctk.CTkLabel(
                     issue_frame,
-                    text=f"💡 Recommandation: {item['recommendation']}",
+                    text=f"❌ {item['issue']}",
                     font=("Segoe UI", 12),
+                    text_color="#CC0000",
                     anchor="w",
-                    wraplength=800
-                ).pack(anchor="w", padx=10, pady=(0, 5))
+                    wraplength=820,
+                    justify="left"
+                ).pack(anchor="w", padx=10, pady=(0, 8))
+
+                # Recommandation avec fond
+                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFEEEE", corner_radius=6)
+                reco_frame.pack(fill=tk.X, padx=10, pady=(0, 10))
+
+                ctk.CTkLabel(
+                    reco_frame,
+                    text=f"💡 Recommandation : {item['recommendation']}",
+                    font=("Segoe UI", 11),
+                    anchor="w",
+                    wraplength=800,
+                    justify="left"
+                ).pack(anchor="w", padx=10, pady=8)
 
                 # Ajouter bouton pour rapport batterie si disponible
                 if 'battery_report_path' in item and item['battery_report_path']:
@@ -6555,36 +6676,75 @@ class DiagnosticPage(ctk.CTkFrame):
 
         # AVERTISSEMENTS
         if scan_results['warning']:
-            warning_card = ctk.CTkFrame(scroll_frame, corner_radius=10)
-            warning_card.pack(fill=tk.X, pady=10)
+            # Header de section
+            warning_header = ctk.CTkFrame(scroll_frame, corner_radius=10, fg_color="#FFA500")
+            warning_header.pack(fill=tk.X, pady=(10, 5))
 
             ctk.CTkLabel(
-                warning_card,
-                text="⚠️ AVERTISSEMENTS (À SURVEILLER)",
-                font=("Segoe UI", 16, "bold"),
-                text_color="#FFA500"
-            ).pack(anchor="w", padx=20, pady=10)
+                warning_header,
+                text="⚠️ AVERTISSEMENTS",
+                font=("Segoe UI", 18, "bold"),
+                text_color="white"
+            ).pack(side=tk.LEFT, padx=20, pady=12)
 
-            for item in scan_results['warning']:
-                issue_frame = ctk.CTkFrame(warning_card, corner_radius=8)
-                issue_frame.pack(fill=tk.X, padx=20, pady=5)
+            ctk.CTkLabel(
+                warning_header,
+                text="À SURVEILLER",
+                font=("Segoe UI", 11),
+                text_color="white"
+            ).pack(side=tk.RIGHT, padx=20, pady=12)
+
+            # Conteneur
+            warning_card = ctk.CTkFrame(scroll_frame, corner_radius=10, border_width=2, border_color="#FFA500")
+            warning_card.pack(fill=tk.X, pady=(0, 10))
+
+            for i, item in enumerate(scan_results['warning'], 1):
+                issue_frame = ctk.CTkFrame(warning_card, corner_radius=8, fg_color="#FFF8F0", border_width=1, border_color="#FFD699")
+                issue_frame.pack(fill=tk.X, padx=15, pady=8)
+
+                # Numéro + Catégorie
+                header_frame = ctk.CTkFrame(issue_frame, fg_color="transparent")
+                header_frame.pack(fill=tk.X, padx=10, pady=(10, 5))
 
                 ctk.CTkLabel(
-                    issue_frame,
-                    text=f"{item['category']}: {item['issue']}",
-                    font=("Segoe UI", 13, "bold"),
+                    header_frame,
+                    text=f"#{i}",
+                    font=("Segoe UI", 12, "bold"),
                     text_color="#FFA500",
-                    anchor="w",
-                    wraplength=800
-                ).pack(anchor="w", padx=10, pady=(10, 5))
+                    width=30
+                ).pack(side=tk.LEFT)
 
                 ctk.CTkLabel(
+                    header_frame,
+                    text=item['category'],
+                    font=("Segoe UI", 14, "bold"),
+                    text_color="#FFA500",
+                    anchor="w"
+                ).pack(side=tk.LEFT, padx=5)
+
+                # Problème
+                ctk.CTkLabel(
                     issue_frame,
-                    text=f"💡 Recommandation: {item['recommendation']}",
+                    text=f"⚠️ {item['issue']}",
                     font=("Segoe UI", 12),
+                    text_color="#CC7A00",
                     anchor="w",
-                    wraplength=800
-                ).pack(anchor="w", padx=10, pady=(0, 5))
+                    wraplength=820,
+                    justify="left"
+                ).pack(anchor="w", padx=10, pady=(0, 8))
+
+                # Recommandation
+                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=6)
+                reco_frame.pack(fill=tk.X, padx=10, pady=(0, 10))
+
+                ctk.CTkLabel(
+                    reco_frame,
+                    text=f"💡 Recommandation : {item['recommendation']}",
+                    font=("Segoe UI", 11),
+                    anchor="w",
+                    wraplength=800,
+                    justify="left"
+                ).pack(anchor="w", padx=10, pady=8)
 
                 # Ajouter bouton pour rapport batterie si disponible
                 if 'battery_report_path' in item and item['battery_report_path']:
@@ -7206,21 +7366,19 @@ class DiagnosticPage(ctk.CTkFrame):
         from pathlib import Path
 
         try:
-            # Chercher CrystalDiskInfo dans le dossier logiciel/
-            crystaldisk_paths = [
-                Path("logiciel/CrystalDiskInfo/DiskInfo64.exe"),
-                Path("logiciel/CrystalDiskInfo/DiskInfo32.exe"),
-                Path("logiciel/CrystalDiskInfo.exe"),
-                Path("logiciel/DiskInfo64.exe"),
-                Path("logiciel/DiskInfo32.exe"),
-            ]
+            # Chercher CrystalDiskInfo dans le dossier logiciel/ (RACINE UNIQUEMENT)
+            logiciel_folder = Path("logiciel")
 
-            # Trouver le premier qui existe
+            # Lister tous les fichiers .exe dans logiciel/
             crystaldisk_exe = None
-            for path in crystaldisk_paths:
-                if path.exists():
-                    crystaldisk_exe = path
-                    break
+
+            if logiciel_folder.exists() and logiciel_folder.is_dir():
+                # Chercher les exécutables qui contiennent "disk" dans leur nom
+                for exe_file in logiciel_folder.glob("*.exe"):
+                    if 'disk' in exe_file.name.lower() or 'crystal' in exe_file.name.lower():
+                        crystaldisk_exe = exe_file
+                        print(f"🔬 CrystalDiskInfo trouvé: {crystaldisk_exe}")
+                        break
 
             if crystaldisk_exe:
                 print(f"🔬 Lancement CrystalDiskInfo: {crystaldisk_exe}")
