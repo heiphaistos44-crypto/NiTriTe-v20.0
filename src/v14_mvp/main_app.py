@@ -72,6 +72,7 @@ from v14_mvp.page_os_downloads import OSDownloadsPage
 from v14_mvp.page_terminal import TerminalPage
 from v14_mvp.page_theme_settings import ThemeSettingsPage
 from v14_mvp.page_ai_agents import AIAgentsPage
+from v14_mvp.page_activation import ActivationPage
 from v14_mvp.page_logs import LogsPage
 from v14_mvp.page_scripts_windows import WindowsScriptsPage
 from v14_mvp.splash_loader import SplashScreen
@@ -288,6 +289,11 @@ class NiTriTeV18(ctk.CTk):
         
         elif page_id == "diagnostic":
             self.current_page_widget = DiagnosticPage(
+                self.content_container
+            )
+
+        elif page_id == "activation":
+            self.current_page_widget = ActivationPage(
                 self.content_container
             )
 
