@@ -2831,6 +2831,7 @@ class DiagnosticPage(ctk.CTkFrame):
             {"text": "🎮 GPU-Z", "command": self._launch_gpuz},
             {"text": "🔧 Wise Care 365", "command": self._launch_wisecare365},
             {"text": "🔍 UserDiag (Diagnostic Complet)", "command": self._launch_userdiag},
+            {"text": "🤖 BenchMaster.AI (Sonde Diagnostic)", "command": self._launch_benchmaster},
             {"text": "🔑 Activation Windows/Office", "command": self._activate_windows_office},
             {"text": "⚙️ MSCONFIG", "command": lambda: self._execute_tool("MSCONFIG", "msconfig")},
             {"text": "📋 Gestionnaire des Tâches", "command": lambda: self._execute_tool("Gestionnaire des tâches", "taskmgr")},
@@ -6033,24 +6034,36 @@ class DiagnosticPage(ctk.CTkFrame):
             })
 
         # ═══════════════════════════════════════════════════════════════════
-        # 7️⃣ VÉRIFICATION SANTÉ DISQUES (SMART)
+        # 7️⃣ VÉRIFICATION SANTÉ DISQUES (SMART) - REGROUPÉ AVEC DISQUES
         # ═══════════════════════════════════════════════════════════════════
         try:
             # Vérifier SMART status via WMI
             import wmi
             w = wmi.WMI()
+            disk_health_info = []
+            has_critical = False
             for disk in w.Win32_DiskDrive():
                 status = disk.Status
+                model = disk.Model if disk.Model else "Disque"
                 if status and status.lower() != 'ok':
+                    disk_health_info.append(f"{model}: ERREUR Status {status}")
+                    has_critical = True
+                else:
+                    disk_health_info.append(f"{model}: Status OK")
+
+            # Ajouter à la catégorie Disques existante
+            if disk_health_info:
+                health_summary = "\n".join(disk_health_info)
+                if has_critical:
                     scan_results['critical'].append({
-                        'category': '⚠️ Santé Disque',
-                        'issue': f'Disque {disk.Model}: Status {status}',
-                        'recommendation': 'URGENT: Sauvegarder données, remplacer disque. Utiliser CrystalDiskInfo (NiTriTe > Diagnostic)'
+                        'category': '💿 Disques',
+                        'issue': f"Sante SMART:\n{health_summary}",
+                        'recommendation': 'URGENT: Sauvegarder donnees, remplacer disque. CrystalDiskInfo pour details'
                     })
                 else:
                     scan_results['ok'].append({
-                        'category': '⚠️ Santé Disque',
-                        'message': f'{disk.Model}: Status OK'
+                        'category': '💿 Disques',
+                        'message': f"Sante SMART:\n{health_summary}"
                     })
         except:
             pass
@@ -6352,40 +6365,10 @@ class DiagnosticPage(ctk.CTkFrame):
                 'recommendation': 'Mettre à jour via NiTriTe > Mises à jour'
             })
 
-        # ═══════════════════════════════════════════════════════════════════
-        # 🔟 VÉRIFICATION SMART DISQUES DÉTAILLÉE
-        # ═══════════════════════════════════════════════════════════════════
-        try:
-            import wmi
-            w = wmi.WMI()
-
-            for disk in w.Win32_DiskDrive():
-                disk_model = disk.Model if disk.Model else "Disque inconnu"
-
-                # Obtenir infos SMART détaillées via WMI
-                try:
-                    # Power On Hours (attribut SMART 9)
-                    smart_data_cmd = f'wmic diskdrive where "Model=\'{disk_model}\'" get Status'
-
-                    # Pour l'instant, on ne peut pas facilement lire les attributs SMART via WMI
-                    # On va utiliser une approche PowerShell alternative
-
-                    disk_detail = f"Modèle: {disk_model}"
-
-                    # Température et heures nécessitent CrystalDiskInfo ou smartctl
-                    # Pour l'instant, afficher le modèle et status
-
-                    scan_results['ok'].append({
-                        'category': '💿 Disque Détails',
-                        'message': f'{disk_detail} | Status: OK | Pour détails SMART complets: NiTriTe > Diagnostic > CrystalDiskInfo'
-                    })
-                except:
-                    pass
-        except:
-            pass
+        # SECTION 🔟 SUPPRIMÉE - Informations SMART déjà regroupées dans section 💿 Disques ci-dessus
 
         # ═══════════════════════════════════════════════════════════════════
-        # 🔟➊ ANALYSE DOSSIERS TEMP ET APPDATA
+        # 🔟➊ ANALYSE DOSSIERS TEMP ET APPDATA - REGROUPÉS "FICHIERS DIVERS"
         # ═══════════════════════════════════════════════════════════════════
         try:
             import os
@@ -6426,97 +6409,71 @@ class DiagnosticPage(ctk.CTkFrame):
 
                 return total_size / (1024**3)  # Go
 
+            # Collecter infos pour catégorie "Fichiers divers"
+            files_info = []
+            has_warning = False
+
             # Analyser %temp%
             temp_path = Path(os.environ.get('TEMP', ''))
+            temp_size = 0
             if temp_path.exists():
                 print("📁 Analyse %temp%...")
                 temp_size = get_folder_size_quick(temp_path, timeout=5)
 
                 if temp_size > 10:
-                    scan_results['warning'].append({
-                        'category': '🗑️ Fichiers Temp',
-                        'issue': f'Dossier %temp% volumineux: {temp_size:.2f} Go',
-                        'recommendation': 'Nettoyer: Nettoyage de disque Windows ou NiTriTe > Optimisations > Nettoyage'
-                    })
+                    files_info.append(f"%temp%: {temp_size:.2f} Go (VOLUMINEUX)")
+                    has_warning = True
                 elif temp_size > 5:
-                    scan_results['warning'].append({
-                        'category': '🗑️ Fichiers Temp',
-                        'issue': f'Dossier %temp%: {temp_size:.2f} Go',
-                        'recommendation': 'Envisager nettoyage'
-                    })
+                    files_info.append(f"%temp%: {temp_size:.2f} Go (a nettoyer)")
+                    has_warning = True
                 else:
-                    scan_results['ok'].append({
-                        'category': '🗑️ Fichiers Temp',
-                        'message': f'%temp%: {temp_size:.2f} Go (normal)'
-                    })
+                    files_info.append(f"%temp%: {temp_size:.2f} Go")
 
             # Analyser %AppData% (Roaming)
             appdata_roaming_path = Path(os.environ.get('APPDATA', ''))
+            appdata_roaming_size = 0
             if appdata_roaming_path.exists():
                 print("📁 Analyse %AppData% (Roaming)...")
                 appdata_roaming_size = get_folder_size_quick(appdata_roaming_path, timeout=5)
-            else:
-                appdata_roaming_size = 0
 
             # Analyser %AppData%\Local
             appdata_local_path = Path(os.environ.get('LOCALAPPDATA', ''))
+            appdata_local_size = 0
             if appdata_local_path.exists():
                 print("📁 Analyse %AppData%\\Local...")
                 appdata_local_size = get_folder_size_quick(appdata_local_path, timeout=5)
-            else:
-                appdata_local_size = 0
 
-            # Afficher les deux AppData
+            # AppData Total
             appdata_total = appdata_roaming_size + appdata_local_size
-            scan_results['ok'].append({
-                'category': '📂 AppData',
-                'message': f'%AppData% Total: {appdata_total:.2f} Go\n  • Roaming: {appdata_roaming_size:.2f} Go\n  • Local: {appdata_local_size:.2f} Go'
-            })
+            files_info.append(f"AppData Total: {appdata_total:.2f} Go (Roaming: {appdata_roaming_size:.2f} + Local: {appdata_local_size:.2f})")
+
+            # Utilisateur actuel
+            username = os.environ.get('USERNAME', 'Inconnu')
+            files_info.append(f"Utilisateur: {username}")
+
+            # Regrouper dans "Fichiers divers"
+            files_summary = "\n".join(files_info)
+            if has_warning and temp_size > 10:
+                scan_results['warning'].append({
+                    'category': '📂 Fichiers divers',
+                    'issue': files_summary,
+                    'recommendation': 'Nettoyer fichiers temporaires: NiTriTe > Optimisations > Nettoyage'
+                })
+            elif has_warning:
+                scan_results['ok'].append({
+                    'category': '📂 Fichiers divers',
+                    'message': files_summary + "\n💡 Envisager nettoyage %temp%"
+                })
+            else:
+                scan_results['ok'].append({
+                    'category': '📂 Fichiers divers',
+                    'message': files_summary
+                })
 
         except Exception as e:
             print(f"Erreur analyse temp/appdata: {e}")
 
-        # ═══════════════════════════════════════════════════════════════════
-        # 🔟➋ DÉTECTION MISES À JOUR PILOTES GPU (NVIDIA/AMD)
-        # ═══════════════════════════════════════════════════════════════════
-        try:
-            import wmi
-            import re
-
-            w = wmi.WMI()
-
-            for gpu in w.Win32_VideoController():
-                gpu_name = gpu.Name if gpu.Name else "GPU inconnu"
-                driver_version = gpu.DriverVersion if gpu.DriverVersion else "Inconnue"
-
-                print(f"🎮 GPU détecté: {gpu_name} (Driver: {driver_version})")
-
-                # Détecter NVIDIA
-                if 'nvidia' in gpu_name.lower() or 'geforce' in gpu_name.lower() or 'rtx' in gpu_name.lower() or 'gtx' in gpu_name.lower():
-                    # Vérifier version driver NVIDIA
-                    scan_results['ok'].append({
-                        'category': '🎮 GPU NVIDIA',
-                        'message': f'{gpu_name}\nDriver: {driver_version}\n💡 Vérifier mises à jour: GeForce Experience ou nvidia.com/drivers',
-                        'gpu_vendor': 'nvidia'
-                    })
-
-                # Détecter AMD
-                elif 'amd' in gpu_name.lower() or 'radeon' in gpu_name.lower():
-                    scan_results['ok'].append({
-                        'category': '🎮 GPU AMD',
-                        'message': f'{gpu_name}\nDriver: {driver_version}\n💡 Vérifier mises à jour: AMD Software ou amd.com/drivers',
-                        'gpu_vendor': 'amd'
-                    })
-
-                # Détecter Intel
-                elif 'intel' in gpu_name.lower():
-                    scan_results['ok'].append({
-                        'category': '🎮 GPU Intel',
-                        'message': f'{gpu_name}\nDriver: {driver_version}\n💡 Vérifier mises à jour: Windows Update'
-                    })
-
-        except Exception as e:
-            print(f"Erreur détection GPU: {e}")
+        # SECTION 🔟➋ SUPPRIMÉE - Informations GPU déjà regroupées dans section 🎮 GPU ci-dessus
 
         # ═══════════════════════════════════════════════════════════════════
         # 1️⃣1️⃣ ANALYSE DOSSIER UTILISATEUR (OPTIMISÉE - RAPIDE)
@@ -7717,6 +7674,53 @@ class DiagnosticPage(ctk.CTkFrame):
                 "Erreur",
                 f"Impossible de lancer CrystalDiskInfo:\n\n{str(e)}"
             )
+
+    def _launch_benchmaster(self):
+        """Lancer BenchMaster.AI - Sonde de diagnostic OrdiPlus"""
+        import webbrowser
+        from tkinter import messagebox
+
+        # Instructions d'installation
+        instructions = """BENCHMASTER.AI - Sonde de Diagnostic OrdiPlus
+
+Le lien va s'ouvrir dans votre navigateur.
+
+INSTRUCTIONS D'INSTALLATION:
+
+1. Sur la page web, selectionnez votre version Windows
+
+2. Deux fichiers vont se telecharger:
+   • BenchMasterProbe.exe
+   • BenchMasterProbe.bmat
+
+3. IMPORTANT: Placez les 2 fichiers dans le MEME dossier
+
+4. Double-cliquez sur BenchMasterProbe.exe
+
+5. Si Windows SmartScreen apparait:
+   • Cliquez sur "Plus d'infos"
+   • Puis "Executer quand meme"
+
+6. La sonde se connectera a votre compte OrdiPlus
+   et effectuera le diagnostic automatiquement
+
+Le diagnostic sera visible sur votre tableau de bord OrdiPlus.
+"""
+
+        # Afficher les instructions
+        response = messagebox.showinfo(
+            "BenchMaster.AI - Instructions",
+            instructions
+        )
+
+        # Ouvrir le lien dans le navigateur
+        webbrowser.open("https://diag.ordi-plus.fr/client/onboarding")
+
+        messagebox.showinfo(
+            "BenchMaster.AI",
+            "La page de telechargement s'est ouverte dans votre navigateur.\n\n"
+            "Suivez les instructions pour telecharger et installer la sonde."
+        )
 
     def _activate_windows_office(self):
         """Activer Windows et Office"""
