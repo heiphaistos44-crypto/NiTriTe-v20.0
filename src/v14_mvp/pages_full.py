@@ -2206,19 +2206,20 @@ class DiagnosticPage(ctk.CTkFrame):
         super().__init__(parent, fg_color=DesignTokens.BG_PRIMARY)
 
         try:
-            self.system_info = self._get_system_info()
-
-            # Variables pour mise à jour en temps réel
+            # OPTIMISATION: Initialisation rapide avec chargement asynchrone
+            self.system_info = None
             self.cpu_card = None
             self.ram_card = None
             self.update_timer = None
+            self.loading_label = None
 
-            self._create_header()
-            self._create_content()
+            # Afficher écran de chargement
+            self._show_loading_screen()
 
-            # Démarrer la mise à jour en temps réel
-            if PSUTIL_AVAILABLE:
-                self._start_realtime_updates()
+            # Charger les infos système dans un thread séparé (évite freeze)
+            import threading
+            threading.Thread(target=self._load_system_info_async, daemon=True).start()
+
         except Exception as e:
             print(f"ERREUR CRITIQUE DiagnosticPage.__init__: {e}")
             import traceback
@@ -2233,6 +2234,67 @@ class DiagnosticPage(ctk.CTkFrame):
                 wraplength=600
             )
             error_label.pack(padx=20, pady=20)
+
+    def _show_loading_screen(self):
+        """Afficher un écran de chargement pendant la collecte des infos"""
+        loading_frame = ctk.CTkFrame(self, fg_color="transparent")
+        loading_frame.pack(expand=True, fill=tk.BOTH)
+
+        # Icône et texte de chargement
+        self.loading_label = ctk.CTkLabel(
+            loading_frame,
+            text="🔍 Chargement des informations système...\n\nCollecte des données : CPU, RAM, GPU, Disques...\nCela peut prendre 1-2 secondes.",
+            font=(DesignTokens.FONT_FAMILY, 16),
+            text_color=DesignTokens.TEXT_SECONDARY
+        )
+        self.loading_label.pack(expand=True)
+
+    def _load_system_info_async(self):
+        """Charger les infos système dans un thread séparé (évite freeze UI)"""
+        try:
+            # Collecter les infos (opération lourde)
+            self.system_info = self._get_system_info()
+
+            # Une fois terminé, construire l'interface dans le thread principal
+            self.after(0, self._build_ui_after_loading)
+
+        except Exception as e:
+            print(f"Erreur chargement système: {e}")
+            import traceback
+            traceback.print_exc()
+            self.after(0, lambda: self._show_error(str(e)))
+
+    def _build_ui_after_loading(self):
+        """Construire l'interface après le chargement des données"""
+        try:
+            # Supprimer l'écran de chargement
+            if self.loading_label:
+                self.loading_label.master.destroy()
+
+            # Construire l'interface
+            self._create_header()
+            self._create_content()
+
+            # Démarrer la mise à jour en temps réel
+            if PSUTIL_AVAILABLE:
+                self._start_realtime_updates()
+
+        except Exception as e:
+            print(f"Erreur construction UI: {e}")
+            import traceback
+            traceback.print_exc()
+            self._show_error(str(e))
+
+    def _show_error(self, error_msg):
+        """Afficher une erreur"""
+        error_label = ctk.CTkLabel(
+            self,
+            text=f"❌ Erreur lors du chargement:\n{error_msg}\n\nVoir console pour détails",
+            font=(DesignTokens.FONT_FAMILY, 14),
+            text_color="red",
+            wraplength=600
+        )
+        error_label.pack(padx=20, pady=20)
     
     def _get_ram_type_name(self, memory_type_code):
         """Convertir le code WMI MemoryType en nom lisible (DDR3, DDR4, DDR5)"""
@@ -2378,10 +2440,10 @@ class DiagnosticPage(ctk.CTkFrame):
         
         # Données psutil (usage actuel)
         if PSUTIL_AVAILABLE:
-            # CPU usage
+            # CPU usage - OPTIMISÉ: interval=0.1 au lieu de 1 (10x plus rapide!)
             info["cpu_count"] = psutil.cpu_count(logical=False)
             info["cpu_threads"] = psutil.cpu_count(logical=True)
-            info["cpu_percent"] = psutil.cpu_percent(interval=1)
+            info["cpu_percent"] = psutil.cpu_percent(interval=0.1)  # OPTIMISATION: 0.1s au lieu de 1s
             info["cpu_freq"] = psutil.cpu_freq()
             
             # RAM usage
