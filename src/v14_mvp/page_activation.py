@@ -12,7 +12,8 @@ import threading
 import tempfile
 import os
 from pathlib import Path
-from v14_mvp.design_system import DesignTokens, ModernCard
+from v14_mvp.design_system import DesignTokens
+from v14_mvp.components import ModernCard
 
 
 class ActivationPage(ctk.CTkFrame):
