@@ -6193,6 +6193,128 @@ class DiagnosticPage(ctk.CTkFrame):
             pass
 
         # ═══════════════════════════════════════════════════════════════════
+        # 🔟➊ ANALYSE DOSSIERS TEMP ET APPDATA
+        # ═══════════════════════════════════════════════════════════════════
+        try:
+            import os
+            from pathlib import Path
+
+            def get_folder_size_quick(folder_path, timeout=5):
+                """Calcul rapide taille dossier avec timeout"""
+                import time
+                total_size = 0
+                start_time = time.time()
+
+                try:
+                    with os.scandir(folder_path) as entries:
+                        for entry in entries:
+                            if time.time() - start_time > timeout:
+                                break
+                            try:
+                                if entry.is_file(follow_symlinks=False):
+                                    total_size += entry.stat(follow_symlinks=False).st_size
+                                elif entry.is_dir(follow_symlinks=False):
+                                    # Scan 1 niveau seulement pour performance
+                                    try:
+                                        with os.scandir(entry.path) as sub_entries:
+                                            for sub_entry in sub_entries:
+                                                if time.time() - start_time > timeout:
+                                                    break
+                                                try:
+                                                    if sub_entry.is_file(follow_symlinks=False):
+                                                        total_size += sub_entry.stat(follow_symlinks=False).st_size
+                                                except:
+                                                    pass
+                                    except:
+                                        pass
+                            except:
+                                pass
+                except:
+                    pass
+
+                return total_size / (1024**3)  # Go
+
+            # Analyser %temp%
+            temp_path = Path(os.environ.get('TEMP', ''))
+            if temp_path.exists():
+                print("📁 Analyse %temp%...")
+                temp_size = get_folder_size_quick(temp_path, timeout=5)
+
+                if temp_size > 10:
+                    scan_results['warning'].append({
+                        'category': '🗑️ Fichiers Temp',
+                        'issue': f'Dossier %temp% volumineux: {temp_size:.2f} Go',
+                        'recommendation': 'Nettoyer: Nettoyage de disque Windows ou NiTriTe > Optimisations > Nettoyage'
+                    })
+                elif temp_size > 5:
+                    scan_results['warning'].append({
+                        'category': '🗑️ Fichiers Temp',
+                        'issue': f'Dossier %temp%: {temp_size:.2f} Go',
+                        'recommendation': 'Envisager nettoyage'
+                    })
+                else:
+                    scan_results['ok'].append({
+                        'category': '🗑️ Fichiers Temp',
+                        'message': f'%temp%: {temp_size:.2f} Go (normal)'
+                    })
+
+            # Analyser %AppData%
+            appdata_path = Path(os.environ.get('APPDATA', ''))
+            if appdata_path.exists():
+                print("📁 Analyse %AppData%...")
+                appdata_size = get_folder_size_quick(appdata_path, timeout=5)
+
+                scan_results['ok'].append({
+                    'category': '📂 AppData',
+                    'message': f'%AppData%: {appdata_size:.2f} Go (Roaming)'
+                })
+
+        except Exception as e:
+            print(f"Erreur analyse temp/appdata: {e}")
+
+        # ═══════════════════════════════════════════════════════════════════
+        # 🔟➋ DÉTECTION MISES À JOUR PILOTES GPU (NVIDIA/AMD)
+        # ═══════════════════════════════════════════════════════════════════
+        try:
+            import wmi
+            import re
+
+            w = wmi.WMI()
+
+            for gpu in w.Win32_VideoController():
+                gpu_name = gpu.Name if gpu.Name else "GPU inconnu"
+                driver_version = gpu.DriverVersion if gpu.DriverVersion else "Inconnue"
+
+                print(f"🎮 GPU détecté: {gpu_name} (Driver: {driver_version})")
+
+                # Détecter NVIDIA
+                if 'nvidia' in gpu_name.lower() or 'geforce' in gpu_name.lower() or 'rtx' in gpu_name.lower() or 'gtx' in gpu_name.lower():
+                    # Vérifier version driver NVIDIA
+                    scan_results['ok'].append({
+                        'category': '🎮 GPU NVIDIA',
+                        'message': f'{gpu_name}\nDriver: {driver_version}\n💡 Vérifier mises à jour: GeForce Experience ou nvidia.com/drivers',
+                        'gpu_vendor': 'nvidia'
+                    })
+
+                # Détecter AMD
+                elif 'amd' in gpu_name.lower() or 'radeon' in gpu_name.lower():
+                    scan_results['ok'].append({
+                        'category': '🎮 GPU AMD',
+                        'message': f'{gpu_name}\nDriver: {driver_version}\n💡 Vérifier mises à jour: AMD Software ou amd.com/drivers',
+                        'gpu_vendor': 'amd'
+                    })
+
+                # Détecter Intel
+                elif 'intel' in gpu_name.lower():
+                    scan_results['ok'].append({
+                        'category': '🎮 GPU Intel',
+                        'message': f'{gpu_name}\nDriver: {driver_version}\n💡 Vérifier mises à jour: Windows Update'
+                    })
+
+        except Exception as e:
+            print(f"Erreur détection GPU: {e}")
+
+        # ═══════════════════════════════════════════════════════════════════
         # 1️⃣1️⃣ ANALYSE DOSSIER UTILISATEUR (OPTIMISÉE - RAPIDE)
         # ═══════════════════════════════════════════════════════════════════
         try:
@@ -6418,6 +6540,19 @@ class DiagnosticPage(ctk.CTkFrame):
                         font=("Segoe UI", 11)
                     ).pack(anchor="w", padx=10, pady=(0, 10))
 
+                # Bouton CrystalDiskInfo pour problèmes disques
+                if '💿' in item.get('category', '') or 'disque' in item.get('category', '').lower() or 'disk' in item.get('category', '').lower():
+                    ctk.CTkButton(
+                        issue_frame,
+                        text="🔬 Lancer CrystalDiskInfo (Analyse complète)",
+                        command=lambda: self._launch_crystaldiskinfo(),
+                        width=250,
+                        height=30,
+                        font=("Segoe UI", 11),
+                        fg_color="#2196F3",
+                        hover_color="#1976D2"
+                    ).pack(anchor="w", padx=10, pady=(0, 10))
+
         # AVERTISSEMENTS
         if scan_results['warning']:
             warning_card = ctk.CTkFrame(scroll_frame, corner_radius=10)
@@ -6462,6 +6597,19 @@ class DiagnosticPage(ctk.CTkFrame):
                         font=("Segoe UI", 11)
                     ).pack(anchor="w", padx=10, pady=(0, 10))
 
+                # Bouton CrystalDiskInfo pour problèmes disques
+                if '💿' in item.get('category', '') or 'disque' in item.get('category', '').lower() or 'disk' in item.get('category', '').lower():
+                    ctk.CTkButton(
+                        issue_frame,
+                        text="🔬 Lancer CrystalDiskInfo (Analyse complète)",
+                        command=lambda: self._launch_crystaldiskinfo(),
+                        width=250,
+                        height=30,
+                        font=("Segoe UI", 11),
+                        fg_color="#2196F3",
+                        hover_color="#1976D2"
+                    ).pack(anchor="w", padx=10, pady=(0, 10))
+
         # STATUTS OK
         if scan_results['ok']:
             ok_card = ctk.CTkFrame(scroll_frame, corner_radius=10)
@@ -6494,6 +6642,19 @@ class DiagnosticPage(ctk.CTkFrame):
                         width=120,
                         height=25,
                         font=("Segoe UI", 10)
+                    ).pack(side=tk.RIGHT, padx=10)
+
+                # Bouton CrystalDiskInfo pour infos disques
+                if '💿' in item.get('category', '') or 'disque' in item.get('category', '').lower() or 'disk' in item.get('category', '').lower():
+                    ctk.CTkButton(
+                        item_frame,
+                        text="🔬 CrystalDiskInfo",
+                        command=lambda: self._launch_crystaldiskinfo(),
+                        width=140,
+                        height=25,
+                        font=("Segoe UI", 10),
+                        fg_color="#2196F3",
+                        hover_color="#1976D2"
                     ).pack(side=tk.RIGHT, padx=10)
 
         # Frame pour boutons export et fermer
@@ -7036,6 +7197,64 @@ class DiagnosticPage(ctk.CTkFrame):
             messagebox.showerror(
                 "Erreur d'exécution",
                 f"Impossible d'exécuter {tool_name}:\n\n{str(e)}"
+            )
+
+    def _launch_crystaldiskinfo(self):
+        """Lancer CrystalDiskInfo en mode portable depuis logiciel/"""
+        from tkinter import messagebox
+        import subprocess
+        from pathlib import Path
+
+        try:
+            # Chercher CrystalDiskInfo dans le dossier logiciel/
+            crystaldisk_paths = [
+                Path("logiciel/CrystalDiskInfo/DiskInfo64.exe"),
+                Path("logiciel/CrystalDiskInfo/DiskInfo32.exe"),
+                Path("logiciel/CrystalDiskInfo.exe"),
+                Path("logiciel/DiskInfo64.exe"),
+                Path("logiciel/DiskInfo32.exe"),
+            ]
+
+            # Trouver le premier qui existe
+            crystaldisk_exe = None
+            for path in crystaldisk_paths:
+                if path.exists():
+                    crystaldisk_exe = path
+                    break
+
+            if crystaldisk_exe:
+                print(f"🔬 Lancement CrystalDiskInfo: {crystaldisk_exe}")
+                subprocess.Popen(str(crystaldisk_exe), shell=True)
+                messagebox.showinfo(
+                    "CrystalDiskInfo",
+                    f"CrystalDiskInfo lancé !\n\nCe logiciel analyse la santé de vos disques durs/SSD.\n\nVérifiez:\n• Health Status (Good/Caution/Bad)\n• Température\n• Heures d'utilisation\n• Secteurs réalloués"
+                )
+            else:
+                # CrystalDiskInfo non trouvé - proposer de le télécharger
+                response = messagebox.askyesnocancel(
+                    "CrystalDiskInfo non trouvé",
+                    "CrystalDiskInfo n'a pas été trouvé dans le dossier logiciel/.\n\n"
+                    "Voulez-vous:\n"
+                    "• OUI: Ouvrir la page de téléchargement CrystalDiskInfo\n"
+                    "• NON: Aller dans Diagnostic pour télécharger via NiTriTe\n"
+                    "• ANNULER: Fermer"
+                )
+
+                if response is True:
+                    # Ouvrir page download
+                    import webbrowser
+                    webbrowser.open("https://crystalmark.info/en/software/crystaldiskinfo/")
+                elif response is False:
+                    # Message pour aller dans Diagnostic
+                    messagebox.showinfo(
+                        "Télécharger via NiTriTe",
+                        "Allez dans:\n\nDiagnostic > CrystalDiskInfo\n\nPour télécharger et installer le logiciel."
+                    )
+
+        except Exception as e:
+            messagebox.showerror(
+                "Erreur",
+                f"Impossible de lancer CrystalDiskInfo:\n\n{str(e)}"
             )
 
     def _activate_windows_office(self):
