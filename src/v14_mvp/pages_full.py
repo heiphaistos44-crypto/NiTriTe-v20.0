@@ -5595,6 +5595,93 @@ class DiagnosticPage(ctk.CTkFrame):
             )
 
     def _perform_full_system_scan(self):
+        """Lancer le scan avec barre de chargement"""
+        import threading
+        import tkinter as tk
+
+        # Créer fenêtre de chargement
+        loading_window = ctk.CTkToplevel(self)
+        loading_window.title("Scan en cours...")
+        loading_window.geometry("600x250")
+        loading_window.resizable(False, False)
+
+        # Centrer la fenêtre
+        loading_window.transient(self)
+        loading_window.grab_set()
+
+        # Header
+        header_frame = ctk.CTkFrame(loading_window, fg_color="#2196F3", corner_radius=0)
+        header_frame.pack(fill=tk.X)
+
+        ctk.CTkLabel(
+            header_frame,
+            text="🔍 SCAN TOTAL EN COURS",
+            font=("Segoe UI", 22, "bold"),
+            text_color="white"
+        ).pack(pady=20)
+
+        # Message
+        self.loading_label = ctk.CTkLabel(
+            loading_window,
+            text="⏳ Démarrage du scan...",
+            font=("Segoe UI", 14)
+        )
+        self.loading_label.pack(pady=(30, 10))
+
+        # Barre de progression
+        self.progress_bar = ctk.CTkProgressBar(loading_window, width=500, height=25)
+        self.progress_bar.pack(pady=10)
+        self.progress_bar.set(0)
+
+        # Pourcentage
+        self.progress_label = ctk.CTkLabel(
+            loading_window,
+            text="0%",
+            font=("Segoe UI", 12, "bold")
+        )
+        self.progress_label.pack(pady=5)
+
+        # Message de patience
+        ctk.CTkLabel(
+            loading_window,
+            text="⌛ Veuillez patienter, analyse en cours...",
+            font=("Segoe UI", 11),
+            text_color="gray"
+        ).pack(pady=(10, 20))
+
+        # Fonction pour mettre à jour la progression
+        self.scan_progress = 0
+        self.scan_status = "Démarrage..."
+
+        def update_progress(progress, status):
+            self.scan_progress = progress
+            self.scan_status = status
+            loading_window.after(0, lambda: self._update_loading_ui(loading_window))
+
+        # Lancer le scan dans un thread
+        def run_scan():
+            results = self._do_full_system_scan(update_progress)
+            loading_window.after(0, lambda: self._finish_scan(loading_window, results))
+
+        scan_thread = threading.Thread(target=run_scan, daemon=True)
+        scan_thread.start()
+
+    def _update_loading_ui(self, window):
+        """Mettre à jour l'UI de chargement"""
+        try:
+            self.progress_bar.set(self.scan_progress / 100)
+            self.progress_label.configure(text=f"{int(self.scan_progress)}%")
+            self.loading_label.configure(text=f"⏳ {self.scan_status}")
+        except:
+            pass
+
+    def _finish_scan(self, loading_window, scan_results):
+        """Terminer le scan et afficher résultats"""
+        loading_window.grab_release()
+        loading_window.destroy()
+        self._show_scan_results(scan_results)
+
+    def _do_full_system_scan(self, update_progress):
         """
         Scan total du PC avec détection automatique de tous les problèmes
 
@@ -5611,8 +5698,12 @@ class DiagnosticPage(ctk.CTkFrame):
 
         print("🔍 Démarrage du scan total du PC...")
 
+        update_progress(5, "Initialisation du scan...")
+
         # Rafraîchir les infos système
         self.system_info = self._get_system_info()
+
+        update_progress(10, "Informations système récupérées...")
 
         # Stocker les résultats du scan
         scan_results = {
@@ -5624,6 +5715,7 @@ class DiagnosticPage(ctk.CTkFrame):
         # ═══════════════════════════════════════════════════════════════════
         # 1️⃣ VÉRIFICATION TEMPÉRATURES CPU/GPU
         # ═══════════════════════════════════════════════════════════════════
+        update_progress(15, "Vérification températures CPU/GPU...")
         try:
             # Essayer d'obtenir la température via WMI
             import wmi
@@ -5668,6 +5760,7 @@ class DiagnosticPage(ctk.CTkFrame):
         # ═══════════════════════════════════════════════════════════════════
         # 2️⃣ VÉRIFICATION CPU & PROCESSUS GOURMANDS
         # ═══════════════════════════════════════════════════════════════════
+        update_progress(25, "Analyse CPU et processus...")
         if PSUTIL_AVAILABLE:
             cpu_percent = psutil.cpu_percent(interval=1)
 
@@ -5711,6 +5804,7 @@ class DiagnosticPage(ctk.CTkFrame):
         # ═══════════════════════════════════════════════════════════════════
         # 3️⃣ VÉRIFICATION RAM
         # ═══════════════════════════════════════════════════════════════════
+        update_progress(35, "Vérification mémoire RAM...")
         if PSUTIL_AVAILABLE:
             ram = psutil.virtual_memory()
             ram_percent = ram.percent
@@ -6446,12 +6540,15 @@ class DiagnosticPage(ctk.CTkFrame):
                 'message': f'Analyse non disponible'
             })
 
-        # ═══════════════════════════════════════════════════════════════════
-        # 📊 AFFICHER RÉSULTATS DU SCAN
-        # ═══════════════════════════════════════════════════════════════════
-        self._show_scan_results(scan_results)
+        update_progress(95, "Finalisation du scan...")
 
+        # ═══════════════════════════════════════════════════════════════════
+        # 📊 RETOURNER RÉSULTATS DU SCAN
+        # ═══════════════════════════════════════════════════════════════════
+        update_progress(100, "Scan terminé !")
         print("✅ Scan total terminé !")
+
+        return scan_results
 
     def _show_scan_results(self, scan_results):
         """Afficher les résultats du scan dans une fenêtre dédiée"""
@@ -6509,58 +6606,58 @@ class DiagnosticPage(ctk.CTkFrame):
         stats_frame = ctk.CTkFrame(stats_container, fg_color="transparent")
         stats_frame.pack(fill=tk.X)
 
-        # Stat card CRITIQUES (rouge)
-        critical_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#FFE5E5", border_width=2, border_color="#FF4444")
+        # Stat card CRITIQUES (rouge) - CONTRASTE AMÉLIORÉ
+        critical_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#FFD0D0", border_width=3, border_color="#CC0000")
         critical_card.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
 
         ctk.CTkLabel(
             critical_card,
             text=str(critical_count),
-            font=("Segoe UI", 36, "bold"),
-            text_color="#FF4444"
+            font=("Segoe UI", 40, "bold"),
+            text_color="#CC0000"
         ).pack(pady=(15, 0))
 
         ctk.CTkLabel(
             critical_card,
             text="❌ Critiques",
-            font=("Segoe UI", 13),
-            text_color="#CC0000"
+            font=("Segoe UI", 14, "bold"),
+            text_color="#990000"
         ).pack(pady=(0, 15))
 
-        # Stat card AVERTISSEMENTS (orange)
-        warning_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#FFF4E5", border_width=2, border_color="#FFA500")
+        # Stat card AVERTISSEMENTS (orange) - CONTRASTE AMÉLIORÉ
+        warning_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#FFE8CC", border_width=3, border_color="#CC6600")
         warning_card.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
 
         ctk.CTkLabel(
             warning_card,
             text=str(warning_count),
-            font=("Segoe UI", 36, "bold"),
-            text_color="#FFA500"
+            font=("Segoe UI", 40, "bold"),
+            text_color="#CC6600"
         ).pack(pady=(15, 0))
 
         ctk.CTkLabel(
             warning_card,
             text="⚠️ Avertissements",
-            font=("Segoe UI", 13),
-            text_color="#CC7A00"
+            font=("Segoe UI", 14, "bold"),
+            text_color="#994C00"
         ).pack(pady=(0, 15))
 
-        # Stat card OK (vert)
-        ok_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#E5FFE5", border_width=2, border_color="#00AA00")
+        # Stat card OK (vert) - CONTRASTE AMÉLIORÉ
+        ok_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#D0FFD0", border_width=3, border_color="#008800")
         ok_card.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
 
         ctk.CTkLabel(
             ok_card,
             text=str(ok_count),
-            font=("Segoe UI", 36, "bold"),
-            text_color="#00AA00"
+            font=("Segoe UI", 40, "bold"),
+            text_color="#008800"
         ).pack(pady=(15, 0))
 
         ctk.CTkLabel(
             ok_card,
             text="✅ Statuts OK",
-            font=("Segoe UI", 13),
-            text_color="#007700"
+            font=("Segoe UI", 14, "bold"),
+            text_color="#006600"
         ).pack(pady=(0, 15))
 
         # Total checks
@@ -6603,52 +6700,53 @@ class DiagnosticPage(ctk.CTkFrame):
             critical_card.pack(fill=tk.X, pady=(0, 10))
 
             for i, item in enumerate(scan_results['critical'], 1):
-                issue_frame = ctk.CTkFrame(critical_card, corner_radius=8, fg_color="#FFF0F0", border_width=1, border_color="#FFCCCC")
+                issue_frame = ctk.CTkFrame(critical_card, corner_radius=8, fg_color="white", border_width=2, border_color="#FF8888")
                 issue_frame.pack(fill=tk.X, padx=15, pady=8)
 
                 # Numéro + Catégorie
-                header_frame = ctk.CTkFrame(issue_frame, fg_color="transparent")
-                header_frame.pack(fill=tk.X, padx=10, pady=(10, 5))
+                header_frame = ctk.CTkFrame(issue_frame, fg_color="#FFE5E5", corner_radius=6)
+                header_frame.pack(fill=tk.X, padx=10, pady=10)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=f"#{i}",
-                    font=("Segoe UI", 12, "bold"),
-                    text_color="#FF4444",
-                    width=30
-                ).pack(side=tk.LEFT)
+                    font=("Segoe UI", 13, "bold"),
+                    text_color="#CC0000",
+                    width=35
+                ).pack(side=tk.LEFT, padx=(10, 5), pady=8)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=item['category'],
-                    font=("Segoe UI", 14, "bold"),
-                    text_color="#FF4444",
+                    font=("Segoe UI", 15, "bold"),
+                    text_color="#990000",
                     anchor="w"
-                ).pack(side=tk.LEFT, padx=5)
+                ).pack(side=tk.LEFT, padx=5, pady=8)
 
                 # Problème
                 ctk.CTkLabel(
                     issue_frame,
                     text=f"❌ {item['issue']}",
-                    font=("Segoe UI", 12),
+                    font=("Segoe UI", 13),
                     text_color="#CC0000",
                     anchor="w",
                     wraplength=820,
                     justify="left"
-                ).pack(anchor="w", padx=10, pady=(0, 8))
+                ).pack(anchor="w", padx=15, pady=(10, 10))
 
                 # Recommandation avec fond
-                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFEEEE", corner_radius=6)
+                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=6, border_width=1, border_color="#FFD699")
                 reco_frame.pack(fill=tk.X, padx=10, pady=(0, 10))
 
                 ctk.CTkLabel(
                     reco_frame,
                     text=f"💡 Recommandation : {item['recommendation']}",
-                    font=("Segoe UI", 11),
+                    font=("Segoe UI", 12),
+                    text_color="#664400",
                     anchor="w",
                     wraplength=800,
                     justify="left"
-                ).pack(anchor="w", padx=10, pady=8)
+                ).pack(anchor="w", padx=12, pady=10)
 
                 # Ajouter bouton pour rapport batterie si disponible
                 if 'battery_report_path' in item and item['battery_report_path']:
@@ -6699,52 +6797,53 @@ class DiagnosticPage(ctk.CTkFrame):
             warning_card.pack(fill=tk.X, pady=(0, 10))
 
             for i, item in enumerate(scan_results['warning'], 1):
-                issue_frame = ctk.CTkFrame(warning_card, corner_radius=8, fg_color="#FFF8F0", border_width=1, border_color="#FFD699")
+                issue_frame = ctk.CTkFrame(warning_card, corner_radius=8, fg_color="white", border_width=2, border_color="#FFAA44")
                 issue_frame.pack(fill=tk.X, padx=15, pady=8)
 
                 # Numéro + Catégorie
-                header_frame = ctk.CTkFrame(issue_frame, fg_color="transparent")
-                header_frame.pack(fill=tk.X, padx=10, pady=(10, 5))
+                header_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=6)
+                header_frame.pack(fill=tk.X, padx=10, pady=10)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=f"#{i}",
-                    font=("Segoe UI", 12, "bold"),
-                    text_color="#FFA500",
-                    width=30
-                ).pack(side=tk.LEFT)
+                    font=("Segoe UI", 13, "bold"),
+                    text_color="#CC6600",
+                    width=35
+                ).pack(side=tk.LEFT, padx=(10, 5), pady=8)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=item['category'],
-                    font=("Segoe UI", 14, "bold"),
-                    text_color="#FFA500",
+                    font=("Segoe UI", 15, "bold"),
+                    text_color="#994C00",
                     anchor="w"
-                ).pack(side=tk.LEFT, padx=5)
+                ).pack(side=tk.LEFT, padx=5, pady=8)
 
                 # Problème
                 ctk.CTkLabel(
                     issue_frame,
                     text=f"⚠️ {item['issue']}",
-                    font=("Segoe UI", 12),
-                    text_color="#CC7A00",
+                    font=("Segoe UI", 13),
+                    text_color="#CC6600",
                     anchor="w",
                     wraplength=820,
                     justify="left"
-                ).pack(anchor="w", padx=10, pady=(0, 8))
+                ).pack(anchor="w", padx=15, pady=(10, 10))
 
                 # Recommandation
-                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=6)
+                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF8E5", corner_radius=6, border_width=1, border_color="#FFE5AA")
                 reco_frame.pack(fill=tk.X, padx=10, pady=(0, 10))
 
                 ctk.CTkLabel(
                     reco_frame,
                     text=f"💡 Recommandation : {item['recommendation']}",
-                    font=("Segoe UI", 11),
+                    font=("Segoe UI", 12),
+                    text_color="#665500",
                     anchor="w",
                     wraplength=800,
                     justify="left"
-                ).pack(anchor="w", padx=10, pady=8)
+                ).pack(anchor="w", padx=12, pady=10)
 
                 # Ajouter bouton pour rapport batterie si disponible
                 if 'battery_report_path' in item and item['battery_report_path']:
