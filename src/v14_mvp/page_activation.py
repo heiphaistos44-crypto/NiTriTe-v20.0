@@ -332,20 +332,20 @@ if ($license) {
     Write-Host "Description: $($license.Description)" -ForegroundColor White
 
     $status = switch ($license.LicenseStatus) {
-        0 { "❌ Non licencié" }
-        1 { "✅ Licencié (Activé)" }
-        2 { "⏳ OOB Grace" }
-        3 { "⏳ OOT Grace" }
-        4 { "⏳ Non Genuine Grace" }
-        5 { "🔔 Notification" }
-        6 { "⏰ Extended Grace" }
-        default { "❓ Inconnu ($($license.LicenseStatus))" }
+        0 { "[X] Non licencie" }
+        1 { "[OK] Licencie (Active)" }
+        2 { "[~] OOB Grace" }
+        3 { "[~] OOT Grace" }
+        4 { "[~] Non Genuine Grace" }
+        5 { "[!] Notification" }
+        6 { "[~] Extended Grace" }
+        default { "[?] Inconnu ($($license.LicenseStatus))" }
     }
 
     Write-Host "Statut: $status" -ForegroundColor $(if ($license.LicenseStatus -eq 1) { "Green" } else { "Yellow" })
 
     if ($license.PartialProductKey) {
-        Write-Host "Clé partielle: *****-$($license.PartialProductKey)" -ForegroundColor White
+        Write-Host "Cle partielle: *****-$($license.PartialProductKey)" -ForegroundColor White
     }
 
     if ($license.GracePeriodRemaining) {
@@ -355,7 +355,7 @@ if ($license) {
         }
     }
 } else {
-    Write-Host "❌ Impossible de récupérer les informations de licence" -ForegroundColor Red
+    Write-Host "[X] Impossible de recuperer les informations de licence" -ForegroundColor Red
 }
 """
                 self._execute_powershell_command(ps_cmd)
@@ -377,40 +377,40 @@ foreach ($path in $officePaths) {
 if ($osppPath) {
     cscript //NoLogo "$osppPath" /dstatus
 } else {
-    Write-Host "❌ Office non détecté !" -ForegroundColor Red
+    Write-Host "[X] Office non detecte !" -ForegroundColor Red
 }
 """
                 self._execute_powershell_command(ps_cmd)
             elif command == '5':
                 self._append_to_terminal("⚠️ Réinitialisation activation Windows...\n\n")
                 ps_cmd = """
-# Vérifier droits administrateur
+# Verifier droits administrateur
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
-    Write-Host "❌ ERREUR : Droits administrateur requis !" -ForegroundColor Red
+    Write-Host "[X] ERREUR : Droits administrateur requis !" -ForegroundColor Red
     Write-Host "   Relancez NiTriTe en tant qu'administrateur." -ForegroundColor Yellow
     exit 1
 }
 
-Write-Host "⚠️ RÉINITIALISATION ACTIVATION WINDOWS" -ForegroundColor Yellow
+Write-Host "[!] REINITIALISATION ACTIVATION WINDOWS" -ForegroundColor Yellow
 Write-Host "=======================================" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "Étape 1/3 : Suppression de la clé produit..." -ForegroundColor Cyan
+Write-Host "Etape 1/3 : Suppression de la cle produit..." -ForegroundColor Cyan
 slmgr /upk
 Start-Sleep -Seconds 2
 
 Write-Host ""
-Write-Host "Étape 2/3 : Suppression serveur KMS..." -ForegroundColor Cyan
+Write-Host "Etape 2/3 : Suppression serveur KMS..." -ForegroundColor Cyan
 slmgr /ckms
 Start-Sleep -Seconds 2
 
 Write-Host ""
-Write-Host "Étape 3/3 : Réinitialisation licence..." -ForegroundColor Cyan
+Write-Host "Etape 3/3 : Reinitialisation licence..." -ForegroundColor Cyan
 slmgr /rearm
 
 Write-Host ""
-Write-Host "✅ Réinitialisation terminée !" -ForegroundColor Green
-Write-Host "⚠️ REDÉMARREZ votre PC pour finaliser." -ForegroundColor Yellow
+Write-Host "[OK] Reinitialisation terminee !" -ForegroundColor Green
+Write-Host "[!] REDEMARREZ votre PC pour finaliser." -ForegroundColor Yellow
 """
                 self._execute_powershell_command(ps_cmd)
             elif command == '6':
