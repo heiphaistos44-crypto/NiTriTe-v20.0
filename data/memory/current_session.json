@@ -167,6 +167,160 @@
         "intent": "troubleshooting",
         "user_level": "beginner"
       }
+    },
+    {
+      "role": "user",
+      "content": "ok",
+      "timestamp": "2025-12-28T17:52:58.353440",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "Ah je vois ton problème!\n\nVoici ce que tu dois savoir:\n\n**1.** M.2 heatsinks: Motherboard integrated best (metal contact), adhesive aftermarket OK, thermal pads 1-2mm, Gen5 needs active\n\n**2.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\n\n**3.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\n\n**4.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\nÇa devrait régler ton problème. Sinon reviens me voir!",
+      "timestamp": "2025-12-28T17:52:58.431213",
+      "metadata": {
+        "mode": "offline",
+        "intent": "general_question",
+        "user_level": "beginner"
+      }
+    },
+    {
+      "role": "user",
+      "content": "ok",
+      "timestamp": "2025-12-28T17:53:27.274177",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "ok",
+      "timestamp": "2025-12-28T17:57:15.130956",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "Ok, laisse-moi t'aider avec ça.\n\nVoici ce que tu dois savoir:\n\n**1.** M.2 heatsinks: Motherboard integrated best (metal contact), adhesive aftermarket OK, thermal pads 1-2mm, Gen5 needs active\n\n**2.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\n\n**3.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\n\n**4.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\nDis-moi si ça marche ou si tu veux que je t'explique autrement! 😊",
+      "timestamp": "2025-12-28T17:57:15.215695",
+      "metadata": {
+        "mode": "offline",
+        "intent": "general_question",
+        "user_level": "beginner"
+      }
+    },
+    {
+      "role": "user",
+      "content": "ok serveur mcp",
+      "timestamp": "2025-12-28T17:57:29.554286",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "Bon alors, voilà ce que je te conseille:\n\nVoici ce que tu dois savoir:\n\n**1.** M.2 heatsinks: Motherboard integrated best (metal contact), adhesive aftermarket OK, thermal pads 1-2mm, Gen5 needs active\n\n**2.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\n\n**3.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\n\n**4.** Utilise les outils de diagnostic dans NiTriTe pour vérifier ça (Diagnostic > Outils)\nÇa devrait régler ton problème. Sinon reviens me voir!",
+      "timestamp": "2025-12-28T17:57:29.562907",
+      "metadata": {
+        "mode": "offline",
+        "intent": "general_question",
+        "user_level": "beginner"
+      }
+    },
+    {
+      "role": "user",
+      "content": "ok",
+      "timestamp": "2025-12-28T17:57:46.096360",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "mon pc surchauffe",
+      "timestamp": "2025-12-30T05:01:23.126780",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "mon pc surchauffe",
+      "timestamp": "2025-12-30T05:02:08.854861",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "mon pc surchauffe",
+      "timestamp": "2025-12-30T05:28:30.280995",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "mon pc surchauffe",
+      "timestamp": "2025-12-30T05:30:01.393615",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "mon pc surchauffe",
+      "timestamp": "2025-12-30T05:40:07.491106",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "mon pc surchauffe",
+      "timestamp": "2025-12-30T05:48:22.944933",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "m\n\nVoici ce que tu dois savoir:\n\n**1.** PC surchauffe solution immédiate: 1) Nettoyer ventilateurs (air comprimé), 2) Vérifier pâte thermique CPU (changer si >2 ans), 3) Augmenter vitesse ventilateurs (BIOS ou MSI Afterburner), 4) Limiter performances (plan Équilibré), 5) Vérifier circulation air (câbles bloquent?). Température normale idle <45°C, charge <85°C\n\n**2.** NiTriTe vs PC Manager Microsoft: PC Manager simple (débutants), NiTriTe avancé (power users). PC Manager: 5 features, NiTriTe: 15+ pages outils. PC Manager: Microsoft officiel, NiTriTe: communauté open-source\n\n**3.** Utilisation Agent IA: Pose question naturelle (ex: 'Mon PC chauffe en jeu', 'Meilleur RAM DDR5 pour gaming'). IA analyse intent, cherche catégories pertinentes, génère réponse détaillée avec sources. Historique conversationnel\n\n**4.** Rapport Batterie Diagnostic: Affiche 8 détails batterie (Nom, Fabricant, Numéro Série, Chimie, Capacité Design, Capacité Pleine Charge, Cycles, Usure%). Génère battery-report.html via powercfg. Nécessite PC portable\nDis-moi si ça marche ou si tu veux que je t'explique autrement! 😊\n\n💡 **Outils utiles dans NiTriTe:**\n- 🖥️ CPU-Z (Diagnostic > CPU-Z)\n- 🔋 Test Batterie NiTriTe (Diagnostic > Test Batterie)\n",
+      "timestamp": "2025-12-30T05:48:23.069022",
+      "metadata": {
+        "mode": "offline",
+        "intent": "troubleshooting",
+        "user_level": "beginner"
+      }
+    },
+    {
+      "role": "user",
+      "content": "mon pc surchauffe",
+      "timestamp": "2025-12-30T06:03:18.989347",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "m\n\nVoici ce que tu dois savoir:\n\n**1.** PC surchauffe solution immédiate: 1) Nettoyer ventilateurs (air comprimé), 2) Vérifier pâte thermique CPU (changer si >2 ans), 3) Augmenter vitesse ventilateurs (BIOS ou MSI Afterburner), 4) Limiter performances (plan Équilibré), 5) Vérifier circulation air (câbles bloquent?). Température normale idle <45°C, charge <85°C\n\n**2.** NiTriTe vs PC Manager Microsoft: PC Manager simple (débutants), NiTriTe avancé (power users). PC Manager: 5 features, NiTriTe: 15+ pages outils. PC Manager: Microsoft officiel, NiTriTe: communauté open-source\n\n**3.** Utilisation Agent IA: Pose question naturelle (ex: 'Mon PC chauffe en jeu', 'Meilleur RAM DDR5 pour gaming'). IA analyse intent, cherche catégories pertinentes, génère réponse détaillée avec sources. Historique conversationnel\n\n**4.** Rapport Batterie Diagnostic: Affiche 8 détails batterie (Nom, Fabricant, Numéro Série, Chimie, Capacité Design, Capacité Pleine Charge, Cycles, Usure%). Génère battery-report.html via powercfg. Nécessite PC portable\nHésite pas si t'as besoin de plus de détails!\n\n💡 **Outils utiles dans NiTriTe:**\n- 🖥️ CPU-Z (Diagnostic > CPU-Z)\n- 🔋 Test Batterie NiTriTe (Diagnostic > Test Batterie)\n",
+      "timestamp": "2025-12-30T06:03:19.081311",
+      "metadata": {
+        "mode": "offline",
+        "intent": "troubleshooting",
+        "user_level": "beginner"
+      }
+    },
+    {
+      "role": "user",
+      "content": "mon pc surchauffe",
+      "timestamp": "2025-12-30T06:43:43.293345",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "O\n\nVoici ce que tu dois savoir:\n\n**1.** PC surchauffe solution immédiate: 1) Nettoyer ventilateurs (air comprimé), 2) Vérifier pâte thermique CPU (changer si >2 ans), 3) Augmenter vitesse ventilateurs (BIOS ou MSI Afterburner), 4) Limiter performances (plan Équilibré), 5) Vérifier circulation air (câbles bloquent?). Température normale idle <45°C, charge <85°C\n\n**2.** NiTriTe vs PC Manager Microsoft: PC Manager simple (débutants), NiTriTe avancé (power users). PC Manager: 5 features, NiTriTe: 15+ pages outils. PC Manager: Microsoft officiel, NiTriTe: communauté open-source\n\n**3.** Utilisation Agent IA: Pose question naturelle (ex: 'Mon PC chauffe en jeu', 'Meilleur RAM DDR5 pour gaming'). IA analyse intent, cherche catégories pertinentes, génère réponse détaillée avec sources. Historique conversationnel\n\n**4.** Rapport Batterie Diagnostic: Affiche 8 détails batterie (Nom, Fabricant, Numéro Série, Chimie, Capacité Design, Capacité Pleine Charge, Cycles, Usure%). Génère battery-report.html via powercfg. Nécessite PC portable\nÇa devrait régler ton problème. Sinon reviens me voir!\n\n💡 **Outils utiles dans NiTriTe:**\n- 🖥️ CPU-Z (Diagnostic > CPU-Z)\n- 🔋 Test Batterie NiTriTe (Diagnostic > Test Batterie)\n",
+      "timestamp": "2025-12-30T06:43:43.438271",
+      "metadata": {
+        "mode": "offline",
+        "intent": "troubleshooting",
+        "user_level": "beginner"
+      }
+    },
+    {
+      "role": "user",
+      "content": "ecran bsod",
+      "timestamp": "2025-12-30T06:44:43.247573",
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "n\n\nVoici ce que tu dois savoir:\n\n**1.** BSOD codes courants: MEMORY_MANAGEMENT = RAM défectueuse (test MemTest86 8+ heures), PAGE_FAULT_IN_NONPAGED_AREA = driver corrompu (DDU GPU clean install), SYSTEM_SERVICE_EXCEPTION = driver incompatible (vérifier Windows Update), IRQL_NOT_LESS_OR_EQUAL = conflit matériel/driver, DPC_WATCHDOG_VIOLATION = SSD driver obsolète (update chipset)\n\n**2.** Écran Bleu BSOD résolution: 1) Noter code erreur (ex: SYSTEM_SERVICE_EXCEPTION, IRQL_NOT_LESS_OR_EQUAL), 2) Google '[code erreur] + [composant PC]', 3) Causes fréquentes: RAM défectueuse (test MemTest86), Drivers obsolètes (GPU, chipset), Overclock instable (reset BIOS defaults), SSD défaillant (CrystalDiskInfo SMART). 4) BlueScreenView analyser dump crash\n\n**3.** Common BSOD codes: MEMORY_MANAGEMENT (RAM/XMP), SYSTEM_SERVICE_EXCEPTION (driver), IRQL_NOT_LESS_OR_EQUAL (driver/OC), WHEA_UNCORRECTABLE_ERROR (hardware/OC), DPC_WATCHDOG_VIOLATION (storage driver)\n\n**4.** DDU (Display Driver Uninstaller) Procédure: 1) Télécharger latest DDU, 2) Boot Safe Mode (Shift+Restart > Troubleshoot), 3) Lancer DDU, sélectionner GPU marque, 'Clean and Restart', 4) Installer nouveau driver normal mode. Nécessaire si corruption, artifacts graphiques, crashes\nDis-moi si ça marche ou si tu veux que je t'explique autrement! 😊\n\n💡 **Outils utiles dans NiTriTe:**\n- 🎮 GPU-Z (Diagnostic > GPU-Z)\n- 💿 CrystalDiskInfo (Diagnostic > CrystalDiskInfo)\n",
+      "timestamp": "2025-12-30T06:44:43.262540",
+      "metadata": {
+        "mode": "offline",
+        "intent": "troubleshooting",
+        "user_level": "beginner"
+      }
     }
   ],
   "topics": [

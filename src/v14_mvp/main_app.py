@@ -66,6 +66,8 @@ from v14_mvp.pages_simple import SimplePlaceholderPage
 from v14_mvp.pages_optimized import OptimizedApplicationsPage, OptimizedToolsPage
 from v14_mvp.pages_settings import SettingsPage
 from v14_mvp.pages_full import UpdatesPage, BackupPage, DiagnosticPage, OptimizationsPage
+from v14_mvp.page_drivers import DriversPage
+from v14_mvp.page_scanvirus import ScanVirusPage
 from v14_mvp.page_master_install import MasterInstallPage
 from v14_mvp.page_portables import PortableAppsPage
 from v14_mvp.page_os_downloads import OSDownloadsPage
@@ -276,7 +278,12 @@ class NiTriTeV18(ctk.CTk):
             self.current_page_widget = UpdatesPage(
                 self.content_container
             )
-        
+
+        elif page_id == "drivers":
+            self.current_page_widget = DriversPage(
+                self.content_container
+            )
+
         elif page_id == "backup":
             self.current_page_widget = BackupPage(
                 self.content_container
@@ -289,6 +296,11 @@ class NiTriTeV18(ctk.CTk):
         
         elif page_id == "diagnostic":
             self.current_page_widget = DiagnosticPage(
+                self.content_container
+            )
+
+        elif page_id == "scanvirus":
+            self.current_page_widget = ScanVirusPage(
                 self.content_container
             )
 

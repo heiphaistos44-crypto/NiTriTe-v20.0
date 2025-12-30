@@ -350,3 +350,6 @@ class InstallationManager:
 
 # Instance globale
 installer = InstallationManager()
+
+# Alias pour compatibilité
+Installer = InstallationManager

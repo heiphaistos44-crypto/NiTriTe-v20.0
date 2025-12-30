@@ -3,6 +3,9 @@ chcp 65001 >nul
 title NiTriTe V20.0 - Mode Développement
 color 0B
 
+REM Changer vers le répertoire du script
+cd /d "%~dp0"
+
 echo.
 echo ╔═══════════════════════════════════════════════════════════╗
 echo ║          LANCEMENT NiTriTe V20.0                          ║

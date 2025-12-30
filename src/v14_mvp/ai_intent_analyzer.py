@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Analyseur d'Intent pour Agent IA - NiTriTe V18.5
+Analyseur d'Intent pour Agent IA - NiTriTe V20.0
 Détection intelligente de l'intent utilisateur et niveau d'expertise
 Remplace pattern matching basique if/elif
+AMÉLIORATION V20.0: Fuzzy matching natif + Tolérance fautes d'orthographe
 """
 
 import re
 from typing import Dict, Optional, Tuple, List
+from difflib import SequenceMatcher
 
 
 class IntentAnalyzer:
@@ -20,6 +22,243 @@ class IntentAnalyzer:
 
     def __init__(self):
         """Initialise les patterns d'intent et keywords d'expertise"""
+
+        # Dictionnaire de variantes orthographiques et synonymes ÉTENDU (500+)
+        self.word_variants = {
+            # ===== MATÉRIEL - CPU (50 variantes) =====
+            "cpu": ["cpu", "processeur", "proc", "proco", "procesor"],
+            "processeur": ["processeur", "cpu", "proc", "proco"],
+            "procesor": "processeur", "proceseur": "processeur", "proco": "processeur",
+            "proc": "processeur", "procs": "processeur",
+
+            # Intel
+            "i3": ["intel i3", "i3", "core i3"], "i5": ["intel i5", "i5", "core i5"],
+            "i7": ["intel i7", "i7", "core i7"], "i9": ["intel i9", "i9", "core i9"],
+            "intel": ["intel", "intel cpu"], "core": ["core", "intel core"],
+
+            # AMD
+            "ryzen": ["ryzen", "amd ryzen", "r5", "r7", "r9"],
+            "r5": ["ryzen 5", "r5", "amd ryzen 5"], "r7": ["ryzen 7", "r7", "amd ryzen 7"],
+            "r9": ["ryzen 9", "r9", "amd ryzen 9"], "amd": ["amd", "amd cpu"],
+            "threadripper": ["threadripper", "tr", "amd threadripper"],
+
+            # ===== MATÉRIEL - GPU (60 variantes) =====
+            "gpu": ["gpu", "carte graphique", "cg", "carte graph", "cg", "graphique"],
+            "carte graphique": ["carte graphique", "gpu", "cg", "carte graph"],
+            "cart graphik": "carte graphique", "carte grafique": "carte graphique",
+            "cart grafik": "carte graphique", "cg": "carte graphique",
+            "carte graph": "carte graphique", "graphique": "carte graphique",
+
+            # NVIDIA
+            "rtx": ["nvidia rtx", "geforce rtx", "rtx"], "gtx": ["nvidia gtx", "geforce gtx", "gtx"],
+            "nvidia": ["nvidia", "geforce"], "geforce": ["geforce", "nvidia"],
+            "rtx 4090": ["rtx 4090", "4090"], "rtx 4080": ["rtx 4080", "4080"],
+            "rtx 4070": ["rtx 4070", "4070"], "rtx 4060": ["rtx 4060", "4060"],
+            "rtx 3090": ["rtx 3090", "3090"], "rtx 3080": ["rtx 3080", "3080"],
+            "rtx 3070": ["rtx 3070", "3070"], "rtx 3060": ["rtx 3060", "3060"],
+
+            # AMD GPU
+            "rx": ["amd rx", "radeon rx", "rx"], "radeon": ["radeon", "amd radeon"],
+            "rx 7900": ["rx 7900", "7900 xt", "7900 xtx"],
+            "rx 7800": ["rx 7800", "7800 xt"], "rx 7700": ["rx 7700", "7700 xt"],
+            "rx 6800": ["rx 6800", "6800 xt"], "rx 6700": ["rx 6700", "6700 xt"],
+
+            # Mémoire GPU
+            "vram": ["vram", "mémoire graphique", "mémoire gpu", "memoire gpu"],
+            "memoire graphique": "mémoire graphique",
+
+            # ===== MATÉRIEL - RAM (40 variantes) =====
+            "ram": ["ram", "mémoire", "memoire", "barrette", "barrettes"],
+            "mémoire": ["mémoire", "ram", "memoire"], "memoire": "mémoire",
+            "memwar": "mémoire", "memwar vive": "mémoire vive",
+            "barrette": ["barrette", "barrette ram", "ram"], "barrettes": ["barrettes", "ram"],
+
+            # Types RAM
+            "ddr4": ["ddr4", "ram ddr4", "ddr 4"], "ddr5": ["ddr5", "ram ddr5", "ddr 5"],
+            "ddr3": ["ddr3", "ram ddr3", "ddr 3"],
+            "dimm": ["dimm", "barrette dimm"], "sodimm": ["sodimm", "so-dimm", "portable ram"],
+
+            # Capacités
+            "8go": ["8gb", "8go", "8 gb", "8 go"], "16go": ["16gb", "16go", "16 gb", "16 go"],
+            "32go": ["32gb", "32go", "32 gb", "32 go"], "64go": ["64gb", "64go", "64 gb", "64 go"],
+            "gb": "go", "giga": "go",
+
+            # ===== MATÉRIEL - STOCKAGE (45 variantes) =====
+            "ssd": ["ssd", "disque ssd", "solid state"], "hdd": ["hdd", "disque dur", "hard drive"],
+            "disque dur": ["disque dur", "hdd"], "disk dur": "disque dur", "diske dur": "disque dur",
+            "nvme": ["nvme", "m.2", "pcie ssd", "m2"], "m2": "m.2", "m.2": ["m.2", "nvme", "m2"],
+            "sata": ["sata", "ssd sata"], "pcie": ["pcie", "pci express", "pci-e"],
+
+            # Capacités
+            "500go": ["500gb", "500go", "500 gb"], "1to": ["1tb", "1to", "1 to", "1 tb"],
+            "2to": ["2tb", "2to", "2 to", "2 tb"], "4to": ["4tb", "4to", "4 to"],
+            "to": "tb", "tera": "tb",
+
+            # ===== MATÉRIEL - PÉRIPHÉRIQUES (35 variantes) =====
+            "souris": ["souris", "mouse", "souri"], "souri": "souris", "mouse": "souris",
+            "clavier": ["clavier", "keyboard", "clavié"], "clavié": "clavier", "keyboard": "clavier",
+            "écran": ["écran", "moniteur", "screen", "display"], "ecran": "écran",
+            "moniteur": ["moniteur", "écran", "monitor"], "monitor": "moniteur",
+            "casque": ["casque", "headset", "headphones"], "headset": "casque",
+            "micro": ["micro", "microphone", "mic"], "microphone": ["microphone", "micro"],
+
+            # ===== PROBLÈMES - CRASHES (50 variantes) =====
+            "crash": ["crash", "plante", "freeze", "bug", "plantage"],
+            "plante": ["plante", "crash", "freeze", "plantage"], "plantage": ["plantage", "crash"],
+            "freeze": ["freeze", "bloqué", "gelé", "figé", "bloque"], "freze": "freeze",
+            "bloqué": ["bloqué", "freeze", "bloque"], "bloque": "bloqué", "gelé": "freeze",
+            "figé": "freeze", "fige": "freeze",
+
+            "bug": ["bug", "erreur", "problème", "crash", "beug"], "beug": "bug",
+            "bsod": ["bsod", "écran bleu", "blue screen", "ecran bleu"],
+            "écran bleu": ["écran bleu", "bsod", "blue screen"], "ecran bleu": "écran bleu",
+            "blue screen": "écran bleu", "bluescreen": "écran bleu",
+
+            # ===== PROBLÈMES - PERFORMANCE (60 variantes) =====
+            "lent": ["lent", "ralenti", "lag", "rame", "slow"], "ralenti": ["ralenti", "lent", "lag"],
+            "lag": ["lag", "rame", "lent", "latence", "laggy"], "laggy": "lag",
+            "rame": ["rame", "lag", "lent", "ralenti", "laggy"], "ram": ["rame", "lag"],
+
+            "saccade": ["saccade", "freeze", "stutter", "micro-freeze", "saccades"],
+            "saccades": "saccade", "stutter": ["stutter", "saccade", "micro-freeze"],
+            "micro-freeze": ["micro-freeze", "saccade", "stutter"], "microfreeze": "micro-freeze",
+
+            "fps": ["fps", "framerate", "images par seconde", "frame rate"],
+            "framerate": "fps", "frame rate": "fps", "images": "fps",
+            "fps bas": ["fps bas", "fps faible", "peu de fps"], "fps faible": "fps bas",
+
+            # Latence
+            "latence": ["latence", "ping", "lag", "délai"], "ping": ["ping", "latence", "ms"],
+            "délai": "latence", "delai": "latence",
+
+            # ===== PROBLÈMES - TEMPÉRATURE (40 variantes) =====
+            "chauffe": ["chauffe", "surchauffe", "chaud", "température", "chaleur"],
+            "surchauffe": ["surchauffe", "chauffe", "overheating", "overheat"],
+            "surchofe": "surchauffe", "surchauf": "surchauffe", "sur chauffe": "surchauffe",
+            "overheat": "surchauffe", "overheating": "surchauffe",
+
+            "température": ["température", "temp", "chaleur", "heat"],
+            "temperature": "température", "temperatur": "température", "temprature": "température",
+            "temp": "température", "chaleur": ["chaleur", "température", "heat"],
+            "chaud": ["chaud", "chauffe", "température", "hot"], "hot": "chaud",
+            "brûlant": "chaud", "brulant": "chaud",
+
+            # ===== PROBLÈMES - BRUIT (25 variantes) =====
+            "bruyant": ["bruyant", "fort", "bruit", "loud", "bruy"], "bruy": "bruyant",
+            "fort": ["fort", "bruyant", "bruit"], "bruit": ["bruit", "bruyant", "noise"],
+            "loud": "bruyant", "noise": "bruit",
+
+            "ventilo": ["ventilateur", "ventilo", "fan", "ventilos"],
+            "ventilateur": ["ventilateur", "ventilo", "fan"], "ventilos": "ventilateur",
+            "fan": "ventilateur", "fans": "ventilateur",
+            "coil whine": ["coil whine", "sifflement", "bourdonnement"],
+
+            # ===== ACTIONS - INSTALLATION (30 variantes) =====
+            "installer": ["installer", "install", "installation", "installé"],
+            "install": "installer", "installation": ["installation", "install", "installer"],
+            "instalation": "installation", "instal": "installation", "instaler": "installer",
+            "installé": "installer", "installe": "installer",
+
+            "télécharger": ["télécharger", "download", "dl", "telecharger"],
+            "telecharger": "télécharger", "download": "télécharger", "dl": "télécharger",
+
+            # ===== ACTIONS - CONFIGURATION (35 variantes) =====
+            "configurer": ["configurer", "configuration", "config", "setup", "parametrer"],
+            "config": "configuration", "configuration": ["configuration", "config", "setup"],
+            "setup": "configuration", "parametrer": "configurer", "paramètrer": "configurer",
+            "paramètre": "configuration", "parametre": "configuration",
+            "réglage": "configuration", "reglage": "configuration", "regler": "configurer",
+
+            # ===== ACTIONS - OPTIMISATION (30 variantes) =====
+            "optimiser": ["optimiser", "optimisation", "optim", "améliorer", "booster"],
+            "optim": "optimisation", "optimisation": ["optimisation", "optim", "optimiser"],
+            "améliorer": ["améliorer", "optimiser", "booster"], "ameliorer": "améliorer",
+            "booster": ["booster", "optimiser", "améliorer"], "boost": "booster",
+            "accélérer": ["accélérer", "optimiser", "rendre plus rapide"],
+            "accelerer": "accélérer", "rapide": ["rapide", "rapide", "quick"],
+
+            # ===== ACTIONS - NETTOYAGE (25 variantes) =====
+            "nettoyer": ["nettoyer", "nettoyage", "clean", "cleanup", "cleaner"],
+            "nettoyage": ["nettoyage", "cleanup", "clean"], "clean": "nettoyage",
+            "cleanup": "nettoyage", "cleaner": "nettoyage",
+            "supprimer": ["supprimer", "delete", "effacer"], "delete": "supprimer",
+            "effacer": "supprimer", "vider": ["vider", "nettoyer", "cleanup"],
+
+            # ===== ACTIONS - MISE À JOUR (30 variantes) =====
+            "update": ["mettre à jour", "update", "upgrade", "maj"],
+            "upgrade": ["mettre à jour", "upgrade", "update"], "maj": "mise à jour",
+            "mise à jour": ["mise à jour", "update", "maj"], "mise a jour": "mise à jour",
+            "mettre à jour": ["mettre à jour", "update", "maj"],
+            "actualiser": "mettre à jour", "updater": "mettre à jour",
+
+            # ===== TERMES TECHNIQUES - DRIVERS (25 variantes) =====
+            "driver": ["driver", "pilote", "drivers", "pilotes"],
+            "pilote": ["pilote", "driver"], "drivers": "driver", "pilotes": "pilote",
+            "driveur": "driver", "driveurs": "driver",
+            "driver graphique": ["driver graphique", "pilote gpu"],
+            "driver audio": ["driver audio", "pilote audio"],
+
+            # ===== TERMES TECHNIQUES - BIOS/UEFI (20 variantes) =====
+            "bios": ["bios", "uefi", "firmware"], "uefi": ["uefi", "bios"],
+            "firmware": ["firmware", "bios", "uefi"],
+            "cmos": ["cmos", "bios battery"], "bootloader": ["bootloader", "boot"],
+
+            # ===== TERMES TECHNIQUES - OVERCLOCKING (30 variantes) =====
+            "overclock": ["overclock", "oc", "overclocking", "overclocker"],
+            "oc": "overclock", "overclocking": "overclock", "overclocker": "overclock",
+            "ovrclock": "overclock", "over clock": "overclock",
+
+            "undervolt": ["undervolt", "undervolting", "sous-voltage"],
+            "undervolting": "undervolt", "sous-voltage": "undervolt",
+
+            # ===== TERMES TECHNIQUES - WINDOWS (35 variantes) =====
+            "windows": ["windows", "win", "windows 10", "windows 11", "w10", "w11"],
+            "win": "windows", "win10": "windows 10", "win11": "windows 11",
+            "w10": "windows 10", "w11": "windows 11",
+            "windows 10": ["windows 10", "win10", "w10"],
+            "windows 11": ["windows 11", "win11", "w11"],
+
+            "mise à jour windows": ["mise à jour windows", "windows update", "update windows"],
+            "windows update": "mise à jour windows",
+
+            # ===== PC & ORDINATEUR (20 variantes) =====
+            "pc": ["pc", "ordinateur", "ordi", "machine", "computer"],
+            "ordi": ["ordinateur", "pc", "ordi"], "ordinateur": ["ordinateur", "pc", "ordi"],
+            "orditeur": "ordinateur", "ordinateure": "ordinateur",
+            "machine": ["machine", "pc", "ordinateur"], "computer": "ordinateur",
+            "setup": ["setup", "config pc", "configuration"],
+
+            # ===== PROBLÈMES GÉNÉRAUX (25 variantes) =====
+            "problème": ["problème", "pb", "souci", "soucis", "issue"],
+            "probème": "problème", "probleme": "problème", "poblème": "problème",
+            "pb": "problème", "soucis": "problème", "souci": "problème",
+            "issue": "problème", "pblm": "problème",
+
+            "erreur": ["erreur", "bug", "crash", "problème", "error"],
+            "error": "erreur", "eror": "erreur", "ereur": "erreur",
+
+            # ===== FONCTIONNEMENT (20 variantes) =====
+            "marche": ["marche", "fonctionne", "works"], "fonctionne": ["fonctionne", "marche"],
+            "marche pas": ["ne marche pas", "ne fonctionne pas", "marche pas", "fonctionne pas"],
+            "ne marche pas": ["ne marche pas", "marche pas", "fonctionne pas"],
+            "ne fonctionne pas": ["ne fonctionne pas", "marche pas"],
+            "fonctionne pas": "ne fonctionne pas", "works": "fonctionne",
+
+            # ===== QUESTIONS (25 variantes) =====
+            "comment": ["comment", "coment", "commen", "comant"],
+            "coment": "comment", "commen": "comment", "comant": "comment",
+            "quoi": ["quoi", "koi", "kwa"], "koi": "quoi", "kwa": "quoi",
+            "pourquoi": ["pourquoi", "pourkoi", "prkoi", "pk"],
+            "pourkoi": "pourquoi", "prkoi": "pourquoi", "pk": "pourquoi",
+
+            # ===== CHOIX & RECOMMANDATIONS (20 variantes) =====
+            "meilleur": ["meilleur", "mieux", "best", "top"], "mieux": "meilleur",
+            "best": "meilleur", "top": "meilleur",
+            "choisir": ["choisir", "sélection", "sélectionner", "selection"],
+            "selection": "sélection", "sélectionner": "choisir",
+            "recommander": ["recommander", "recommandation", "conseil"],
+            "conseil": "recommandation",
+        }
 
         # Patterns pour chaque type d'intent
         self.intent_patterns = {
@@ -106,6 +345,112 @@ class IntentAnalyzer:
         self.technical_categories = []
 
 
+    def _levenshtein_distance(self, s1: str, s2: str) -> int:
+        """
+        Calcule la distance de Levenshtein entre deux chaînes
+        (nombre minimum d'opérations pour transformer s1 en s2)
+
+        Args:
+            s1: Première chaîne
+            s2: Deuxième chaîne
+
+        Returns:
+            Distance de Levenshtein (int)
+        """
+        if len(s1) < len(s2):
+            return self._levenshtein_distance(s2, s1)
+
+        if len(s2) == 0:
+            return len(s1)
+
+        previous_row = range(len(s2) + 1)
+        for i, c1 in enumerate(s1):
+            current_row = [i + 1]
+            for j, c2 in enumerate(s2):
+                # Coût insertion, deletion, substitution
+                insertions = previous_row[j + 1] + 1
+                deletions = current_row[j] + 1
+                substitutions = previous_row[j] + (c1 != c2)
+                current_row.append(min(insertions, deletions, substitutions))
+            previous_row = current_row
+
+        return previous_row[-1]
+
+
+    def _similarity_ratio(self, s1: str, s2: str) -> float:
+        """
+        Calcule ratio de similarité entre deux chaînes (0.0 - 1.0)
+        Utilise SequenceMatcher de difflib
+
+        Args:
+            s1: Première chaîne
+            s2: Deuxième chaîne
+
+        Returns:
+            Ratio de similarité (0.0 = différent, 1.0 = identique)
+        """
+        return SequenceMatcher(None, s1.lower(), s2.lower()).ratio()
+
+
+    def _fuzzy_match_word(self, word: str, target: str, threshold: float = 0.8) -> bool:
+        """
+        Vérifie si un mot matche une cible avec tolérance aux fautes
+
+        Args:
+            word: Mot à matcher
+            target: Cible à comparer
+            threshold: Seuil de similarité (0.0-1.0)
+
+        Returns:
+            True si match, False sinon
+        """
+        # Match exact
+        if word.lower() == target.lower():
+            return True
+
+        # Fuzzy match avec ratio
+        if self._similarity_ratio(word, target) >= threshold:
+            return True
+
+        # Distance Levenshtein (max 2 erreurs pour mots courts, 3 pour longs)
+        max_distance = 2 if len(target) <= 6 else 3
+        if self._levenshtein_distance(word.lower(), target.lower()) <= max_distance:
+            return True
+
+        return False
+
+
+    def _expand_with_variants(self, user_message: str) -> str:
+        """
+        Expand le message avec variantes et synonymes pour améliorer matching
+
+        Args:
+            user_message: Message utilisateur original
+
+        Returns:
+            Message enrichi avec variantes
+        """
+        msg_lower = user_message.lower()
+        expanded_parts = [msg_lower]
+
+        # Ajouter variantes pour chaque mot trouvé
+        words = msg_lower.split()
+
+        for word in words:
+            # Chercher dans dictionnaire de variantes
+            if word in self.word_variants:
+                variants = self.word_variants[word]
+
+                # Si c'est une liste de variantes
+                if isinstance(variants, list):
+                    expanded_parts.extend(variants)
+                # Si c'est une correction orthographique
+                elif isinstance(variants, str):
+                    expanded_parts.append(variants)
+
+        return " ".join(expanded_parts)
+
+
     def set_categories(self, categories: List[str]):
         """
         Définit la liste des catégories pour fuzzy matching
@@ -118,7 +463,8 @@ class IntentAnalyzer:
 
     def analyze(self, user_message: str) -> str:
         """
-        Détecte le type de question (intent)
+        Détecte le type de question (intent) avec fuzzy matching
+        AMÉLIORATION V20.0: Tolère fautes d'orthographe et variantes
 
         Args:
             user_message: Message utilisateur
@@ -129,21 +475,41 @@ class IntentAnalyzer:
         """
         msg_lower = user_message.lower()
 
+        # Expand message avec variantes pour meilleur matching
+        expanded_msg = self._expand_with_variants(user_message)
+
         # Scoring pour chaque intent
         scores = {}
 
         for intent, config in self.intent_patterns.items():
             score = 0
 
-            # Score keywords
+            # Score keywords avec fuzzy matching
             for keyword in config["keywords"]:
+                # Match exact dans message original
                 if keyword in msg_lower:
-                    score += 1
+                    score += 2  # Match exact = bonus
 
-            # Score patterns (regex)
+                # Match exact dans message expanded
+                elif keyword in expanded_msg:
+                    score += 1.5
+
+                # Fuzzy match pour tolérer fautes
+                else:
+                    words_in_msg = msg_lower.split()
+                    for word in words_in_msg:
+                        if self._fuzzy_match_word(word, keyword, threshold=0.85):
+                            score += 1
+                            break
+
+            # Score patterns (regex) - toujours sur message original
             for pattern in config["patterns"]:
                 if re.search(pattern, msg_lower, re.IGNORECASE):
                     score += 2  # Patterns comptent double
+
+                # Essayer aussi sur expanded pour capturer variantes
+                elif re.search(pattern, expanded_msg, re.IGNORECASE):
+                    score += 1.5
 
             if score > 0:
                 scores[intent] = score
@@ -228,13 +594,14 @@ class IntentAnalyzer:
             return history_level if context else "beginner"
 
 
-    def fuzzy_match_category(self, user_query: str, threshold: int = 60) -> Optional[str]:
+    def fuzzy_match_category(self, user_query: str, threshold: float = 0.6) -> Optional[str]:
         """
-        Match catégorie avec fuzzy matching (tolère typos)
+        Match catégorie avec fuzzy matching natif (tolère typos)
+        AMÉLIORATION V20.0: Utilise fuzzy matching natif sans dépendances
 
         Args:
             user_query: Requête utilisateur
-            threshold: Score minimum (0-100) pour match
+            threshold: Score minimum (0.0-1.0) pour match
 
         Returns:
             Nom catégorie matchée ou None
@@ -242,24 +609,57 @@ class IntentAnalyzer:
         if not self.technical_categories:
             return None
 
-        try:
-            from fuzzywuzzy import fuzz, process
+        query_lower = user_query.lower()
+        best_match = None
+        best_score = 0.0
 
-            # Fuzzy matching sur noms catégories
-            best_match = process.extractOne(
-                user_query,
-                self.technical_categories,
-                scorer=fuzz.token_sort_ratio
+        for category in self.technical_categories:
+            cat_lower = category.lower()
+
+            # Score 1: Match exact substring
+            if cat_lower in query_lower or query_lower in cat_lower:
+                return category  # Match parfait immédiat
+
+            # Score 2: Similarity ratio global
+            similarity = self._similarity_ratio(query_lower, cat_lower)
+
+            # Score 3: Token-based matching (mots individuels)
+            query_tokens = set(query_lower.replace("_", " ").split())
+            cat_tokens = set(cat_lower.replace("_", " ").split())
+
+            # Calculer ratio de tokens communs
+            if len(cat_tokens) > 0:
+                common_tokens = query_tokens & cat_tokens
+                token_ratio = len(common_tokens) / len(cat_tokens)
+            else:
+                token_ratio = 0.0
+
+            # Score 4: Fuzzy match sur chaque token
+            fuzzy_token_matches = 0
+            for q_token in query_tokens:
+                for c_token in cat_tokens:
+                    if self._fuzzy_match_word(q_token, c_token, threshold=0.8):
+                        fuzzy_token_matches += 1
+                        break
+
+            fuzzy_token_ratio = fuzzy_token_matches / len(cat_tokens) if len(cat_tokens) > 0 else 0.0
+
+            # Score final: moyenne pondérée
+            final_score = (
+                similarity * 0.3 +           # 30% similarité globale
+                token_ratio * 0.4 +          # 40% tokens exacts communs
+                fuzzy_token_ratio * 0.3      # 30% tokens fuzzy matchés
             )
 
-            if best_match and best_match[1] >= threshold:
-                return best_match[0]
-            else:
-                return None
+            if final_score > best_score:
+                best_score = final_score
+                best_match = category
 
-        except ImportError:
-            # Fallback si fuzzywuzzy pas installé
-            return self._fallback_category_match(user_query)
+        # Retourner si score >= threshold
+        if best_score >= threshold:
+            return best_match
+
+        return None
 
 
     def _fallback_category_match(self, user_query: str) -> Optional[str]:

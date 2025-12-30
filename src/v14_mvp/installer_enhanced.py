@@ -13,6 +13,7 @@ from v14_mvp.logger_system import logger
 
 
 class EnhancedInstallationManager:
+    """Gestionnaire d'installation amélioré avec support WinGet et Chocolatey"""
     """Gestionnaire d'installations avec logs en temps réel"""
 
     def __init__(self):
@@ -401,3 +402,6 @@ class EnhancedInstallationManager:
 
 # Instance globale
 installer = EnhancedInstallationManager()
+
+# Alias pour compatibilité
+EnhancedInstaller = EnhancedInstallationManager

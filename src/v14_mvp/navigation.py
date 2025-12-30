@@ -36,12 +36,12 @@ class ModernNavigation(ctk.CTkFrame):
         header = ctk.CTkFrame(self, fg_color="transparent")
         header.pack(fill=tk.X, padx=DesignTokens.SPACING_MD, pady=0)
 
-        # Logo - compact
+        # Logo - très compact pour laisser place à scrollbar
         logo_frame = ctk.CTkFrame(
             header,
             fg_color=DesignTokens.BG_SECONDARY,
-            width=150,
-            height=150,
+            width=80,
+            height=80,
             corner_radius=DesignTokens.RADIUS_MD
         )
         logo_frame.pack(pady=0)  # Aucune marge
@@ -59,9 +59,9 @@ class ModernNavigation(ctk.CTkFrame):
 
             if icon_path.exists():
                 icon_image = Image.open(icon_path)
-                # Icône compact pour gagner de l'espace
-                icon_image = icon_image.resize((150, 150), Image.Resampling.LANCZOS)
-                icon_photo = ctk.CTkImage(light_image=icon_image, dark_image=icon_image, size=(150, 150))
+                # Icône très compact - 80px au lieu de 150px
+                icon_image = icon_image.resize((80, 80), Image.Resampling.LANCZOS)
+                icon_photo = ctk.CTkImage(light_image=icon_image, dark_image=icon_image, size=(80, 80))
 
                 logo_label = ctk.CTkLabel(
                     logo_frame,
@@ -96,7 +96,7 @@ class ModernNavigation(ctk.CTkFrame):
         title = ctk.CTkLabel(
             info_frame,
             text="NiTriTe",
-            font=(DesignTokens.FONT_FAMILY, 16, "bold"),
+            font=(DesignTokens.FONT_FAMILY, 14, "bold"),
             text_color=DesignTokens.TEXT_PRIMARY,
             anchor='center'
         )
@@ -104,8 +104,8 @@ class ModernNavigation(ctk.CTkFrame):
 
         version = ctk.CTkLabel(
             info_frame,
-            text="Version 20.0",
-            font=(DesignTokens.FONT_FAMILY, 11),
+            text="V20.0",
+            font=(DesignTokens.FONT_FAMILY, 10),
             text_color=DesignTokens.TEXT_SECONDARY,
             anchor='center'
         )
@@ -116,7 +116,18 @@ class ModernNavigation(ctk.CTkFrame):
         sep.pack(fill=tk.X, padx=DesignTokens.SPACING_MD, pady=(DesignTokens.SPACING_XS, DesignTokens.SPACING_MD))
     
     def _create_nav_buttons(self):
-        """Créer boutons navigation"""
+        """Créer boutons navigation dans scrollable frame"""
+        # Créer frame scrollable pour les boutons avec hauteur FIXE pour forcer scrollbar
+        self.scrollable_frame = ctk.CTkScrollableFrame(
+            self,
+            fg_color="transparent",
+            scrollbar_button_color=DesignTokens.ACCENT_PRIMARY,
+            scrollbar_button_hover_color=DesignTokens.BG_HOVER,
+            height=500  # HAUTEUR FIXE pour forcer apparition scrollbar
+        )
+        self.scrollable_frame.pack(fill=tk.BOTH, expand=True, padx=0, pady=0)
+        self.scrollable_frame.pack_propagate(False)  # Empêcher auto-expansion
+
         pages = [
             ("applications", "💻", "Applications"),
             ("tools", "🛠️", "Outils"),
@@ -125,26 +136,28 @@ class ModernNavigation(ctk.CTkFrame):
             ("os_downloads", "🔌", "OS & USB Tools"),
             ("terminal", "⚡", "Terminal"),
             ("updates", "⬆️", "Mises à jour"),
+            ("drivers", "🔧", "Drivers"),
             ("backup", "💾", "Sauvegarde"),
             ("optimizations", "⚡", "Optimisations"),
             ("diagnostic", "🔍", "Diagnostic"),
+            ("scanvirus", "🛡️", "ScanVirus"),
             ("logs", "📋", "Logs"),
             ("scripts", "📜", "Scripts Windows"),
             ("ai_agents", "🤖", "Agents IA"),
             ("settings", "⚙️", "Paramètres"),
         ]
-        
+
         for page_id, icon, title in pages:
             btn = self._create_nav_button(page_id, icon, title)
             self.nav_buttons[page_id] = btn
-        
+
         # Sélectionner première page
         self._select_page("applications")
     
     def _create_nav_button(self, page_id, icon, title):
         """Créer un bouton de navigation"""
         btn_frame = ctk.CTkFrame(
-            self,
+            self.scrollable_frame,
             fg_color="transparent",
             corner_radius=DesignTokens.RADIUS_MD,
             cursor="hand2"
@@ -219,43 +232,28 @@ class ModernNavigation(ctk.CTkFrame):
             self.current_page = page_id
     
     def _create_footer(self):
-        """Footer"""
-        spacer = ctk.CTkFrame(self, fg_color="transparent")
-        spacer.pack(fill=tk.BOTH, expand=True)
-
+        """Footer compact"""
         # Séparateur au-dessus du footer
         sep = ctk.CTkFrame(self, fg_color=DesignTokens.BORDER_DEFAULT, height=1)
-        sep.pack(fill=tk.X, padx=DesignTokens.SPACING_MD, pady=DesignTokens.SPACING_XS)
+        sep.pack(fill=tk.X, padx=DesignTokens.SPACING_MD, pady=(DesignTokens.SPACING_XS, 0))
 
         footer = ctk.CTkFrame(
             self,
             fg_color=DesignTokens.BG_ELEVATED,
-            corner_radius=0
+            corner_radius=0,
+            height=40  # Hauteur fixe compacte
         )
         footer.pack(fill=tk.X, side=tk.BOTTOM)
+        footer.pack_propagate(False)
 
-        # Lien site web
-        website_btn = ctk.CTkButton(
-            footer,
-            text="🌐 Site Web NiTriTe",
-            font=(DesignTokens.FONT_FAMILY, DesignTokens.FONT_SIZE_SM),
-            fg_color="transparent",
-            hover_color=DesignTokens.BG_HOVER,
-            text_color=DesignTokens.ACCENT_PRIMARY,
-            cursor="hand2",
-            command=self._open_website,
-            height=32
-        )
-        website_btn.pack(pady=(DesignTokens.SPACING_SM, DesignTokens.SPACING_XS), padx=DesignTokens.SPACING_MD)
-
-        # Copyright
+        # Copyright seulement (footer ultra-compact)
         footer_text = ctk.CTkLabel(
             footer,
-            text="© 2024 OrdiPlus",
-            font=(DesignTokens.FONT_FAMILY, DesignTokens.FONT_SIZE_XS),
+            text="© 2024 OrdiPlus - V20.0",
+            font=(DesignTokens.FONT_FAMILY, 9),
             text_color=DesignTokens.TEXT_TERTIARY
         )
-        footer_text.pack(pady=(0, DesignTokens.SPACING_SM))
+        footer_text.pack(pady=12)
 
     def _open_website(self):
         """Ouvrir le site web dans le navigateur"""

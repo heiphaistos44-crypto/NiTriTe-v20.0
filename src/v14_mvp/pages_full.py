@@ -145,17 +145,21 @@ def run_as_admin(command, wait=False):
 
 class UpdatesPage(ctk.CTkFrame):
     """Page Mises à jour avec vraies commandes WinGet"""
-    
+
     def __init__(self, parent):
         super().__init__(parent, fg_color=DesignTokens.BG_PRIMARY)
-        
+
+        # Créer UN SEUL scrollable frame pour TOUTE la page
+        self.main_scroll = ctk.CTkScrollableFrame(self, fg_color=DesignTokens.BG_PRIMARY)
+        self.main_scroll.pack(fill=tk.BOTH, expand=True, padx=0, pady=0)
+
         self._create_header()
         self._create_terminal()
         self._create_content()
-    
+
     def _create_header(self):
         """Header"""
-        header = ModernCard(self)
+        header = ModernCard(self.main_scroll)
         header.pack(fill=tk.X, padx=20, pady=10)
         
         container = ctk.CTkFrame(header, fg_color="transparent")
@@ -184,7 +188,7 @@ class UpdatesPage(ctk.CTkFrame):
     
     def _create_terminal(self):
         """Terminal intégré avec redimensionnement"""
-        self.terminal_card = ModernCard(self)
+        self.terminal_card = ModernCard(self.main_scroll)
         self.terminal_card.pack(fill=tk.X, padx=20, pady=10)
 
         # Header avec icône de redimensionnement
@@ -198,6 +202,33 @@ class UpdatesPage(ctk.CTkFrame):
         size_frame = ctk.CTkFrame(header_frame, fg_color="transparent")
         size_frame.pack(side=tk.RIGHT)
 
+        # Contrôles de police
+        ctk.CTkButton(
+            size_frame,
+            text="A-",
+            width=30,
+            height=20,
+            font=(DesignTokens.FONT_FAMILY, 10, "bold"),
+            command=lambda: self._change_font_size(-1),
+            fg_color=DesignTokens.BG_ELEVATED,
+            hover_color=DesignTokens.BG_HOVER
+        ).pack(side=tk.LEFT, padx=2)
+
+        ctk.CTkButton(
+            size_frame,
+            text="A+",
+            width=30,
+            height=20,
+            font=(DesignTokens.FONT_FAMILY, 10, "bold"),
+            command=lambda: self._change_font_size(1),
+            fg_color=DesignTokens.BG_ELEVATED,
+            hover_color=DesignTokens.BG_HOVER
+        ).pack(side=tk.LEFT, padx=2)
+
+        # Séparateur
+        ctk.CTkLabel(size_frame, text="|", text_color=DesignTokens.TEXT_TERTIARY).pack(side=tk.LEFT, padx=5)
+
+        # Contrôles de hauteur
         ctk.CTkButton(
             size_frame,
             text="▼",
@@ -222,10 +253,11 @@ class UpdatesPage(ctk.CTkFrame):
 
         # Zone de sortie - Style Matrix (noir + vert)
         self.terminal_height = 300  # Hauteur par défaut augmentée
+        self.terminal_font_size = 11  # Taille police par défaut
         self.terminal_output = ctk.CTkTextbox(
             self.terminal_card,
             height=self.terminal_height,
-            font=("Consolas", 11),
+            font=("Consolas", self.terminal_font_size),
             fg_color="#000000",  # Fond noir
             text_color="#00FF00",  # Texte vert style Matrix
             wrap="word",
@@ -240,7 +272,12 @@ class UpdatesPage(ctk.CTkFrame):
         """Redimensionner le terminal"""
         self.terminal_height = max(100, min(800, self.terminal_height + delta))
         self.terminal_output.configure(height=self.terminal_height)
-    
+
+    def _change_font_size(self, delta):
+        """Changer la taille de la police du terminal"""
+        self.terminal_font_size = max(8, min(16, self.terminal_font_size + delta))
+        self.terminal_output.configure(font=("Consolas", self.terminal_font_size))
+
     def _log_to_terminal(self, message):
         """Ajouter message au terminal"""
         self.terminal_output.configure(state="normal")
@@ -249,11 +286,7 @@ class UpdatesPage(ctk.CTkFrame):
         self.terminal_output.configure(state="disabled")
     
     def _create_content(self):
-        """Contenu"""
-        # Créer un frame scrollable principal pour tout le contenu
-        self.main_scroll = ctk.CTkScrollableFrame(self, fg_color=DesignTokens.BG_PRIMARY)
-        self.main_scroll.pack(fill=tk.BOTH, expand=True)
-
+        """Contenu (déjà dans main_scroll)"""
         # Stats
         stats_frame = ctk.CTkFrame(self.main_scroll, fg_color="transparent")
         stats_frame.pack(fill=tk.X, padx=20, pady=10)
@@ -331,9 +364,6 @@ class UpdatesPage(ctk.CTkFrame):
         )
         self.updates_scroll.pack(fill=tk.X, padx=20, pady=(0, 15))
 
-        # Fixer le problème de scroll - empêcher la propagation au parent
-        self._bind_scroll_events(self.updates_scroll)
-
         # Message initial
         initial_msg = ctk.CTkLabel(
             self.updates_scroll,
@@ -342,30 +372,6 @@ class UpdatesPage(ctk.CTkFrame):
             text_color=DesignTokens.TEXT_SECONDARY
         )
         initial_msg.pack(pady=20)
-
-    def _resize_updates(self, delta):
-        """Redimensionner la section mises à jour"""
-        self.updates_height = max(200, min(1000, self.updates_height + delta))
-        self.updates_scroll.configure(height=self.updates_height)
-
-    def _bind_scroll_events(self, widget):
-        """Bloquer la propagation du scroll au parent"""
-        def on_mouse_wheel(event):
-            # Scroll uniquement dans le widget courant, pas le parent
-            widget._parent_canvas.yview_scroll(-1 * int(event.delta / 120), "units")
-            return "break"  # Empêche la propagation
-
-        # Bind pour Windows
-        widget.bind_all("<MouseWheel>", on_mouse_wheel, add="+")
-
-        # Bind pour les enfants aussi
-        def bind_children(w):
-            for child in w.winfo_children():
-                child.bind("<Enter>", lambda e: widget.bind_all("<MouseWheel>", on_mouse_wheel, add="+"))
-                child.bind("<Leave>", lambda e: widget.unbind_all("<MouseWheel>"))
-                bind_children(child)
-
-        bind_children(widget)
 
         # Section Gestionnaires de paquets
         self._create_package_managers_section()
@@ -378,6 +384,11 @@ class UpdatesPage(ctk.CTkFrame):
 
         # Section Snappy Driver Installer
         self._create_snappy_section()
+
+    def _resize_updates(self, delta):
+        """Redimensionner la section mises à jour"""
+        self.updates_height = max(200, min(1000, self.updates_height + delta))
+        self.updates_scroll.configure(height=self.updates_height)
 
     def _create_package_managers_section(self):
         """Section gestionnaires de paquets"""
@@ -5965,39 +5976,36 @@ class DiagnosticPage(ctk.CTkFrame):
             warning_disks = [d for d in disk_partitions_info if 85 < d['percent'] <= 95]
             ok_disks = [d for d in disk_partitions_info if d['percent'] <= 85]
 
-            if critical_disks:
-                disk_summary = "\n".join([
-                    f"{d['mountpoint']}: {d['percent']:.1f}% plein ({d['free_gb']:.1f}/{d['total_gb']:.1f} GB)" +
-                    (f" - {d['model']}" if d['model'] else "")
-                    for d in critical_disks
-                ])
+            # Créer une entrée séparée pour chaque disque critique
+            for d in critical_disks:
+                disk_info = f"{d['mountpoint']}: {d['percent']:.1f}% plein ({d['free_gb']:.1f}/{d['total_gb']:.1f} GB)"
+                if d['model']:
+                    disk_info += f"\n{d['model']}"
                 scan_results['critical'].append({
-                    'category': '💿 Disques',
-                    'issue': f"Disques critiques:\n{disk_summary}",
+                    'category': f"💿 Disque {d['mountpoint']}",
+                    'issue': disk_info,
                     'recommendation': 'URGENT: Libérer espace (supprimer fichiers, nettoyer disque)'
                 })
 
-            if warning_disks:
-                disk_summary = "\n".join([
-                    f"{d['mountpoint']}: {d['percent']:.1f}% ({d['free_gb']:.1f}/{d['total_gb']:.1f} GB)" +
-                    (f" - {d['model']}" if d['model'] else "")
-                    for d in warning_disks
-                ])
+            # Créer une entrée séparée pour chaque disque warning
+            for d in warning_disks:
+                disk_info = f"{d['mountpoint']}: {d['percent']:.1f}% ({d['free_gb']:.1f}/{d['total_gb']:.1f} GB)"
+                if d['model']:
+                    disk_info += f"\n{d['model']}"
                 scan_results['warning'].append({
-                    'category': '💿 Disques',
-                    'issue': f"Disques pleins:\n{disk_summary}",
+                    'category': f"💿 Disque {d['mountpoint']}",
+                    'issue': disk_info,
                     'recommendation': 'Libérer espace: NiTriTe > Optimisations > Nettoyage'
                 })
 
-            if ok_disks:
-                disk_summary = "\n".join([
-                    f"{d['mountpoint']}: {d['percent']:.1f}% ({d['free_gb']:.1f}/{d['total_gb']:.1f} GB)" +
-                    (f" - {d['model']}" if d['model'] else "")
-                    for d in ok_disks
-                ])
+            # Créer une entrée séparée pour chaque disque OK
+            for d in ok_disks:
+                disk_info = f"{d['mountpoint']}: {d['percent']:.1f}% ({d['free_gb']:.1f}/{d['total_gb']:.1f} GB)"
+                if d['model']:
+                    disk_info += f"\n{d['model']}"
                 scan_results['ok'].append({
-                    'category': '💿 Disques',
-                    'message': f"Disques OK:\n{disk_summary}"
+                    'category': f"💿 Disque {d['mountpoint']}",
+                    'message': disk_info
                 })
 
         # ═══════════════════════════════════════════════════════════════════
@@ -6161,8 +6169,8 @@ class DiagnosticPage(ctk.CTkFrame):
                         'message': f'{product_name} (Build {build_number})'
                     })
 
-            # Obtenir statut activation
-            activation_cmd = "cscript //NoLogo %windir%\\System32\\slmgr.vbs /xpr"
+            # Obtenir statut activation avec slmgr /dli (plus fiable pour MAS)
+            activation_cmd = "cscript //NoLogo %windir%\\System32\\slmgr.vbs /dli"
             result = subprocess.run(
                 activation_cmd,
                 capture_output=True,
@@ -6171,14 +6179,28 @@ class DiagnosticPage(ctk.CTkFrame):
                 shell=True
             )
 
-            activation_status = result.stdout.strip()
+            activation_output = result.stdout.strip()
 
-            if 'permanently activated' in activation_status.lower() or 'activé de manière permanente' in activation_status.lower():
+            # Vérifier si Windows est activé (compatible MAS HWID/KMS38)
+            is_licensed = 'license status: licensed' in activation_output.lower() or 'état de la licence : licencié' in activation_output.lower()
+            is_activated = is_licensed or 'permanently activated' in activation_output.lower() or 'activé de manière permanente' in activation_output.lower()
+
+            # Vérifier méthode d'activation
+            is_kms = 'kms' in activation_output.lower()
+            is_hwid = 'hwid' in activation_output.lower() or ('licensed' in activation_output.lower() and not is_kms)
+
+            if is_activated:
+                activation_method = ""
+                if is_hwid:
+                    activation_method = " (HWID/Digital)"
+                elif is_kms:
+                    activation_method = " (KMS)"
+
                 scan_results['ok'].append({
                     'category': '✅ Windows Activation',
-                    'message': 'Windows activé de manière permanente'
+                    'message': f'Windows activé{activation_method}'
                 })
-            elif 'will expire' in activation_status.lower() or 'expirera' in activation_status.lower():
+            elif 'will expire' in activation_output.lower() or 'expirera' in activation_output.lower():
                 scan_results['warning'].append({
                     'category': '⏰ Windows Activation',
                     'issue': 'Activation temporaire (expirera bientôt)',
@@ -6202,6 +6224,7 @@ class DiagnosticPage(ctk.CTkFrame):
 
         # Stocker le chemin du rapport pour le bouton
         battery_report_path = None
+        result = None  # Initialiser pour éviter erreur dans else
 
         try:
             # Exécuter Battery Report (comme dans NiTriTe)
@@ -6209,15 +6232,31 @@ class DiagnosticPage(ctk.CTkFrame):
             temp_dir.mkdir(parents=True, exist_ok=True)
             battery_report_path = temp_dir / "battery-report.html"
 
+            print(f"[DEBUG BATTERIE] Génération rapport: {battery_report_path}")
+
             result = subprocess.run(
                 ['powercfg', '/batteryreport', '/output', str(battery_report_path)],
                 capture_output=True,
                 text=True,
-                timeout=10
+                timeout=10,
+                encoding='utf-8',
+                errors='ignore'  # Ignorer les erreurs d'encodage
             )
+
+            print(f"[DEBUG BATTERIE] Code retour powercfg: {result.returncode}")
+            if result.stdout:
+                print(f"[DEBUG BATTERIE] Stdout: {result.stdout}")
+            if result.stderr:
+                print(f"[DEBUG BATTERIE] Stderr: {result.stderr}")
+
+            # Vérifier si la commande a réussi
+            if result.returncode != 0:
+                print(f"[DEBUG BATTERIE] Erreur powercfg, code: {result.returncode}")
+                # Essayer quand même de lire le fichier si créé
 
             # Si rapport créé avec succès, parser le HTML
             if battery_report_path.exists():
+                print(f"[DEBUG BATTERIE] Fichier rapport existe, taille: {battery_report_path.stat().st_size} bytes")
                 # Lire le fichier HTML et extraire les infos
                 with open(battery_report_path, 'r', encoding='utf-8') as f:
                     html_content = f.read()
@@ -6236,12 +6275,91 @@ class DiagnosticPage(ctk.CTkFrame):
                     # Calculer usure
                     wear_percent = ((design_capacity - full_capacity) / design_capacity) * 100
 
-                    battery_detail = f"Capacité: {full_capacity:,} mWh / {design_capacity:,} mWh (Design) | Usure: {wear_percent:.1f}%"
+                    # Extraire infos détaillées via WMI
+                    battery_name = "N/A"
+                    battery_manufacturer = "N/A"
+                    battery_serial = "N/A"
+                    battery_chemistry = "N/A"
+                    battery_cycle_count = "N/A"
 
-                    # Ajouter le chemin du rapport pour le bouton
+                    try:
+                        import wmi
+                        w = wmi.WMI()
+
+                        for battery in w.Win32_Battery():
+                            # Nom
+                            if hasattr(battery, 'Name') and battery.Name:
+                                battery_name = battery.Name.strip()
+
+                            # Fabricant (essayer Caption en premier, puis DeviceID)
+                            if hasattr(battery, 'Caption') and battery.Caption and battery.Caption.strip():
+                                battery_manufacturer = battery.Caption.strip()
+                            elif hasattr(battery, 'DeviceID') and battery.DeviceID:
+                                # Extraire fabricant du DeviceID si possible
+                                battery_manufacturer = battery.DeviceID.split('\\')[0] if '\\' in battery.DeviceID else battery.DeviceID
+
+                            # Numéro de série
+                            if hasattr(battery, 'SerialNumber') and battery.SerialNumber:
+                                battery_serial = battery.SerialNumber.strip()
+                            elif hasattr(battery, 'DeviceID') and battery.DeviceID:
+                                # Parfois le serial est dans DeviceID
+                                parts = battery.DeviceID.split('\\')
+                                if len(parts) > 1:
+                                    battery_serial = parts[-1]
+
+                            # Chimie
+                            if hasattr(battery, 'Chemistry'):
+                                chemistry_types = {
+                                    1: "Other", 2: "Unknown", 3: "Lead Acid",
+                                    4: "Nickel Cadmium", 5: "Nickel Metal Hydride",
+                                    6: "Li-I", 7: "Zinc Air", 8: "Lithium Polymer"
+                                }
+                                battery_chemistry = chemistry_types.get(battery.Chemistry, f"Type {battery.Chemistry}")
+
+                            break  # Une seule batterie normalement
+                    except:
+                        pass  # Continuer même si WMI échoue
+
+                    # Essayer d'extraire cycle count du rapport HTML avec pattern plus flexible
+                    # Essayer plusieurs patterns possibles
+                    cycle_patterns = [
+                        r'CYCLE\s+COUNT</td>\s*<td[^>]*>\s*([0-9,]+)',  # Pattern avec espace
+                        r'CYCLE COUNT</td>\s*<td[^>]*>\s*([0-9,]+)',    # Pattern standard
+                        r'NOMBRE\s+DE\s+CYCLES</td>\s*<td[^>]*>\s*([0-9,]+)',  # Pattern français
+                        r'>CYCLE COUNT<.*?<td[^>]*>\s*([0-9,]+)',       # Pattern alternatif
+                    ]
+
+                    for pattern in cycle_patterns:
+                        cycle_match = re.search(pattern, html_content, re.IGNORECASE | re.DOTALL)
+                        if cycle_match:
+                            battery_cycle_count = cycle_match.group(1).strip()
+                            print(f"[DEBUG BATTERIE] Cycle count extrait: {battery_cycle_count}")
+                            break
+
+                    # Créer affichage détaillé formaté pour le rapport
+                    battery_detail = f"""BATTERY 1
+  NAME                    {battery_name}
+  MANUFACTURER            {battery_manufacturer}
+  SERIAL NUMBER           {battery_serial}
+  CHEMISTRY               {battery_chemistry}
+  DESIGN CAPACITY         {design_capacity:,} mWh
+  FULL CHARGE CAPACITY    {full_capacity:,} mWh
+  CYCLE COUNT             {battery_cycle_count}
+  WEAR                    {wear_percent:.1f}%"""
+
+                    # Ajouter le chemin du rapport pour le bouton + données structurées COMPLÈTES
                     battery_result = {
                         'category': '🔋 Batterie',
-                        'battery_report_path': str(battery_report_path)
+                        'battery_report_path': str(battery_report_path),
+                        # Données structurées pour export
+                        'name': battery_name,
+                        'manufacturer': battery_manufacturer,
+                        'serial_number': battery_serial,
+                        'chemistry': battery_chemistry,
+                        'design_capacity': design_capacity,
+                        'full_capacity': full_capacity,
+                        'wear_percent': wear_percent,
+                        'cycle_count': battery_cycle_count
                     }
 
                     if wear_percent > 50:
@@ -6267,17 +6385,32 @@ class DiagnosticPage(ctk.CTkFrame):
                         'battery_report_path': str(battery_report_path)
                     })
             else:
-                # Rapport non créé = pas de batterie
+                # Rapport non créé = pas de batterie OU erreur powercfg
+                print(f"[DEBUG BATTERIE] Fichier rapport n'existe pas après powercfg")
+                error_msg = 'Aucune batterie détectée (PC fixe)'
+
+                # Si code retour != 0, c'est une erreur powercfg, pas un PC fixe
+                if result and result.returncode != 0:
+                    error_msg = f'Erreur génération rapport batterie (code {result.returncode})'
+                    if result.stderr:
+                        error_msg += f'\nDétail: {result.stderr[:200]}'  # Limiter à 200 chars
+                elif not result:
+                    error_msg = 'Erreur lors de l\'exécution de powercfg'
+
                 scan_results['ok'].append({
                     'category': '🔋 Batterie',
-                    'message': 'Aucune batterie détectée (PC fixe)'
+                    'message': error_msg
                 })
 
         except Exception as e:
             # Erreur lors de la génération du rapport - mais on ajoute quand même le chemin s'il existe
+            print(f"[DEBUG BATTERIE] Exception: {str(e)}")
+            import traceback
+            traceback.print_exc()
+
             battery_msg = {
                 'category': '🔋 Batterie',
-                'message': 'Impossible de générer rapport batterie (PC fixe ou erreur)'
+                'message': f'Erreur rapport batterie: {str(e)}'
             }
             # Ajouter le chemin du rapport s'il a été créé avant l'erreur
             if battery_report_path and battery_report_path.exists():
@@ -6730,16 +6863,16 @@ class DiagnosticPage(ctk.CTkFrame):
         ctk.CTkLabel(
             critical_card,
             text=str(critical_count),
-            font=("Segoe UI", 40, "bold"),
+            font=("Segoe UI", 28, "bold"),
             text_color="#CC0000"
-        ).pack(pady=(15, 0))
+        ).pack(pady=(8, 0))
 
         ctk.CTkLabel(
             critical_card,
             text="❌ Critiques",
-            font=("Segoe UI", 14, "bold"),
+            font=("Segoe UI", 12, "bold"),
             text_color="#990000"
-        ).pack(pady=(0, 15))
+        ).pack(pady=(0, 8))
 
         # Stat card AVERTISSEMENTS (orange) - CONTRASTE AMÉLIORÉ
         warning_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#FFE8CC", border_width=3, border_color="#CC6600")
@@ -6748,16 +6881,16 @@ class DiagnosticPage(ctk.CTkFrame):
         ctk.CTkLabel(
             warning_card,
             text=str(warning_count),
-            font=("Segoe UI", 40, "bold"),
+            font=("Segoe UI", 28, "bold"),
             text_color="#CC6600"
-        ).pack(pady=(15, 0))
+        ).pack(pady=(8, 0))
 
         ctk.CTkLabel(
             warning_card,
             text="⚠️ Avertissements",
-            font=("Segoe UI", 14, "bold"),
+            font=("Segoe UI", 12, "bold"),
             text_color="#994C00"
-        ).pack(pady=(0, 15))
+        ).pack(pady=(0, 8))
 
         # Stat card OK (vert) - CONTRASTE AMÉLIORÉ
         ok_card = ctk.CTkFrame(stats_frame, corner_radius=12, fg_color="#D0FFD0", border_width=3, border_color="#008800")
@@ -6766,16 +6899,16 @@ class DiagnosticPage(ctk.CTkFrame):
         ctk.CTkLabel(
             ok_card,
             text=str(ok_count),
-            font=("Segoe UI", 40, "bold"),
+            font=("Segoe UI", 28, "bold"),
             text_color="#008800"
-        ).pack(pady=(15, 0))
+        ).pack(pady=(8, 0))
 
         ctk.CTkLabel(
             ok_card,
             text="✅ Statuts OK",
-            font=("Segoe UI", 14, "bold"),
+            font=("Segoe UI", 12, "bold"),
             text_color="#006600"
-        ).pack(pady=(0, 15))
+        ).pack(pady=(0, 8))
 
         # Total checks
         ctk.CTkLabel(
@@ -6816,38 +6949,39 @@ class DiagnosticPage(ctk.CTkFrame):
             critical_card = ctk.CTkFrame(scroll_frame, corner_radius=10, border_width=2, border_color="#FF4444")
             critical_card.pack(fill=tk.X, pady=(0, 10))
 
-            # Système de colonnes : 5 items par ligne
-            items_per_row = 5
+            # Système de colonnes : 6 items par ligne (plus d'espace horizontal)
+            items_per_row = 6
             row_frame = None
 
             for i, item in enumerate(scan_results['critical'], 1):
-                # Créer une nouvelle ligne tous les 5 items
+                # Créer une nouvelle ligne tous les 9 items
                 if (i - 1) % items_per_row == 0:
                     row_frame = ctk.CTkFrame(critical_card, fg_color="transparent")
-                    row_frame.pack(fill=tk.X, padx=5, pady=1)
+                    row_frame.pack(fill=tk.X, padx=2, pady=0)
 
-                issue_frame = ctk.CTkFrame(row_frame, corner_radius=6, fg_color="white", border_width=1, border_color="#FF8888")
-                issue_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=3, pady=0)
+                issue_frame = ctk.CTkFrame(row_frame, corner_radius=4, fg_color="white", border_width=1, border_color="#FF8888")
+                issue_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=1, pady=0)
 
                 # Numéro + Catégorie
-                header_frame = ctk.CTkFrame(issue_frame, fg_color="#FFE5E5", corner_radius=4)
-                header_frame.pack(fill=tk.X, padx=6, pady=3)
+                header_frame = ctk.CTkFrame(issue_frame, fg_color="#FFE5E5", corner_radius=3)
+                header_frame.pack(fill=tk.X, padx=1, pady=0)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=f"#{i}",
-                    font=("Segoe UI", 11, "bold"),
+                    font=("Segoe UI", 10, "bold"),
                     text_color="#CC0000",
-                    width=30
-                ).pack(side=tk.LEFT, padx=(6, 3), pady=2)
+                    width=20
+                ).pack(side=tk.LEFT, padx=(1, 0), pady=0)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=item['category'],
-                    font=("Segoe UI", 12, "bold"),
+                    font=("Segoe UI", 11, "bold"),
                     text_color="#990000",
-                    anchor="w"
-                ).pack(side=tk.LEFT, padx=3, pady=2)
+                    anchor="w",
+                    wraplength=120
+                ).pack(side=tk.LEFT, padx=1, pady=0)
 
                 # Problème
                 ctk.CTkLabel(
@@ -6856,13 +6990,13 @@ class DiagnosticPage(ctk.CTkFrame):
                     font=("Segoe UI", 10),
                     text_color="#CC0000",
                     anchor="w",
-                    wraplength=150,
+                    wraplength=120,
                     justify="left"
-                ).pack(anchor="w", padx=8, pady=(3, 3))
+                ).pack(anchor="w", padx=2, pady=(0, 0))
 
                 # Recommandation avec fond
-                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=4, border_width=1, border_color="#FFD699")
-                reco_frame.pack(fill=tk.X, padx=6, pady=(0, 3))
+                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=3, border_width=1, border_color="#FFD699")
+                reco_frame.pack(fill=tk.X, padx=1, pady=(0, 0))
 
                 ctk.CTkLabel(
                     reco_frame,
@@ -6870,9 +7004,9 @@ class DiagnosticPage(ctk.CTkFrame):
                     font=("Segoe UI", 9),
                     text_color="#664400",
                     anchor="w",
-                    wraplength=140,
+                    wraplength=115,
                     justify="left"
-                ).pack(anchor="w", padx=8, pady=5)
+                ).pack(anchor="w", padx=2, pady=0)
 
                 # Ajouter bouton pour rapport batterie si disponible
                 if 'battery_report_path' in item and item['battery_report_path']:
@@ -6922,63 +7056,64 @@ class DiagnosticPage(ctk.CTkFrame):
             warning_card = ctk.CTkFrame(scroll_frame, corner_radius=10, border_width=2, border_color="#FFA500")
             warning_card.pack(fill=tk.X, pady=(0, 10))
 
-            # Système de colonnes : 5 items par ligne
-            items_per_row = 5
+            # Système de colonnes : 6 items par ligne (plus d'espace horizontal)
+            items_per_row = 6
             row_frame = None
 
             for i, item in enumerate(scan_results['warning'], 1):
-                # Créer une nouvelle ligne tous les 5 items
+                # Créer une nouvelle ligne tous les 9 items
                 if (i - 1) % items_per_row == 0:
                     row_frame = ctk.CTkFrame(warning_card, fg_color="transparent")
-                    row_frame.pack(fill=tk.X, padx=5, pady=1)
+                    row_frame.pack(fill=tk.X, padx=2, pady=0)
 
-                issue_frame = ctk.CTkFrame(row_frame, corner_radius=6, fg_color="white", border_width=1, border_color="#FFAA44")
-                issue_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=3, pady=0)
+                issue_frame = ctk.CTkFrame(row_frame, corner_radius=4, fg_color="white", border_width=1, border_color="#FFAA44")
+                issue_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=1, pady=0)
 
                 # Numéro + Catégorie
-                header_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=4)
-                header_frame.pack(fill=tk.X, padx=6, pady=3)
+                header_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF4E5", corner_radius=3)
+                header_frame.pack(fill=tk.X, padx=1, pady=0)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=f"#{i}",
                     font=("Segoe UI", 10, "bold"),
                     text_color="#CC6600",
-                    width=25
-                ).pack(side=tk.LEFT, padx=(6, 3), pady=2)
+                    width=20
+                ).pack(side=tk.LEFT, padx=(1, 0), pady=0)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=item['category'],
                     font=("Segoe UI", 11, "bold"),
                     text_color="#994C00",
-                    anchor="w"
-                ).pack(side=tk.LEFT, padx=3, pady=2)
+                    anchor="w",
+                    wraplength=120
+                ).pack(side=tk.LEFT, padx=1, pady=0)
 
                 # Problème
                 ctk.CTkLabel(
                     issue_frame,
                     text=f"⚠️ {item['issue']}",
-                    font=("Segoe UI", 9),
+                    font=("Segoe UI", 10),
                     text_color="#CC6600",
                     anchor="w",
-                    wraplength=110,
+                    wraplength=120,
                     justify="left"
-                ).pack(anchor="w", padx=6, pady=(2, 2))
+                ).pack(anchor="w", padx=2, pady=(0, 0))
 
                 # Recommandation
-                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF8E5", corner_radius=4, border_width=1, border_color="#FFE5AA")
-                reco_frame.pack(fill=tk.X, padx=4, pady=(0, 2))
+                reco_frame = ctk.CTkFrame(issue_frame, fg_color="#FFF8E5", corner_radius=3, border_width=1, border_color="#FFE5AA")
+                reco_frame.pack(fill=tk.X, padx=1, pady=(0, 0))
 
                 ctk.CTkLabel(
                     reco_frame,
                     text=f"💡 {item['recommendation']}",
-                    font=("Segoe UI", 8),
+                    font=("Segoe UI", 9),
                     text_color="#665500",
                     anchor="w",
-                    wraplength=100,
+                    wraplength=115,
                     justify="left"
-                ).pack(anchor="w", padx=6, pady=4)
+                ).pack(anchor="w", padx=2, pady=0)
 
                 # Ajouter bouton pour rapport batterie si disponible
                 if 'battery_report_path' in item and item['battery_report_path']:
@@ -7028,39 +7163,40 @@ class DiagnosticPage(ctk.CTkFrame):
             ok_card = ctk.CTkFrame(scroll_frame, corner_radius=10, border_width=2, border_color="#4CAF50")
             ok_card.pack(fill=tk.X, pady=(0, 10))
 
-            # Système de colonnes : 5 items par ligne
-            items_per_row = 5
+            # Système de colonnes : 6 items par ligne (plus d'espace horizontal)
+            items_per_row = 6
             row_frame = None
 
             for i, item in enumerate(scan_results['ok'], 1):
-                # Créer une nouvelle ligne tous les 5 items
+                # Créer une nouvelle ligne tous les 9 items
                 if (i - 1) % items_per_row == 0:
                     row_frame = ctk.CTkFrame(ok_card, fg_color="transparent")
-                    row_frame.pack(fill=tk.X, padx=5, pady=1)
+                    row_frame.pack(fill=tk.X, padx=2, pady=0)
 
                 # Item avec largeur proportionnelle
-                item_frame = ctk.CTkFrame(row_frame, corner_radius=6, fg_color="white", border_width=1, border_color="#88DD88")
-                item_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=3, pady=0)
+                item_frame = ctk.CTkFrame(row_frame, corner_radius=4, fg_color="white", border_width=1, border_color="#88DD88")
+                item_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=1, pady=0)
 
                 # Header avec numéro + catégorie
-                header_frame = ctk.CTkFrame(item_frame, fg_color="#E8F5E9", corner_radius=4)
-                header_frame.pack(fill=tk.X, padx=6, pady=3)
+                header_frame = ctk.CTkFrame(item_frame, fg_color="#E8F5E9", corner_radius=3)
+                header_frame.pack(fill=tk.X, padx=1, pady=0)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=f"#{i}",
-                    font=("Segoe UI", 11, "bold"),
+                    font=("Segoe UI", 10, "bold"),
                     text_color="#2E7D32",
-                    width=30
-                ).pack(side=tk.LEFT, padx=(6, 3), pady=2)
+                    width=20
+                ).pack(side=tk.LEFT, padx=(1, 0), pady=0)
 
                 ctk.CTkLabel(
                     header_frame,
                     text=item['category'],
-                    font=("Segoe UI", 12, "bold"),
+                    font=("Segoe UI", 11, "bold"),
                     text_color="#1B5E20",
-                    anchor="w"
-                ).pack(side=tk.LEFT, padx=3, pady=2)
+                    anchor="w",
+                    wraplength=120
+                ).pack(side=tk.LEFT, padx=1, pady=0)
 
                 # Message
                 ctk.CTkLabel(
@@ -7069,9 +7205,9 @@ class DiagnosticPage(ctk.CTkFrame):
                     font=("Segoe UI", 10),
                     text_color="#2E7D32",
                     anchor="w",
-                    wraplength=150,
+                    wraplength=120,
                     justify="left"
-                ).pack(anchor="w", padx=8, pady=(3, 4))
+                ).pack(anchor="w", padx=2, pady=(0, 1))
 
                 # Boutons actions
                 button_frame = ctk.CTkFrame(item_frame, fg_color="transparent")
@@ -7093,7 +7229,7 @@ class DiagnosticPage(ctk.CTkFrame):
                     # Bouton pour générer le rapport si pas encore fait
                     def generate_battery_report():
                         import subprocess
-                        from pathlib import Path
+                        # Path déjà importé en haut du fichier (ligne 19)
                         try:
                             temp_dir = Path(get_portable_temp_dir())
                             temp_dir.mkdir(parents=True, exist_ok=True)
@@ -7266,6 +7402,110 @@ class DiagnosticPage(ctk.CTkFrame):
         except Exception as e:
             messagebox.showerror("Erreur export", f"Impossible d'exporter: {str(e)}")
 
+    def _get_battery_details_for_export(self, scan_results):
+        """Extraire informations batterie détaillées pour export HTML depuis scan_results"""
+        battery_info = {
+            'has_battery': False,
+            'design_capacity': 'N/A',
+            'full_capacity': 'N/A',
+            'wear_percent': 'N/A',
+            'serial_number': 'N/A',
+            'model': 'N/A',
+            'manufacturer': 'N/A',
+            'chemistry': 'N/A',
+            'cycle_count': 'N/A'
+        }
+
+        try:
+            # Chercher dans tous les résultats du scan
+            all_results = scan_results['ok'] + scan_results['warning'] + scan_results['critical']
+
+            for result in all_results:
+                category = result.get('category', '')
+                if '🔋' in category or 'batterie' in category.lower():
+                    battery_info['has_battery'] = True
+
+                    # Utiliser les données structurées si disponibles
+                    if 'design_capacity' in result and 'full_capacity' in result:
+                        design_cap = result['design_capacity']
+                        full_cap = result['full_capacity']
+                        wear = result.get('wear_percent', 0)
+
+                        battery_info['design_capacity'] = f"{design_cap:,} mWh"
+                        battery_info['full_capacity'] = f"{full_cap:,} mWh"
+                        battery_info['wear_percent'] = f"{wear:.1f}%"
+
+                        # Extraire aussi les nouvelles données
+                        if 'name' in result:
+                            battery_info['model'] = result['name']
+                        if 'manufacturer' in result:
+                            battery_info['manufacturer'] = result['manufacturer']
+                        if 'serial_number' in result:
+                            battery_info['serial_number'] = result['serial_number']
+                        if 'chemistry' in result:
+                            battery_info['chemistry'] = result['chemistry']
+                        if 'cycle_count' in result:
+                            battery_info['cycle_count'] = str(result['cycle_count'])
+
+                        print(f"[DEBUG BATTERIE] Données complètes extraites: {result.get('name', 'N/A')} - {full_cap:,} / {design_cap:,} mWh")
+                    else:
+                        # Fallback: Extraire depuis le texte (ancienne méthode)
+                        import re
+                        text = result.get('message', '') or result.get('issue', '')
+                        print(f"[DEBUG BATTERIE] Fallback - Texte extrait: {text}")
+
+                        capacity_match = re.search(r'Capacité:\s*([0-9,]+)\s*mWh\s*/\s*([0-9,]+)\s*mWh', text)
+                        wear_match = re.search(r'Usure:\s*([0-9.]+)%', text)
+
+                        if capacity_match:
+                            full_capacity = capacity_match.group(1)
+                            design_capacity = capacity_match.group(2)
+                            battery_info['full_capacity'] = f"{full_capacity} mWh"
+                            battery_info['design_capacity'] = f"{design_capacity} mWh"
+                            print(f"[DEBUG BATTERIE] Capacités extraites: {full_capacity} / {design_capacity}")
+
+                        if wear_match:
+                            battery_info['wear_percent'] = f"{wear_match.group(1)}%"
+                            print(f"[DEBUG BATTERIE] Usure extraite: {wear_match.group(1)}%")
+
+                    # Essayer d'extraire info supplémentaires via WMI (métadonnées uniquement)
+                    try:
+                        import wmi
+                        w = wmi.WMI()
+
+                        for bat in w.Win32_Battery():
+                            device_id = getattr(bat, 'DeviceID', None)
+                            if device_id:
+                                battery_info['serial_number'] = device_id
+
+                            name = getattr(bat, 'Name', None)
+                            if name:
+                                battery_info['model'] = name
+
+                            caption = getattr(bat, 'Caption', None)
+                            if caption:
+                                battery_info['manufacturer'] = caption
+
+                            chemistry = getattr(bat, 'Chemistry', None)
+                            chemistry_types = {
+                                1: "Autre", 2: "Inconnu", 3: "Lead Acid",
+                                4: "Nickel Cadmium", 5: "Nickel Metal Hydride",
+                                6: "Lithium-ion", 7: "Zinc air", 8: "Lithium Polymer"
+                            }
+                            if chemistry in chemistry_types:
+                                battery_info['chemistry'] = chemistry_types[chemistry]
+
+                            break
+                    except:
+                        pass
+
+                    break
+
+        except Exception as e:
+            print(f"Erreur extraction batterie: {e}")
+
+        return battery_info
+
     def _export_scan_to_html(self, scan_results):
         """Exporter résultats scan en fichier HTML stylisé"""
         from tkinter import messagebox
@@ -7285,6 +7525,9 @@ class DiagnosticPage(ctk.CTkFrame):
             critical_count = len(scan_results['critical'])
             warning_count = len(scan_results['warning'])
             ok_count = len(scan_results['ok'])
+
+            # Informations batterie détaillées
+            battery_details = self._get_battery_details_for_export(scan_results)
 
             # Générer HTML
             html = f"""<!DOCTYPE html>
@@ -7441,6 +7684,63 @@ class DiagnosticPage(ctk.CTkFrame):
             </div>
         </div>
 
+"""
+
+            # Section Batterie (si disponible)
+            if battery_details['has_battery']:
+                html += f"""
+        <div class="battery-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; margin: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);">
+            <h2 style="color: white; font-size: 1.8em; margin-bottom: 20px; text-align: center;">🔋 INFORMATIONS BATTERIE DÉTAILLÉES</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;">
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Modèle / Référence</div>
+                    <div style="font-size: 1.3em; font-weight: bold; color: #333;">{battery_details['model']}</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;">
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Fabricant</div>
+                    <div style="font-size: 1.3em; font-weight: bold; color: #333;">{battery_details['manufacturer']}</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;">
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Numéro de Série / ID</div>
+                    <div style="font-size: 1.3em; font-weight: bold; color: #333;">{battery_details['serial_number']}</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;">
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Type de Chimie</div>
+                    <div style="font-size: 1.3em; font-weight: bold; color: #333;">{battery_details['chemistry']}</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;">
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Capacité Originale (Design)</div>
+                    <div style="font-size: 1.3em; font-weight: bold; color: #4CAF50;">{battery_details['design_capacity']}</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;">
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Capacité Actuelle (Full Charge)</div>
+                    <div style="font-size: 1.3em; font-weight: bold; color: #2196F3;">{battery_details['full_capacity']}</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px; border: 3px solid #FF9800;">
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Usure Totale</div>
+                    <div style="font-size: 1.5em; font-weight: bold; color: #FF5722;">{battery_details['wear_percent']}</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;">
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Nombre de Cycles</div>
+                    <div style="font-size: 1.3em; font-weight: bold; color: #9C27B0;">{battery_details['cycle_count']}</div>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; margin-top: 15px; text-align: center; font-size: 0.9em; color: #555;">
+                <strong>💡 Note:</strong> Ces informations proviennent du rapport batterie Windows (powercfg /batteryreport). L'usure augmente avec le temps et les cycles de charge.
+            </div>
+        </div>
+"""
+
+            html += """
         <div class="content">
 """
 

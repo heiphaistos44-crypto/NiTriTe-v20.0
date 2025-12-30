@@ -18,6 +18,8 @@ hiddenimports = [
     'importlib', 'importlib.util',
     # Google Generative AI pour l'agent IA
     'google.generativeai', 'google.ai.generativelanguage',
+    # Nouvelles pages V20
+    'v14_mvp.page_drivers', 'v14_mvp.page_scanvirus',
 ]
 
 # Ajouter les modules v14_mvp dynamiquement

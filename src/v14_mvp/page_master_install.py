@@ -393,14 +393,7 @@ class MasterInstallPage(ctk.CTkFrame):
             variant="outlined",
             size="md",
             command=self._create_custom_pack
-        ).pack(side=tk.LEFT, padx=5)
-
-        ModernButton(
-            right_frame,
-            text=" Installer Tout",
-            variant="filled",
-            command=self._install_all
-        ).pack(side=tk.LEFT)
+        ).pack()
 
     def _create_content(self):
         """Contenu"""
@@ -458,17 +451,25 @@ class MasterInstallPage(ctk.CTkFrame):
         )
         desc.pack(anchor="w", pady=(5, 0))
 
-        # Droite - Bouton Gérer
+        # Droite - Boutons Gérer et Installer
         btn_frame = ctk.CTkFrame(header_content, fg_color="transparent")
         btn_frame.pack(side=tk.RIGHT)
 
         ModernButton(
             btn_frame,
-            text=f"{get_category_emoji('Outils OrdiPlus')} Gérer OrdiPlus",
+            text=f"{get_category_emoji('Outils OrdiPlus')} Gérer",
             variant="outlined",
             size="md",
             command=self._manage_ordiplus
-        ).pack()
+        ).pack(side=tk.LEFT, padx=5)
+
+        ModernButton(
+            btn_frame,
+            text=" Installer",
+            variant="filled",
+            size="md",
+            command=self._install_all
+        ).pack(side=tk.LEFT)
 
         # Liste apps
         apps_frame = ctk.CTkFrame(

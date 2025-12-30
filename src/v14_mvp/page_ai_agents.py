@@ -32,6 +32,9 @@ from v14_mvp.ai_knowledge_unified import UnifiedKnowledgeBase
 from v14_mvp.ai_response_generator import DynamicResponseGenerator
 from v14_mvp.ai_intent_analyzer import IntentAnalyzer
 
+# Phase 11: MCP Integration (10000% boost - Web, Code, Thinking, Memory)
+from v14_mvp.ai_mcp_integration import MCPIntegration
+
 # Essayer d'importer google-generativeai
 try:
     import google.generativeai as genai
@@ -92,9 +95,14 @@ class MaintenanceAIAgent:
 
         logger.info("AI_Agent", f"Knowledge base unifiée chargée: {len(category_names)} catégories")
 
+        # Phase 11: MCP Integration - Super-pouvoirs de l'agent
+        self.mcp = MCPIntegration()
+        capabilities = self.mcp.enhance_agent_capabilities()
+        logger.info("AI_Agent", f"MCP activé: {len(capabilities)} capacités enrichies")
+
         # Knowledge Base ÉTENDUE (616+ entrées) - CONSERVÉE pour compatibilité
         self.extended_kb = ExtendedKnowledgeBase()
-        extended_knowledge = self.extended_kb.get_all_knowledge()
+        self.extended_knowledge = self.extended_kb.get_all_knowledge()
 
         # Fusionner avec la knowledge base legacy pour compatibilité
         self.knowledge_base = {
@@ -2191,6 +2199,18 @@ class MaintenanceAIAgent:
         # Phase 7: Vérifier si patterns appris peuvent aider
         similar_responses = self.learning.get_similar_successful_responses(user_message, limit=2)
 
+        # Phase 11: MCP Intelligence - Suggérer utilisation MCP servers
+        mcp_suggestion = self.mcp.suggest_mcp_usage(user_message)
+        mcp_context = ""
+
+        if mcp_suggestion:
+            server_name = self.mcp.available_servers.get(mcp_suggestion['server'], {}).get('name', 'MCP')
+            logger.info("AI_Agent", f"MCP suggéré: {server_name} - {mcp_suggestion['reason']}")
+
+            # Enrichir contexte avec capacité MCP
+            mcp_context = f"\n\n💡 MCP ACTIVÉ: {server_name} disponible pour cette requête\n"
+            mcp_context += f"   Raison: {mcp_suggestion['reason']}\n"
+
         # Mode en ligne: utiliser APIManager (multi-API avec fallback)
         if self.use_online_mode:
             try:
@@ -2231,18 +2251,34 @@ Tu es un assistant IA conversationnel et sympathique, expert en maintenance info
 - Diagnostics système: MSINFO32, DxDiag, Reliability Monitor, BlueScreenView
 - Optimisation: MSI Afterburner, RivaTuner, Process Lasso, Timer Resolution
 
+🚀 SUPER-POUVOIRS MCP (Model Context Protocol):
+Tu as accès à des capacités en ligne ULTRA-PUISSANTES:
+✅ WebSearch: Recherche Google en temps réel pour info récentes
+✅ WebFetch: Récupère documentation/guides depuis URLs
+✅ CodeExecution: Teste solutions Python en sandbox sécurisé
+✅ SequentialThinking: Raisonnement multi-étapes complexe
+✅ MemoryGraph: Mémorise infos dans graph de connaissances persistant
+✅ TimeUtils: Conversions horaires et fuseaux
+
+💡 UTILISE CES MCP QUAND:
+- Question sur dernière version logiciel → WebSearch
+- Besoin doc officielle → WebFetch
+- Tester une solution → CodeExecution
+- Problème complexe → SequentialThinking
+- Mémoriser préférence user → MemoryGraph
+
 📚 TA BASE DE CONNAISSANCES COMPLÈTE:
 """
 
                 # Inclure la KNOWLEDGE BASE ÉTENDUE (priorité)
-                for category, tips in extended_knowledge.items():
+                for category, tips in self.extended_knowledge.items():
                     system_prompt += f"\n🔹 {category.upper().replace('_', ' ')}\n"
                     for tip in tips[:50]:  # Plus de tips de la KB étendue
                         system_prompt += f"  • {tip}\n"
 
                 # Ajouter aussi la KB legacy pour compatibilité
                 for category, tips in self.knowledge_base.items():
-                    if category not in extended_knowledge:  # Éviter doublons
+                    if category not in self.extended_knowledge:  # Éviter doublons
                         system_prompt += f"\n🔹 {category.upper().replace('_', ' ')}\n"
                         for tip in tips[:30]:
                             system_prompt += f"  • {tip}\n"
@@ -2379,6 +2415,11 @@ En attendant, voilà ce qu'on peut vérifier ensemble:
 5. ✅ Donne des EXEMPLES concrets du quotidien
 
 Maintenant, réponds à cette question en français conversationnel:"""
+
+                # Phase 11: Injecter contexte MCP si suggéré
+                if mcp_context:
+                    system_prompt += mcp_context
+                    logger.info("AI_Agent", "Contexte MCP injecté dans le prompt système")
 
                 # Appeler l'APIManager avec fallback automatique
                 response, api_used = self.api_manager.query(

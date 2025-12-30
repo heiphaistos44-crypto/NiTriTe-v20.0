@@ -14,14 +14,12 @@ import ctypes
 
 logger = logging.getLogger(__name__)
 
-
 def is_admin():
     """Vérifie si le script s'exécute avec des privilèges administrateur"""
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
     except Exception:
         return False
-
 
 def request_admin_privileges():
     """Relance le script avec des privilèges administrateur"""
@@ -42,7 +40,6 @@ def request_admin_privileges():
             logger.warning(f" Impossible d'obtenir les privilèges admin: {e}")
             return False
     return True
-
 
 class WingetManager:
     """Gestionnaire d'installation via Winget"""
@@ -100,12 +97,7 @@ class WingetManager:
                     "category": "Outils OrdiPlus",
                     "color": "#FF6600"
                 },
-                "Spybot Search & Destroy": {
-                    "winget_id": "SaferNetworking.SpybotSearchAndDestroy",
-                    "description": "Anti-malware et anti-spyware",
-                    "category": "Outils OrdiPlus",
-                    "color": "#FF6600"
-                },
+                
                 "Malwarebytes": {
                     "winget_id": "Malwarebytes.Malwarebytes",
                     "description": "Protection contre les malwares",
@@ -130,30 +122,14 @@ class WingetManager:
                     "category": "Outils OrdiPlus",
                     "color": "#FF6600"
                 },
-                "VLC Media Player": {
-                    "winget_id": "VideoLAN.VLC",
-                    "description": "Lecteur multimédia universel",
-                    "category": "Outils OrdiPlus",
-                    "color": "#FF6600"
-                },
-                "Microsoft Office 2007": {
-                    "winget_id": "Microsoft.Office",
-                    "description": "Suite bureautique Microsoft Office 2007",
-                    "category": "Outils OrdiPlus",
-                    "color": "#FF6600"
-                },
+
                 "Microsoft Office 2024": {
                     "winget_id": "Microsoft.Office",
                     "description": "Suite bureautique Microsoft Office 2024",
                     "category": "Outils OrdiPlus",
                     "color": "#FF6600"
-                },
-                "Microsoft Office 2016": {
-                    "winget_id": "Microsoft.Office",
-                    "description": "Suite bureautique Microsoft Office 2016",
-                    "category": "Outils OrdiPlus",
-                    "color": "#FF6600"
-                },
+                }
+                
             },
             
             # ===== RÉPARATION WINDOWS =====
@@ -205,7 +181,7 @@ class WingetManager:
                     "description": "Réparation complète : DISM + SFC (recommandé)",
                     "category": " Réparation Windows",
                     "admin_required": True
-                },
+                }
             },
             
             # ===== PARAMÈTRES WINDOWS =====
@@ -323,7 +299,7 @@ class WingetManager:
                     "description": "Paramètres carte graphique NVIDIA (si installée)",
                     "category": " Paramètres Windows",
                     "admin_required": False
-                },
+                }
             },
             
             # ===== NAVIGATEURS =====
@@ -354,7 +330,7 @@ class WingetManager:
                     "category": "Navigateurs"
                 },
                 "Vivaldi": {
-                    "winget_id": "VivaldiTechnologies.Vivaldi",
+                    "winget_id": "Vivaldi.Vivaldi",
                     "description": "Navigateur hautement personnalisable",
                     "category": "Navigateurs"
                 },
@@ -367,7 +343,7 @@ class WingetManager:
                     "winget_id": "DuckDuckGo.DesktopBrowser",
                     "description": "Navigateur axé sur la confidentialité et anti-tracking",
                     "category": "Navigateurs"
-                },
+                }
             },
             
             # ===== COMMUNICATION =====
@@ -392,26 +368,18 @@ class WingetManager:
                     "description": "Application de visioconférence",
                     "category": "Communication"
                 },
-                "Skype": {
-                    "winget_id": "Microsoft.Skype",
-                    "description": "Application de communication Microsoft",
-                    "category": "Communication"
-                },
+                
                 "Telegram Desktop": {
                     "winget_id": "Telegram.TelegramDesktop",
                     "description": "Messagerie instantanée sécurisée",
                     "category": "Communication"
                 },
-                "WhatsApp": {
-                    "winget_id": "WhatsApp.WhatsApp",
-                    "description": "Messagerie instantanée",
-                    "category": "Communication"
-                },
+                
                 "Signal": {
                     "winget_id": "OpenWhisperSystems.Signal",
                     "description": "Messagerie chiffrée de bout en bout",
                     "category": "Communication"
-                },
+                }
             },
             
             # ===== MULTIMÉDIA =====
@@ -437,7 +405,7 @@ class WingetManager:
                     "category": "Multimédia"
                 },
                 "GIMP": {
-                    "winget_id": "GIMP.GIMP",
+                    "winget_id": "GIMP.GIMP.2",
                     "description": "Éditeur d'images open source",
                     "category": "Multimédia"
                 },
@@ -465,7 +433,7 @@ class WingetManager:
                     "winget_id": "Gyan.FFmpeg",
                     "description": "Framework multimédia complet",
                     "category": "Multimédia"
-                },
+                }
             },
             
             # ===== DÉVELOPPEMENT =====
@@ -525,16 +493,12 @@ class WingetManager:
                     "description": "IDE pour développement Android",
                     "category": "Développement"
                 },
-                "FileZilla": {
-                    "winget_id": "TimKosse.FileZilla.Client",
-                    "description": "Client FTP open source",
-                    "category": "Développement"
-                },
+                
                 "PuTTY": {
                     "winget_id": "PuTTY.PuTTY",
                     "description": "Client SSH et Telnet pour Windows",
                     "category": "Développement"
-                },
+                }
             },
             
             # ===== UTILITAIRES =====
@@ -618,7 +582,7 @@ class WingetManager:
                     "winget_id": "ALCPU.CoreTemp",
                     "description": "Surveillance température processeur",
                     "category": "Utilitaires"
-                },
+                }
             },
             
             # ===== SÉCURITÉ =====
@@ -628,9 +592,9 @@ class WingetManager:
                     "description": "Anti-malware puissant",
                     "category": "Sécurité"
                 },
-                "Spybot Search & Destroy": {
-                    "winget_id": "9MXJPF3M2W50",
-                    "description": "Anti-spyware et protection vie privée",
+                "Sticky Password": {
+                    "winget_id": "LamantineSoftware.StickyPassword",
+                    "description": "Gestionnaire de mots de passe sécurisé",
                     "category": "Sécurité"
                 },
                 "Spybot Anti-Beacon": {
@@ -654,12 +618,12 @@ class WingetManager:
                     "category": "Sécurité"
                 },
                 "NordVPN": {
-                    "winget_id": "NordVPN.NordVPN",
+                    "winget_id": "NordSecurity.NordVPN",
                     "description": "Service VPN",
                     "category": "Sécurité"
                 },
                 "ProtonVPN": {
-                    "winget_id": "ProtonTechnologies.ProtonVPN",
+                    "winget_id": "Proton.ProtonVPN",
                     "description": "VPN sécurisé et privé",
                     "category": "Sécurité"
                 },
@@ -697,7 +661,7 @@ class WingetManager:
                     "winget_id": "WiseCleaner.WiseRegistryCleaner",
                     "description": "Nettoyage et optimisation du registre Windows",
                     "category": "Sécurité"
-                },
+                }
             },
             
             # ===== PRODUCTIVITÉ =====
@@ -732,11 +696,7 @@ class WingetManager:
                     "description": "Gestionnaire de tâches",
                     "category": "Productivité"
                 },
-                "Trello": {
-                    "winget_id": "Atlassian.Trello",
-                    "description": "Gestion de projets visuelle",
-                    "category": "Productivité"
-                },
+                
                 "Adobe Acrobat Reader": {
                     "winget_id": "Adobe.Acrobat.Reader.64-bit",
                     "description": "Lecteur PDF officiel d'Adobe",
@@ -756,7 +716,7 @@ class WingetManager:
                     "winget_id": "calibre.calibre",
                     "description": "Gestionnaire de bibliothèque d'ebooks",
                     "category": "Productivité"
-                },
+                }
             },
             
             # ===== CLOUD & STOCKAGE =====
@@ -782,22 +742,23 @@ class WingetManager:
                     "category": "Cloud & Stockage"
                 },
                 "Syncthing": {
-                    "winget_id": "Syncthing.Syncthing",
+                    "winget_id": "BillStewart.SyncthingWindowsSetup",
                     "description": "Synchronisation de fichiers P2P",
                     "category": "Cloud & Stockage"
-                },
+                }
             },
             
             # ===== GAMING =====
             "Gaming": {
-                "Steam": {
-                    "winget_id": "Valve.Steam",
-                    "description": "Plateforme de jeux PC",
-                    "category": "Gaming"
-                },
+                
                 "Epic Games Launcher": {
                     "winget_id": "EpicGames.EpicGamesLauncher",
                     "description": "Lanceur de jeux Epic",
+                    "category": "Gaming"
+                },
+                "Itch.io": {
+                    "winget_id": "ItchIo.Itch",
+                    "description": "Plateforme de jeux indépendants",
                     "category": "Gaming"
                 },
                 "GOG Galaxy": {
@@ -844,7 +805,7 @@ class WingetManager:
                     "winget_id": "Guru3D.RTSS",
                     "description": "Affichage FPS et monitoring en jeu",
                     "category": "Gaming"
-                },
+                }
             },
             
             # ===== ACCÈS À DISTANCE =====
@@ -855,12 +816,12 @@ class WingetManager:
                     "category": "Accès à distance"
                 },
                 "AnyDesk": {
-                    "winget_id": "AnyDeskSoftwareGmbH.AnyDesk",
+                    "winget_id": "AnyDesk.AnyDesk",
                     "description": "Bureau à distance rapide",
                     "category": "Accès à distance"
                 },
                 "Chrome Remote Desktop": {
-                    "winget_id": "Google.ChromeRemoteDesktop",
+                    "winget_id": "Google.ChromeRemoteDesktopHost",
                     "description": "Accès à distance via Chrome",
                     "category": "Accès à distance"
                 },
@@ -868,7 +829,7 @@ class WingetManager:
                     "winget_id": "RustDesk.RustDesk",
                     "description": "Bureau à distance open source",
                     "category": "Accès à distance"
-                },
+                }
             },
             
             # ===== LOGICIELS MATÉRIEL =====
@@ -882,7 +843,7 @@ class WingetManager:
                     "winget_id": "Corsair.iCUE.4",
                     "description": "Gestion périphériques Corsair (version 4)",
                     "category": "Logiciels Matériel"
-                },
+                }
             },
             
             # ===== STREAMING & MÉDIAS =====
@@ -896,7 +857,7 @@ class WingetManager:
                     "winget_id": "Plex.Plexamp",
                     "description": "Lecteur audio Plex",
                     "category": "Streaming & Médias"
-                },
+                }
             },
             
             # ===== RUNTIMES & BIBLIOTHÈQUES =====
@@ -931,21 +892,13 @@ class WingetManager:
                     "description": "Bibliothèque Visual C++ 2012 (32-bit)",
                     "category": "Runtimes & Bibliothèques"
                 },
-                "Microsoft Visual C++ 2010 x64": {
-                    "winget_id": "Microsoft.VCRedist.2010.x64",
-                    "description": "Bibliothèque Visual C++ 2010 (64-bit)",
-                    "category": "Runtimes & Bibliothèques"
-                },
+                
                 "Microsoft Visual C++ 2010 x86": {
                     "winget_id": "Microsoft.VCRedist.2010.x86",
                     "description": "Bibliothèque Visual C++ 2010 (32-bit)",
                     "category": "Runtimes & Bibliothèques"
                 },
-                "Java Runtime 21 (Oracle)": {
-                    "winget_id": "Oracle.JDK.21",
-                    "description": "Java Development Kit 21 (dernière LTS)",
-                    "category": "Runtimes & Bibliothèques"
-                },
+                
                 "Java Runtime 17 (Oracle)": {
                     "winget_id": "Oracle.JDK.17",
                     "description": "Java Development Kit 17 (LTS)",
@@ -960,7 +913,7 @@ class WingetManager:
                     "winget_id": "Microsoft.OpenJDK.17",
                     "description": "Microsoft Build of OpenJDK 17",
                     "category": "Runtimes & Bibliothèques"
-                },
+                }
             },
             
             # ===== PILOTES & DRIVERS =====
@@ -974,7 +927,7 @@ class WingetManager:
                     "winget_id": "Easeware.DriverEasy",
                     "description": "Mise à jour automatique des pilotes",
                     "category": "Pilotes & Drivers"
-                },
+                }
             },
             
             # ===== ÉMULATEURS =====
@@ -993,7 +946,7 @@ class WingetManager:
                     "winget_id": "DOSBox.DOSBox",
                     "description": "Émulateur DOS pour jeux rétro",
                     "category": "Émulateurs"
-                },
+                }
             },
             
             # ===== RÉSEAUX SOCIAUX =====
@@ -1008,36 +961,18 @@ class WingetManager:
                     "description": "Application Instagram (Microsoft Store)",
                     "category": "Réseaux Sociaux"
                 },
-                "Facebook": {
-                    "winget_id": "9WZDNCRFJ2WL",
-                    "description": "Application Facebook (Microsoft Store)",
-                    "category": "Réseaux Sociaux"
-                },
+                
                 "TikTok": {
                     "winget_id": "9NH2GPH4JZS4",
                     "description": "Application TikTok (Microsoft Store)",
                     "category": "Réseaux Sociaux"
                 },
-                "Snapchat": {
-                    "winget_id": "9WZDNCRFJ0J7",
-                    "description": "Application Snapchat (Microsoft Store)",
-                    "category": "Réseaux Sociaux"
-                },
-                "X (Twitter)": {
-                    "winget_id": "9WZDNCRFJ140",
-                    "description": "Application X/Twitter (Microsoft Store)",
-                    "category": "Réseaux Sociaux"
-                },
+
                 "Pinterest": {
                     "winget_id": "9PFHDSF91B9R",
                     "description": "Application Pinterest (Microsoft Store)",
                     "category": "Réseaux Sociaux"
-                },
-                "Twitch": {
-                    "winget_id": "Twitch.Twitch",
-                    "description": "Plateforme de streaming en direct",
-                    "category": "Réseaux Sociaux"
-                },
+                }
             },
             
             # ===== STREAMING VIDÉO =====
@@ -1052,36 +987,13 @@ class WingetManager:
                     "description": "Service de streaming Disney+",
                     "category": "Streaming Vidéo"
                 },
-                "Prime Video": {
-                    "winget_id": "9P6RC76MSMMJ",
-                    "description": "Amazon Prime Video",
-                    "category": "Streaming Vidéo"
-                },
-                "Apple TV": {
-                    "winget_id": "Apple.AppleTV",
-                    "description": "Apple TV - Streaming et contenus Apple",
-                    "category": "Streaming Vidéo"
-                },
-                "Crunchyroll": {
-                    "winget_id": "9NBLGGH5Q1F0",
-                    "description": "Streaming d'animés (Microsoft Store)",
-                    "category": "Streaming Vidéo"
-                },
-                "Pluto TV": {
-                    "winget_id": "9NBLGGH6HPG6",
-                    "description": "TV en streaming gratuite (Microsoft Store)",
-                    "category": "Streaming Vidéo"
-                },
+                
                 "YouTube": {
                     "winget_id": "9WZDNCRDT29J",
                     "description": "Application YouTube officielle (Microsoft Store)",
                     "category": "Streaming Vidéo"
-                },
-                "myCanal": {
-                    "winget_id": "9WZDNCRCRVZ9",
-                    "description": "Service de streaming Canal+ (Microsoft Store)",
-                    "category": "Streaming Vidéo"
-                },
+                }
+                
             },
             
             # ===== STREAMING AUDIO =====
@@ -1091,11 +1003,7 @@ class WingetManager:
                     "description": "Service de streaming musical Deezer",
                     "category": "Streaming Audio"
                 },
-                "Apple Music": {
-                    "winget_id": "Apple.AppleMusic",
-                    "description": "Service de streaming Apple Music",
-                    "category": "Streaming Audio"
-                },
+                
                 "Amazon Music": {
                     "winget_id": "9P6RC76MSMMJ",
                     "description": "Amazon Music - Streaming musical",
@@ -1105,19 +1013,14 @@ class WingetManager:
                     "winget_id": "Apple.iTunes",
                     "description": "Lecteur multimédia et store Apple",
                     "category": "Streaming Audio"
-                },
+                }
             },
             
             # ===== IA & ASSISTANTS =====
             "IA & Assistants": {
-                "ChatGPT": {
-                    "winget_id": "OpenAI.ChatGPT",
-                    "description": "Application ChatGPT officielle",
-                    "category": "IA & Assistants"
-                },
-                "Microsoft Copilot": {
-                    "winget_id": "9NHT9RB2F4HD",
-                    "description": "Assistant IA Microsoft Copilot",
+                "Perplexity": {
+                    "winget_id": "Perplexity.Comet",
+                    "description": "Assistant IA de recherche conversationnelle",
                     "category": "IA & Assistants"
                 },
             },
@@ -1158,7 +1061,7 @@ class WingetManager:
                     "winget_id": "IObit.SmartDefrag",
                     "description": "Défragmentation et optimisation de disque",
                     "category": "Utilitaires Système Avancés"
-                },
+                }
             },
             
             # ===== IMPRIMANTES & SCAN =====
@@ -1172,12 +1075,8 @@ class WingetManager:
                     "winget_id": "9WZDNCRFJ4P8",
                     "description": "Application Epson pour impression et scan",
                     "category": "Imprimantes & Scan"
-                },
-                "Canon Print": {
-                    "winget_id": "9WZDNCRDP2J6",
-                    "description": "Application Canon pour imprimantes Canon",
-                    "category": "Imprimantes & Scan"
-                },
+                }
+                
             },
             
             # ===== CLOUD APPLE =====
@@ -1186,7 +1085,7 @@ class WingetManager:
                     "winget_id": "9PKTQ5699M62",
                     "description": "iCloud pour Windows - Stockage Apple",
                     "category": "Services Apple"
-                },
+                }
             },
             
             # ===== MATÉRIEL CONSTRUCTEUR =====
@@ -1195,7 +1094,7 @@ class WingetManager:
                     "winget_id": "9WZDNCRFJ4MV",
                     "description": "Centre de contrôle Lenovo Vantage",
                     "category": "Logiciels Constructeur"
-                },
+                }
             },
             
             # ===== SUITE PROFESSIONNELLE =====
@@ -1211,7 +1110,7 @@ class WingetManager:
                     "category": "Suites Professionnelles"
                 },
                 "Autodesk Desktop App": {
-                    "winget_id": "Autodesk.AutodeskDesktopApp",
+                    "winget_id": "Autodesk.DesktopApp",
                     "description": "Gestionnaire des applications Autodesk",
                     "category": "Suites Professionnelles"
                 },
@@ -1219,7 +1118,7 @@ class WingetManager:
                     "winget_id": "Canva.Canva",
                     "description": "Design graphique et création de contenu en ligne",
                     "category": "Suites Professionnelles"
-                },
+                }
             },
             
             # ===== OUTILS SYSTÈME BOOTABLES =====
@@ -1238,16 +1137,12 @@ class WingetManager:
                     "winget_id": "Microsoft.Sysinternals.Autoruns",
                     "description": "Gérer les programmes au démarrage (Sysinternals)",
                     "category": "Outils Système Bootables"
-                },
+                }
             },
             
             # ===== VIRTUALISATION =====
             "Virtualisation": {
-                "VMware Workstation Player": {
-                    "winget_id": "VMware.WorkstationPlayer",
-                    "description": "Machine virtuelle gratuite VMware",
-                    "category": "Virtualisation"
-                },
+                
             },
             
             # ===== TÉLÉCHARGEMENT & MÉDIAS =====
@@ -1255,6 +1150,11 @@ class WingetManager:
                 "4K Video Downloader": {
                     "winget_id": "OpenMedia.4KVideoDownloader",
                     "description": "Télécharger vidéos YouTube en haute qualité",
+                    "category": "Téléchargement & Médias"
+                },
+                "qBittorrent": {
+                    "winget_id": "qBittorrent.qBittorrent",
+                    "description": "Client BitTorrent open source et léger",
                     "category": "Téléchargement & Médias"
                 },
                 "4K YouTube to MP3": {
@@ -1271,7 +1171,7 @@ class WingetManager:
                     "winget_id": "PrestonN.FreeTube",
                     "description": "Client YouTube desktop axé confidentialité",
                     "category": "Téléchargement & Médias"
-                },
+                }
             },
             
             # ===== GAMING CONSOLE =====
@@ -1295,16 +1195,16 @@ class WingetManager:
                     "winget_id": "MoonlightGameStreamingProject.Moonlight",
                     "description": "Client de streaming de jeux PC open source",
                     "category": "Gaming Console"
-                },
+                }
             },
             
             # ===== BENCHMARKS & TESTS =====
             "Benchmarks & Tests": {
                 "OCCT": {
-                    "winget_id": "OCCT.OCCT",
+                    "winget_id": "OCBase.OCCT.Personal",
                     "description": "Test de stabilité CPU, GPU et alimentation",
                     "category": "Benchmarks & Tests"
-                },
+                }
             },
             
             # ===== IA LOCALE =====
@@ -1343,7 +1243,7 @@ class WingetManager:
                     "winget_id": "ReorProject.Reor",
                     "description": "Éditeur notes avec IA locale intégrée",
                     "category": "IA Locale"
-                },
+                }
             },
             
             # ===== DRIVER GÉNÉRIQUE =====
@@ -1383,21 +1283,13 @@ class WingetManager:
                     "description": "Visual C++ Redistributable 2012 (32-bit)",
                     "category": "Driver Générique"
                 },
-                "Microsoft Visual C++ 2010 x64": {
-                    "winget_id": "Microsoft.VCRedist.2010.x64",
-                    "description": "Visual C++ Redistributable 2010 (64-bit)",
-                    "category": "Driver Générique"
-                },
+                
                 "Microsoft Visual C++ 2010 x86": {
                     "winget_id": "Microsoft.VCRedist.2010.x86",
                     "description": "Visual C++ Redistributable 2010 (32-bit)",
                     "category": "Driver Générique"
                 },
-                "Microsoft .NET Framework 4.8.1": {
-                    "winget_id": "Microsoft.DotNet.Framework.DeveloperPack_4",
-                    "description": ".NET Framework 4.8.1 pour applications Windows",
-                    "category": "Driver Générique"
-                },
+                
                 "Microsoft .NET 8 Desktop Runtime": {
                     "winget_id": "Microsoft.DotNet.DesktopRuntime.8",
                     "description": ".NET 8 Desktop Runtime pour applications modernes",
@@ -1423,16 +1315,12 @@ class WingetManager:
                     "description": "Java Development Kit 17 (OpenJDK LTS)",
                     "category": "Driver Générique"
                 },
-                "Windows SDK 10.0.18362": {
-                    "winget_id": "Microsoft.WindowsSDK.10.0.18362",
-                    "description": "Kit de développement logiciel Windows 10 SDK",
-                    "category": "Driver Générique"
-                },
+                
                 "Windows SDK 10.0.17134": {
                     "winget_id": "Microsoft.WindowsSDK.10.0.17134",
                     "description": "Kit de développement logiciel Windows 10 SDK (version 17134)",
                     "category": "Driver Générique"
-                },
+                }
             },
             
             # ===== SERVEURS & DÉVELOPPEMENT WEB =====
@@ -1466,7 +1354,7 @@ class WingetManager:
                     "winget_id": "GodotEngine.GodotEngine",
                     "description": "Moteur de jeu open source 2D et 3D",
                     "category": "Serveurs & Dev Web"
-                },
+                }
             },
             
             # ===== MULTIMÉDIA AVANCÉ =====
@@ -1495,7 +1383,7 @@ class WingetManager:
                     "winget_id": "AIMP.AIMP",
                     "description": "Lecteur audio avancé",
                     "category": "Multimédia Avancé"
-                },
+                }
             },
             
             # ===== CAO & DESIGN 3D =====
@@ -1519,7 +1407,7 @@ class WingetManager:
                     "winget_id": "Trimble.SketchUp.2023",
                     "description": "Logiciel de modélisation 3D (version 2023)",
                     "category": "CAO & Design 3D"
-                },
+                }
             },
             
             # ===== COMMUNICATION SOCIALE =====
@@ -1538,7 +1426,7 @@ class WingetManager:
                     "winget_id": "Notion.Notion",
                     "description": "Espace de travail tout-en-un pour notes et collaboration",
                     "category": "Communication Sociale"
-                },
+                }
             },
             
             # ===== BUREAUTIQUE ALTERNATIVE =====
@@ -1547,7 +1435,7 @@ class WingetManager:
                     "winget_id": "Apache.OpenOffice",
                     "description": "Suite bureautique open source",
                     "category": "Bureautique Alternative"
-                },
+                }
             },
             
             # ===== UTILITAIRES SYSTÈME EXPERTS =====
@@ -1561,8 +1449,8 @@ class WingetManager:
                     "winget_id": "PowerSoftware.PowerISO",
                     "description": "Outil de gestion d'images disque ISO",
                     "category": "Utilitaires Système Experts"
-                },
-            },
+                }
+            }
         }
         
         return programs
@@ -2014,7 +1902,6 @@ class WingetManager:
             json.dump(self.programs_db, f, indent=2, ensure_ascii=False)
         
         logger.info(f" Base de données exportée: {output_path}")
-
 
 if __name__ == "__main__":
     # Test du gestionnaire

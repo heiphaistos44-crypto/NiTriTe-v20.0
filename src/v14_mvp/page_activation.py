@@ -160,6 +160,11 @@ class ActivationPage(ctk.CTkFrame):
                 'status_text': "❓ Impossible de vérifier"
             }
 
+    def _resize_terminal(self, delta):
+        """Redimensionner le terminal (delta = nombre de lignes à ajouter/retirer)"""
+        self.terminal_height = max(10, min(50, self.terminal_height + delta))
+        self.terminal_text.configure(height=self.terminal_height)
+
     def _create_terminal_section(self, parent):
         """Section terminal MAS intégré"""
         card = ModernCard(parent)
@@ -175,6 +180,32 @@ class ActivationPage(ctk.CTkFrame):
             font=("Segoe UI", 18, "bold"),
             text_color=DesignTokens.TEXT_PRIMARY
         ).pack(side=tk.LEFT)
+
+        # Boutons de redimensionnement (à gauche des boutons d'action)
+        resize_frame = ctk.CTkFrame(header, fg_color="transparent")
+        resize_frame.pack(side=tk.LEFT, padx=(20, 0))
+
+        ctk.CTkButton(
+            resize_frame,
+            text="▼",
+            width=30,
+            height=20,
+            font=("Segoe UI", 12),
+            command=lambda: self._resize_terminal(-5),
+            fg_color=DesignTokens.BG_ELEVATED,
+            hover_color=DesignTokens.BG_HOVER
+        ).pack(side=tk.LEFT, padx=2)
+
+        ctk.CTkButton(
+            resize_frame,
+            text="▲",
+            width=30,
+            height=20,
+            font=("Segoe UI", 12),
+            command=lambda: self._resize_terminal(5),
+            fg_color=DesignTokens.BG_ELEVATED,
+            hover_color=DesignTokens.BG_HOVER
+        ).pack(side=tk.LEFT, padx=2)
 
         # Boutons d'action
         btn_frame = ctk.CTkFrame(header, fg_color="transparent")
@@ -221,6 +252,9 @@ class ActivationPage(ctk.CTkFrame):
         text_frame = ctk.CTkFrame(terminal_container, fg_color="#1E1E1E", corner_radius=8)
         text_frame.pack(fill=tk.BOTH, expand=True)
 
+        # Hauteur initiale du terminal (en lignes)
+        self.terminal_height = 20
+
         self.terminal_text = tk.Text(
             text_frame,
             wrap=tk.WORD,
@@ -229,7 +263,7 @@ class ActivationPage(ctk.CTkFrame):
             fg="#00FF00",
             insertbackground="#00FF00",
             selectbackground="#333333",
-            height=20,
+            height=self.terminal_height,
             relief=tk.FLAT,
             borderwidth=0
         )

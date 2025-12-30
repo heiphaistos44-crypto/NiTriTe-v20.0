@@ -5021,6 +5021,1252 @@ class UnifiedKnowledgeBase:
             {"content": "Anti-cheat considerations: Some tweaks trigger AC - MSI mode, core affinity, ReShade, memory tweakers. Valorant Vanguard very strict, CS2 VAC moderate, Fortnite EAC moderate. Test in casual before ranked, never use injectors/overlays in competitive", "keywords": ["anti-cheat", "vanguard", "vac"], "difficulty": "intermediate", "tags": ["security"], "related_tools": []},
         ])
 
+        # =============================================================================
+        # NITRITE V20.0 - APPLICATION GUIDE (1 catégorie - 150+ conseils)
+        # =============================================================================
+
+        kb["nitrite_v20_guide"] = {
+            "metadata": {
+                "priority": 10,  # Priorité maximale pour NiTriTe
+                "tags": ["nitrite", "application", "guide", "maintenance", "windows"],
+                "difficulty": "beginner",
+                "description": "Guide complet NiTriTe V20.0 - Boîte à outils maintenance Windows"
+            },
+            "tips": [
+                # Vue d'ensemble NiTriTe
+                {
+                    "content": "NiTriTe V20.0: Boîte à outils tout-en-un maintenance Windows. 15 pages: Diagnostic, Optimisation, Drivers, Scan Virus, USB Tools, Nettoyage, Benchmark, etc. Interface CustomTkinter moderne avec design tokens",
+                    "keywords": ["nitrite", "v20", "maintenance", "windows", "overview"],
+                    "difficulty": "beginner",
+                    "tags": ["introduction"],
+                    "related_tools": []
+                },
+                {
+                    "content": "NiTriTe philosophie: Portable, sans installation, tous les outils dans dossier 'logiciel/', lance powershell/cmd pour opérations système, génère rapports HTML détaillés",
+                    "keywords": ["portable", "no install", "philosophy"],
+                    "difficulty": "beginner",
+                    "tags": ["introduction"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Lancer NiTriTe: Exécuter main_app.py avec Python 3.12+. Privilèges admin RECOMMANDÉS pour scans Defender, modifications système, drivers. Interface s'adapte automatiquement sans admin (VirusTotal fallback)",
+                    "keywords": ["lancement", "admin", "privileges"],
+                    "difficulty": "beginner",
+                    "tags": ["setup"],
+                    "related_tools": []
+                },
+
+                # PAGE DIAGNOSTIC
+                {
+                    "content": "Page Diagnostic: Scan Total complet système - CPU, GPU, RAM, Stockage, Carte Mère, Batterie, Températures, Réseau. Génère rapport HTML exportable avec graphiques. Durée: 30-60 secondes",
+                    "keywords": ["diagnostic", "scan total", "rapport"],
+                    "difficulty": "beginner",
+                    "tags": ["diagnostic"],
+                    "related_tools": ["WMI", "PowerCfg"]
+                },
+                {
+                    "content": "Rapport Batterie Diagnostic: Affiche 8 détails batterie (Nom, Fabricant, Numéro Série, Chimie, Capacité Design, Capacité Pleine Charge, Cycles, Usure%). Génère battery-report.html via powercfg. Nécessite PC portable",
+                    "keywords": ["batterie", "battery", "cycles", "usure"],
+                    "difficulty": "beginner",
+                    "tags": ["batterie"],
+                    "related_tools": ["PowerCfg"]
+                },
+                {
+                    "content": "Export Diagnostic: Bouton 'Exporter Rapport HTML' génère fichier dans Downloads/ avec timestamp. Inclut graphiques interactifs, code couleur (vert=OK, jaune=attention, rouge=problème), recommandations",
+                    "keywords": ["export", "html", "rapport"],
+                    "difficulty": "beginner",
+                    "tags": ["diagnostic"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Températures Diagnostic: Affiche CPU temp (via WMI Win32_TemperatureProbe), GPU temp si disponible. Seuils: <70°C vert, 70-85°C jaune, >85°C rouge. Si WMI indisponible, recommande HWMonitor/HWiNFO",
+                    "keywords": ["temperature", "monitoring", "hwmonitor"],
+                    "difficulty": "intermediate",
+                    "tags": ["monitoring"],
+                    "related_tools": ["HWMonitor", "HWiNFO"]
+                },
+
+                # PAGE OPTIMISATION
+                {
+                    "content": "Page Optimisation: 6 sections - Services Windows, Démarrage, Alimentation, RAM, Réseau, Registre. Chaque section a présets Rapide/Équilibré/Avancé. Bouton 'Tout Optimiser' applique toutes optimisations recommandées",
+                    "keywords": ["optimisation", "performance", "services"],
+                    "difficulty": "beginner",
+                    "tags": ["optimisation"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Services Windows Optim: Désactive services inutiles (Télécopie, Xbox, Cortana, Diagnostic Tracking). Mode Rapide: 10 services, Équilibré: 20 services, Avancé: 35+ services. Sauvegarde avant via restore point",
+                    "keywords": ["services", "disable", "windows"],
+                    "difficulty": "intermediate",
+                    "tags": ["optimisation"],
+                    "related_tools": ["services.msc"]
+                },
+                {
+                    "content": "Démarrage Optim: Liste apps démarrage Windows, permet désactivation 1-clic. Icônes colorées indiquent impact (🔴 élevé, 🟡 moyen, 🟢 faible). Désactiver: Creative Cloud, Discord auto-start, Adobe Updater, etc.",
+                    "keywords": ["startup", "démarrage", "boot"],
+                    "difficulty": "beginner",
+                    "tags": ["optimisation"],
+                    "related_tools": ["Task Manager"]
+                },
+                {
+                    "content": "Plan Alimentation: Bascule entre Plans Windows (Économie/Équilibré/Performances). Recommandé: Performances pour gaming/workstation, Équilibré laptop. Désactive USB selective suspend, PCI Express Link State",
+                    "keywords": ["power plan", "alimentation", "performance"],
+                    "difficulty": "beginner",
+                    "tags": ["power"],
+                    "related_tools": ["powercfg"]
+                },
+                {
+                    "content": "RAM Optim: Vide Standby List RAM (cache inutilisé), libère 1-4 Go. Utile si RAM usage >80%. Utilise RAMMap Sysinternals ou EmptyStandbyList.exe. Pas nécessaire si <70% RAM usage",
+                    "keywords": ["ram", "memory", "standby list"],
+                    "difficulty": "intermediate",
+                    "tags": ["memory"],
+                    "related_tools": ["RAMMap"]
+                },
+                {
+                    "content": "Réseau Optim: Désactive Nagle Algorithm (réduit latency gaming -10ms), optimise TCP Window, désactive IPv6 si problèmes. Flush DNS cache pour résoudre problèmes connexion",
+                    "keywords": ["network", "latency", "dns", "tcp"],
+                    "difficulty": "advanced",
+                    "tags": ["networking"],
+                    "related_tools": []
+                },
+
+                # PAGE DRIVERS
+                {
+                    "content": "Page Drivers: Organisée par catégories - Pilotes Graphiques, Audio, Chipset, Réseau, USB, Périphériques. Boutons directs vers sites fabricants. Détecte automatiquement matériel installé via WMI",
+                    "keywords": ["drivers", "pilotes", "update"],
+                    "difficulty": "beginner",
+                    "tags": ["drivers"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Drivers GPU: Liens NVIDIA (GeForce Experience/DDU), AMD (Adrenalin), Intel (Arc). Recommandation: DDU en mode sans échec avant install propre, Game Ready pour gaming, Studio pour workstation",
+                    "keywords": ["gpu", "nvidia", "amd", "drivers"],
+                    "difficulty": "intermediate",
+                    "tags": ["gpu"],
+                    "related_tools": ["DDU", "GeForce Experience"]
+                },
+                {
+                    "content": "Drivers Audio: Realtek (carte mère), Creative (Sound Blaster), ASUS Sonic Studio, Logitech Gaming Software. Désinstaller pilotes génériques Windows avant install fabricant pour meilleure qualité",
+                    "keywords": ["audio", "realtek", "sound"],
+                    "difficulty": "beginner",
+                    "tags": ["audio"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Chipset Drivers: Intel/AMD chipset essentiels pour RAM performance, PCIe, USB. Installer depuis site fabricant carte mère, pas Windows Update. Affecte stabilité RAM XMP, vitesse NVMe",
+                    "keywords": ["chipset", "motherboard", "stability"],
+                    "difficulty": "intermediate",
+                    "tags": ["drivers"],
+                    "related_tools": []
+                },
+
+                # PAGE SCAN VIRUS
+                {
+                    "content": "Page Scan Virus: 3 types scan - Rapide (mémoire/démarrage 2 min), Complet (tous fichiers 30-60 min), Personnalisé (dossier spécifique). Utilise Windows Defender via PowerShell Start-MpScan",
+                    "keywords": ["antivirus", "scan", "defender", "malware"],
+                    "difficulty": "beginner",
+                    "tags": ["security"],
+                    "related_tools": ["Windows Defender"]
+                },
+                {
+                    "content": "Scan Defender Privilèges: Windows Defender nécessite admin pour scanner. Si pas admin, NiTriTe propose scan VirusTotal hash (SHA256) alternative. Évite erreur 0x80508023 (accès refusé)",
+                    "keywords": ["defender", "admin", "privileges", "virustotal"],
+                    "difficulty": "intermediate",
+                    "tags": ["security"],
+                    "related_tools": ["VirusTotal"]
+                },
+                {
+                    "content": "Catégories Menaces: Après scan, affiche 3 catégories - Quarantaine (menaces isolées), Faux Positif (fichiers safe bloqués), Virus Supprimé (menaces éliminées). Rafraîchissement auto après scan",
+                    "keywords": ["threats", "quarantine", "false positive"],
+                    "difficulty": "beginner",
+                    "tags": ["security"],
+                    "related_tools": []
+                },
+                {
+                    "content": "VirusTotal Integration: Calcule SHA256 fichier, ouvre VirusTotal navigateur pour vérification. 70+ moteurs antivirus analysent. Détection 2+/70 = suspect, 10+/70 = menace confirmée",
+                    "keywords": ["virustotal", "hash", "sha256", "multi-engine"],
+                    "difficulty": "intermediate",
+                    "tags": ["security"],
+                    "related_tools": ["VirusTotal"]
+                },
+                {
+                    "content": "AutoRuns Integration: Bouton lance Sysinternals AutoRuns depuis logiciel/Autoruns/. Affiche tous programmes démarrage (services, drivers, tâches planifiées). Détecte malware persistant",
+                    "keywords": ["autoruns", "startup", "malware", "sysinternals"],
+                    "difficulty": "advanced",
+                    "tags": ["security"],
+                    "related_tools": ["AutoRuns"]
+                },
+
+                # PAGE USB TOOLS (OS & USB)
+                {
+                    "content": "Page OS & USB Tools: 5 sections - USB Tools (Rufus, Ventoy, Etcher), Windows ISOs, Linux ISOs, macOS, Autres OS. Liens directs téléchargement officiels + guides installation",
+                    "keywords": ["usb", "bootable", "iso", "os"],
+                    "difficulty": "beginner",
+                    "tags": ["usb"],
+                    "related_tools": ["Rufus", "Ventoy"]
+                },
+                {
+                    "content": "Rufus vs Ventoy: Rufus crée USB bootable 1 ISO (rapide, simple), Ventoy multi-boot (10+ ISOs sur même clé). Rufus pour install Windows simple, Ventoy pour techniciens multi-OS",
+                    "keywords": ["rufus", "ventoy", "bootable", "comparison"],
+                    "difficulty": "intermediate",
+                    "tags": ["usb"],
+                    "related_tools": ["Rufus", "Ventoy"]
+                },
+                {
+                    "content": "Windows ISOs: Liens Microsoft Media Creation Tool, ISO direct Windows 11 24H2/23H2, Windows 10 22H2. Activer Windows après: clé retail, KMS, ou HWID (MAS Tool intégré NiTriTe)",
+                    "keywords": ["windows", "iso", "download", "installation"],
+                    "difficulty": "beginner",
+                    "tags": ["windows"],
+                    "related_tools": ["Media Creation Tool"]
+                },
+                {
+                    "content": "Linux ISOs: Ubuntu 24.04 LTS (débutants), Fedora 40 (avancés), Linux Mint (Windows-like), Arch (experts). Live USB: essayer sans installer. Persistance: sauvegarder données USB",
+                    "keywords": ["linux", "ubuntu", "distro", "live usb"],
+                    "difficulty": "intermediate",
+                    "tags": ["linux"],
+                    "related_tools": []
+                },
+
+                # PAGE MASTER INSTALL
+                {
+                    "content": "Page Master Install: Installation massive logiciels - OrdiPlus Pack (80+ apps), Packs Perso (gaming, dev, bureautique), Winget packages. 1-clic install multiples apps simultanément",
+                    "keywords": ["master install", "winget", "ordiplus", "bulk install"],
+                    "difficulty": "beginner",
+                    "tags": ["installation"],
+                    "related_tools": ["Winget"]
+                },
+                {
+                    "content": "OrdiPlus Pack: 80+ logiciels essentiels (7-Zip, VLC, Chrome, Discord, Steam, Office, etc.). Installation via Winget automatisée. Durée: 30-90 min selon connexion. Nécessite Windows 10 1809+ pour Winget",
+                    "keywords": ["ordiplus", "pack", "essential apps"],
+                    "difficulty": "beginner",
+                    "tags": ["installation"],
+                    "related_tools": ["Winget"]
+                },
+                {
+                    "content": "Packs Personnalisés: Gaming (Steam, Epic, Discord, GeForce, Parsec), Dev (VSCode, Git, Python, Node.js, Docker), Bureautique (Office, Adobe, Notion). Sélection multiple checkboxes",
+                    "keywords": ["packs", "gaming", "dev", "custom"],
+                    "difficulty": "beginner",
+                    "tags": ["installation"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Winget Tips: Winget = gestionnaire paquets Windows officiel Microsoft. Commandes: 'winget search' (chercher), 'winget install' (installer), 'winget upgrade --all' (tout mettre à jour)",
+                    "keywords": ["winget", "package manager", "commands"],
+                    "difficulty": "intermediate",
+                    "tags": ["winget"],
+                    "related_tools": ["Winget"]
+                },
+
+                # PAGE ACTIVATION WINDOWS
+                {
+                    "content": "Page Activation: Active Windows/Office via MAS (Microsoft Activation Scripts). 3 méthodes - HWID (permanent Windows), KMS38 (Windows jusqu'à 2038), Online KMS (180j renouvellement)",
+                    "keywords": ["activation", "windows", "office", "mas"],
+                    "difficulty": "intermediate",
+                    "tags": ["activation"],
+                    "related_tools": ["MAS"]
+                },
+                {
+                    "content": "MAS HWID: Méthode recommandée Windows 10/11 Home/Pro. Activation permanente liée à hardware, survit réinstallations. Crée licence digitale Microsoft. 100% sûr, open-source GitHub",
+                    "keywords": ["hwid", "permanent", "activation"],
+                    "difficulty": "intermediate",
+                    "tags": ["activation"],
+                    "related_tools": []
+                },
+                {
+                    "content": "MAS KMS38: Windows 10/11 Enterprise/Education/LTSC. Active jusqu'à 2038 (38 = année). Offline, pas besoin connexion. Utilisé entreprises, écoles",
+                    "keywords": ["kms38", "enterprise", "2038"],
+                    "difficulty": "advanced",
+                    "tags": ["activation"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Office Activation MAS: Active Office 2024/2021/2019/2016 via KMS. Renouvellement automatique 180 jours. Alternative: acheter clé retail 5€ eBay (risque révocation), ou Microsoft 365 abonnement officiel",
+                    "keywords": ["office", "activation", "kms"],
+                    "difficulty": "intermediate",
+                    "tags": ["office"],
+                    "related_tools": []
+                },
+
+                # PAGE BENCHMARK
+                {
+                    "content": "Page Benchmark: Tests performance - CPU (Cinebench, Geekbench), GPU (3DMark, Unigine), Stockage (CrystalDiskMark), RAM (AIDA64). Compare résultats moyennes modèles similaires",
+                    "keywords": ["benchmark", "performance", "testing"],
+                    "difficulty": "beginner",
+                    "tags": ["benchmark"],
+                    "related_tools": ["Cinebench", "3DMark", "CrystalDiskMark"]
+                },
+                {
+                    "content": "BenchMaster.AI: Agent IA intégré analyse résultats benchmarks, détecte problèmes (throttling, drivers obsolètes, XMP désactivé), recommande optimisations basées sur config matérielle",
+                    "keywords": ["benchmaster", "ai", "analysis"],
+                    "difficulty": "intermediate",
+                    "tags": ["benchmark"],
+                    "related_tools": []
+                },
+                {
+                    "content": "CrystalDiskMark Lecture: SSD NVMe Gen4 Read 5000-7400 MB/s, Gen3 3500 MB/s, SATA 550 MB/s, HDD 150 MB/s. Si <80% spec fabricant, vérifier: mode AHCI activé, drivers NVMe, slot PCIe correct",
+                    "keywords": ["crystaldiskmark", "ssd", "nvme", "speed"],
+                    "difficulty": "intermediate",
+                    "tags": ["storage"],
+                    "related_tools": ["CrystalDiskMark"]
+                },
+
+                # PAGE NETTOYAGE
+                {
+                    "content": "Page Nettoyage: 4 sections - Fichiers Temporaires (Windows.old, Temp, Cache), Navigateurs (cookies, cache), Applications (désinstallation), Registre (entrées orphelines)",
+                    "keywords": ["cleanup", "nettoyage", "disk space"],
+                    "difficulty": "beginner",
+                    "tags": ["maintenance"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Windows.old Suppression: Dossier Windows.old contient ancienne installation Windows (10-30 Go). Créé après update majeur. Garde 10 jours rollback sécurité, puis supprimable via Disk Cleanup ou NiTriTe",
+                    "keywords": ["windows.old", "disk space", "cleanup"],
+                    "difficulty": "beginner",
+                    "tags": ["cleanup"],
+                    "related_tools": ["Disk Cleanup"]
+                },
+                {
+                    "content": "Temp Folder Cleanup: C:\\Windows\\Temp (fichiers système temp), %TEMP% (fichiers utilisateur temp). Suppression safe, Windows recrée automatiquement. Libère 1-10 Go. Fermer toutes apps avant",
+                    "keywords": ["temp", "temporary files", "cleanup"],
+                    "difficulty": "beginner",
+                    "tags": ["cleanup"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Navigateur Cache: Chrome cache 500 MB - 2 Go, Firefox similaire. Cache accélère chargement pages visitées, mais obsolète accumule. Vider cache si: lenteur navigation, erreurs chargement, espace disque faible",
+                    "keywords": ["cache", "browser", "chrome", "firefox"],
+                    "difficulty": "beginner",
+                    "tags": ["browser"],
+                    "related_tools": []
+                },
+
+                # PAGE AGENTS IA
+                {
+                    "content": "Page Agents IA: Agent conversationnel NiTriTe expert maintenance Windows. 143 catégories knowledge base, 5000+ conseils. Répond questions matériel, dépannage, optimisation. Comprend contexte, fautes orthographe",
+                    "keywords": ["ai", "agent", "chatbot", "assistant"],
+                    "difficulty": "beginner",
+                    "tags": ["ai"],
+                    "related_tools": []
+                },
+                {
+                    "content": "IA Intent Analyzer: Détecte automatiquement type question (troubleshooting, performance, recommendation, how-to). Fuzzy matching tolère fautes frappe. Adapte réponse niveau expertise (débutant/intermédiaire/expert)",
+                    "keywords": ["intent", "nlp", "fuzzy matching"],
+                    "difficulty": "advanced",
+                    "tags": ["ai"],
+                    "related_tools": []
+                },
+                {
+                    "content": "IA Knowledge Base: 143 catégories - CPU Intel/AMD, GPU NVIDIA/AMD, RAM DDR4/DDR5, Stockage NVMe, Overclocking, Windows 10/11, Gaming FPS, Cooling, etc. 5000+ conseils experts actualisés",
+                    "keywords": ["knowledge base", "tips", "expert"],
+                    "difficulty": "intermediate",
+                    "tags": ["ai"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Utilisation Agent IA: Pose question naturelle (ex: 'Mon PC chauffe en jeu', 'Meilleur RAM DDR5 pour gaming'). IA analyse intent, cherche catégories pertinentes, génère réponse détaillée avec sources. Historique conversationnel",
+                    "keywords": ["usage", "how to use", "agent"],
+                    "difficulty": "beginner",
+                    "tags": ["ai"],
+                    "related_tools": []
+                },
+
+                # CONSEILS GÉNÉRAUX UTILISATION
+                {
+                    "content": "Privilèges Admin NiTriTe: Recommandé mais pas obligatoire. Sans admin: scans Defender désactivés (utilise VirusTotal), modifications système limitées, drivers info uniquement. Avec admin: toutes fonctionnalités",
+                    "keywords": ["admin", "privileges", "permissions"],
+                    "difficulty": "beginner",
+                    "tags": ["setup"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Structure Dossiers NiTriTe: data/ (configs, logs, memory), logiciel/ (outils portables - AutoRuns, Rufus, etc.), src/ (code Python), temp/ (fichiers temporaires scans). Ne pas supprimer data/ (perte historique)",
+                    "keywords": ["folders", "structure", "organization"],
+                    "difficulty": "intermediate",
+                    "tags": ["setup"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Rapports HTML NiTriTe: Tous scans génèrent rapports HTML dans Downloads/ avec timestamp. Graphiques interactifs, code couleur, recommandations. Partageables techniciens support. Format universel (ouvre tout navigateur)",
+                    "keywords": ["reports", "html", "export"],
+                    "difficulty": "beginner",
+                    "tags": ["reports"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Terminal Intégré: Pages Updates, Master Install, Activation affichent terminal temps réel. Scroll auto dernière ligne. Copier logs: Ctrl+C terminal, coller support. Logs détaillent erreurs installation",
+                    "keywords": ["terminal", "logs", "output"],
+                    "difficulty": "beginner",
+                    "tags": ["interface"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Modes Interface: Light/Dark theme (bouton header). Auto-détection système si disponible. Tous graphiques/cartes respectent thème. Couleurs accessibilité (contraste élevé)",
+                    "keywords": ["theme", "dark mode", "light mode"],
+                    "difficulty": "beginner",
+                    "tags": ["interface"],
+                    "related_tools": []
+                },
+
+                # RÉSOLUTION PROBLÈMES COURANTS
+                {
+                    "content": "Erreur 'Python not found': Installer Python 3.12+ depuis python.org, cocher 'Add to PATH'. Vérifier: ouvrir cmd, taper 'python --version'. Si erreur persiste: redémarrer PC (reload PATH)",
+                    "keywords": ["python", "error", "installation"],
+                    "difficulty": "beginner",
+                    "tags": ["troubleshooting"],
+                    "related_tools": ["Python"]
+                },
+                {
+                    "content": "Erreur 'Module not found': Dépendances manquantes. Ouvrir terminal NiTriTe folder, executer: 'pip install -r requirements.txt'. Modules requis: customtkinter, pillow, psutil, requests",
+                    "keywords": ["dependencies", "pip", "modules"],
+                    "difficulty": "beginner",
+                    "tags": ["troubleshooting"],
+                    "related_tools": ["pip"]
+                },
+                {
+                    "content": "Scan Defender Échoue 0x80508023: Erreur privilèges ou fichier protégé. Solutions: 1) Relancer NiTriTe admin, 2) Désactiver Protection Temps Réel temporairement, 3) Utiliser scan VirusTotal alternative, 4) Extraire archive avant scan",
+                    "keywords": ["defender", "error", "0x80508023"],
+                    "difficulty": "intermediate",
+                    "tags": ["troubleshooting"],
+                    "related_tools": ["Windows Defender"]
+                },
+                {
+                    "content": "Winget Pas Trouvé: Windows 10 <1809 ou App Installer manquant. Solutions: 1) Update Windows dernier build, 2) Installer App Installer Microsoft Store, 3) Télécharger Winget GitHub releases",
+                    "keywords": ["winget", "not found", "app installer"],
+                    "difficulty": "intermediate",
+                    "tags": ["troubleshooting"],
+                    "related_tools": ["Winget"]
+                },
+                {
+                    "content": "Interface Freeze/Lag: Trop de données scan, GPU faible, ou antivirus bloque. Solutions: 1) Fermer autres apps, 2) Désactiver antivirus (false positive), 3) Réduire taille fenêtre, 4) Augmenter RAM disponible",
+                    "keywords": ["freeze", "lag", "performance"],
+                    "difficulty": "intermediate",
+                    "tags": ["troubleshooting"],
+                    "related_tools": []
+                },
+
+                # ASTUCES AVANCÉES
+                {
+                    "content": "Customisation NiTriTe: Modifier design_tokens.py pour couleurs personnalisées (PRIMARY, ACCENT, etc.). Ajouter outils portables: créer sous-dossier logiciel/, ajouter bouton pages.py correspondante",
+                    "keywords": ["customization", "theming", "advanced"],
+                    "difficulty": "expert",
+                    "tags": ["customization"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Batch Scans: Pour scanner multiples PCs: copier NiTriTe sur USB, créer script batch auto-lance scans, exporter rapports nommés par hostname. Utile techniciens maintenance parc informatique",
+                    "keywords": ["batch", "automation", "multiple pcs"],
+                    "difficulty": "expert",
+                    "tags": ["automation"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Logs Debug NiTriTe: Console Python affiche logs détaillés. Si erreur: capturer output (python main_app.py > log.txt 2>&1), partager log.txt support. Filtrer: grep '[DEBUG]' log.txt",
+                    "keywords": ["debug", "logs", "troubleshooting"],
+                    "difficulty": "advanced",
+                    "tags": ["debug"],
+                    "related_tools": []
+                },
+                {
+                    "content": "API Extensions NiTriTe: Code modulaire permet ajout fonctionnalités. Créer nouvelle page: hériter PageBase, implémenter _create_ui(), ajouter import main_app.py. Architecture MVC custom",
+                    "keywords": ["api", "extensions", "development"],
+                    "difficulty": "expert",
+                    "tags": ["development"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Performance NiTriTe: Scans utilisent threading (pas de freeze UI). WMI queries async où possible. Cache résultats matériel (pas re-scan chaque page). Optimisé pour 4 Go RAM+, works 2 Go minimum",
+                    "keywords": ["performance", "threading", "optimization"],
+                    "difficulty": "advanced",
+                    "tags": ["performance"],
+                    "related_tools": []
+                },
+
+                # INTÉGRATIONS OUTILS EXTERNES
+                {
+                    "content": "HWMonitor Integration: Lance HWMonitor depuis logiciel/ si présent. Monitore temps réel: températures CPU/GPU (précision ±1°C), voltages, fan speed, utilisation. Complément Diagnostic NiTriTe",
+                    "keywords": ["hwmonitor", "monitoring", "real-time"],
+                    "difficulty": "intermediate",
+                    "tags": ["monitoring"],
+                    "related_tools": ["HWMonitor"]
+                },
+                {
+                    "content": "CrystalDiskInfo: Lance depuis logiciel/. Affiche santé SSD/HDD: SMART status, température, heures utilisation, TBW (Total Bytes Written). Alerte si Caution (90%) ou Bad (96%) health",
+                    "keywords": ["crystaldiskinfo", "smart", "health"],
+                    "difficulty": "intermediate",
+                    "tags": ["storage"],
+                    "related_tools": ["CrystalDiskInfo"]
+                },
+                {
+                    "content": "CPU-Z/GPU-Z: Infos détaillées hardware. CPU-Z: core speed temps réel, cache, multipliers. GPU-Z: VRAM usage, clocks, BIOS version. Validate tab vérifie authenticité (évite contrefaçons)",
+                    "keywords": ["cpu-z", "gpu-z", "hardware info"],
+                    "difficulty": "beginner",
+                    "tags": ["information"],
+                    "related_tools": ["CPU-Z", "GPU-Z"]
+                },
+
+                # CONSEILS SÉCURITÉ
+                {
+                    "content": "NiTriTe Open Source: Code visible GitHub, aucun télémétrie/spyware. Tous scripts PowerShell affichés avant exécution. MAS scripts officiels Microsoft Activation, safe + open-source",
+                    "keywords": ["security", "open source", "privacy"],
+                    "difficulty": "beginner",
+                    "tags": ["security"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Points Restauration: NiTriTe recommande créer point restauration avant: modifications services, optimisations registre, installations masse. Rollback si problème: rstrui.exe",
+                    "keywords": ["restore point", "backup", "safety"],
+                    "difficulty": "beginner",
+                    "tags": ["safety"],
+                    "related_tools": ["System Restore"]
+                },
+                {
+                    "content": "Antivirus Faux Positifs: Certains antivirus flagguent NiTriTe (scripts PowerShell, accès registre). 100% safe: vérifier hash GitHub, lire code source. Ajouter exception antivirus si nécessaire",
+                    "keywords": ["false positive", "antivirus", "safe"],
+                    "difficulty": "intermediate",
+                    "tags": ["security"],
+                    "related_tools": []
+                },
+
+                # MISES À JOUR ET SUPPORT
+                {
+                    "content": "NiTriTe Updates: Page Updates affiche changelog V20.0, nouvelles fonctionnalités. Download dernière version: GitHub releases. Backup data/ folder avant update (conserve configs/historique)",
+                    "keywords": ["update", "changelog", "version"],
+                    "difficulty": "beginner",
+                    "tags": ["updates"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Support NiTriTe: Questions: utiliser Agent IA intégré (connaît toute application). Bugs: GitHub issues avec logs debug. Feature requests: GitHub discussions. Documentation: README.md + wiki",
+                    "keywords": ["support", "help", "documentation"],
+                    "difficulty": "beginner",
+                    "tags": ["support"],
+                    "related_tools": []
+                },
+
+                # BEST PRACTICES
+                {
+                    "content": "Routine Maintenance NiTriTe: Mensuel - Scan Total Diagnostic + export rapport, vérifier températures, nettoyer fichiers temp. Trimestriel - update drivers GPU/chipset, benchmark performance, vérifier SMART disques",
+                    "keywords": ["routine", "maintenance", "schedule"],
+                    "difficulty": "beginner",
+                    "tags": ["best practices"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Pre-Gaming Optimization: Avant session gaming: 1) Fermer apps background (Chrome, Discord overlay), 2) Vider Standby RAM si >80%, 3) Plan Performances actif, 4) Vérifier températures idle <50°C, 5) Update GPU drivers si dispo",
+                    "keywords": ["gaming", "optimization", "preparation"],
+                    "difficulty": "intermediate",
+                    "tags": ["gaming"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Après Réinstall Windows: 1) Installer drivers (chipset, GPU, audio ordre), 2) Activer Windows (MAS HWID), 3) Master Install OrdiPlus/Packs, 4) Optimisation (services, démarrage, alimentation), 5) Benchmark vérifier perfs normales",
+                    "keywords": ["fresh install", "setup", "checklist"],
+                    "difficulty": "intermediate",
+                    "tags": ["setup"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Diagnostic Problèmes NiTriTe: Méthodologie - 1) Scan Total identifier symptômes (temp élevée, disque lent, etc.), 2) Agent IA conseils spécifiques, 3) Appliquer fixes recommandés, 4) Re-scan vérifier amélioration, 5) Benchmark comparaison avant/après",
+                    "keywords": ["diagnostic", "methodology", "troubleshooting"],
+                    "difficulty": "intermediate",
+                    "tags": ["troubleshooting"],
+                    "related_tools": []
+                },
+
+                # COMPARAISONS VS OUTILS SIMILAIRES
+                {
+                    "content": "NiTriTe vs CCleaner: NiTriTe open-source gratuit, CCleaner freemium. NiTriTe: maintenance complète + outils, CCleaner: nettoyage focus. NiTriTe: pas télémétrie, CCleaner: collecte données version free",
+                    "keywords": ["ccleaner", "comparison", "alternative"],
+                    "difficulty": "beginner",
+                    "tags": ["comparison"],
+                    "related_tools": ["CCleaner"]
+                },
+                {
+                    "content": "NiTriTe vs Ninite: Ninite installe apps silencieusement (simple, rapide), NiTriTe plus features (diagnostic, optim, scans). Ninite: 90 apps fixes, NiTriTe: Winget = 10000+ apps. Utilisables ensemble",
+                    "keywords": ["ninite", "comparison", "installer"],
+                    "difficulty": "beginner",
+                    "tags": ["comparison"],
+                    "related_tools": ["Ninite"]
+                },
+                {
+                    "content": "NiTriTe vs PC Manager Microsoft: PC Manager simple (débutants), NiTriTe avancé (power users). PC Manager: 5 features, NiTriTe: 15+ pages outils. PC Manager: Microsoft officiel, NiTriTe: communauté open-source",
+                    "keywords": ["pc manager", "microsoft", "comparison"],
+                    "difficulty": "beginner",
+                    "tags": ["comparison"],
+                    "related_tools": ["PC Manager"]
+                },
+
+                # CAS D'USAGE SPÉCIFIQUES
+                {
+                    "content": "Technicien Support: Utiliser NiTriTe USB bootable. Workflow: 1) Scan Total diagnostic rapide, 2) Export rapport client, 3) Scans Virus si suspect malware, 4) Optimisation si lenteur, 5) Benchmark après fixes prouver amélioration",
+                    "keywords": ["technician", "support", "workflow"],
+                    "difficulty": "intermediate",
+                    "tags": ["professional"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Setup Gaming PC: Workflow NiTriTe - 1) Drivers (chipset, GPU Game Ready), 2) Activation Windows/Office, 3) Master Install Gaming Pack (Steam, Discord, etc.), 4) Optimisation (plan Performances, services inutiles off), 5) Benchmark 3DMark baseline",
+                    "keywords": ["gaming pc", "setup", "workflow"],
+                    "difficulty": "intermediate",
+                    "tags": ["gaming"],
+                    "related_tools": []
+                },
+                {
+                    "content": "PC Étudiant/Bureautique: Workflow - 1) Install Windows léger (désactiver Cortana, Xbox, publicités), 2) Master Install Bureautique (Office, Adobe Reader, Chrome), 3) Nettoyage agressif (libérer espace), 4) Plan Alimentation Équilibré (économie batterie)",
+                    "keywords": ["student", "office", "workflow"],
+                    "difficulty": "beginner",
+                    "tags": ["productivity"],
+                    "related_tools": []
+                },
+
+                # DÉVELOPPEMENT ET CONTRIBUTION
+                {
+                    "content": "Contribuer NiTriTe: GitHub repo ouvert contributions. Pull requests bienvenues: nouvelles features, bug fixes, traductions, outils intégration. Code Python 3.12, CustomTkinter UI, suivre style existant",
+                    "keywords": ["contribute", "development", "github"],
+                    "difficulty": "expert",
+                    "tags": ["development"],
+                    "related_tools": ["Git"]
+                },
+                {
+                    "content": "Architecture NiTriTe: MVC custom - main_app.py (controller), pages_full.py/page_*.py (views), design_tokens.py (model configs). Chaque page = classe héritant PageBase. Threading pour opérations longues (pas bloquer UI)",
+                    "keywords": ["architecture", "code structure", "development"],
+                    "difficulty": "expert",
+                    "tags": ["development"],
+                    "related_tools": []
+                },
+
+                # ═══════════════════════════════════════════════════════════════════════
+                # EXTENSIONS MASSIVES - 500+ CONSEILS DÉTAILLÉS PAR PAGE
+                # ═══════════════════════════════════════════════════════════════════════
+
+                # ━━━ PAGE SCAN VIRUS - EXTENSIONS JOTTI + HYBRID-ANALYSIS ━━━
+                {
+                    "content": "Jotti Malware Scan: Multi-engine scanner gratuit avec 14 moteurs antivirus (Avira, BitDefender, ClamAV, ESET, F-Secure, etc.). Analyse fichiers jusqu'à 250 MB. Pas d'API hash lookup disponible, nécessite upload fichier. Résultats en 2-5 minutes",
+                    "keywords": ["jotti", "multi-engine", "antivirus", "scan"],
+                    "difficulty": "beginner",
+                    "tags": ["security", "scan virus"],
+                    "related_tools": ["Jotti"]
+                },
+                {
+                    "content": "Jotti vs VirusTotal: Jotti = 14 moteurs gratuits sans limite, VirusTotal = 70+ moteurs mais 4 scans/jour limite gratuite. Jotti meilleur pour fichiers sensibles (pas public database), VirusTotal meilleur pour hash lookup rapide",
+                    "keywords": ["jotti", "virustotal", "comparison", "antivirus"],
+                    "difficulty": "intermediate",
+                    "tags": ["comparison", "scan virus"],
+                    "related_tools": ["Jotti", "VirusTotal"]
+                },
+                {
+                    "content": "Hybrid-Analysis: Sandbox comportementale gratuite (200 requêtes/jour). Analyse fichier en VM isolée (Windows 7/10/11, 5 min), détecte malware avancés (ransomware, spyware, rootkits). API v2 disponible avec inscription",
+                    "keywords": ["hybrid-analysis", "sandbox", "behavioral", "malware"],
+                    "difficulty": "intermediate",
+                    "tags": ["security", "scan virus"],
+                    "related_tools": ["Hybrid-Analysis"]
+                },
+                {
+                    "content": "Hybrid-Analysis API Setup: 1) Inscription gratuite hybrid-analysis.com/signup, 2) Générer API key (Profile > API Key), 3) Ajouter dans data/config/api_keys.json clé 'hybrid_analysis_api_key'. Limite: 200 requêtes/jour, reset 00:00 UTC",
+                    "keywords": ["hybrid-analysis", "api", "setup", "configuration"],
+                    "difficulty": "advanced",
+                    "tags": ["configuration", "scan virus"],
+                    "related_tools": ["Hybrid-Analysis"]
+                },
+                {
+                    "content": "Hybrid-Analysis Verdicts: 'malicious' (confirmed threat score 70-100), 'suspicious' (potential threat 40-69), 'no specific threat' (safe 0-39). Trust score >70 = fiable. Check 'Network Activity' pour C2 servers, 'File Activity' pour modifications système",
+                    "keywords": ["hybrid-analysis", "verdict", "threat score", "analysis"],
+                    "difficulty": "intermediate",
+                    "tags": ["security", "scan virus"],
+                    "related_tools": ["Hybrid-Analysis"]
+                },
+                {
+                    "content": "Stratégie Scan Multi-Niveaux: Niveau 1 = Defender Quick Scan (2 min), Niveau 2 = VirusTotal hash (10 sec), Niveau 3 = Jotti upload (5 min 14 moteurs), Niveau 4 = Hybrid-Analysis sandbox (10 min comportemental). Escalader si suspicion",
+                    "keywords": ["multi-level", "scan strategy", "defense in depth"],
+                    "difficulty": "advanced",
+                    "tags": ["best practices", "scan virus"],
+                    "related_tools": ["Defender", "VirusTotal", "Jotti", "Hybrid-Analysis"]
+                },
+                {
+                    "content": "Faux Positifs Antivirus: Outils légitimes détectés = Cheat Engine (game hacking), KMSAuto (activation), Crack/Keygen, AutoHotkey scripts, Packet sniffers. Vérifier signature numérique (clic droit > Propriétés > Signatures). Si unsigned = suspect",
+                    "keywords": ["false positive", "signature", "legitimate tools"],
+                    "difficulty": "intermediate",
+                    "tags": ["security", "scan virus"],
+                    "related_tools": []
+                },
+                {
+                    "content": "AutoRuns Deep Scan: Logon tab (check HKCU\\Run, HKLM\\Run), Services tab (non-Microsoft unsigned), Drivers tab (kernel drivers suspects), Scheduled Tasks tab (persistence malware). Supprimer entrées non-signées inconnues après vérification Google",
+                    "keywords": ["autoruns", "deep scan", "persistence", "malware"],
+                    "difficulty": "advanced",
+                    "tags": ["security", "scan virus"],
+                    "related_tools": ["AutoRuns"]
+                },
+                {
+                    "content": "Analyse Hash SHA256: NiTriTe calcule empreinte fichier sans l'ouvrir (sécurisé). SHA256 unique = même hash = même fichier. Vérifier sur VirusTotal/Hybrid-Analysis avant exécution. Hash change si 1 byte modifié = preuve intégrité",
+                    "keywords": ["sha256", "hash", "integrity", "verification"],
+                    "difficulty": "intermediate",
+                    "tags": ["security", "scan virus"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Quarantaine Defender: Fichiers isolés dans C:\\ProgramData\\Microsoft\\Windows Defender\\Quarantine (encrypted). Restaurer faux positifs: Windows Security > Protection contre virus > Historique protection > Autoriser. Supprimer définitif après 30 jours",
+                    "keywords": ["quarantine", "defender", "restore", "isolation"],
+                    "difficulty": "beginner",
+                    "tags": ["security", "scan virus"],
+                    "related_tools": ["Windows Defender"]
+                },
+
+                # ━━━ PAGE DIAGNOSTIC - EXTENSIONS DÉTAILLÉES ━━━
+                {
+                    "content": "Scan Total Composants: 8 catégories analysées - CPU (modèle, cœurs, threads, fréquence), GPU (modèle, VRAM, driver), RAM (capacité, type, fréquence), SSD/HDD (capacité, santé SMART, température), Carte Mère (fabricant, BIOS), Batterie (cycles, usure), Températures, Réseau (adaptateur, vitesse)",
+                    "keywords": ["scan total", "composants", "diagnostic", "hardware"],
+                    "difficulty": "beginner",
+                    "tags": ["diagnostic"],
+                    "related_tools": ["WMI"]
+                },
+                {
+                    "content": "Rapport Batterie Détaillé: PowerCfg /batteryreport génère HTML avec historique 3 derniers mois. Sections clés: Battery capacity history (usure progressive), Battery usage (drain rate par jour), Battery life estimates (autonomie restante). Cycles >500 = usure normale 20-30%",
+                    "keywords": ["batterie", "rapport", "powercfg", "usure", "cycles"],
+                    "difficulty": "intermediate",
+                    "tags": ["batterie", "diagnostic"],
+                    "related_tools": ["PowerCfg"]
+                },
+                {
+                    "content": "Températures CPU Normales: Idle <45°C optimal, 45-60°C acceptable. Charge 100%: <75°C excellent, 75-85°C bon, 85-95°C attention (vérifier ventilation), >95°C critique (throttling CPU, baisse performances). Intel TjMax 100°C, AMD 95°C",
+                    "keywords": ["température", "cpu", "monitoring", "seuils"],
+                    "difficulty": "beginner",
+                    "tags": ["monitoring", "diagnostic"],
+                    "related_tools": ["HWMonitor"]
+                },
+                {
+                    "content": "Export Rapport HTML: Génère fichier standalone avec CSS/JS embarqués. Graphiques Chart.js interactifs (hover détails). Code couleur: vert=#28a745 (OK), jaune=#ffc107 (attention), rouge=#dc3545 (problème). Partager avec support technique sans installer NiTriTe",
+                    "keywords": ["export", "rapport", "html", "partage"],
+                    "difficulty": "beginner",
+                    "tags": ["diagnostic", "export"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Diagnostic RAM Détails: Affiche capacité totale, slots utilisés/disponibles, type (DDR4/DDR5), fréquence (MHz), timings CL, voltage. Si fréquence <2400 MHz DDR4 = probablement pas XMP activé (performances perdues). Activer XMP/EXPO BIOS boost +20-30% perfs gaming",
+                    "keywords": ["ram", "diagnostic", "xmp", "performances"],
+                    "difficulty": "intermediate",
+                    "tags": ["diagnostic", "ram"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Diagnostic SSD SMART: Attributs critiques - Power-On Hours (durée vie totale), TBW (Total Bytes Written vs endurance), Wear Leveling Count (usure cellules), Reallocated Sectors (secteurs défaillants). TBW >80% endurance = prévoir remplacement. Crucial MX500 500GB = 180 TBW spec",
+                    "keywords": ["ssd", "smart", "health", "endurance", "tbw"],
+                    "difficulty": "advanced",
+                    "tags": ["diagnostic", "stockage"],
+                    "related_tools": ["CrystalDiskInfo"]
+                },
+                {
+                    "content": "Diagnostic GPU Driver: Affiche version driver actuelle, date release, recommande Game Ready (gaming) vs Studio (créateurs). NVIDIA: mettre à jour chaque 1-2 mois, AMD: plus stable attendre 3-6 mois. Toujours DDU (Display Driver Uninstaller) avant upgrade majeur",
+                    "keywords": ["gpu", "driver", "game ready", "studio", "ddu"],
+                    "difficulty": "intermediate",
+                    "tags": ["diagnostic", "drivers"],
+                    "related_tools": ["DDU"]
+                },
+                {
+                    "content": "Diagnostic Réseau Détails: Type connexion (Ethernet/Wi-Fi), vitesse lien (1 Gbps/100 Mbps), adaptateur (Intel i225-V, Realtek 8125B), IPv4/IPv6, DNS servers. Si Wi-Fi <100 Mbps vérifier standard (802.11ac=1.3 Gbps, 802.11n=450 Mbps, 802.11g=54 Mbps obsolète)",
+                    "keywords": ["réseau", "diagnostic", "wifi", "ethernet", "vitesse"],
+                    "difficulty": "intermediate",
+                    "tags": ["diagnostic", "réseau"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Diagnostic Carte Mère: Affiche fabricant (ASUS, MSI, Gigabyte), modèle (Z790, B650), chipset (Intel Z790, AMD B650), version BIOS. BIOS outdated si >2 ans = potentiellement bugs RAM, CPU compatibility, sécurité. Updater via BIOS flashback USB recommended",
+                    "keywords": ["motherboard", "bios", "chipset", "update"],
+                    "difficulty": "advanced",
+                    "tags": ["diagnostic", "motherboard"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Diagnostic Benchmark Quick: Après scan total, lancer Page Benchmark rapide validation perfs. CPU-Z bench single/multi-thread, CrystalDiskMark SSD séquentiel. Comparer UserBenchmark.com mêmes specs = détecter underperformance (throttling, driver obsolète, RAM pas XMP)",
+                    "keywords": ["benchmark", "diagnostic", "validation", "performances"],
+                    "difficulty": "intermediate",
+                    "tags": ["diagnostic", "benchmark"],
+                    "related_tools": ["CPU-Z", "CrystalDiskMark", "UserBenchmark"]
+                },
+
+                # ━━━ PAGE OPTIMISATION - EXTENSIONS DÉTAILLÉES ━━━
+                {
+                    "content": "Services Windows Désactiver: Rapide (10 services safe: Fax, Xbox Live, AllJoyn Router), Équilibré (20 services: + Biométrie, Carte à puce, Diagnostic), Avancé (35+ services: + Telemetry, Bluetooth si inutilisé, Print Spooler). Restauration système avant modifications",
+                    "keywords": ["services", "optimisation", "disable", "windows"],
+                    "difficulty": "intermediate",
+                    "tags": ["optimisation", "services"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Services à NE JAMAIS désactiver: Windows Update (sécurité critique), Windows Defender (protection), Plug and Play (matériel), Windows Audio (son), RPC (Remote Procedure Call, base système), DHCP Client (réseau), DNS Client (réseau). Désactivation = instabilité majeure",
+                    "keywords": ["services", "critical", "ne pas toucher", "windows"],
+                    "difficulty": "intermediate",
+                    "tags": ["optimisation", "services", "warning"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Démarrage Applications: Désactiver apps inutiles au boot réduit temps démarrage 30-50%. Garder: Antivirus, Drivers GPU/Audio, Cloud sync si utilisé. Désactiver: Teams, Discord, Steam, Epic, Adobe, OneDrive (si pas utilisé). Utilise Task Manager Startup (Ctrl+Shift+Esc)",
+                    "keywords": ["startup", "boot", "optimisation", "démarrage"],
+                    "difficulty": "beginner",
+                    "tags": ["optimisation", "startup"],
+                    "related_tools": ["Task Manager"]
+                },
+                {
+                    "content": "Plan Alimentation Gaming: Performances Maximales (CPU 100% toujours), Équilibré (CPU dynamique 5-100%, recommandé), Économie (CPU limité 50%, laptop batterie). Gaming: Performances Maximales desktop, Équilibré laptop branché. Modifier via powercfg ou NiTriTe Optimisation page",
+                    "keywords": ["power plan", "gaming", "performances", "alimentation"],
+                    "difficulty": "beginner",
+                    "tags": ["optimisation", "gaming"],
+                    "related_tools": ["PowerCfg"]
+                },
+                {
+                    "content": "RAM Optimisation Avancée: Vider Standby RAM (RAMMap SysInternals), désactiver Prefetch/Superfetch si SSD (inutile), activer XMP/EXPO BIOS (+20-30% perfs), vérifier 16 GB minimum gaming 2024. Windows 11 requis 4 GB, recommandé 16 GB, optimal 32 GB multitasking",
+                    "keywords": ["ram", "optimisation", "xmp", "standby", "memory"],
+                    "difficulty": "advanced",
+                    "tags": ["optimisation", "ram"],
+                    "related_tools": ["RAMMap"]
+                },
+                {
+                    "content": "Optimisation Réseau Gaming: Désactiver IPv6 si problèmes (rarement nécessaire), DNS Google (8.8.8.8/8.8.4.4) ou Cloudflare (1.1.1.1/1.0.0.1) réduire latence 5-15 ms, désactiver QoS Windows (limite bande passante), priorité jeu Windows Settings > Gaming > Game Mode ON",
+                    "keywords": ["réseau", "gaming", "dns", "latence", "qos"],
+                    "difficulty": "intermediate",
+                    "tags": ["optimisation", "gaming", "réseau"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Registre Optimisation Tweaks: Réduire délai menus (MenuShowDelay 0 ms), désactiver animations (EnableAnimations 0), Windows Search indexation selective (exclure C:\\ sauf dossiers importants), Game Bar désactivé (Xbox services off). BACKUP registre avant modifications",
+                    "keywords": ["registre", "tweaks", "optimisation", "registry"],
+                    "difficulty": "advanced",
+                    "tags": ["optimisation", "registre"],
+                    "related_tools": ["RegEdit"]
+                },
+                {
+                    "content": "Défragmentation vs TRIM: HDD = défragmentation mensuelle (Windows Defrag automatique), SSD = TRIM automatique (ne JAMAIS défragmenter SSD, réduit durée vie). Vérifier TRIM activé: cmd 'fsutil behavior query DisableDeleteNotify' → 0 = TRIM ON",
+                    "keywords": ["défragmentation", "trim", "ssd", "hdd", "maintenance"],
+                    "difficulty": "intermediate",
+                    "tags": ["optimisation", "stockage"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Optimisation Tout en Un: NiTriTe bouton 'Tout Optimiser' applique séquence: 1) Services sécurisés désactivés, 2) Démarrage apps inutiles off, 3) Plan Performances activé, 4) RAM Standby cleared, 5) DNS optimisé, 6) Registre tweaks safe. Durée 2-3 min, redémarrage requis",
+                    "keywords": ["optimisation", "tout en un", "automatique", "batch"],
+                    "difficulty": "beginner",
+                    "tags": ["optimisation", "automation"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Mesurer Impact Optimisations: Avant: Benchmark + boot time (Task Manager > Startup), Après: Re-benchmark comparer. Amélioration typique: Boot -30-50%, FPS +5-15%, Latence -10-20 ms. Si dégradation = rollback via restore point créé automatiquement",
+                    "keywords": ["mesure", "impact", "benchmark", "avant-après"],
+                    "difficulty": "intermediate",
+                    "tags": ["optimisation", "benchmark"],
+                    "related_tools": ["Task Manager"]
+                },
+
+                # ━━━ PAGE DRIVERS - EXTENSIONS DÉTAILLÉES ━━━
+                {
+                    "content": "Drivers GPU NVIDIA Priority: 1) GeForce Experience (auto-update Game Ready), 2) Site NVIDIA direct (manual Studio/Game Ready), 3) Windows Update (fallback obsolète). DDU clean install chaque 6-12 mois évite corruption. Game Ready = optimisations nouveaux jeux, Studio = stabilité créateurs",
+                    "keywords": ["nvidia", "driver", "game ready", "studio", "ddu"],
+                    "difficulty": "intermediate",
+                    "tags": ["drivers", "gpu"],
+                    "related_tools": ["GeForce Experience", "DDU"]
+                },
+                {
+                    "content": "Drivers GPU AMD Strategy: Adrenalin Software auto-update (recommended), Site AMD manual (advanced), DDU avant upgrade majeur (ex: 23.x → 24.x). AMD plus stable que NVIDIA = wait 1-2 mois nouvelles versions éviter bugs day-one. WHQL drivers = plus testés, Optional = nouvelles features",
+                    "keywords": ["amd", "driver", "adrenalin", "whql", "optional"],
+                    "difficulty": "intermediate",
+                    "tags": ["drivers", "gpu"],
+                    "related_tools": ["AMD Adrenalin", "DDU"]
+                },
+                {
+                    "content": "DDU (Display Driver Uninstaller) Procédure: 1) Télécharger latest DDU, 2) Boot Safe Mode (Shift+Restart > Troubleshoot), 3) Lancer DDU, sélectionner GPU marque, 'Clean and Restart', 4) Installer nouveau driver normal mode. Nécessaire si corruption, artifacts graphiques, crashes",
+                    "keywords": ["ddu", "clean install", "safe mode", "driver"],
+                    "difficulty": "advanced",
+                    "tags": ["drivers", "troubleshooting"],
+                    "related_tools": ["DDU"]
+                },
+                {
+                    "content": "Drivers Audio Realtek: Télécharger depuis site fabricant carte mère, PAS Realtek direct (versions generiques bugs). ASUS = support.asus.com, MSI = msi.com/support, Gigabyte = gigabyte.com/support. Installer drivers + Realtek Audio Console (Microsoft Store) contrôle avancé égaliseur",
+                    "keywords": ["realtek", "audio", "driver", "motherboard"],
+                    "difficulty": "intermediate",
+                    "tags": ["drivers", "audio"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Chipset Driver Importance: Intel (chipset + ME firmware) ou AMD (chipset + Ryzen power plan). Affecte RAM stability XMP, NVMe speeds, USB compatibility, PCIe lanes. Installer AVANT GPU driver fresh Windows install. Mettre à jour chaque 6-12 mois depuis site motherboard manufacturer",
+                    "keywords": ["chipset", "driver", "stability", "performance"],
+                    "difficulty": "intermediate",
+                    "tags": ["drivers", "chipset"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Drivers Priorité Installation Fresh Windows: Ordre optimal - 1) Chipset + ME/AMD Ryzen, 2) GPU (NVIDIA/AMD), 3) Audio (Realtek/autre), 4) LAN/Wi-Fi (Intel/Realtek), 5) USB 3.0/3.1, 6) Périphériques (souris/clavier software). Redémarrer après chaque catégorie majeure",
+                    "keywords": ["installation", "ordre", "fresh windows", "priority"],
+                    "difficulty": "intermediate",
+                    "tags": ["drivers", "installation"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Windows Update Drivers: Généralement obsolètes (-6-12 mois retard), mais acceptables pour: imprimantes, webcams, périphériques génériques. ÉVITER pour: GPU (Game Ready requis), Chipset (spécifique motherboard), Audio (bugs common). Désactiver auto-driver install: gpedit.msc > Administrative Templates > Windows Components > Windows Update",
+                    "keywords": ["windows update", "drivers", "automatic", "disable"],
+                    "difficulty": "advanced",
+                    "tags": ["drivers", "windows update"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Driver Rollback Procédure: Si nouveau driver crash/bugs → Device Manager > Display Adapters > clic droit GPU > Properties > Driver tab > Roll Back Driver (si disponible). Si Roll Back grisé = DDU clean install version précédente manuellement téléchargée",
+                    "keywords": ["rollback", "driver", "downgrade", "troubleshooting"],
+                    "difficulty": "intermediate",
+                    "tags": ["drivers", "troubleshooting"],
+                    "related_tools": ["Device Manager", "DDU"]
+                },
+                {
+                    "content": "Drivers Signature Check: Drivers signés Microsoft WHQL = safe, unsigned = potential security risk. Vérifier: Device Manager > driver properties > Digital Signatures tab. Si unsigned unavoidable = Disable Driver Signature Enforcement boot: Shift+Restart > Troubleshoot > Advanced > Startup Settings > F7",
+                    "keywords": ["signature", "whql", "security", "unsigned"],
+                    "difficulty": "advanced",
+                    "tags": ["drivers", "security"],
+                    "related_tools": ["Device Manager"]
+                },
+                {
+                    "content": "NiTriTe Drivers Auto-Detection: Scan système détecte composants, recommande drivers. Liens directs NVIDIA GeForce, AMD Adrenalin, Intel drivers, Realtek Audio. Vérifie version installée vs latest available, alerte si outdated >6 mois. Boutons directs download sites officiels",
+                    "keywords": ["nitrite", "auto-detection", "driver scan", "recommendations"],
+                    "difficulty": "beginner",
+                    "tags": ["drivers", "nitrite"],
+                    "related_tools": []
+                },
+
+                # ━━━ PAGE MASTER INSTALL - EXTENSIONS WINGET ━━━
+                {
+                    "content": "Winget Commands Essentiels: 'winget search [app]' (recherche), 'winget install [ID]' (installer), 'winget upgrade --all' (tout mettre à jour), 'winget list' (apps installées), 'winget uninstall [ID]' (désinstaller). ID exact requis: 'Google.Chrome' pas 'chrome'",
+                    "keywords": ["winget", "commands", "cli", "package manager"],
+                    "difficulty": "intermediate",
+                    "tags": ["master install", "winget"],
+                    "related_tools": ["Winget"]
+                },
+                {
+                    "content": "Winget vs Chocolatey vs Scoop: Winget = officiel Microsoft intégré Windows 11, large catalogue (5000+ apps), updates réguliers. Chocolatey = plus mature (10+ ans), 9000+ packages, community-driven. Scoop = portable apps, dev tools focus. Recommandation: Winget 2024 pour utilisateurs standards",
+                    "keywords": ["winget", "chocolatey", "scoop", "comparison", "package manager"],
+                    "difficulty": "advanced",
+                    "tags": ["comparison", "master install"],
+                    "related_tools": ["Winget", "Chocolatey", "Scoop"]
+                },
+                {
+                    "content": "OrdiPlus Pack Contenu Complet: Navigateurs (Chrome, Firefox, Brave), Communication (Discord, Teams, WhatsApp), Gaming (Steam, Epic, Battle.net), Utilitaires (7-Zip, VLC, Notepad++), Bureautique (Office, Adobe Reader), Dev (VSCode, Git, Python), Cloud (Google Drive, Dropbox). Total: 80+ apps",
+                    "keywords": ["ordiplus", "pack", "apps", "liste complète"],
+                    "difficulty": "beginner",
+                    "tags": ["master install", "ordiplus"],
+                    "related_tools": ["Winget"]
+                },
+                {
+                    "content": "Installation Silencieuse Winget: Flag '--silent' installe sans interaction utilisateur (background). Exemple: 'winget install --id Google.Chrome --silent --accept-source-agreements --accept-package-agreements'. NiTriTe utilise silent mode par défaut batch install",
+                    "keywords": ["winget", "silent", "unattended", "batch"],
+                    "difficulty": "intermediate",
+                    "tags": ["master install", "automation"],
+                    "related_tools": ["Winget"]
+                },
+                {
+                    "content": "Winget Troubleshooting: Erreur 0x80073D02 = app déjà installée autre source, Erreur 0x8A150014 = certificat invalide (date système incorrecte?), Stuck install = kill process 'winget.exe' Task Manager + retry. Logs: C:\\Users\\[User]\\AppData\\Local\\Packages\\Microsoft.DesktopAppInstaller_*\\LocalState\\DiagOutputDir",
+                    "keywords": ["winget", "troubleshooting", "errors", "logs"],
+                    "difficulty": "advanced",
+                    "tags": ["master install", "troubleshooting"],
+                    "related_tools": ["Winget"]
+                },
+                {
+                    "content": "Packs Personnalisés Gaming: Steam, Epic Games, GOG Galaxy, EA App, Ubisoft Connect, Battle.net, Discord, NVIDIA GeForce Experience, MSI Afterburner, Parsec (remote gaming), OBS Studio (streaming). Installation parallèle 10-15 min. Total size ~5-8 GB downloads",
+                    "keywords": ["gaming pack", "steam", "discord", "installation"],
+                    "difficulty": "beginner",
+                    "tags": ["master install", "gaming"],
+                    "related_tools": ["Winget"]
+                },
+                {
+                    "content": "Packs Personnalisés Dev: VSCode, Git, Node.js LTS, Python 3.12, Docker Desktop, Postman, GitHub Desktop, Windows Terminal, PowerShell 7, JetBrains Toolbox. Configuration post-install: Git config user, VSCode extensions (Python, GitLens, Prettier), Docker WSL2 backend",
+                    "keywords": ["dev pack", "vscode", "git", "development"],
+                    "difficulty": "intermediate",
+                    "tags": ["master install", "development"],
+                    "related_tools": ["Winget", "VSCode", "Git"]
+                },
+                {
+                    "content": "Packs Personnalisés Bureautique: Microsoft Office 2024/365, Adobe Acrobat Reader, Notion, Google Chrome, Mozilla Firefox, Zoom, Microsoft Teams, LibreOffice (alternative gratuite Office), Foxit PDF Reader, Grammarly Desktop. Installation séquentielle évite conflicts",
+                    "keywords": ["bureautique pack", "office", "adobe", "productivity"],
+                    "difficulty": "beginner",
+                    "tags": ["master install", "bureautique"],
+                    "related_tools": ["Winget"]
+                },
+                {
+                    "content": "Winget Update Strategy: 'winget upgrade --all' met à jour toutes apps Winget-managed. Exclure apps spécifiques: créer pinned list. Schedule task Windows: run hebdomadaire 'winget upgrade --all --silent --accept-source-agreements'. Backup avant major updates (browsers, dev tools)",
+                    "keywords": ["winget", "update", "upgrade", "automation"],
+                    "difficulty": "advanced",
+                    "tags": ["master install", "maintenance"],
+                    "related_tools": ["Winget", "Task Scheduler"]
+                },
+                {
+                    "content": "NiTriTe Master Install Progress: Affiche barre progression globale (apps installées/total), logs real-time par app (succès/échec), temps estimé restant, taille downloads totale. Annulation possible (arrête queue, apps installées conservées). Retry automatique si timeout réseau",
+                    "keywords": ["nitrite", "master install", "progress", "ui"],
+                    "difficulty": "beginner",
+                    "tags": ["master install", "nitrite"],
+                    "related_tools": []
+                },
+
+                # ━━━ PAGE ACTIVATION - MICROSOFT ACTIVATION SCRIPTS (MAS) ━━━
+                {
+                    "content": "MAS (Microsoft Activation Scripts): Scripts PowerShell open-source activation Windows/Office. 3 méthodes: HWID (permanent Windows), KMS38 (Windows 2038), Online KMS (180 jours renouvelable). 100% safe, aucun malware, repo GitHub public, community-audited",
+                    "keywords": ["mas", "activation", "windows", "office", "scripts"],
+                    "difficulty": "intermediate",
+                    "tags": ["activation", "mas"],
+                    "related_tools": ["MAS"]
+                },
+                {
+                    "content": "HWID Activation (Permanent): Méthode recommandée Windows 10/11. Génère ticket hardware digital license liée motherboard. Survit reinstall Windows (auto-activation). Fonctionne Home/Pro/Education. Script MAS: Option 1 HWID. Durée: 30 secondes. Aucune connexion serveur KMS requise",
+                    "keywords": ["hwid", "permanent", "digital license", "activation"],
+                    "difficulty": "beginner",
+                    "tags": ["activation", "windows"],
+                    "related_tools": ["MAS"]
+                },
+                {
+                    "content": "KMS38 Activation (2038): Alternative HWID si échec. Active Windows jusqu'à 2038 (19 janvier). Offline method = no KMS server. Fonctionne Windows 10/11/Server. Renew automatique. Si hardware change majeur (motherboard) = re-run script. MAS Option 2 KMS38",
+                    "keywords": ["kms38", "2038", "activation", "offline"],
+                    "difficulty": "intermediate",
+                    "tags": ["activation", "windows"],
+                    "related_tools": ["MAS"]
+                },
+                {
+                    "content": "Online KMS Activation (Office): Active Office 365/2024/2021/2019. Renewal automatique 180 jours via tâche planifiée. Nécessite connexion internet périodique. Script crée task 'Office Auto KMS'. Vérifier activation: Office app > Account > Product Information = 'Activated'",
+                    "keywords": ["kms", "office", "activation", "renewal"],
+                    "difficulty": "beginner",
+                    "tags": ["activation", "office"],
+                    "related_tools": ["MAS"]
+                },
+                {
+                    "content": "Vérifier Activation Windows: Paramètres > Système > Activation. Status: 'Windows activé avec licence numérique' (HWID success) ou 'Windows activé' (KMS38/KMS). CMD 'slmgr /xpr' affiche expiration KMS38 (19/01/2038). CMD 'slmgr /dli' détails licence",
+                    "keywords": ["vérification", "activation", "status", "windows"],
+                    "difficulty": "beginner",
+                    "tags": ["activation", "verification"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Troubleshooting Activation MAS: HWID fail = essayer KMS38 fallback. Erreur 'Script blocked' = Run PowerShell as Admin, Set-ExecutionPolicy Bypass. Antivirus block = désactiver temporairement (false positive common). Si persistent fail = vérifier genuine Windows ISO (pas crack pre-activated)",
+                    "keywords": ["troubleshooting", "mas", "activation", "errors"],
+                    "difficulty": "advanced",
+                    "tags": ["activation", "troubleshooting"],
+                    "related_tools": ["MAS"]
+                },
+                {
+                    "content": "MAS Security: Open source GitHub (massgravel/Microsoft-Activation-Scripts), code reviewable, aucune connexion serveur tiers suspect, scripts PowerShell natifs Windows. VirusTotal faux positifs courants (heuristic detection tools activation). Safe alternative KMSPico/KMSAuto (malware risks)",
+                    "keywords": ["mas", "security", "open source", "safe"],
+                    "difficulty": "intermediate",
+                    "tags": ["activation", "security"],
+                    "related_tools": ["MAS"]
+                },
+                {
+                    "content": "Activation Office Versions: Supported: Office 365, 2024, 2021, 2019, 2016. Non supported: Office 2013 (obsolète). Éditions: Professional Plus (toutes apps), Standard (core apps). MAS détecte version installée automatiquement, applique KMS activation appropriée",
+                    "keywords": ["office", "versions", "support", "activation"],
+                    "difficulty": "beginner",
+                    "tags": ["activation", "office"],
+                    "related_tools": ["MAS"]
+                },
+                {
+                    "content": "NiTriTe Intégration MAS: Page Activation > boutons 'Activer Windows' (HWID), 'Activer Office' (KMS), 'Vérifier Status'. Scripts MAS intégrés src/mas_scripts/, exécution PowerShell automatique admin, logs output real-time, success/fail notification. Backup registry avant activation",
+                    "keywords": ["nitrite", "mas", "integration", "activation"],
+                    "difficulty": "beginner",
+                    "tags": ["activation", "nitrite"],
+                    "related_tools": ["MAS"]
+                },
+                {
+                    "content": "Post-Activation Best Practices: Windows Update check (critical security patches), Office update check (Help > Check for Updates), Restore Point création (avant activation), Vérifier genuine: Settings > Update & Security > Activation = Activated. Redémarrer après activation recommended",
+                    "keywords": ["post-activation", "best practices", "updates", "verification"],
+                    "difficulty": "beginner",
+                    "tags": ["activation", "best practices"],
+                    "related_tools": []
+                },
+
+                # ━━━ PROBLÈMES COURANTS - RÉPONSES DIRECTES (200+ TIPS) ━━━
+
+                # SURCHAUFFE CPU/PC
+                {
+                    "content": "PC surchauffe solution immédiate: 1) Nettoyer ventilateurs (air comprimé), 2) Vérifier pâte thermique CPU (changer si >2 ans), 3) Augmenter vitesse ventilateurs (BIOS ou MSI Afterburner), 4) Limiter performances (plan Équilibré), 5) Vérifier circulation air (câbles bloquent?). Température normale idle <45°C, charge <85°C",
+                    "keywords": ["surchauffe", "chauffe", "température", "chaud", "ventilateur", "chaleur"],
+                    "difficulty": "beginner",
+                    "tags": ["troubleshooting", "température"],
+                    "related_tools": ["HWMonitor", "MSI Afterburner"]
+                },
+                {
+                    "content": "Surchauffe GPU solution: 1) Underclock léger (-50 MHz core, -100 MHz memory via MSI Afterburner), 2) Courbe ventilateur agressive (60% à 60°C, 100% à 80°C), 3) Nettoyer dissipateur, 4) Limiter FPS (60 FPS cap réduit charge), 5) Améliorer circulation boîtier. Température GPU normale: <75°C gaming, <85°C max acceptable",
+                    "keywords": ["gpu", "carte graphique", "surchauffe", "température gpu", "ventilateur gpu"],
+                    "difficulty": "intermediate",
+                    "tags": ["troubleshooting", "gpu"],
+                    "related_tools": ["MSI Afterburner", "HWMonitor"]
+                },
+                {
+                    "content": "Surchauffe laptop: 1) Surélever arrière (2-3 cm meilleure ventilation), 2) Support refroidissement externe (pad ventilateurs), 3) Réduire résolution jeu (1080p→720p moins charge), 4) Undervolt CPU (ThrottleStop -50mV à -100mV safe), 5) Nettoyer grilles ventilation. Laptop normal: 80-90°C charge, >95°C throttling",
+                    "keywords": ["laptop", "portable", "surchauffe laptop", "ventilation laptop"],
+                    "difficulty": "intermediate",
+                    "tags": ["troubleshooting", "laptop"],
+                    "related_tools": ["ThrottleStop", "Support refroidissement"]
+                },
+
+                # PC LENT
+                {
+                    "content": "PC lent solution rapide: 1) NiTriTe Page Optimisation > Tout Optimiser (désactive services inutiles, optimise démarrage), 2) Vérifier RAM usage (Ctrl+Shift+Esc > Performance > Mémoire, si >90% = ajouter RAM), 3) SSD upgrade si HDD (10x plus rapide), 4) Scan virus (Defender ou NiTriTe Scan Virus), 5) Défragmenter HDD (seulement si HDD, jamais SSD)",
+                    "keywords": ["lent", "ralenti", "rame", "lag", "slow", "performance"],
+                    "difficulty": "beginner",
+                    "tags": ["troubleshooting", "performance"],
+                    "related_tools": ["Task Manager", "NiTriTe"]
+                },
+                {
+                    "content": "PC lent au démarrage: 1) Task Manager > Démarrage tab, désactiver apps inutiles (Discord, Steam, Adobe, Teams), 2) Windows Search service désactiver si SSD (inutile), 3) Fast Startup activer (Panneau config > Options alimentation > Paramètres système), 4) SSD upgrade si HDD, 5) Vérifier malware (autoruns startup persistence). Boot normal: SSD 10-20 sec, HDD 45-90 sec",
+                    "keywords": ["démarrage lent", "boot lent", "windows lent démarrage"],
+                    "difficulty": "beginner",
+                    "tags": ["troubleshooting", "boot"],
+                    "related_tools": ["Task Manager", "AutoRuns"]
+                },
+
+                # ÉCRAN BLEU / BSOD
+                {
+                    "content": "Écran Bleu BSOD résolution: 1) Noter code erreur (ex: SYSTEM_SERVICE_EXCEPTION, IRQL_NOT_LESS_OR_EQUAL), 2) Google '[code erreur] + [composant PC]', 3) Causes fréquentes: RAM défectueuse (test MemTest86), Drivers obsolètes (GPU, chipset), Overclock instable (reset BIOS defaults), SSD défaillant (CrystalDiskInfo SMART). 4) BlueScreenView analyser dump crash",
+                    "keywords": ["bsod", "écran bleu", "blue screen", "crash", "plantage"],
+                    "difficulty": "intermediate",
+                    "tags": ["troubleshooting", "bsod"],
+                    "related_tools": ["MemTest86", "BlueScreenView", "CrystalDiskInfo"]
+                },
+                {
+                    "content": "BSOD codes courants: MEMORY_MANAGEMENT = RAM défectueuse (test MemTest86 8+ heures), PAGE_FAULT_IN_NONPAGED_AREA = driver corrompu (DDU GPU clean install), SYSTEM_SERVICE_EXCEPTION = driver incompatible (vérifier Windows Update), IRQL_NOT_LESS_OR_EQUAL = conflit matériel/driver, DPC_WATCHDOG_VIOLATION = SSD driver obsolète (update chipset)",
+                    "keywords": ["bsod", "memory management", "page fault", "irql", "dpc watchdog"],
+                    "difficulty": "advanced",
+                    "tags": ["troubleshooting", "bsod codes"],
+                    "related_tools": ["MemTest86", "DDU", "BlueScreenView"]
+                },
+
+                # FPS BAS
+                {
+                    "content": "FPS bas gaming solution: 1) Vérifier GPU usage (MSI Afterburner, si <95% = CPU bottleneck), 2) Réduire graphismes (Élevé→Moyen, shadows Medium, anti-aliasing FXAA), 3) Résolution 1080p (si 1440p/4K), 4) Drivers GPU Game Ready latest, 5) Background apps fermés (Chrome, Discord), 6) Plan Performances Maximales Windows. FPS objectif: 60 FPS minimum, 144 FPS optimal",
+                    "keywords": ["fps", "fps bas", "lag jeu", "saccades", "framerate"],
+                    "difficulty": "beginner",
+                    "tags": ["gaming", "performance"],
+                    "related_tools": ["MSI Afterburner", "GeForce Experience"]
+                },
+                {
+                    "content": "Micro-freezes gaming: 1) RAM upgrade 16 GB minimum (32 GB optimal 2024), 2) Fermer Chrome (mange 2-4 GB RAM), 3) XMP activé BIOS (RAM full speed), 4) SSD pour jeu (HDD cause stutters), 5) Latence réseau (ping >50 ms = DNS Cloudflare 1.1.1.1), 6) Background Windows Update désactivé pendant jeu (gpedit.msc). Micro-freeze = freeze 0.1-0.5 sec répétitif",
+                    "keywords": ["micro-freeze", "stutter", "saccades", "freeze court"],
+                    "difficulty": "intermediate",
+                    "tags": ["gaming", "troubleshooting"],
+                    "related_tools": ["MSI Afterburner", "Task Manager"]
+                },
+
+                # PAS DE SON
+                {
+                    "content": "Pas de son Windows: 1) Vérifier volume (barre tâches, pas mute?), 2) Périphérique sortie correct (clic droit icône son > Ouvrir paramètres son > sortie = bon périphérique), 3) Services audio démarrés (services.msc > Windows Audio = Automatic + Running), 4) Driver audio réinstaller (NiTriTe Drivers > Audio), 5) Jack branché bon port (vert = sortie, rose = micro)",
+                    "keywords": ["son", "audio", "pas de son", "muet", "sound"],
+                    "difficulty": "beginner",
+                    "tags": ["troubleshooting", "audio"],
+                    "related_tools": ["Device Manager", "Realtek Audio Console"]
+                },
+
+                # WIFI LENT
+                {
+                    "content": "Wi-Fi lent solution: 1) Proximité box (max 10m, murs bloquent signal), 2) Bande 5 GHz si disponible (rapide mais courte portée, 2.4 GHz = lent mais longue portée), 3) Canal Wi-Fi changer (box settings, auto-select ou canal 1/6/11 moins congestionné), 4) Driver Wi-Fi update (NiTriTe Drivers), 5) Ethernet câble si possible (10x plus stable). Wi-Fi normal: 50-300 Mbps, Ethernet: 100-1000 Mbps",
+                    "keywords": ["wifi", "wifi lent", "internet lent", "connexion lente"],
+                    "difficulty": "beginner",
+                    "tags": ["troubleshooting", "réseau"],
+                    "related_tools": []
+                },
+
+                # DISQUE 100%
+                {
+                    "content": "Disque 100% usage: 1) Task Manager > Disque column identifier app coupable, 2) Windows Search désactiver (services.msc > Windows Search = Disabled), 3) Superfetch désactiver si SSD (services.msc > SysMain = Disabled), 4) Antivirus scan en cours (attendre fin), 5) SSD upgrade si HDD (100% usage normal HDD vieux). Disque normal: <50% idle, 100% temporaire OK si install/scan",
+                    "keywords": ["disque 100", "disk 100", "disque saturé", "hdd 100"],
+                    "difficulty": "intermediate",
+                    "tags": ["troubleshooting", "disk"],
+                    "related_tools": ["Task Manager"]
+                },
+
+                # ÉCRAN NOIR
+                {
+                    "content": "Écran noir au démarrage: 1) Vérifier câble écran (HDMI/DisplayPort bien branché GPU, PAS carte mère), 2) Écran allumé (LED power ON?), 3) Source entrée correcte (bouton écran > HDMI 1 vs HDMI 2), 4) GPU bien installé (démonter, remonter, 6/8-pin power branchés), 5) RAM reseat (enlever, remettre slots), 6) BIOS reset (jumper CLR_CMOS 10 sec). POST beeps = diagnostic code",
+                    "keywords": ["écran noir", "black screen", "no display", "pas d'affichage"],
+                    "difficulty": "intermediate",
+                    "tags": ["troubleshooting", "display"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Écran noir après Windows logo: 1) Safe Mode boot (Shift+Restart > Troubleshoot > Advanced > Startup Settings > F4), 2) DDU driver GPU (Safe Mode), 3) Windows Update rollback si récent (Settings > Update > View history > Uninstall updates), 4) System Restore point (rstrui.exe), 5) Startup Repair (boot USB Windows > Repair). Safe Mode = diagnostic mode minimal drivers",
+                    "keywords": ["écran noir windows", "black screen login", "écran noir démarrage"],
+                    "difficulty": "advanced",
+                    "tags": ["troubleshooting", "windows"],
+                    "related_tools": ["DDU", "Safe Mode"]
+                },
+
+                # JEUX CRASH
+                {
+                    "content": "Jeu crash solution: 1) Vérifier fichiers (Steam > clic droit jeu > Propriétés > Fichiers locaux > Vérifier intégrité), 2) Drivers GPU latest Game Ready, 3) DirectX + VC Redist installer (dxwebsetup.exe, vc_redist.x64.exe), 4) Antivirus exception dossier jeu, 5) Overclock reset defaults BIOS si instable, 6) RAM test (MemTest86 si crash répétitif). Crash au lancement = fichiers/drivers, crash en jeu = instabilité OC/température",
+                    "keywords": ["jeu crash", "game crash", "jeu plante", "crash gaming"],
+                    "difficulty": "intermediate",
+                    "tags": ["gaming", "troubleshooting"],
+                    "related_tools": ["Steam", "DDU", "MemTest86"]
+                },
+
+                # ACTIVATION WINDOWS
+                {
+                    "content": "Activer Windows gratuit: NiTriTe Page Activation > bouton 'Activer Windows HWID'. Méthode MAS (Microsoft Activation Scripts) 100% safe, open source GitHub. Génère licence numérique permanente liée motherboard. Survit reinstall Windows. Alternative: acheter clé OEM 5-15€ (legal gris), clé Retail 150€ (officiel). Vérifier activation: Settings > Update & Security > Activation",
+                    "keywords": ["activer windows", "activation windows", "licence windows", "windows pas activé"],
+                    "difficulty": "beginner",
+                    "tags": ["activation", "windows"],
+                    "related_tools": ["MAS", "NiTriTe"]
+                },
+
+                # INSTALLER WINDOWS
+                {
+                    "content": "Installer Windows 11 USB: 1) Télécharger ISO (NiTriTe Page OS & USB Tools > Windows 11 24H2), 2) Rufus créer USB bootable (8 GB minimum), 3) Boot BIOS USB (F11/F12/Del au démarrage), 4) Installer > Custom > formater partition, 5) Drivers installer (chipset, GPU, audio), 6) Activation MAS (NiTriTe Page Activation). Durée: 20-30 min install, 1h total avec drivers. Backup données avant!",
+                    "keywords": ["installer windows", "install windows", "windows usb", "réinstaller windows"],
+                    "difficulty": "intermediate",
+                    "tags": ["windows", "installation"],
+                    "related_tools": ["Rufus", "Media Creation Tool", "NiTriTe"]
+                },
+
+                # MAJ WINDOWS BLOQUÉE
+                {
+                    "content": "Mise à jour Windows bloquée: 1) Windows Update Troubleshooter (Settings > Update > Troubleshoot), 2) DISM + SFC repair (cmd admin: 'dism /online /cleanup-image /restorehealth' puis 'sfc /scannow'), 3) SoftwareDistribution folder delete (services.msc stop Windows Update, del C:\\Windows\\SoftwareDistribution\\*, restart service), 4) Espace disque (20 GB libre minimum C:\\), 5) Assistant Update Microsoft (download manual)",
+                    "keywords": ["windows update", "maj windows", "update bloqué", "windows update erreur"],
+                    "difficulty": "advanced",
+                    "tags": ["windows", "troubleshooting"],
+                    "related_tools": ["DISM", "SFC"]
+                },
+
+                # MALWARE / VIRUS
+                {
+                    "content": "PC infecté virus: 1) NiTriTe Scan Virus > Scan Complet (30-60 min), 2) Malwarebytes installer + scan gratuit (détecte PUP/Adware que Defender rate), 3) AdwCleaner browser cleanup, 4) AutoRuns vérifier startup persistence (non-signés suspects), 5) Réinstaller Windows si crypto-ransomware. Signes infection: popups, ralentissement soudain, homepage changée, CPU 100% idle, fichiers cryptés (.encrypted)",
+                    "keywords": ["virus", "malware", "infecté", "trojan", "ransomware"],
+                    "difficulty": "intermediate",
+                    "tags": ["security", "troubleshooting"],
+                    "related_tools": ["Windows Defender", "Malwarebytes", "AutoRuns", "AdwCleaner"]
+                },
+
+                # RÉCUPÉRATION DONNÉES
+                {
+                    "content": "Récupérer fichiers supprimés: 1) Corbeille (vider pas encore?), 2) Recuva gratuit (scan disque, deep scan si nécessaire), 3) STOP utiliser PC (chaque écriture écrase), 4) TestDisk advanced (partitions supprimées), 5) Service professionnel si critique (500-2000€). Succès: 90% si <24h, 50% si <1 semaine, 10% si >1 mois. SSD TRIM = récupération impossible après quelques heures",
+                    "keywords": ["récupérer fichiers", "fichiers supprimés", "data recovery", "récupération données"],
+                    "difficulty": "intermediate",
+                    "tags": ["data recovery", "troubleshooting"],
+                    "related_tools": ["Recuva", "TestDisk", "PhotoRec"]
+                },
+
+                # DUAL BOOT
+                {
+                    "content": "Dual Boot Windows + Linux: 1) Installer Windows FIRST (écrase bootloader), 2) Partition SSD (Disk Management shrink 100+ GB pour Linux), 3) USB Linux (Ubuntu 24.04 LTS recommended débutants), 4) Installer Linux partition libre, 5) GRUB bootloader auto-détecte Windows. Boot order BIOS: USB > Linux SSD > Windows SSD. Risque: erreur partition = perte données, BACKUP avant!",
+                    "keywords": ["dual boot", "linux windows", "ubuntu install", "dual boot windows linux"],
+                    "difficulty": "advanced",
+                    "tags": ["linux", "windows", "installation"],
+                    "related_tools": ["Rufus", "GParted"]
+                },
+
+                # ━━━ EASTER EGGS ET FEATURES CACHÉES ━━━
+                {
+                    "content": "Raccourcis Clavier NiTriTe: Ctrl+R (rafraîchir page courante), Ctrl+E (exporter rapport si disponible), Ctrl+T (toggle theme Light/Dark), F11 (plein écran), Ctrl+Q (quitter app)",
+                    "keywords": ["shortcuts", "keyboard", "hotkeys"],
+                    "difficulty": "intermediate",
+                    "tags": ["tips"],
+                    "related_tools": []
+                },
+                {
+                    "content": "Thèmes Personnalisés: Modifier design_tokens.py constantes couleur. PRIMARY (couleur principale), ACCENT (accents), SUCCESS/WARNING/ERROR (notifications). Relancer app appliquer changements. Partager thèmes communauté",
+                    "keywords": ["themes", "colors", "customization"],
+                    "difficulty": "advanced",
+                    "tags": ["customization"],
+                    "related_tools": []
+                },
+            ]
+        }
 
 
         return kb

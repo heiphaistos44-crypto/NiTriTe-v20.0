@@ -48,6 +48,18 @@ class ModernButton(ctk.CTkButton):
         }
         width, height, font_size, icon_size = sizes.get(size, sizes['md'])
 
+        # Extraire l'emoji du texte si pas fourni explicitement
+        if not emoji and 'text' in kwargs and COLORED_ICONS_AVAILABLE:
+            try:
+                from v14_mvp.auto_color_icons import extract_emoji
+                extracted_emoji, clean_text = extract_emoji(kwargs['text'])
+                if extracted_emoji:
+                    emoji = extracted_emoji
+                    kwargs['text'] = clean_text
+            except Exception as e:
+                print(f"Erreur extraction emoji ModernButton: {e}")
+                pass
+
         # Si un emoji est fourni ET que les icônes colorées sont disponibles
         if emoji and COLORED_ICONS_AVAILABLE:
             try:
@@ -162,13 +174,13 @@ class ModernStatsCard(ctk.CTkFrame):
         # Extraire l'emoji du titre si présent
         emoji = None
         clean_title = title
-        # Note: auto_color_icons.extract_emoji désactivé (module n'existe plus)
-        # if title and COLORED_ICONS_AVAILABLE:
-        #     try:
-        #         from v14_mvp.auto_color_icons import extract_emoji
-        #         emoji, clean_title = extract_emoji(title)
-        #     except:
-        #         pass
+        if title and COLORED_ICONS_AVAILABLE:
+            try:
+                from v14_mvp.auto_color_icons import extract_emoji
+                emoji, clean_title = extract_emoji(title)
+            except Exception as e:
+                print(f"Erreur extraction emoji ModernStatsCard: {e}")
+                pass
 
         # Container
         container = ctk.CTkFrame(self, fg_color="transparent")
@@ -247,10 +259,13 @@ class SectionHeader(ctk.CTkFrame):
         container.pack(fill=tk.X, padx=20, pady=15)
 
         # Extraire emoji du texte si présent
-        # Note: auto_color_icons.extract_emoji désactivé (module n'existe plus)
-        # if not emoji and text:
-        #     from v14_mvp.auto_color_icons import extract_emoji
-        #     emoji, text = extract_emoji(text)
+        if not emoji and text:
+            try:
+                from v14_mvp.auto_color_icons import extract_emoji
+                emoji, text = extract_emoji(text)
+            except Exception as e:
+                print(f"Erreur extraction emoji SectionHeader: {e}")
+                pass
 
         # Icône colorée si emoji fourni
         if emoji and COLORED_ICONS_AVAILABLE:

@@ -9,6 +9,7 @@ import subprocess
 import threading
 import requests
 import os
+import sys
 import shutil
 from pathlib import Path
 from typing import Callable, Optional, Tuple

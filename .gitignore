@@ -50,3 +50,11 @@ archives_versions/**/*.zip
 .claude/
 test_*.py
 *_colored.py
+
+# Large driver files (> 100 MB)
+Drivers/**/*.exe
+Drivers/**/*.msi
+
+# Large Windows tools (> 100 MB)
+Script Windows/Tweaks Windows 11-10-8-7-Vista-XP/*.exe
+Script Windows/Tweaks Windows 11-10-8-7-Vista-XP/*.zip

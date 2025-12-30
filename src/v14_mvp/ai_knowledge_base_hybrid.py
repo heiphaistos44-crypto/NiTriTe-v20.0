@@ -15,10 +15,18 @@ import numpy as np
 
 # Import legacy KB pour backward compat
 try:
-    from v14_mvp.ai_knowledge_unified import UnifiedKnowledgeBase
+    from .ai_knowledge_unified import UnifiedKnowledgeBase
     LEGACY_KB_AVAILABLE = True
 except ImportError:
-    LEGACY_KB_AVAILABLE = False
+    try:
+        from ai_knowledge_unified import UnifiedKnowledgeBase
+        LEGACY_KB_AVAILABLE = True
+    except ImportError:
+        try:
+            from v14_mvp.ai_knowledge_unified import UnifiedKnowledgeBase
+            LEGACY_KB_AVAILABLE = True
+        except ImportError:
+            LEGACY_KB_AVAILABLE = False
 
 
 class HybridKnowledgeBase:
@@ -91,7 +99,7 @@ class HybridKnowledgeBase:
 
         try:
             legacy = UnifiedKnowledgeBase()
-            print(f"[HybridKB] Legacy KB chargé: {len(legacy.knowledge_base)} catégories")
+            print(f"[HybridKB] Legacy KB chargé: {len(legacy.kb)} catégories")
             return legacy
         except Exception as e:
             print(f"[HybridKB] ERROR loading Legacy KB: {e}")
