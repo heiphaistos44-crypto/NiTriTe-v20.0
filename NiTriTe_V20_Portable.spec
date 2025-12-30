@@ -49,7 +49,13 @@ a = Analysis(
     [os.path.join('src', 'v14_mvp', 'main_app.py')],
     pathex=[os.path.join(os.getcwd(), 'src')],  # Ajouter src/ au path
     binaries=[],
-    datas=[('data', 'data'), ('assets', 'assets'), ('src', 'src'), ('logiciel', 'logiciel')],
+    datas=[
+        ('data', 'data'),
+        ('assets', 'assets'),
+        ('src', 'src'),
+        # Note: archives_compressed n'est PAS inclus dans le build
+        # Les archives seront téléchargées automatiquement depuis GitHub Releases au premier lancement
+    ],
     hiddenimports=hiddenimports,
     hookspath=[],
     hooksconfig={},
@@ -63,9 +69,8 @@ pyz = PYZ(a.pure)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.datas,
     [],
+    exclude_binaries=True,  # Mode OnDir - binaries séparés
     name='NiTriTe_V20_Portable',
     debug=False,
     bootloader_ignore_signals=False,
@@ -80,4 +85,15 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='NiTriTe_V20_Portable'
 )
