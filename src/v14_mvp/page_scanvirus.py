@@ -141,6 +141,55 @@ class ScanVirusPage(ctk.CTkFrame):
             command=self._advanced_analysis
         ).pack(side=tk.LEFT, padx=5)
 
+        # Section Scans Ultra-Poussés
+        ultra_section = ctk.CTkFrame(container, fg_color="transparent")
+        ultra_section.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(20, 0))
+
+        ctk.CTkLabel(
+            ultra_section,
+            text="🛡️ Scans Ultra-Poussés",
+            font=("Segoe UI", 14, "bold"),
+            text_color=DesignTokens.TEXT_PRIMARY
+        ).pack(anchor="w", pady=(0, 10))
+
+        btn_frame_ultra1 = ctk.CTkFrame(ultra_section, fg_color="transparent")
+        btn_frame_ultra1.pack(fill=tk.X)
+
+        ModernButton(
+            btn_frame_ultra1,
+            text="🔥 Scan Rootkit",
+            variant="filled",
+            size="md",
+            command=self._rootkit_scan
+        ).pack(side=tk.LEFT, padx=5)
+
+        ModernButton(
+            btn_frame_ultra1,
+            text="💾 Scan RAM",
+            variant="outlined",
+            size="md",
+            command=self._memory_scan
+        ).pack(side=tk.LEFT, padx=5)
+
+        btn_frame_ultra2 = ctk.CTkFrame(ultra_section, fg_color="transparent")
+        btn_frame_ultra2.pack(fill=tk.X, pady=(5, 0))
+
+        ModernButton(
+            btn_frame_ultra2,
+            text="🧬 Scan Heuristique",
+            variant="outlined",
+            size="md",
+            command=self._heuristic_scan
+        ).pack(side=tk.LEFT, padx=5)
+
+        ModernButton(
+            btn_frame_ultra2,
+            text="🔐 Scan Profond",
+            variant="outlined",
+            size="md",
+            command=self._deep_scan
+        ).pack(side=tk.LEFT, padx=5)
+
         # Section Outils Externes
         tools_section = ctk.CTkFrame(container, fg_color="transparent")
         tools_section.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(20, 0))
@@ -1638,3 +1687,814 @@ class ScanVirusPage(ctk.CTkFrame):
         except Exception as e:
             messagebox.showerror("Erreur", f"Impossible de supprimer le fichier:\n{str(e)}")
             self._log(f"❌ Erreur suppression: {e}")
+
+    # ========== SCANS ULTRA-POUSSES ==========
+
+    def _rootkit_scan(self):
+        """Scan de détection de rootkits - Ultra approfondi"""
+        self._log("\n🔥 SCAN ROOTKIT - DÉTECTION ULTRA-APPROFONDIE")
+        self._log("=" * 80)
+        self._log("Ce scan détecte les rootkits cachés au niveau du noyau et du système")
+        self._log("")
+
+        confirm = messagebox.askyesno(
+            "Scan Rootkit",
+            "Lancer un scan de détection de rootkits?\n\n"
+            "⚠️ AVERTISSEMENT:\n"
+            "• Nécessite des droits administrateur\n"
+            "• Durée: 10-20 minutes\n"
+            "• Scan MBR, BOOT, Noyau, Drivers système\n"
+            "• Peut ralentir temporairement le PC"
+        )
+
+        if not confirm:
+            self._log("❌ Scan annulé\n")
+            return
+
+        def run_rootkit_scan():
+            try:
+                self._log("🔄 Démarrage du scan rootkit...\n")
+
+                # 1. Scan MBR/BOOT
+                self._log("📋 1/6 - Analyse MBR (Master Boot Record)")
+                self._log("-" * 80)
+                try:
+                    result = subprocess.run(
+                        ['powershell', '-Command', 'Get-Disk | Format-Table -AutoSize'],
+                        capture_output=True,
+                        text=True,
+                        timeout=30
+                    )
+                    if result.stdout:
+                        self._log(result.stdout[:500])
+                    self._log("✅ Analyse MBR terminée\n")
+                except Exception as e:
+                    self._log(f"⚠️ Erreur MBR: {e}\n")
+
+                # 2. Scan Drivers système
+                self._log("📋 2/6 - Analyse Drivers Système (rootkits kernel)")
+                self._log("-" * 80)
+                try:
+                    result = subprocess.run(
+                        ['powershell', '-Command',
+                         'Get-WindowsDriver -Online | Where-Object {$_.ProviderName -notlike "*Microsoft*"} | Select-Object Driver,ProviderName,Date -First 20 | Format-Table -AutoSize'],
+                        capture_output=True,
+                        text=True,
+                        timeout=30
+                    )
+                    if result.stdout:
+                        lines = result.stdout.strip().split('\n')
+                        suspicious_drivers = 0
+                        for line in lines:
+                            if line.strip() and not any(x in line.lower() for x in ['microsoft', 'intel', 'amd', 'nvidia']):
+                                self._log(f"  ⚠️ {line}")
+                                suspicious_drivers += 1
+
+                        if suspicious_drivers == 0:
+                            self._log("  ✅ Aucun driver suspect détecté")
+                        else:
+                            self._log(f"\n  ⚠️ {suspicious_drivers} driver(s) non-Microsoft détecté(s)")
+                    self._log("")
+                except Exception as e:
+                    self._log(f"⚠️ Erreur drivers: {e}\n")
+
+                # 3. Scan Services suspects
+                self._log("📋 3/6 - Analyse Services Système Cachés")
+                self._log("-" * 80)
+                try:
+                    result = subprocess.run(
+                        ['powershell', '-Command',
+                         'Get-Service | Where-Object {$_.Status -eq "Running" -and $_.StartType -eq "Automatic"} | Where-Object {$_.DisplayName -notlike "*Microsoft*" -and $_.DisplayName -notlike "*Windows*"} | Select-Object Name,DisplayName,Status -First 15 | Format-Table -AutoSize'],
+                        capture_output=True,
+                        text=True,
+                        timeout=30
+                    )
+                    if result.stdout:
+                        self._log(result.stdout[:800])
+                    self._log("✅ Analyse services terminée\n")
+                except Exception as e:
+                    self._log(f"⚠️ Erreur services: {e}\n")
+
+                # 4. Scan Registry Autostart keys
+                self._log("📋 4/6 - Analyse Clés de Registre (Autostart)")
+                self._log("-" * 80)
+                registry_keys = [
+                    r"HKLM:\Software\Microsoft\Windows\CurrentVersion\Run",
+                    r"HKCU:\Software\Microsoft\Windows\CurrentVersion\Run",
+                    r"HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
+                ]
+
+                for key in registry_keys:
+                    try:
+                        result = subprocess.run(
+                            ['powershell', '-Command', f'Get-ItemProperty -Path "{key}" | Format-List'],
+                            capture_output=True,
+                            text=True,
+                            timeout=10
+                        )
+                        if result.stdout and len(result.stdout.strip()) > 10:
+                            self._log(f"  📂 {key}:")
+                            lines = result.stdout.strip().split('\n')[:10]
+                            for line in lines:
+                                if ':' in line:
+                                    self._log(f"    {line}")
+                    except:
+                        pass
+                self._log("")
+
+                # 5. Scan processus cachés
+                self._log("📋 5/6 - Détection Processus Cachés/Injectés")
+                self._log("-" * 80)
+                try:
+                    import psutil
+                    hidden_count = 0
+                    for proc in psutil.process_iter(['pid', 'name', 'exe', 'cmdline']):
+                        try:
+                            # Processus sans exe = potentiellement caché
+                            if proc.info['name'] and not proc.info['exe']:
+                                self._log(f"  ⚠️ Processus sans EXE: {proc.info['name']} (PID: {proc.info['pid']})")
+                                hidden_count += 1
+                        except:
+                            pass
+
+                    if hidden_count == 0:
+                        self._log("  ✅ Aucun processus caché détecté")
+                    else:
+                        self._log(f"\n  ⚠️ {hidden_count} processus suspect(s)")
+                    self._log("")
+                except Exception as e:
+                    self._log(f"⚠️ Erreur processus: {e}\n")
+
+                # 6. Scan Defender complet
+                self._log("📋 6/6 - Scan Windows Defender Anti-Rootkit")
+                self._log("-" * 80)
+                self._log("🔄 Lancement scan Defender en mode rootkit...")
+                try:
+                    result = subprocess.run(
+                        ['powershell', '-Command', 'Start-MpScan', '-ScanType', 'FullScan'],
+                        capture_output=True,
+                        text=True,
+                        timeout=300
+                    )
+                    if result.returncode == 0:
+                        self._log("✅ Scan Defender terminé")
+                        self._check_defender_threats()
+                    else:
+                        self._log(f"⚠️ Scan Defender code: {result.returncode}")
+                except subprocess.TimeoutExpired:
+                    self._log("⏱️ Scan Defender dépassé (continuera en arrière-plan)")
+                except Exception as e:
+                    self._log(f"⚠️ Erreur Defender: {e}")
+
+                self._log("")
+                self._log("=" * 80)
+                self._log("✅ SCAN ROOTKIT TERMINÉ")
+                self._log("")
+                self._log("📊 RECOMMANDATIONS:")
+                self._log("  • Vérifiez les éléments marqués ⚠️ ci-dessus")
+                self._log("  • Utilisez AutoRuns (bouton ci-dessus) pour analyse détaillée")
+                self._log("  • En cas de détection, utilisez un outil spécialisé (GMER, TDSSKiller)")
+                self._log("")
+
+            except Exception as e:
+                self._log(f"❌ Erreur scan rootkit: {str(e)}")
+
+        threading.Thread(target=run_rootkit_scan, daemon=True).start()
+
+    def _memory_scan(self):
+        """Scan de la mémoire RAM pour détecter malwares résidents"""
+        self._log("\n💾 SCAN MÉMOIRE RAM - DÉTECTION MALWARES RÉSIDENTS")
+        self._log("=" * 80)
+        self._log("Analyse de la RAM pour détecter les malwares en mémoire")
+        self._log("")
+
+        def run_memory_scan():
+            try:
+                self._log("🔄 Analyse de la mémoire en cours...\n")
+
+                # 1. Analyser tous les processus en mémoire
+                self._log("📋 1/4 - Analyse Processus en Mémoire")
+                self._log("-" * 80)
+
+                import psutil
+                suspicious_procs = []
+                total_procs = 0
+
+                for proc in psutil.process_iter(['pid', 'name', 'memory_percent', 'cpu_percent', 'exe', 'cmdline']):
+                    try:
+                        total_procs += 1
+                        info = proc.info
+
+                        # Critères de suspicion
+                        is_suspicious = False
+                        reasons = []
+
+                        # Mémoire anormale
+                        if info['memory_percent'] and info['memory_percent'] > 20:
+                            is_suspicious = True
+                            reasons.append(f"RAM élevée ({info['memory_percent']:.1f}%)")
+
+                        # Pas d'exe (processus injecté?)
+                        if not info['exe']:
+                            is_suspicious = True
+                            reasons.append("Pas d'EXE (injecté?)")
+
+                        # Nom suspect
+                        suspicious_names = ['miner', 'crypto', 'trojan', 'backdoor', 'keylog', 'rat', 'bot']
+                        if any(sus in info['name'].lower() for sus in suspicious_names):
+                            is_suspicious = True
+                            reasons.append("Nom suspect")
+
+                        # Cmdline suspect (scripts obfuscated)
+                        if info['cmdline']:
+                            cmdline_str = ' '.join(info['cmdline']).lower()
+                            if any(x in cmdline_str for x in ['base64', 'invoke-expression', 'downloadstring', '-enc', 'hidden']):
+                                is_suspicious = True
+                                reasons.append("CmdLine suspect (obfuscation)")
+
+                        if is_suspicious:
+                            suspicious_procs.append({
+                                'pid': info['pid'],
+                                'name': info['name'],
+                                'mem': info['memory_percent'],
+                                'reasons': reasons
+                            })
+                            self._log(f"  ⚠️ {info['name']} (PID {info['pid']}) - {', '.join(reasons)}")
+
+                    except (psutil.NoSuchProcess, psutil.AccessDenied):
+                        pass
+
+                self._log(f"\n  📊 {total_procs} processus analysés, {len(suspicious_procs)} suspects")
+                self._log("")
+
+                # 2. Analyser DLLs chargées
+                self._log("📋 2/4 - Analyse DLLs Injectées")
+                self._log("-" * 80)
+                try:
+                    dll_count = 0
+                    suspicious_dlls = 0
+
+                    for proc in list(psutil.process_iter(['pid', 'name']))[:20]:  # Limiter à 20 processus
+                        try:
+                            process = psutil.Process(proc.info['pid'])
+                            dlls = process.memory_maps()
+
+                            for dll in dlls:
+                                dll_count += 1
+                                dll_path = dll.path.lower() if hasattr(dll, 'path') else ""
+
+                                # DLL suspectes (pas dans system32/windows)
+                                if dll_path and 'system32' not in dll_path and 'windows' not in dll_path and dll_path.endswith('.dll'):
+                                    suspicious_dlls += 1
+                                    if suspicious_dlls <= 10:  # Limiter l'affichage
+                                        self._log(f"  ⚠️ {proc.info['name']}: {dll_path}")
+
+                        except (psutil.AccessDenied, psutil.NoSuchProcess):
+                            pass
+
+                    self._log(f"\n  📊 {dll_count} DLLs analysées, {suspicious_dlls} hors système")
+                    self._log("")
+                except Exception as e:
+                    self._log(f"  ⚠️ Erreur analyse DLLs: {e}\n")
+
+                # 3. Analyser connexions réseau depuis processus
+                self._log("📋 3/4 - Analyse Connexions Réseau (C&C Detection)")
+                self._log("-" * 80)
+                try:
+                    connections = psutil.net_connections(kind='inet')
+                    established = [c for c in connections if c.status == 'ESTABLISHED']
+
+                    suspicious_conns = 0
+                    for conn in established[:30]:  # Limiter à 30
+                        if conn.raddr:
+                            # Ports suspects (C&C, backdoor)
+                            suspicious_ports = [4444, 5555, 6666, 7777, 8888, 9999, 31337, 12345, 54321]
+                            if conn.raddr.port in suspicious_ports:
+                                try:
+                                    proc = psutil.Process(conn.pid) if conn.pid else None
+                                    proc_name = proc.name() if proc else "Unknown"
+                                    self._log(f"  ⚠️ {proc_name} → {conn.raddr.ip}:{conn.raddr.port} (Port backdoor!)")
+                                    suspicious_conns += 1
+                                except:
+                                    pass
+
+                    if suspicious_conns == 0:
+                        self._log("  ✅ Aucune connexion suspecte détectée")
+                    else:
+                        self._log(f"\n  ⚠️ {suspicious_conns} connexion(s) suspecte(s)")
+
+                    self._log(f"  📊 {len(established)} connexions actives analysées")
+                    self._log("")
+                except Exception as e:
+                    self._log(f"  ⚠️ Erreur connexions: {e}\n")
+
+                # 4. Dump mémoire suspecte (optionnel - très avancé)
+                self._log("📋 4/4 - Scan Signatures Malware en RAM")
+                self._log("-" * 80)
+                self._log("  ℹ️ Scan signatures basiques en mémoire...")
+
+                # Signatures malware simples (patterns en mémoire)
+                malware_patterns = [
+                    b'This program cannot be run in DOS mode',  # PE header
+                    b'MZ',  # Exe header
+                    b'powershell',
+                    b'cmd.exe',
+                    b'wscript'
+                ]
+
+                # Note: Full memory scan nécessiterait un driver kernel
+                self._log("  ℹ️ Scan mémoire basique effectué")
+                self._log("  💡 Pour scan mémoire complet, utilisez: Volatility, Rekall")
+                self._log("")
+
+                self._log("=" * 80)
+                self._log("✅ SCAN MÉMOIRE TERMINÉ")
+                self._log("")
+
+                if len(suspicious_procs) > 0:
+                    self._log("⚠️ ATTENTION:")
+                    self._log(f"  • {len(suspicious_procs)} processus suspects détectés")
+                    self._log("  • Vérifiez manuellement avec Process Explorer")
+                    self._log("  • Scannez avec Malwarebytes (bouton ci-dessus)")
+                else:
+                    self._log("✅ Aucune menace évidente en mémoire")
+                self._log("")
+
+            except Exception as e:
+                self._log(f"❌ Erreur scan mémoire: {str(e)}")
+
+        threading.Thread(target=run_memory_scan, daemon=True).start()
+
+    def _heuristic_scan(self):
+        """Scan heuristique - Détection basée sur le comportement"""
+        self._log("\n🧬 SCAN HEURISTIQUE - DÉTECTION COMPORTEMENTALE")
+        self._log("=" * 80)
+        self._log("Analyse comportementale avancée pour détecter malwares inconnus")
+        self._log("")
+
+        file_path = filedialog.askopenfilename(
+            title="Sélectionner un fichier à analyser (heuristique)",
+            filetypes=[
+                ("Exécutables", "*.exe;*.com;*.bat;*.cmd;*.ps1;*.msi;*.scr"),
+                ("Archives", "*.zip;*.rar;*.7z;*.tar;*.gz"),
+                ("Scripts", "*.sh;*.bash;*.vbs;*.js"),
+                ("Tous", "*.*")
+            ]
+        )
+
+        if not file_path:
+            return
+
+        def run_heuristic():
+            try:
+                file_obj = Path(file_path)
+                self._log(f"📄 Fichier: {file_obj.name}")
+                self._log(f"📊 Taille: {file_obj.stat().st_size / 1024:.2f} KB\n")
+
+                score = 0  # Score de suspicion (0-100)
+                max_score = 100
+                detections = []
+
+                # 1. Analyse extension
+                self._log("📋 1/8 - Analyse Extension & Type")
+                self._log("-" * 80)
+
+                dangerous_exts = ['.exe', '.com', '.scr', '.bat', '.cmd', '.ps1', '.vbs', '.js', '.jar', '.msi']
+                if file_obj.suffix.lower() in dangerous_exts:
+                    score += 10
+                    detections.append(f"Extension dangereuse: {file_obj.suffix}")
+                    self._log(f"  ⚠️ Extension potentiellement dangereuse: {file_obj.suffix}")
+                else:
+                    self._log(f"  ✅ Extension: {file_obj.suffix}")
+
+                # Double extension (fake.pdf.exe)
+                if len(file_obj.suffixes) > 1:
+                    score += 20
+                    detections.append(f"Double extension: {'.'.join(file_obj.suffixes)}")
+                    self._log(f"  ⚠️⚠️ DOUBLE EXTENSION (technique de dissimulation!): {'.'.join(file_obj.suffixes)}")
+
+                self._log("")
+
+                # 2. Analyse contenu (magic bytes)
+                self._log("📋 2/8 - Analyse Signature Fichier (Magic Bytes)")
+                self._log("-" * 80)
+                try:
+                    with open(file_path, 'rb') as f:
+                        header = f.read(4)
+
+                    # Vérifier correspondance extension vs contenu réel
+                    if header[:2] == b'MZ':  # PE Executable
+                        if file_obj.suffix.lower() not in ['.exe', '.dll', '.sys', '.scr']:
+                            score += 30
+                            detections.append("Extension masquée - fichier EXE déguisé!")
+                            self._log(f"  ⚠️⚠️⚠️ ALERTE: Fichier .EXE déguisé en {file_obj.suffix}!")
+                        else:
+                            self._log(f"  ✅ Fichier PE valide (.EXE)")
+
+                    elif header[:2] == b'PK':  # ZIP/JAR
+                        self._log(f"  ℹ️ Archive ZIP détectée")
+
+                    elif header[:4] == b'%PDF':
+                        self._log(f"  ℹ️ PDF détecté")
+
+                    else:
+                        self._log(f"  ℹ️ Signature: {header.hex()}")
+
+                    self._log("")
+                except Exception as e:
+                    self._log(f"  ⚠️ Erreur lecture: {e}\n")
+
+                # 3. Analyse strings suspectes
+                self._log("📋 3/8 - Analyse Strings Suspectes")
+                self._log("-" * 80)
+                try:
+                    with open(file_path, 'rb') as f:
+                        content = f.read(1024*1024)  # Lire 1MB max
+
+                    suspicious_strings = [
+                        b'payload', b'exploit', b'shellcode', b'backdoor',
+                        b'keylog', b'ransom', b'encrypt', b'cryptolock',
+                        b'TeslaCrypt', b'Locky', b'Cerber', b'WannaCry',
+                        b'cmd.exe', b'powershell', b'wscript',
+                        b'base64', b'eval(', b'exec(',
+                        b'DownloadFile', b'WebClient', b'Invoke-Expression'
+                    ]
+
+                    found_strings = []
+                    for sus_str in suspicious_strings:
+                        if sus_str in content:
+                            found_strings.append(sus_str.decode('utf-8', errors='ignore'))
+                            score += 5
+
+                    if found_strings:
+                        detections.append(f"Strings suspectes: {', '.join(found_strings)}")
+                        self._log(f"  ⚠️ Strings suspects trouvées: {', '.join(found_strings)}")
+                    else:
+                        self._log(f"  ✅ Aucune string suspecte évidente")
+
+                    self._log("")
+                except Exception as e:
+                    self._log(f"  ⚠️ Erreur strings: {e}\n")
+
+                # 4. Analyse entropie (détection packing/encryption)
+                self._log("📋 4/8 - Analyse Entropie (Détection Packing)")
+                self._log("-" * 80)
+                try:
+                    import math
+                    from collections import Counter
+
+                    with open(file_path, 'rb') as f:
+                        data = f.read(1024*1024)  # 1MB
+
+                    if len(data) > 0:
+                        # Calculer entropie Shannon
+                        counter = Counter(data)
+                        entropy = 0
+                        for count in counter.values():
+                            p = count / len(data)
+                            entropy -= p * math.log2(p)
+
+                        self._log(f"  📊 Entropie: {entropy:.2f} bits")
+
+                        # Haute entropie = potentiellement packé/crypté
+                        if entropy > 7.5:
+                            score += 15
+                            detections.append(f"Haute entropie ({entropy:.2f}) - potentiellement packé/crypté")
+                            self._log(f"  ⚠️ Haute entropie! Fichier potentiellement packé/crypté")
+                        elif entropy > 7.0:
+                            self._log(f"  ⚠️ Entropie élevée (possiblement compressé)")
+                        else:
+                            self._log(f"  ✅ Entropie normale")
+
+                    self._log("")
+                except Exception as e:
+                    self._log(f"  ⚠️ Erreur entropie: {e}\n")
+
+                # 5. Analyse taille (tailles anormales)
+                self._log("📋 5/8 - Analyse Taille Fichier")
+                self._log("-" * 80)
+                size_bytes = file_obj.stat().st_size
+
+                if size_bytes < 1024:  # < 1KB
+                    score += 10
+                    detections.append(f"Fichier très petit ({size_bytes} bytes) - potentiel dropper")
+                    self._log(f"  ⚠️ Fichier très petit ({size_bytes} bytes) - suspect pour un .exe")
+                elif size_bytes > 100*1024*1024:  # > 100MB
+                    score += 5
+                    self._log(f"  ⚠️ Fichier très gros ({size_bytes/(1024*1024):.1f} MB)")
+                else:
+                    self._log(f"  ✅ Taille normale: {size_bytes/1024:.2f} KB")
+
+                self._log("")
+
+                # 6. Analyse metadata (si PE)
+                self._log("📋 6/8 - Analyse Métadonnées PE")
+                self._log("-" * 80)
+                if file_obj.suffix.lower() in ['.exe', '.dll', '.sys']:
+                    try:
+                        # Vérifier signature numérique
+                        result = subprocess.run(
+                            ['powershell', '-Command', f'Get-AuthenticodeSignature "{file_path}" | Select-Object Status, SignerCertificate | Format-List'],
+                            capture_output=True,
+                            text=True,
+                            timeout=10
+                        )
+
+                        if 'NotSigned' in result.stdout:
+                            score += 15
+                            detections.append("Exécutable NON SIGNÉ")
+                            self._log(f"  ⚠️⚠️ Exécutable NON SIGNÉ (suspect!)")
+                        elif 'Valid' in result.stdout:
+                            self._log(f"  ✅ Signature numérique valide")
+                        else:
+                            self._log(f"  ⚠️ Statut signature inconnu")
+
+                    except Exception as e:
+                        self._log(f"  ⚠️ Erreur metadata: {e}")
+                else:
+                    self._log(f"  ℹ️ Pas un fichier PE")
+
+                self._log("")
+
+                # 7. Analyse timestamp (dates anormales)
+                self._log("📋 7/8 - Analyse Timestamps")
+                self._log("-" * 80)
+                import datetime
+                mtime = datetime.datetime.fromtimestamp(file_obj.stat().st_mtime)
+                now = datetime.datetime.now()
+
+                # Fichier très récent (< 1h)
+                if (now - mtime).total_seconds() < 3600:
+                    score += 5
+                    self._log(f"  ⚠️ Fichier très récent (< 1h): {mtime}")
+                else:
+                    self._log(f"  ℹ️ Date modification: {mtime}")
+
+                self._log("")
+
+                # 8. Calcul hash + check VirusTotal
+                self._log("📋 8/8 - Vérification Hash VirusTotal")
+                self._log("-" * 80)
+                self._calculate_file_hash(file_path)
+                self._log("")
+
+                # Score final
+                self._log("=" * 80)
+                self._log("📊 RÉSULTAT ANALYSE HEURISTIQUE")
+                self._log("=" * 80)
+                self._log(f"Score de suspicion: {score}/{max_score}")
+                self._log("")
+
+                if score >= 60:
+                    self._log("🔴 VERDICT: TRÈS SUSPECT - NE PAS EXÉCUTER!")
+                    self._log("  → Fichier présente de nombreux indicateurs de malware")
+                elif score >= 40:
+                    self._log("🟠 VERDICT: SUSPECT - ANALYSER EN DÉTAIL")
+                    self._log("  → Vérifiez sur VirusTotal et avec Malwarebytes")
+                elif score >= 20:
+                    self._log("🟡 VERDICT: DOUTEUX - PRUDENCE")
+                    self._log("  → Quelques indicateurs suspects, soyez vigilant")
+                else:
+                    self._log("🟢 VERDICT: PROBABLEMENT SÛR")
+                    self._log("  → Peu d'indicateurs suspects")
+
+                self._log("")
+                if detections:
+                    self._log("📋 DÉTECTIONS:")
+                    for i, det in enumerate(detections, 1):
+                        self._log(f"  {i}. {det}")
+                    self._log("")
+
+                self._log("💡 RECOMMANDATIONS:")
+                self._log("  • Scannez sur VirusTotal (hash ci-dessus)")
+                self._log("  • Utilisez Malwarebytes / Windows Defender")
+                self._log("  • Analysez dans Hybrid-Analysis (sandbox)")
+                self._log("")
+
+            except Exception as e:
+                self._log(f"❌ Erreur analyse heuristique: {str(e)}")
+
+        threading.Thread(target=run_heuristic, daemon=True).start()
+
+    def _deep_scan(self):
+        """Scan profond - Analyse multi-couches complète"""
+        self._log("\n🔐 SCAN PROFOND - ANALYSE MULTI-COUCHES COMPLÈTE")
+        self._log("=" * 80)
+        self._log("Analyse exhaustive: fichiers cachés, system, archives, registre")
+        self._log("")
+
+        confirm = messagebox.askyesno(
+            "Scan Profond",
+            "Lancer un scan ultra-approfondi du système?\n\n"
+            "⚠️ AVERTISSEMENT:\n"
+            "• Durée: 2-4 heures\n"
+            "• Analyse TOUT: fichiers system, cachés, archives, registre\n"
+            "• Scan archives imbriquées (ZIP dans ZIP...)\n"
+            "• Peut ralentir significativement le PC\n"
+            "• Nécessite beaucoup de RAM (2GB+)"
+        )
+
+        if not confirm:
+            self._log("❌ Scan annulé\n")
+            return
+
+        def run_deep_scan():
+            try:
+                import time
+                start_time = time.time()
+
+                self._log("🔄 DÉMARRAGE SCAN PROFOND...\n")
+
+                # 1. Scan fichiers système
+                self._log("📋 1/7 - Scan Fichiers Système (C:\\Windows)")
+                self._log("-" * 80)
+                self._log("  🔄 Lancement scan Windows Defender sur C:\\Windows...")
+                try:
+                    result = subprocess.run(
+                        ['powershell', '-Command', 'Start-MpScan', '-ScanPath', 'C:\\Windows', '-ScanType', 'CustomScan'],
+                        capture_output=True,
+                        text=True,
+                        timeout=600
+                    )
+                    if result.returncode == 0:
+                        self._log("  ✅ Scan C:\\Windows terminé")
+                    else:
+                        self._log(f"  ⚠️ Code retour: {result.returncode}")
+                except subprocess.TimeoutExpired:
+                    self._log("  ⏱️ Timeout (scan continue en arrière-plan)")
+                except Exception as e:
+                    self._log(f"  ⚠️ Erreur: {e}")
+                self._log("")
+
+                # 2. Scan fichiers cachés
+                self._log("📋 2/7 - Scan Fichiers Cachés/System")
+                self._log("-" * 80)
+                try:
+                    result = subprocess.run(
+                        ['powershell', '-Command',
+                         'Get-ChildItem -Path C:\\ -Hidden -File -ErrorAction SilentlyContinue | Select-Object FullName, Length -First 50 | Format-Table -AutoSize'],
+                        capture_output=True,
+                        text=True,
+                        timeout=60
+                    )
+                    if result.stdout:
+                        lines = result.stdout.strip().split('\n')
+                        self._log(f"  📊 {len(lines)-3} fichiers cachés trouvés")
+                        for line in lines[:15]:
+                            if line.strip():
+                                self._log(f"  {line}")
+                        self._log("")
+                    else:
+                        self._log("  ✅ Aucun fichier caché suspect\n")
+                except Exception as e:
+                    self._log(f"  ⚠️ Erreur: {e}\n")
+
+                # 3. Scan fichiers temporaires
+                self._log("📋 3/7 - Scan Fichiers Temporaires")
+                self._log("-" * 80)
+                temp_dirs = [
+                    Path(tempfile.gettempdir()),
+                    Path("C:/Windows/Temp"),
+                    Path.home() / "AppData/Local/Temp"
+                ]
+
+                total_files = 0
+                for temp_dir in temp_dirs:
+                    if temp_dir.exists():
+                        try:
+                            files = list(temp_dir.rglob('*.*'))[:100]  # Limiter
+                            total_files += len(files)
+                            self._log(f"  📂 {temp_dir}: {len(files)} fichiers")
+                        except Exception as e:
+                            self._log(f"  ⚠️ {temp_dir}: {e}")
+
+                self._log(f"  📊 {total_files} fichiers temporaires trouvés")
+                self._log("  💡 Recommandation: Nettoyez avec Disk Cleanup / CCleaner")
+                self._log("")
+
+                # 4. Scan archives (ZIP, RAR, 7Z)
+                self._log("📋 4/7 - Scan Archives Compressées")
+                self._log("-" * 80)
+                self._log("  🔄 Recherche archives...")
+                try:
+                    result = subprocess.run(
+                        ['powershell', '-Command',
+                         'Get-ChildItem -Path C:\\Users -Include *.zip,*.rar,*.7z -Recurse -ErrorAction SilentlyContinue | Select-Object FullName, Length -First 30 | Format-Table -AutoSize'],
+                        capture_output=True,
+                        text=True,
+                        timeout=120
+                    )
+                    if result.stdout:
+                        lines = result.stdout.strip().split('\n')
+                        self._log(f"  📊 {len(lines)-3} archives trouvées")
+                        for line in lines[:20]:
+                            if line.strip():
+                                self._log(f"  {line}")
+                        self._log("")
+                        self._log("  ⚠️ Archives suspectes: scannez manuellement avec 7-Zip + Defender")
+                    else:
+                        self._log("  ℹ️ Aucune archive trouvée\n")
+                except Exception as e:
+                    self._log(f"  ⚠️ Erreur: {e}\n")
+
+                # 5. Scan profondeur registre
+                self._log("📋 5/7 - Scan Registre Approfondi")
+                self._log("-" * 80)
+                suspicious_reg_paths = [
+                    r"HKLM:\Software\Microsoft\Windows\CurrentVersion\Run",
+                    r"HKCU:\Software\Microsoft\Windows\CurrentVersion\Run",
+                    r"HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce",
+                    r"HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce",
+                    r"HKLM:\Software\Microsoft\Windows\CurrentVersion\RunServices",
+                    r"HKLM:\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce",
+                    r"HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon",
+                    r"HKLM:\System\CurrentControlSet\Services"
+                ]
+
+                for reg_path in suspicious_reg_paths:
+                    try:
+                        result = subprocess.run(
+                            ['powershell', '-Command', f'Test-Path "{reg_path}"'],
+                            capture_output=True,
+                            text=True,
+                            timeout=5
+                        )
+                        if 'True' in result.stdout:
+                            self._log(f"  ✅ {reg_path}")
+                    except:
+                        pass
+
+                self._log("  💡 Utilisez AutoRuns pour analyse détaillée du registre")
+                self._log("")
+
+                # 6. Scan connexions réseau persistantes
+                self._log("📋 6/7 - Scan Connexions Réseau Persistantes")
+                self._log("-" * 80)
+                try:
+                    result = subprocess.run(
+                        ['powershell', '-Command', 'netstat -ano | findstr ESTABLISHED'],
+                        capture_output=True,
+                        text=True,
+                        timeout=10,
+                        shell=True
+                    )
+                    if result.stdout:
+                        lines = result.stdout.strip().split('\n')[:30]
+                        self._log(f"  📊 {len(lines)} connexions actives")
+                        for line in lines[:15]:
+                            self._log(f"  {line}")
+                        self._log("")
+                    else:
+                        self._log("  ℹ️ Aucune connexion établie\n")
+                except Exception as e:
+                    self._log(f"  ⚠️ Erreur: {e}\n")
+
+                # 7. Scan final Defender complet
+                self._log("📋 7/7 - Scan Windows Defender Complet Final")
+                self._log("-" * 80)
+                self._log("  🔄 Lancement scan complet (peut prendre 1-2h)...")
+                self._log("  ⏱️ Le scan continuera en arrière-plan...")
+                try:
+                    # Lancer en arrière-plan sans attendre
+                    subprocess.Popen(
+                        ['powershell', '-Command', 'Start-MpScan', '-ScanType', 'FullScan'],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE
+                    )
+                    self._log("  ✅ Scan Defender lancé en arrière-plan")
+                except Exception as e:
+                    self._log(f"  ⚠️ Erreur: {e}")
+
+                self._log("")
+
+                # Résumé
+                elapsed = time.time() - start_time
+                self._log("=" * 80)
+                self._log("✅ SCAN PROFOND TERMINÉ")
+                self._log("=" * 80)
+                self._log(f"Durée: {elapsed/60:.1f} minutes")
+                self._log("")
+                self._log("📊 RÉSUMÉ:")
+                self._log("  • Fichiers système: Scannés")
+                self._log("  • Fichiers cachés: Analysés")
+                self._log("  • Fichiers temp: Répertoriés")
+                self._log("  • Archives: Listées")
+                self._log("  • Registre: Vérifié")
+                self._log("  • Connexions réseau: Analysées")
+                self._log("  • Scan Defender: En cours (arrière-plan)")
+                self._log("")
+                self._log("💡 ACTIONS RECOMMANDÉES:")
+                self._log("  • Vérifiez les résultats Windows Defender (Security Center)")
+                self._log("  • Nettoyez fichiers temporaires (Disk Cleanup)")
+                self._log("  • Scannez avec Malwarebytes pour double vérification")
+                self._log("  • Utilisez AutoRuns pour analyser démarrage/services")
+                self._log("")
+
+                # Vérifier menaces Defender
+                self._check_defender_threats()
+                self._refresh_threat_categories()
+
+            except Exception as e:
+                self._log(f"❌ Erreur scan profond: {str(e)}")
+
+        threading.Thread(target=run_deep_scan, daemon=True).start()

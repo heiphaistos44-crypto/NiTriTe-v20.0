@@ -537,6 +537,22 @@ def main():
             print("[>>] Lancement NiTriTe V18...")
             print(f"[..] Répertoire: {os.getcwd()}")
             print()
+
+        # Initialiser les archives compressées (extraction automatique si nécessaire)
+        try:
+            from v14_mvp.archive_manager import initialize_archives
+            if sys.stdout is not None:
+                print("[..] Vérification des archives compressées...")
+            initialize_archives(show_progress=(sys.stdout is not None))
+            if sys.stdout is not None:
+                print("[OK] Archives vérifiées")
+        except Exception as e:
+            if sys.stdout is not None:
+                print(f"[!] Avertissement: Erreur lors de l'initialisation des archives: {e}")
+            # Continuer même en cas d'erreur (les archives sont optionnelles)
+
+        if sys.stdout is not None:
+            print()
             print("[..] Création de l'instance NiTriTeV18...")
 
         # Lancer app
