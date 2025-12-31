@@ -165,6 +165,11 @@ class ActivationPage(ctk.CTkFrame):
         self.terminal_height = max(10, min(50, self.terminal_height + delta))
         self.terminal_text.configure(height=self.terminal_height)
 
+    def _change_font_size(self, delta):
+        """Changer la taille de la police du terminal"""
+        self.terminal_font_size = max(8, min(16, self.terminal_font_size + delta))
+        self.terminal_text.configure(font=("Consolas", self.terminal_font_size))
+
     def _create_terminal_section(self, parent):
         """Section terminal MAS intégré"""
         card = ModernCard(parent)
@@ -185,6 +190,7 @@ class ActivationPage(ctk.CTkFrame):
         resize_frame = ctk.CTkFrame(header, fg_color="transparent")
         resize_frame.pack(side=tk.LEFT, padx=(20, 0))
 
+        # Hauteur terminal
         ctk.CTkButton(
             resize_frame,
             text="▼",
@@ -203,6 +209,37 @@ class ActivationPage(ctk.CTkFrame):
             height=20,
             font=("Segoe UI", 12),
             command=lambda: self._resize_terminal(5),
+            fg_color=DesignTokens.BG_ELEVATED,
+            hover_color=DesignTokens.BG_HOVER
+        ).pack(side=tk.LEFT, padx=2)
+
+        # Séparateur
+        ctk.CTkLabel(
+            resize_frame,
+            text="|",
+            text_color=DesignTokens.TEXT_TERTIARY,
+            font=("Segoe UI", 14)
+        ).pack(side=tk.LEFT, padx=5)
+
+        # Taille police
+        ctk.CTkButton(
+            resize_frame,
+            text="A−",
+            width=35,
+            height=20,
+            font=("Segoe UI", 11, "bold"),
+            command=lambda: self._change_font_size(-1),
+            fg_color=DesignTokens.BG_ELEVATED,
+            hover_color=DesignTokens.BG_HOVER
+        ).pack(side=tk.LEFT, padx=2)
+
+        ctk.CTkButton(
+            resize_frame,
+            text="A+",
+            width=35,
+            height=20,
+            font=("Segoe UI", 11, "bold"),
+            command=lambda: self._change_font_size(1),
             fg_color=DesignTokens.BG_ELEVATED,
             hover_color=DesignTokens.BG_HOVER
         ).pack(side=tk.LEFT, padx=2)
@@ -254,11 +291,13 @@ class ActivationPage(ctk.CTkFrame):
 
         # Hauteur initiale du terminal (en lignes)
         self.terminal_height = 20
+        # Taille de police initiale
+        self.terminal_font_size = 10
 
         self.terminal_text = tk.Text(
             text_frame,
             wrap=tk.WORD,
-            font=("Consolas", 10),
+            font=("Consolas", self.terminal_font_size),
             bg="#1E1E1E",
             fg="#00FF00",
             insertbackground="#00FF00",

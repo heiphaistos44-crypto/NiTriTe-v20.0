@@ -400,16 +400,30 @@ class OptimizedApplicationsPage(ctk.CTkFrame):
         # Bouton site web
         web_btn = ctk.CTkButton(
             container,
-            text="",
-            width=28,
-            height=28,
-            corner_radius=6,
+            text="🌐 Web",
+            width=75,
+            height=32,
+            corner_radius=8,
             fg_color=DesignTokens.INFO,
             hover_color=DesignTokens.BG_HOVER,
             command=lambda: self._open_website(app['name']),
-            font=(DesignTokens.FONT_FAMILY, 14)
+            font=(DesignTokens.FONT_FAMILY, 10, "bold")
         )
         web_btn.pack(side=tk.RIGHT, padx=3)
+
+        # Bouton télécharger
+        download_btn = ctk.CTkButton(
+            container,
+            text="⬇ Télécharger",
+            width=105,
+            height=32,
+            corner_radius=8,
+            fg_color=DesignTokens.ACCENT_PRIMARY,
+            hover_color=DesignTokens.ACCENT_HOVER,
+            command=lambda: self._open_website(app['name']),
+            font=(DesignTokens.FONT_FAMILY, 11, "bold")
+        )
+        download_btn.pack(side=tk.RIGHT, padx=3)
         
         # Badge essentiel
         if app['essential']:

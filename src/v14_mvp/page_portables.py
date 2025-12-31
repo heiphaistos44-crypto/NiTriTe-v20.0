@@ -70,9 +70,8 @@ class PortableAppsPage(ctk.CTkFrame):
             portable_apps = {}
 
             for category_name, apps_dict in json_data.items():
-                # Ajouter l'icône à la catégorie
-                emoji = get_category_emoji(category_name)
-                category_display = f"{emoji} {category_name}"
+                # Stocker le nom original de la catégorie et l'emoji séparément
+                # On n'ajoute PAS l'emoji au nom, il sera géré par l'icône colorée
 
                 # Créer la liste d'applications pour cette catégorie
                 apps_list = []
@@ -85,7 +84,8 @@ class PortableAppsPage(ctk.CTkFrame):
                         "installed": False
                     })
 
-                portable_apps[category_display] = apps_list
+                # Utiliser le nom SANS emoji comme clé
+                portable_apps[category_name] = apps_list
 
             return portable_apps
 
@@ -260,7 +260,7 @@ class PortableAppsPage(ctk.CTkFrame):
             import traceback
             traceback.print_exc()
 
-        # Texte du header
+        # Texte du header (sans emoji car déjà dans l'icône colorée)
         header_text = ctk.CTkLabel(
             content_frame,
             text=f"{category_name} ({len(apps)} applications) ▶",

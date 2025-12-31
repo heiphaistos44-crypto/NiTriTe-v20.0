@@ -29,7 +29,7 @@ class ModernButton(ctk.CTkButton):
             text_color = DesignTokens.TEXT_PRIMARY
             border_width = 0
         elif variant == "outlined":
-            fg_color = "transparent"
+            fg_color = DesignTokens.BG_SECONDARY
             hover_color = DesignTokens.BG_HOVER
             text_color = DesignTokens.ACCENT_PRIMARY
             border_width = 2
