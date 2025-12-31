@@ -71,6 +71,8 @@ from v14_mvp.page_scanvirus import ScanVirusPage
 from v14_mvp.page_master_install import MasterInstallPage
 from v14_mvp.page_portables import PortableAppsPage
 from v14_mvp.page_os_downloads import OSDownloadsPage
+from v14_mvp.page_system_utils import SystemUtilitiesPage
+from v14_mvp.page_documentation import DocumentationPage
 from v14_mvp.page_terminal import TerminalPage
 from v14_mvp.page_theme_settings import ThemeSettingsPage
 from v14_mvp.page_ai_agents import AIAgentsPage
@@ -321,6 +323,16 @@ class NiTriTeV18(ctk.CTk):
 
         elif page_id == "scripts":
             self.current_page_widget = WindowsScriptsPage(
+                self.content_container
+            )
+
+        elif page_id == "system_utils":
+            self.current_page_widget = SystemUtilitiesPage(
+                self.content_container
+            )
+
+        elif page_id == "documentation":
+            self.current_page_widget = DocumentationPage(
                 self.content_container
             )
 

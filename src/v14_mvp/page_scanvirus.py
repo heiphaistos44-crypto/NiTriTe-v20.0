@@ -966,6 +966,10 @@ class ScanVirusPage(ctk.CTkFrame):
                 self._log("✅ Aucune menace détectée")
                 self._log("")
 
+            # Afficher les catégories après chaque scan
+            self.categories_card.grid()
+            self._update_category_displays()
+
         except Exception as e:
             self._log(f"❌ Erreur vérification menaces: {str(e)}")
 
@@ -1411,19 +1415,23 @@ class ScanVirusPage(ctk.CTkFrame):
                                                     self.detected_threats['delete'].append(threat_data)
                                                     detected_count += 1
 
+                    # Afficher la carte des catégories après chaque scan
+                    self.categories_card.grid()
+
                     if detected_count > 0:
                         self._log(f"✅ {detected_count} menace(s) ajoutée(s) à la catégorie 'À Supprimer'")
                         self._log("   Utilisez les boutons pour déplacer les fichiers vers Quarantaine ou Faux Positifs.")
-
-                        # Afficher la carte des catégories
-                        self.categories_card.grid()
-
-                        # Mettre à jour l'affichage
-                        self._update_category_displays()
                     else:
                         self._log("✅ Aucune nouvelle menace détectée")
+
+                    # Mettre à jour l'affichage des catégories
+                    self._update_category_displays()
                 else:
                     self._log("✅ Aucune menace détectée par Windows Defender")
+
+                    # Afficher quand même les catégories (vides)
+                    self.categories_card.grid()
+                    self._update_category_displays()
 
             except Exception as e:
                 self._log(f"❌ Erreur rafraîchissement: {str(e)}")

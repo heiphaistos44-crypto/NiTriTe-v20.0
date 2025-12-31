@@ -114,10 +114,12 @@ class OptimizedApplicationsPage(ctk.CTkFrame):
                     'name': app_name,
                     'category': category,
                     'description': app_data.get('description', ''),
-                    'essential': app_data.get('essential', False)
+                    'essential': app_data.get('essential', False),
+                    'winget_id': app_data.get('winget_id', ''),
+                    'download_url': app_data.get('download_url', '')
                 }
                 self.all_apps.append(app_info)
-        
+
         # Grouper par catégorie pour affichage - SANS LIMITE
         self.filtered_categories = {}
         for category, apps in self.programs_data.items():
@@ -126,11 +128,13 @@ class OptimizedApplicationsPage(ctk.CTkFrame):
                     'name': app_name,
                     'category': category,
                     'description': app_data.get('description', ''),
-                    'essential': app_data.get('essential', False)
+                    'essential': app_data.get('essential', False),
+                    'winget_id': app_data.get('winget_id', ''),
+                    'download_url': app_data.get('download_url', '')
                 }
                 for app_name, app_data in apps.items()
             ]
-            
+
             # AUCUNE LIMITE - Afficher toutes les apps
             self.filtered_categories[category] = apps_list
     
@@ -414,13 +418,13 @@ class OptimizedApplicationsPage(ctk.CTkFrame):
         # Bouton télécharger
         download_btn = ctk.CTkButton(
             container,
-            text="⬇ Télécharger",
+            text="⬇ Installer",
             width=105,
             height=32,
             corner_radius=8,
             fg_color=DesignTokens.ACCENT_PRIMARY,
             hover_color=DesignTokens.ACCENT_HOVER,
-            command=lambda: self._open_website(app['name']),
+            command=lambda: self._install_app(app),
             font=(DesignTokens.FONT_FAMILY, 11, "bold")
         )
         download_btn.pack(side=tk.RIGHT, padx=3)
@@ -913,6 +917,67 @@ class OptimizedApplicationsPage(ctk.CTkFrame):
         except Exception as e:
             on_log(f"Erreur: {str(e)}", "error")
             return False
+
+    def _install_app(self, app):
+        """Installer une application avec winget"""
+        from tkinter import messagebox
+
+        app_name = app['name']
+        winget_id = app.get('winget_id', '')
+
+        # Vérifier si winget_id existe
+        if not winget_id:
+            messagebox.showwarning(
+                "Installation non disponible",
+                f"{app_name} n'a pas de package winget configuré.\n\n"
+                "Utilisez le bouton 'Web' pour télécharger manuellement."
+            )
+            return
+
+        # Confirmer l'installation
+        confirm = messagebox.askyesno(
+            "Confirmer l'installation",
+            f"Installer {app_name} ?\n\n"
+            f"Package winget: {winget_id}\n\n"
+            "L'installation se fera en arrière-plan."
+        )
+
+        if not confirm:
+            return
+
+        # Lancer installation dans un thread
+        def install_thread():
+            try:
+                print(f" Installation de {app_name}...")
+                result = subprocess.run(
+                    ["winget", "install", "--id", winget_id, "--accept-package-agreements", "--accept-source-agreements"],
+                    capture_output=True,
+                    text=True,
+                    encoding='utf-8',
+                    errors='ignore'
+                )
+
+                if result.returncode == 0:
+                    print(f" {app_name} installé avec succès !")
+                    messagebox.showinfo(
+                        "Installation réussie",
+                        f"{app_name} a été installé avec succès !"
+                    )
+                else:
+                    print(f" Erreur installation {app_name}: {result.stderr}")
+                    messagebox.showerror(
+                        "Erreur d'installation",
+                        f"Impossible d'installer {app_name}.\n\n"
+                        f"Erreur: {result.stderr[:200]}"
+                    )
+            except Exception as e:
+                print(f" Exception installation {app_name}: {e}")
+                messagebox.showerror(
+                    "Erreur",
+                    f"Une erreur s'est produite lors de l'installation:\n\n{str(e)}"
+                )
+
+        threading.Thread(target=install_thread, daemon=True).start()
 
     def _open_website(self, app_name):
         """Ouvrir le site web de l'application"""

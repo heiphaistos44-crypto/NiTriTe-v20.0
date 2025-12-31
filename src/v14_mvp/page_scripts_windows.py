@@ -172,13 +172,14 @@ class WindowsScriptsPage(ctk.CTkFrame):
         for widget in self.scripts_container.winfo_children():
             widget.destroy()
 
-        # Scanner le dossier
+        # Scanner le dossier récursivement
         self.scripts = []
         bat_count = 0
         ps_count = 0
 
         if self.scripts_folder.exists():
-            for file in sorted(self.scripts_folder.iterdir()):
+            # Utiliser rglob pour scanner récursivement les sous-dossiers
+            for file in sorted(self.scripts_folder.rglob('*')):
                 if file.is_file() and file.suffix.lower() in ['.bat', '.cmd', '.ps1']:
                     self.scripts.append(file)
 
@@ -251,6 +252,20 @@ class WindowsScriptsPage(ctk.CTkFrame):
             font=(DesignTokens.FONT_FAMILY, DesignTokens.FONT_SIZE_SM),
             text_color=color
         ).pack(side=tk.LEFT, padx=10)
+
+        # Chemin relatif (catégorie)
+        try:
+            relative_path = script_path.relative_to(self.scripts_folder).parent
+            if str(relative_path) != ".":
+                category_label = ctk.CTkLabel(
+                    name_frame,
+                    text=f" {relative_path}",
+                    font=(DesignTokens.FONT_FAMILY, DesignTokens.FONT_SIZE_SM),
+                    text_color=DesignTokens.TEXT_TERTIARY
+                )
+                category_label.pack(side=tk.LEFT, padx=5)
+        except:
+            pass
 
         # Taille du fichier
         size_kb = script_path.stat().st_size / 1024

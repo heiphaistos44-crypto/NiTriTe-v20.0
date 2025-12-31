@@ -1249,6 +1249,12 @@ class BackupPage(ctk.CTkFrame):
             ("drivers", " Liste des drivers système", True),
             ("settings", " Paramètres NiTriTe", True),
             ("diagnostic_logs", " Logs de diagnostic PC", True),
+            ("registry_keys", " Clés de registre importantes", False),
+            ("network_config", " Configuration réseau (IP, WiFi)", False),
+            ("browser_bookmarks", " Favoris navigateurs (Chrome, Firefox, Edge)", False),
+            ("env_variables", " Variables d'environnement système", False),
+            ("desktop_files", " Liste fichiers Bureau", False),
+            ("startup_programs", " Programmes au démarrage", False),
         ]
         
         for key, text, default in options:
@@ -1450,6 +1456,48 @@ class BackupPage(ctk.CTkFrame):
             except Exception as e:
                 backup_data["diagnostic_logs"] = {"included": False, "error": str(e)}
                 print(f" Erreur sauvegarde logs: {e}")
+
+        # Sauvegarder configuration réseau
+        if self.backup_options.get("network_config", tk.BooleanVar(value=False)).get():
+            try:
+                result = subprocess.run(["ipconfig", "/all"], capture_output=True, text=True, encoding='utf-8', errors='ignore')
+                backup_data["network_config"] = result.stdout if result.returncode == 0 else "Erreur"
+                print(" Configuration réseau sauvegardée")
+            except Exception as e:
+                backup_data["network_config"] = {"error": str(e)}
+
+        # Sauvegarder programmes au démarrage
+        if self.backup_options.get("startup_programs", tk.BooleanVar(value=False)).get():
+            try:
+                result = subprocess.run(
+                    ['powershell', '-Command', 'Get-CimInstance Win32_StartupCommand | Select-Object Name,Command,Location | ConvertTo-Json'],
+                    capture_output=True, text=True, encoding='utf-8', errors='ignore'
+                )
+                if result.returncode == 0:
+                    backup_data["startup_programs"] = result.stdout
+                    print(" Programmes au démarrage sauvegardés")
+            except Exception as e:
+                backup_data["startup_programs"] = {"error": str(e)}
+
+        # Sauvegarder variables d'environnement
+        if self.backup_options.get("env_variables", tk.BooleanVar(value=False)).get():
+            try:
+                import os
+                backup_data["env_variables"] = dict(os.environ)
+                print(f" {len(backup_data['env_variables'])} variables d'environnement sauvegardées")
+            except Exception as e:
+                backup_data["env_variables"] = {"error": str(e)}
+
+        # Sauvegarder liste fichiers Bureau
+        if self.backup_options.get("desktop_files", tk.BooleanVar(value=False)).get():
+            try:
+                desktop_path = Path.home() / "Desktop"
+                if desktop_path.exists():
+                    files = [f.name for f in desktop_path.iterdir()]
+                    backup_data["desktop_files"] = files
+                    print(f" {len(files)} fichiers Bureau listés")
+            except Exception as e:
+                backup_data["desktop_files"] = {"error": str(e)}
 
         # Sauvegarder
         try:
@@ -2160,6 +2208,7 @@ class DiagnosticPage(ctk.CTkFrame):
         """Peupler la liste des outils (built-in + custom)"""
         # Outils intégrés
         self.all_tools = [
+            {"text": "⌨️ Test Clavier AZERTY", "command": self._launch_keyboard_test},
             {"text": "💿 CrystalDiskInfo", "command": self._launch_crystaldiskinfo},
             {"text": "🌡️ OCCT (Temp & Stress)", "command": self._launch_occt},
             {"text": "🔋 Test Batterie OrdiPlus", "command": self._test_battery},
@@ -4211,6 +4260,26 @@ class DiagnosticPage(ctk.CTkFrame):
             messagebox.showerror(
                 "Erreur",
                 f"Impossible d'ouvrir Speedtest:\n\n{str(e)}"
+            )
+
+    def _launch_keyboard_test(self):
+        """Lancer le testeur de clavier AZERTY en ligne"""
+        import webbrowser
+        from tkinter import messagebox
+
+        try:
+            print("⌨️ Ouverture du testeur de clavier AZERTY...")
+            webbrowser.open("https://www.test-clavier.fr/")
+            self._log_to_terminal("⌨️ Testeur de clavier AZERTY ouvert dans le navigateur")
+            messagebox.showinfo(
+                "Testeur de Clavier",
+                "Le testeur de clavier AZERTY s'ouvre dans votre navigateur.\n\n"
+                "Utilisez-le pour vérifier le bon fonctionnement de votre clavier."
+            )
+        except Exception as e:
+            messagebox.showerror(
+                "Erreur",
+                f"Impossible d'ouvrir le testeur de clavier:\n\n{str(e)}"
             )
 
     def _launch_speedtest_portable(self):
