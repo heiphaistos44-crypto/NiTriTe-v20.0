@@ -7428,6 +7428,923 @@ COMPLETE_GUIDES_DATA = {
                 "warning": "⚠️ JAMAIS commit secrets (API keys, passwords) dans Git! Utiliser .gitignore + .env files. Secrets leakés = permanents dans historique Git."
             }
         ]
+    },
+
+    "win11_install": {
+        "title": "💿 Installation & Mise à Jour Windows 11",
+        "sections": [
+            {
+                "title": "Installation Windows 11 - Prérequis",
+                "bullets": [
+                    "Configuration minimale:",
+                    "• Processeur: 1 GHz, 2+ cœurs, 64-bit compatible",
+                    "• RAM: 4 GB minimum (8 GB recommandé)",
+                    "• Stockage: 64 GB minimum",
+                    "• TPM: Version 2.0 (Trusted Platform Module)",
+                    "• UEFI: Secure Boot capable",
+                    "• Carte graphique: Compatible DirectX 12",
+                    "",
+                    "Vérifier compatibilité:",
+                    "• Télécharger 'PC Health Check' depuis Microsoft",
+                    "• Vérifier TPM: Win+R → tpm.msc",
+                    "• Vérifier Secure Boot: msinfo32 → Mode BIOS"
+                ]
+            },
+            {
+                "title": "Créer Clé USB Bootable",
+                "code": "# Méthode 1: Media Creation Tool (officiel)\n1. Télécharger depuis: https://www.microsoft.com/software-download/windows11\n2. Lancer MediaCreationToolW11.exe\n3. Accepter licence\n4. Choisir 'Créer un support d'installation'\n5. Langue: Français, Édition: Windows 11, Architecture: 64-bit\n6. Support: Disque mémoire flash USB (8 GB min)\n7. Sélectionner clé USB → Suivant\n\n# Méthode 2: Rufus (plus rapide, options avancées)\n1. Télécharger Rufus: https://rufus.ie/\n2. Télécharger ISO Windows 11\n3. Lancer Rufus:\n   - Périphérique: Votre clé USB\n   - Méthode démarrage: Disque ou ISO\n   - Sélectionner ISO Windows 11\n   - Schéma partition: GPT\n   - Système cible: UEFI\n4. Options Rufus pour contourner TPM/Secure Boot (si besoin):\n   ☑ Remove requirement for 4GB+ RAM\n   ☑ Remove requirement for Secure Boot\n   ☑ Remove requirement for TPM 2.0\n5. Démarrer\n\n# Installation:\n1. Insérer clé USB\n2. Redémarrer PC\n3. Appuyer F12/F2/DEL (selon PC) pour Boot Menu\n4. Sélectionner clé USB\n5. Suivre assistant installation"
+            },
+            {
+                "title": "Windows Update - Gestion",
+                "code": "# Vérifier mises à jour:\n- Paramètres → Windows Update → Rechercher mises à jour\n- Ou: Win+I → Windows Update\n\n# Forcer mise à jour immédiate:\nPowerShell (Admin):\nInstall-WindowsUpdate -AcceptAll -AutoReboot\n\n# Voir historique mises à jour:\nParamètres → Windows Update → Historique des mises à jour\n\n# Désinstaller mise à jour problématique:\nParamètres → Windows Update → Historique → Désinstaller\n\n# Pause updates (max 5 semaines):\nParamètres → Windows Update → Suspendre → Choisir durée\n\n# Options avancées:\nWindows Update → Options avancées\n☑ Recevoir mises à jour produits Microsoft\n☑ Me prévenir quand redémarrage nécessaire\n☐ Télécharger updates sur connexions limitées"
+            },
+            {
+                "title": "Mise à Niveau 10 → 11",
+                "bullets": [
+                    "Via Windows Update (recommandé):",
+                    "• Paramètres → Windows Update",
+                    "• 'Mise à niveau vers Windows 11 disponible' apparaîtra si éligible",
+                    "• Cliquer 'Télécharger et installer'",
+                    "",
+                    "Via Assistant Installation (si pas proposé):",
+                    "• https://www.microsoft.com/software-download/windows11",
+                    "• Télécharger 'Assistant Installation Windows 11'",
+                    "• Lancer → Vérification compatibilité automatique",
+                    "• Accepter → Installation démarre",
+                    "",
+                    "Données préservées:",
+                    "• Fichiers personnels conservés",
+                    "• Applications installées préservées",
+                    "• Paramètres conservés",
+                    "• MAIS: Sauvegarde recommandée avant upgrade!"
+                ]
+            },
+            {
+                "warning": "⚠️ TPM 2.0 requis! Si PC non compatible, considérer: 1) Rester Windows 10 (support jusqu'à 2025), 2) Contourner via Rufus (non recommandé - pas de updates sécurité futures), 3) Upgrade matériel."
+            },
+            {
+                "info": "💡 Windows 11 Pro vs Home: Pro ajoute BitLocker (chiffrement), Remote Desktop, Hyper-V, gestion domaine entreprise. Pour particuliers, Home suffit."
+            }
+        ]
+    },
+
+    "win11_taskmanager": {
+        "title": "⚙️ Gestionnaire de Tâches Avancé",
+        "sections": [
+            {
+                "title": "Ouvrir Gestionnaire de Tâches",
+                "code": "# Méthodes rapides:\nCtrl + Shift + Esc          # Direct (plus rapide)\nCtrl + Alt + Suppr → Gestionnaire de tâches\nClic droit Barre des tâches → Gestionnaire de tâches\nWin + X → Gestionnaire de tâches\n\n# Via Exécuter:\nWin + R → taskmgr → Entrée"
+            },
+            {
+                "title": "Onglet Processus - Vue d'Ensemble",
+                "bullets": [
+                    "Colonnes importantes:",
+                    "• Nom: Application ou processus",
+                    "• CPU: Utilisation processeur (% cumulé tous cœurs)",
+                    "• Mémoire: RAM utilisée (Mo/Go)",
+                    "• Disque: Activité lecture/écriture",
+                    "• Réseau: Bande passante utilisée",
+                    "",
+                    "Trier par colonne:",
+                    "• Cliquer en-tête colonne pour trier",
+                    "• Identifier rapidement processus problématiques",
+                    "",
+                    "Types de processus:",
+                    "• Applications: Programmes ouverts",
+                    "• Processus en arrière-plan: Services Windows",
+                    "• Processus Windows: Système (explorer.exe, etc.)"
+                ]
+            },
+            {
+                "title": "Arrêter Processus Bloqué",
+                "code": "# Gestionnaire de tâches:\n1. Onglet Processus\n2. Clic droit sur processus → Fin de tâche\n3. Si ne répond pas: Sélectionner → Fin de tâche (en bas)\n\n# PowerShell (si GUI bloquée):\nGet-Process | Where-Object {$_.ProcessName -like '*chrome*'} | Stop-Process -Force\n\n# Ou par PID:\nStop-Process -Id 1234 -Force\n\n# CMD (taskkill):\ntaskkill /IM chrome.exe /F\ntaskkill /PID 1234 /F\n\n# Tuer TOUS processus d'un programme:\ntaskkill /IM notepad.exe /F /T\n# /T = tue aussi processus enfants"
+            },
+            {
+                "title": "Onglet Performances - Monitoring",
+                "bullets": [
+                    "CPU:",
+                    "• Utilisation: % global et par cœur (clic droit → Graphique → Processeurs logiques)",
+                    "• Vitesse: Fréquence actuelle vs Base",
+                    "• Processus: Nombre total actifs",
+                    "• Threads: Nombre total threads",
+                    "",
+                    "Mémoire (RAM):",
+                    "• En cours d'utilisation: RAM occupée",
+                    "• Disponible: RAM libre",
+                    "• Validée: Mémoire virtuelle (RAM + Fichier d'échange)",
+                    "• Mise en cache: Données préchargées",
+                    "",
+                    "Disque:",
+                    "• Temps actif: % temps disque occupé (100% = saturé)",
+                    "• Vitesse lecture/écriture: Mo/s",
+                    "",
+                    "Réseau:",
+                    "• Débit envoi/réception: Mbps",
+                    "• Adaptateurs: Ethernet, Wi-Fi, VPN"
+                ]
+            },
+            {
+                "title": "Onglet Démarrage - Optimiser Boot",
+                "code": "# Gestionnaire de tâches → Onglet Démarrage\n\n# Désactiver programmes au démarrage:\n1. Clic droit programme → Désactiver\n2. Impact: Élevé/Moyen/Faible (désactiver 'Élevé' d'abord)\n\n# Programmes à généralement désactiver:\n- Adobe Creative Cloud\n- Spotify\n- Discord\n- Microsoft Teams\n- Skype\n- Applications gamers (Steam, Epic, etc.) si pas gaming régulier\n\n# Programmes à GARDER:\n- Antivirus\n- Drivers graphiques (NVIDIA, AMD)\n- Gestionnaire souris/clavier gaming\n- Logiciels cloud critiques (OneDrive si utilisé)\n\n# Via PowerShell (liste auto-démarrage):\nGet-CimInstance Win32_StartupCommand | Select-Object Name, Command, Location, User\n\n# Désactiver via Registry (avancé):\nWin + R → regedit\nHKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\nSupprimer entrée non désirée"
+            },
+            {
+                "title": "Onglet Détails - Informations Avancées",
+                "bullets": [
+                    "Colonnes utiles (clic droit en-tête → Sélectionner colonnes):",
+                    "• PID: Process ID unique",
+                    "• Nom d'utilisateur: Compte exécutant processus",
+                    "• CPU: Utilisation processeur",
+                    "• Mémoire: RAM utilisée",
+                    "• Description: Nom complet application",
+                    "",
+                    "Définir priorité processus:",
+                    "• Clic droit processus → Définir la priorité",
+                    "• Temps réel (max) / Élevée / Supérieure à la normale / Normale / Inférieure",
+                    "• ⚠️ Temps réel peut bloquer système!",
+                    "",
+                    "Affinité processeur:",
+                    "• Clic droit → Définir l'affinité",
+                    "• Choisir cœurs CPU dédiés au processus",
+                    "• Utile pour: Vieux jeux, tests performances"
+                ]
+            },
+            {
+                "info": "💡 PC lent au démarrage? Onglet Démarrage → Désactiver programmes 'Impact élevé'. Peut réduire temps boot de 30-60 secondes!"
+            },
+            {
+                "warning": "⚠️ NE PAS arrêter 'Processus Windows' (explorer.exe, dwm.exe, etc.) sauf dépannage! Peut rendre Windows instable. Si explorer.exe planté: Fichier → Exécuter → explorer.exe"
+            }
+        ]
+    },
+
+    "win11_personalization": {
+        "title": "🎨 Personnalisation Windows 11",
+        "sections": [
+            {
+                "title": "Thèmes et Couleurs",
+                "code": "# Accès rapide:\nParamètres → Personnalisation\nOu: Clic droit Bureau → Personnaliser\n\n# Mode sombre/clair:\nPersonnalisation → Couleurs → Mode\n- Clair\n- Sombre (recommandé la nuit, réduit fatigue yeux)\n- Personnalisé (Apps sombre, Windows clair)\n\n# Couleur d'accentuation:\nPersonnalisation → Couleurs → Couleur d'accentuation\n☑ Afficher couleur accent sur surfaces suivantes:\n  ☑ Menu Démarrer, barre des tâches, centre notifications\n  ☑ Barres de titre et bordures fenêtres\n\n# Transparence:\nPersonnalisation → Couleurs\n☑ Effets de transparence (Aero Glass)\n\n# Télécharger thèmes:\nPersonnalisation → Thèmes → Parcourir thèmes\nMicrosoft Store → Thèmes gratuits/payants"
+            },
+            {
+                "title": "Fond d'Écran et Écran de Verrouillage",
+                "bullets": [
+                    "Fond d'écran:",
+                    "• Personnalisation → Arrière-plan",
+                    "• Types: Image, Couleur unie, Diaporama",
+                    "• Ajustement: Remplir, Ajuster, Étirer, Mosaïque, Centrer",
+                    "• Clic droit image → Définir comme arrière-plan (rapide)",
+                    "",
+                    "Diaporama automatique:",
+                    "• Arrière-plan → Diaporama",
+                    "• Sélectionner dossier d'images",
+                    "• Changer image: 1min / 10min / 30min / 1h / 1 jour",
+                    "• Ordre aléatoire: Oui/Non",
+                    "",
+                    "Écran de verrouillage:",
+                    "• Personnalisation → Écran de verrouillage",
+                    "• Windows à la une: Photos Bing quotidiennes",
+                    "• Image: Photo personnalisée",
+                    "• Diaporama: Rotation images"
+                ]
+            },
+            {
+                "title": "Barre des Tâches - Configuration",
+                "code": "# Paramètres barre des tâches:\nParamètres → Personnalisation → Barre des tâches\n\n# Position (Windows 11 22H2+):\nAlignment: Centré (défaut) ou Gauche (style Windows 10)\n\n# Icônes système:\nBarre des tâches → Icônes d'angle de barre des tâches\n☑ Wi-Fi\n☑ Volume\n☑ Batterie (ordinateurs portables)\n☑ Explorateur de fichiers\n☐ Widgets (désactiver si non utilisé)\n\n# Applications épinglées:\nClic droit app ouverte → Épingler à la barre des tâches\nDétacher: Clic droit → Détacher\n\n# Masquer automatiquement:\nBarre des tâches → Comportements\n☑ Masquer automatiquement la barre des tâches\n\n# Badges notifications:\nBarre des tâches → Comportements\n☑ Afficher badges sur apps barre des tâches"
+            },
+            {
+                "title": "Menu Démarrer - Personnalisation",
+                "bullets": [
+                    "Épingler applications favorites:",
+                    "• Rechercher app → Clic droit → Épingler au menu Démarrer",
+                    "• Réorganiser: Glisser-déposer icônes",
+                    "",
+                    "Dossiers dans menu Démarrer:",
+                    "• Paramètres → Personnalisation → Démarrer",
+                    "• Dossiers: Documents, Téléchargements, Paramètres, etc.",
+                    "• Activer ceux utilisés fréquemment",
+                    "",
+                    "Applications récentes:",
+                    "• Démarrer → Paramètres",
+                    "• Afficher applications récemment ajoutées: Oui/Non",
+                    "• Afficher apps les + utilisées: Oui/Non",
+                    "",
+                    "Recommandations (publicités):",
+                    "• Démarrer → Paramètres",
+                    "• Afficher recommandations: Désactiver (retire publicités Microsoft)"
+                ]
+            },
+            {
+                "title": "Polices et Accessibilité",
+                "code": "# Taille texte système:\nParamètres → Accessibilité → Taille du texte\nCurseur: 100% (défaut) à 225% (grandes polices)\n\n# Mise à l'échelle affichage:\nParamètres → Système → Affichage → Échelle\n100% (natif) / 125% / 150% / 175% / 200%\nRecommandé: Laisser automatique (Windows détecte)\n\n# Installer nouvelles polices:\n1. Télécharger fichier .ttf ou .otf\n2. Clic droit → Installer\n3. Ou: Copier dans C:\\Windows\\Fonts\n\n# Changer police système (avancé - Registry):\n⚠️ Sauvegarde recommandée!\nWin + R → regedit\nHKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\nModifier 'Segoe UI' → Autre police\n\n# ClearType (lissage polices):\nWin + R → cttune\nSuivre assistant optimisation"
+            },
+            {
+                "info": "💡 Mode sombre + Réduction lumière bleue (Éclairage nocturne) = Meilleur sommeil! Paramètres → Système → Affichage → Éclairage nocturne."
+            },
+            {
+                "warning": "⚠️ Scaling >150% peut rendre certaines vieilles apps floues. Si problème: Clic droit .exe → Propriétés → Compatibilité → Remplacer comportement mise à l'échelle."
+            }
+        ]
+    },
+
+    "win11_optimization": {
+        "title": "⚡ Optimisation Performances Windows 11",
+        "sections": [
+            {
+                "title": "Optimisations Visuelles - Boost Performances",
+                "code": "# Ajuster effets visuels (gain 5-15% perfs):\nWin + R → sysdm.cpl\nOnglet 'Paramètres système avancés' → Performances → Paramètres\n\nOptions:\n○ Ajuster afin d'obtenir les meilleures performances (désactive tout)\n○ Personnalisé (recommandé):\n  ☐ Animer fenêtres lors réduction/agrandissement\n  ☐ Animations dans barre des tâches\n  ☐ Estomper/glisser menus\n  ☑ Lisser bords polices écran (garder!)\n  ☑ Afficher miniatures (garder!)\n  ☐ Transparence barre des tâches\n\n# Désactiver transparence (séparément):\nParamètres → Personnalisation → Couleurs\n☐ Effets de transparence"
+            },
+            {
+                "title": "Mode Performances - Plans d'Alimentation",
+                "code": "# Accès rapide:\nPanneau de configuration → Options d'alimentation\nOu: Win + X → Options d'alimentation\n\n# Modes disponibles:\n- Équilibré (recommandé): Balance perfs/économie\n- Économie d'énergie: Max batterie (laptops)\n- Hautes performances: Max CPU (PCs fixes)\n\n# Activer 'Performances maximales' (caché):\nPowerShell (Admin):\npowercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61\n\nPuis:\nPanneau de configuration → Options alimentation\nSélectionner 'Performances maximales'\n\n# Paramètres avancés alimentation:\nOptions alimentation → Modifier paramètres mode\n→ Modifier paramètres avancés\n\nOptimisations PC fixe:\n- Disque dur → Éteindre après: Jamais\n- État minimum processeur: 100%\n- État maximum processeur: 100%\n- Stratégie refroidissement: Active (ventilateurs à fond)\n\nOptimisations laptop (économie):\n- Luminosité écran: 50%\n- Suspension: Après 10-15 min inactivité\n- État processeur: 5% min, 80% max"
+            },
+            {
+                "title": "Nettoyer Disque - Libérer Espace",
+                "code": "# Nettoyage disque Windows:\nWin + R → cleanmgr\nSélectionner lecteur C: → OK\n\nCocher:\n☑ Fichiers Internet temporaires\n☑ Fichiers journaux mise à niveau Windows\n☑ Miniatures\n☑ Fichiers temporaires\n☑ Corbeille\n☑ Fichiers programmes téléchargés\n\n# Nettoyage avancé (fichiers système):\nNettoyer fichiers système (bouton)\n☑ Installations Windows précédentes (10-20 GB!)\n☑ Fichiers de mise à niveau Windows abandonnés\n\n# Storage Sense (automatique):\nParamètres → Système → Stockage\n☑ Storage Sense activé\nConfigurer:\n- Exécuter: Tous les mois / Chaque semaine / Quand espace faible\n- Supprimer fichiers temp: Après 1 jour\n- Vider corbeille: Après 30 jours\n\n# Analyser espace disque (WinDirStat):\nTélécharger: https://windirstat.net/\nAnalyse visuelle consommation espace"
+            },
+            {
+                "title": "Désactiver Services Inutiles",
+                "code": "# Gestionnaire services:\nWin + R → services.msc\n\nServices à désactiver (PC gaming/perfs):\n\n1. Windows Search (si pas utilisé)\n   Clic droit → Propriétés → Type démarrage: Désactivé\n   ⚠️ Désactive recherche fichiers rapide!\n\n2. Superfetch/SysMain (SSD seulement)\n   Inutile sur SSD, ralentit\n\n3. Windows Update (temporairement)\n   ⚠️ Réactiver régulièrement pour sécurité!\n\n4. Print Spooler (si pas imprimante)\n\n5. Fax (personne utilise!)\n\n6. Expérience utilisateur connecté et télémétrie\n   Données envoyées à Microsoft\n\n# Via PowerShell (ex: Désactiver Superfetch):\nStop-Service \"SysMain\" -Force\nSet-Service \"SysMain\" -StartupType Disabled\n\n# Réactiver:\nSet-Service \"SysMain\" -StartupType Automatic\nStart-Service \"SysMain\""
+            },
+            {
+                "title": "Optimiser SSD - TRIM et Défragmentation",
+                "code": "# Vérifier TRIM activé (SSD):\nPowerShell (Admin):\nfsutil behavior query DisableDeleteNotify\n\nRésultat attendu:\nNTFS DisableDeleteNotify = 0 (TRIM activé ✓)\n\nSi = 1 (désactivé), activer:\nfsutil behavior set DisableDeleteNotify 0\n\n# Planification optimisation (auto):\nWin + R → dfrgui\nSélectionner lecteur C: → Optimiser\n\n☑ Optimisation planifiée: Activée\nFréquence: Hebdomadaire (par défaut)\n\n⚠️ Windows gère automatiquement:\n- SSD: TRIM (pas défragmentation!)\n- HDD: Défragmentation classique\n\n# Défragmenter HDD manuellement:\ndfrgui → Sélectionner lecteur → Optimiser\nDurée: 30min - 2h selon taille/fragmentation\n\n# Via CMD (HDD seulement):\ndefrag C: /U /V\n# /U = Verbose, /V = Afficher progression"
+            },
+            {
+                "title": "RAM - Vider Cache et Optimiser",
+                "code": "# Vider mémoire cache (RAM):\nPowerShell (Admin):\n$ClearMemory = @\"\nusing System;\nusing System.Runtime.InteropServices;\npublic class MemoryManagement {\n    [DllImport(\"kernel32.dll\")]\n    public static extern bool SetProcessWorkingSetSize(IntPtr proc, int min, int max);\n    public static void FlushMemory() {\n        GC.Collect();\n        GC.WaitForPendingFinalizers();\n        SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);\n    }\n}\n\"@\nAdd-Type $ClearMemory\n[MemoryManagement]::FlushMemory()\n\n# Désactiver fichier d'échange (si 16GB+ RAM):\nWin + R → sysdm.cpl\nAvancé → Performances → Paramètres → Avancé → Mémoire virtuelle\n○ Aucun fichier d'échange\n⚠️ Peut crasher apps gourmandes!\n\n# Fichier d'échange custom (recommandé):\n☑ Taille personnalisée\nTaille initiale: 1.5× RAM (ex: 24 GB si 16 GB RAM)\nTaille maximale: 2× RAM (ex: 32 GB si 16 GB RAM)"
+            },
+            {
+                "info": "💡 PC portable? Désactiver 'Démarrage rapide' si bugs au boot: Panneau de config → Options alimentation → Choisir comportement boutons → Modifier paramètres indisponibles → Décocher 'Démarrage rapide'."
+            },
+            {
+                "warning": "⚠️ NE PAS désactiver Windows Defender (sauf antivirus tiers installé). Pas de 'RAM cleaner' tiers - souvent malwares! Windows gère RAM automatiquement."
+            }
+        ]
+    },
+
+    "win11_disk_management": {
+        "title": "💾 Gestion des Disques Windows",
+        "sections": [
+            {
+                "title": "Gestionnaire de Disques - Interface",
+                "code": "# Ouvrir gestionnaire disques:\nWin + X → Gestion des disques\nOu: Win + R → diskmgmt.msc\n\n# Interface:\n- Vue supérieure: Liste volumes (lettres lecteurs)\n- Vue inférieure: Représentation graphique partitions\n\n# Informations affichées:\n- Lettre lecteur: C:, D:, E:, etc.\n- Système fichiers: NTFS, FAT32, exFAT, ReFS\n- État: Sain, RAW (non formaté), Récupération\n- Capacité: Taille totale\n- Espace libre: Disponible\n- Type: Partition principale, Étendue, Logique"
+            },
+            {
+                "title": "Créer Nouvelle Partition",
+                "code": "# Étapes création partition:\n1. Clic droit espace non alloué → Nouveau volume simple\n2. Assistant:\n   - Taille: Spécifier en Mo (ex: 50000 Mo = 50 GB)\n   - Lettre lecteur: Choisir (D:, E:, etc.)\n   - Système fichiers:\n     * NTFS (recommandé Windows, >4GB fichiers)\n     * FAT32 (compatibilité max, fichiers <4GB)\n     * exFAT (clés USB modernes, >4GB fichiers)\n   - Nom volume: Label descriptif\n   - Formatage rapide: Cocher (plus rapide)\n3. Terminer\n\n# Si pas d'espace non alloué, réduire partition existante:\nClic droit partition (ex: C:) → Réduire le volume\nQuantité: Espace à libérer en Mo\n⚠️ Windows ne peut réduire que jusqu'aux fichiers immobiles!"
+            },
+            {
+                "title": "Formater / Reformater Partition",
+                "code": "# Formater partition:\nClic droit partition → Formater\n\nOptions:\n- Nom volume: Étiquette (ex: 'Données', 'Backup')\n- Système fichiers:\n  * NTFS: Windows, fichiers >4GB, permissions, chiffrement\n  * FAT32: Compatibilité universelle, fichiers <4GB\n  * exFAT: Clés USB/externes, fichiers >4GB, pas permissions\n- Taille unité allocation: Défaut (recommandé)\n- Formatage rapide: ☑ Cocher (efface table, pas données)\n                    ☐ Décocher (réécriture complète, lent, sécurisé)\n\n⚠️ FORMATAGE EFFACE TOUTES DONNÉES!\n\n# Formater via CMD (avancé):\nformat D: /FS:NTFS /Q /V:MonDisque\n# /FS: Système fichiers\n# /Q: Rapide\n# /V: Label volume"
+            },
+            {
+                "title": "Changer Lettre de Lecteur",
+                "code": "# Modifier lettre lecteur:\n1. Gestionnaire disques\n2. Clic droit partition → Modifier lettre/chemin d'accès\n3. Modifier → Sélectionner nouvelle lettre\n4. OK\n\n⚠️ Applications installées sur lecteur peuvent casser!\n⚠️ Ne PAS changer lettre C: (Windows)\n\n# Via DiskPart (CMD Admin):\ndiskpart\nlist volume\nselect volume 2     # Numéro volume à changer\nassign letter=E     # Nouvelle lettre\nexit\n\n# Supprimer lettre lecteur (monter dans dossier):\nModifier → Supprimer\nAjouter → Monter dans dossier NTFS vide\nExemple: C:\\Montages\\Disque2\\"
+            },
+            {
+                "title": "Vérifier Santé Disque - CHKDSK",
+                "code": "# Vérifier erreurs disque:\nClic droit lecteur (Explorateur) → Propriétés\nOutils → Vérification erreurs → Analyser\n\n# CHKDSK via CMD (Admin):\nchkdsk C: /F /R\n# /F: Corrige erreurs système fichiers\n# /R: Localise secteurs défectueux, récupère données\n# Redémarrage requis si C: en cours utilisation\n\n# CHKDSK scan complet (très long!):\nchkdsk C: /F /R /X\n# /X: Démonte volume d'abord\n\n# Voir résultat CHKDSK précédent:\nObservateur événements → Journaux Windows → Application\nFiltrer: Source = Chkdsk, ID événement = 26226\n\n# SMART status disque (PowerShell Admin):\nGet-PhysicalDisk | Get-StorageReliabilityCounter | Select-Object DeviceID, Wear, Temperature\n\n# CrystalDiskInfo (GUI, recommandé):\nTélécharger: https://crystalmark.info/\nAffiche: Santé, température, heures utilisation, secteurs réalloués"
+            },
+            {
+                "title": "Convertir MBR ↔ GPT",
+                "code": "# MBR vs GPT:\nMBR (Master Boot Record):\n- Maximum 4 partitions primaires\n- Disques <2 TB\n- BIOS Legacy\n\nGPT (GUID Partition Table):\n- 128+ partitions\n- Disques >2 TB\n- UEFI (Windows 11 requis)\n- Plus fiable (backup table partitions)\n\n# Vérifier type partition:\nDiskPart:\nlist disk\n# Colonne 'Gpt': * = GPT, vide = MBR\n\n# Convertir MBR → GPT (sans perte données, Windows 10+):\nPowerShell (Admin):\nmbr2gpt /convert /disk:0 /allowFullOS\n# /disk:0 = Premier disque (vérifier numéro!)\n# ⚠️ Changer BIOS Legacy → UEFI après!\n\n# Convertir via DiskPart (EFFACE DONNÉES!):\ndiskpart\nlist disk\nselect disk 1       # Disk à convertir\nclean               # ⚠️ EFFACE TOUT!\nconvert gpt         # Ou: convert mbr\nexit"
+            },
+            {
+                "info": "💡 SSD neuf non visible? Normal - doit être initialisé! Gestionnaire disques → Clic droit 'Disque inconnu' → Initialiser → GPT."
+            },
+            {
+                "warning": "⚠️ NE JAMAIS formater partition 'Récupération' (300-500 MB) ou 'EFI' (100 MB)! Empêche boot Windows. Si supprimé par erreur, réinstallation Windows requise."
+            }
+        ]
+    },
+
+    "win11_backup": {
+        "title": "💾 Sauvegardes Windows 11",
+        "sections": [
+            {
+                "title": "Historique des Fichiers - Sauvegarde Continue",
+                "code": "# Activer Historique fichiers:\nParamètres → Système → Stockage → Options avancées → Sauvegarde\nOu: Panneau config → Historique fichiers\n\n# Configuration:\n1. Connecter disque externe (USB, NAS)\n2. Sélectionner lecteur\n3. Activer\n\n# Dossiers sauvegardés automatiquement:\n- Bureau\n- Documents\n- Téléchargements\n- Images\n- Musique\n- Vidéos\n- OneDrive (si activé)\n\n# Fréquence sauvegarde:\nOptions avancées → Enregistrer copies fichiers\n- Toutes les 10 minutes (défaut, intensif)\n- Toutes les heures (recommandé)\n- Quotidiennement\n\n# Conserver versions:\n- Jusqu'à espace nécessaire (défaut)\n- 1 mois / 3 mois / 6 mois / 1 an / 2 ans / Toujours\n\n# Restaurer fichiers:\nHistorique fichiers → Restaurer fichiers personnels\nParcourir versions → Sélectionner → Restaurer"
+            },
+            {
+                "title": "Sauvegarde Image Système Complète",
+                "code": "# Créer image système (clone complet disque C:):\nPanneau config → Sauvegarde et restauration (Windows 7)\nCréer image système\n\n# Assistant:\n1. Destination:\n   - Disque dur externe (recommandé)\n   - DVD (multiples disques requis, obsolète)\n   - Emplacement réseau (NAS)\n\n2. Lecteurs à inclure:\n   ☑ C: (Windows) - obligatoire\n   ☑ Partitions système (EFI, Récupération) - automatique\n   ☐ D:, E: (données) - optionnel\n\n3. Démarrer sauvegarde\n   Durée: 30min - 2h (selon taille)\n\n4. Créer disque réparation système? → Oui (USB bootable)\n\n# Restaurer image système:\n1. Paramètres → Système → Récupération → Redémarrage avancé\n2. Dépannage → Options avancées → Récupération image système\n3. Sélectionner image → Suivant → Restaurer\n⚠️ EFFACE Windows actuel!\n\n# Via CMD (création image):\nwbadmin start backup -backupTarget:E: -include:C: -allCritical -quiet"
+            },
+            {
+                "title": "OneDrive - Sauvegarde Cloud",
+                "bullets": [
+                    "Configuration OneDrive:",
+                    "• Gratuit: 5 GB",
+                    "• Microsoft 365: 1 TB",
+                    "",
+                    "Activer sauvegarde dossiers:",
+                    "• Clic icône OneDrive (barre tâches) → Paramètres",
+                    "• Sauvegarde → Gérer sauvegarde",
+                    "• Sélectionner: Bureau, Documents, Images",
+                    "• Démarrer sauvegarde",
+                    "",
+                    "Avantages:",
+                    "• Accès fichiers depuis n'importe quel appareil",
+                    "• Versions antérieures (30 jours)",
+                    "• Protection ransomware (détection + restauration)",
+                    "",
+                    "Fichiers à la demande:",
+                    "• Économise espace disque",
+                    "• Fichiers cloud téléchargés seulement si ouverts",
+                    "• Clic droit fichier → Libérer de l'espace"
+                ]
+            },
+            {
+                "title": "Point de Restauration - Sauvegarde Système",
+                "code": "# Créer point restauration manuellement:\nWin + R → sysdm.cpl\nProtection système → Créer\nDescription: \"Avant mise à jour\" / \"Installation propre\"\n\n# Activer protection système (si désactivée):\nProtection système → Sélectionner C: → Configurer\n☑ Activer protection système\nUtilisation disque: 5-10% (5-10 GB typique)\n\n# Points restauration automatiques:\nCréés automatiquement avant:\n- Installations Windows Update\n- Installations drivers\n- Installations logiciels majeurs\n\n# Restaurer point restauration:\nParamètres → Système → Récupération → Récupération avancée\nOu: sysdm.cpl → Protection système → Restauration système\nChoisir point → Suivant → Terminer\n⚠️ Désinstalle apps/drivers installés après point!\n\n# Supprimer anciens points (libérer espace):\nWin + R → cleanmgr\nNettoyer fichiers système → Onglet 'Autres options'\nPoints restauration → Nettoyer (garde dernier point)"
+            },
+            {
+                "title": "Outils Sauvegarde Tiers",
+                "bullets": [
+                    "Macrium Reflect (gratuit):",
+                    "• Clonage disque complet",
+                    "• Sauvegardes incrémentielles/différentielles",
+                    "• Média récupération bootable",
+                    "• https://www.macrium.com/reflectfree",
+                    "",
+                    "EaseUS Todo Backup (freemium):",
+                    "• Interface simple",
+                    "• Sauvegarde cloud (payant)",
+                    "• https://www.easeus.com/backup-software/",
+                    "",
+                    "Veeam Agent (gratuit):",
+                    "• Pro-grade gratuit",
+                    "• Restauration fichier par fichier",
+                    "• https://www.veeam.com/windows-endpoint-server-backup-free.html",
+                    "",
+                    "Stratégie 3-2-1:",
+                    "• 3 copies données",
+                    "• 2 supports différents (disque + cloud)",
+                    "• 1 copie hors site (cloud, disque distant)"
+                ]
+            },
+            {
+                "info": "💡 Sauvegarde AVANT installations majeures (Windows updates, nouveaux drivers). Point restauration = 5 min, peut sauver des heures de réinstallation!"
+            },
+            {
+                "warning": "⚠️ Historique fichiers ≠ Image système! Historique = fichiers perso. Image = Windows complet. Les DEUX recommandés pour protection totale."
+            }
+        ]
+    },
+
+    "win11_defender": {
+        "title": "🛡️ Windows Defender & Sécurité",
+        "sections": [
+            {
+                "title": "Windows Defender - Configuration",
+                "code": "# Ouvrir Sécurité Windows:\nParamètres → Confidentialité et sécurité → Sécurité Windows\nOu: Win + I → Sécurité Windows\nOu: Rechercher 'Sécurité Windows'\n\n# Protection en temps réel:\nProtection antivirus → Gérer paramètres\n☑ Protection en temps réel (toujours activée!)\n☑ Protection cloud (détection menaces récentes)\n☑ Envoi échantillons automatique\n☑ Protection contre falsification (empêche malwares désactiver Defender)\n\n# Analyse rapide:\nProtection antivirus → Analyse rapide\nDurée: 5-15 min\nAnalyse: Fichiers système, mémoire, démarrage\n\n# Analyse complète:\nOptions analyse → Analyse complète\nDurée: 1-3h\nAnalyse: TOUS fichiers disque\n\n# Analyse personnalisée:\nOptions analyse → Personnalisée\nSélectionner dossiers spécifiques"
+            },
+            {
+                "title": "Analyses Planifiées & Automatiques",
+                "code": "# Planifier analyse (Planificateur tâches):\nWin + R → taskschd.msc\nBibliothèque Planificateur → Microsoft → Windows → Windows Defender\n\nTâches Defender:\n- Windows Defender Scheduled Scan (analyse hebdo)\n- Windows Defender Cache Maintenance\n- Windows Defender Cleanup\n- Windows Defender Verification\n\n# Modifier fréquence analyse:\nClic droit 'Scheduled Scan' → Propriétés\nDéclencheurs → Modifier\nFréquence: Quotidien / Hebdomadaire / Mensuel\nHeure: Choisir moment PC allumé (ex: 2h du matin)\n\n# Via PowerShell (analyse manuelle):\nStart-MpScan -ScanType QuickScan\nStart-MpScan -ScanType FullScan\n\n# Mettre à jour définitions virus:\nUpdate-MpSignature\n\n# Voir dernière analyse:\nGet-MpComputerStatus"
+            },
+            {
+                "title": "Exclusions Defender (Faux Positifs)",
+                "code": "# Ajouter exclusion fichier/dossier:\nSécurité Windows → Protection antivirus\nGérer paramètres → Exclusions → Ajouter exclusion\n\nTypes exclusions:\n- Fichier (ex: C:\\Games\\game.exe)\n- Dossier (ex: C:\\Dev\\MyProject)\n- Type fichier (ex: .bat, .ps1)\n- Processus (ex: python.exe)\n\n# Quand ajouter exclusions:\n- Outils développement (Visual Studio, Git)\n- Logiciels activation (cracks - ⚠️ risque!)\n- Jeux avec anti-cheat (Steam, Epic)\n- Machines virtuelles\n- Dossiers compilation (build/)\n\n# Via PowerShell (Admin):\n# Exclure dossier:\nAdd-MpPreference -ExclusionPath \"C:\\Dev\"\n\n# Exclure extension:\nAdd-MpPreference -ExclusionExtension \".py\"\n\n# Exclure processus:\nAdd-MpPreference -ExclusionProcess \"python.exe\"\n\n# Lister exclusions:\nGet-MpPreference | Select-Object -ExpandProperty ExclusionPath"
+            },
+            {
+                "title": "Protection Ransomware - Accès Contrôlé",
+                "code": "# Activer Accès contrôlé dossiers:\nSécurité Windows → Protection antivirus\nProtection contre ransomware → Gérer protection\n☑ Accès contrôlé aux dossiers: Activé\n\n# Dossiers protégés (par défaut):\n- Bureau\n- Documents\n- Images\n- Vidéos\n- Musique\n\n# Ajouter dossier protégé:\nDossiers protégés → Ajouter dossier protégé\nEx: C:\\Projets\\Important\n\n# Autoriser app à modifier dossiers protégés:\nAutoriser app via accès contrôlé dossiers\nAjouter app autorisée\nEx: C:\\Program Files\\Backup\\backup.exe\n\n⚠️ Seulement apps de confiance!\n\n# Fonctionnement:\n- Bloque apps non autorisées modifier dossiers protégés\n- Protège contre chiffrement ransomware\n- Notification si tentative bloquée"
+            },
+            {
+                "title": "SmartScreen & Protection Web",
+                "bullets": [
+                    "SmartScreen Windows:",
+                    "• Bloque apps non reconnues",
+                    "• Vérification réputation fichiers téléchargés",
+                    "• Protection phishing sites web",
+                    "",
+                    "Configuration:",
+                    "• Sécurité Windows → Contrôle apps/navigateur",
+                    "• Vérifier apps/fichiers: Activé (recommandé)",
+                    "• SmartScreen Microsoft Edge: Activé",
+                    "• Protection anti-hameçonnage: Activé",
+                    "",
+                    "Contourner SmartScreen (si fichier sûr):",
+                    "• Téléchargement bloqué: Infos complémentaires → Exécuter",
+                    "• ⚠️ Seulement si fichier de source fiable!",
+                    "",
+                    "Protection exploits:",
+                    "• Contrôle apps → Paramètres protection exploits",
+                    "• Atténuation exploits système activée",
+                    "• Protège contre attaques mémoire (buffer overflow, etc.)"
+                ]
+            },
+            {
+                "title": "Quarantaine & Historique Menaces",
+                "code": "# Voir menaces détectées:\nSécurité Windows → Protection antivirus\nMenaces actuelles\n\n# Quarantaine:\nHistorique protection → Voir historique complet\nMenaces en quarantaine\n\n# Restaurer fichier quarantaine (faux positif):\nSélectionner menace → Restaurer\n⚠️ Seulement si CERTAIN que faux positif!\n\n# Supprimer définitivement:\nSélectionner → Supprimer\n\n# Via PowerShell:\n# Lister menaces quarantaine:\nGet-MpThreat\n\n# Supprimer toutes menaces quarantaine:\nRemove-MpThreat\n\n# Voir dernières détections:\nGet-MpThreatDetection"
+            },
+            {
+                "info": "💡 Defender = suffisant pour 95% utilisateurs! Gratuit, intégré, pas ralentissements. Antivirus tiers utile seulement si besoins spécifiques (entreprise, serveurs)."
+            },
+            {
+                "warning": "⚠️ NE JAMAIS désactiver Protection falsification! Malwares ciblent cette option. Si vraiment besoin désactiver Defender (tests), réactiver immédiatement après."
+            }
+        ]
+    },
+
+    "win11_firewall": {
+        "title": "🔥 Pare-feu Windows",
+        "sections": [
+            {
+                "title": "Pare-feu Windows - Statut",
+                "code": "# Ouvrir Pare-feu:\nParamètres → Confidentialité et sécurité → Sécurité Windows → Pare-feu\nOu: Panneau config → Système et sécurité → Pare-feu Windows Defender\nOu: Win + R → firewall.cpl\n\n# Vérifier statut:\nParamètres → Réseau et Internet → Paramètres réseau avancés\nPare-feu Windows Defender\n\n# 3 profils réseau:\n1. Réseau de domaine (entreprise - Active Directory)\n   ☑ Activé (géré admin)\n\n2. Réseau privé (maison, confiance)\n   ☑ Activé (recommandé)\n   Détection réseau: Activée\n   Partage fichiers: Autorisé\n\n3. Réseau public (Wi-Fi café, hôtel)\n   ☑ Activé (strict!)\n   Détection réseau: Désactivée\n   Partage fichiers: Bloqué\n   Connexions entrantes: Bloquées par défaut"
+            },
+            {
+                "title": "Autoriser Application via Pare-feu",
+                "code": "# Méthode GUI (simple):\n1. Pare-feu Windows → Autoriser app via pare-feu\n2. Modifier paramètres\n3. Chercher app dans liste\n   Si absente: Autoriser autre app → Parcourir\n4. Cocher:\n   ☑ Privé (réseau maison)\n   ☐ Public (généralement décocher)\n5. OK\n\n# Applications courantes à autoriser:\n- Navigateurs (Chrome, Firefox) - déjà autorisés\n- Clients torrent (qBittorrent, Transmission)\n- Serveurs locaux (XAMPP, Node.js)\n- Jeux multijoueur\n- Apps partage fichiers (Syncthing)\n- Bureau à distance (RDP, TeamViewer)\n\n# Via PowerShell (Admin):\n# Autoriser programme:\nNew-NetFirewallRule -DisplayName \"MonApp\" -Direction Inbound -Program \"C:\\Apps\\app.exe\" -Action Allow\n\n# Autoriser port:\nNew-NetFirewallRule -DisplayName \"Port 8080\" -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow"
+            },
+            {
+                "title": "Règles Pare-feu Avancées",
+                "code": "# Pare-feu avancé:\nWin + R → wf.msc\n\n# Interface:\n- Règles entrantes (Inbound): Connexions vers PC\n- Règles sortantes (Outbound): Connexions depuis PC\n- Règles sécurité connexion: IPsec, VPN\n\n# Créer règle personnalisée:\nRègles entrantes → Nouvelle règle\n\n1. Type:\n   ○ Programme (recommandé)\n   ○ Port\n   ○ Prédéfinie (services Windows)\n   ○ Personnalisée (avancé)\n\n2. Programme:\n   ○ Tous programmes\n   ○ Chemin programme: C:\\Apps\\server.exe\n\n3. Action:\n   ○ Autoriser connexion\n   ○ Autoriser connexion si sécurisée (IPsec)\n   ○ Bloquer connexion\n\n4. Profil:\n   ☑ Domaine\n   ☑ Privé\n   ☐ Public (généralement décocher)\n\n5. Nom: \"Mon Serveur Web\"\n\n# Désactiver règle:\nClic droit règle → Désactiver\n(Plutôt que supprimer)"
+            },
+            {
+                "title": "Bloquer Application / Port",
+                "code": "# Bloquer application (empêcher accès Internet):\nwf.msc → Règles sortantes → Nouvelle règle\nType: Programme\nChemin: C:\\Program Files\\App\\app.exe\nAction: Bloquer connexion\nProfil: Tous\nNom: \"Bloquer App Internet\"\n\n# Bloquer port entrant (ex: Telnet 23):\nRègles entrantes → Nouvelle règle\nType: Port\nProtocole: TCP\nPort: 23\nAction: Bloquer\n\n# Bloquer plage ports:\nPorts: 4000-5000\n\n# Via PowerShell:\n# Bloquer app sortant:\nNew-NetFirewallRule -DisplayName \"Bloquer App\" -Direction Outbound -Program \"C:\\App.exe\" -Action Block\n\n# Bloquer port entrant:\nNew-NetFirewallRule -DisplayName \"Bloquer Port 23\" -Direction Inbound -Protocol TCP -LocalPort 23 -Action Block"
+            },
+            {
+                "title": "Notifications Pare-feu",
+                "bullets": [
+                    "Popup 'Windows Defender a bloqué...':",
+                    "• Apparaît quand app tente connexion bloquée",
+                    "• Options: Autoriser / Annuler",
+                    "",
+                    "Désactiver notifications:",
+                    "• Pare-feu → Activer/désactiver pare-feu",
+                    "• Décocher: 'M'avertir quand pare-feu bloque app'",
+                    "• ⚠️ Non recommandé - perd visibilité!",
+                    "",
+                    "Journal pare-feu (avancé):",
+                    "• wf.msc → Pare-feu Windows → Propriétés",
+                    "• Profil actif → Personnaliser journal",
+                    "• Nom: %systemroot%\\system32\\LogFiles\\Firewall\\pfirewall.log",
+                    "• Taille max: 4096 KB (4 MB)",
+                    "• Enregistrer: Connexions supprimées / réussies",
+                    "",
+                    "Analyser journal:",
+                    "• notepad C:\\Windows\\System32\\LogFiles\\Firewall\\pfirewall.log",
+                    "• Colonnes: Date, Heure, Action (DROP/ALLOW), Protocole, Src-IP, Dst-IP, Port"
+                ]
+            },
+            {
+                "title": "Réinitialiser Pare-feu",
+                "code": "# Restaurer paramètres par défaut:\nPare-feu Windows → Restaurer valeurs par défaut\n⚠️ Supprime TOUTES règles personnalisées!\n\n# Via PowerShell (Admin):\n(New-Object -ComObject HNetCfg.FwPolicy2).RestoreLocalFirewallDefaults()\n\n# Ou via netsh:\nnetsh advfirewall reset\n\n# Vérifier règles actives:\nGet-NetFirewallRule | Where-Object {$_.Enabled -eq 'True'} | Select-Object DisplayName, Direction, Action"
+            },
+            {
+                "info": "💡 Serveur web/jeu local pas accessible? Vérifier pare-feu! Port 80 (HTTP), 443 (HTTPS), 3389 (RDP) souvent bloqués par défaut."
+            },
+            {
+                "warning": "⚠️ NE JAMAIS désactiver pare-feu complètement! Si app bloquée, créer règle spécifique. Désactiver pare-feu = porte ouverte hackers."
+            }
+        ]
+    },
+
+    "win11_network": {
+        "title": "🌐 Réseau et Partage Windows",
+        "sections": [
+            {
+                "title": "Configuration Réseau - Profils",
+                "code": "# Changer profil réseau (Public ↔ Privé):\nParamètres → Réseau et Internet\nSélectionner connexion active (Wi-Fi / Ethernet)\nProfil réseau:\n○ Public (recommandé Wi-Fi publics)\n  - Détection réseau désactivée\n  - Partage fichiers bloqué\n  - Pare-feu strict\n○ Privé (réseau maison)\n  - Détection réseau activée\n  - Partage fichiers autorisé\n  - Autres PCs visibles\n\n# Via PowerShell (Admin):\n# Lister réseaux:\nGet-NetConnectionProfile\n\n# Changer en Privé:\nSet-NetConnectionProfile -InterfaceAlias \"Wi-Fi\" -NetworkCategory Private\n\n# Changer en Public:\nSet-NetConnectionProfile -InterfaceAlias \"Ethernet\" -NetworkCategory Public"
+            },
+            {
+                "title": "Partage de Fichiers - Configuration",
+                "code": "# Activer partage fichiers:\nParamètres → Réseau et Internet → Paramètres réseau avancés\nParamètres de partage avancés\n\nProfil Privé:\n☑ Activer la détection de réseau\n☑ Activer découverte automatique\n☑ Activer partage fichiers et imprimantes\n☑ Autoriser Windows gérer connexions groupe résidentiel (obsolète Win11)\n\nToutes réseaux:\n☑ Activer partage pour permettre accès réseau\n☐ Désactiver partage protégé par mot passe (réseau confiance)\n☑ Activer partage protégé (réseau public)\n\n# Partager dossier:\n1. Clic droit dossier → Propriétés → Partage\n2. Partage avancé → ☑ Partager ce dossier\n3. Nom partage: (ex: \"Documents\")\n4. Autorisations:\n   - Contrôle total (lecture + écriture + suppression)\n   - Modifier (lecture + écriture)\n   - Lecture seule\n5. Appliquer → OK\n\n# Accéder partage depuis autre PC:\n\\\\NOM-PC\\NomPartage\nOu: \\\\192.168.1.10\\Documents"
+            },
+            {
+                "title": "Réseau Local - Diagnostic",
+                "code": "# Voir configuration IP:\nipconfig /all\n\nInfos importantes:\n- Adresse IPv4: 192.168.1.x (IP locale)\n- Masque sous-réseau: 255.255.255.0\n- Passerelle: 192.168.1.1 (routeur)\n- DNS: 8.8.8.8 (Google) ou DNS FAI\n\n# Renouveler IP (DHCP):\nipconfig /release\nipconfig /renew\n\n# Vider cache DNS:\nipconfig /flushdns\n\n# Tester connectivité:\nping 8.8.8.8           # Internet Google\nping 192.168.1.1       # Routeur\nping google.com        # DNS + Internet\n\n# Traceroute (chemin paquets):\ntracert google.com\n\n# Voir connexions actives:\nnetstat -ano\n# -a: Toutes connexions\n# -n: Adresses numériques\n# -o: PID processus\n\n# Connexions établies seulement:\nnetstat -ano | findstr ESTABLISHED"
+            },
+            {
+                "title": "Wi-Fi - Gestion et Dépannage",
+                "code": "# Oublier réseau Wi-Fi:\nParamètres → Réseau et Internet → Wi-Fi\nGérer réseaux connus → Sélectionner → Oublier\n\n# Se connecter réseau caché:\nWi-Fi → Afficher réseaux disponibles\nRéseau masqué → Se connecter manuellement\nSaisir SSID, Type sécurité, Mot passe\n\n# Priorité réseaux Wi-Fi:\nPowerShell (Admin):\nnetsh wlan show profiles\nnetsh wlan set profileorder name=\"MonWiFi\" interface=\"Wi-Fi\" priority=1\n# Priority: 1=premier, 2=deuxième, etc.\n\n# Désactiver Wi-Fi auto (économie batterie):\nParamètres → Réseau et Internet → Wi-Fi\n☐ Activer Wi-Fi\n\n# Voir mot de passe Wi-Fi enregistré:\nnetsh wlan show profile name=\"NomRéseau\" key=clear\n# Chercher ligne 'Contenu clé'\n\n# Dépannage Wi-Fi:\n1. Redémarrer adaptateur:\n   Paramètres → Réseau → Wi-Fi → Désactiver → Attendre 10s → Activer\n\n2. Réinitialiser réseau:\n   Paramètres → Réseau → Paramètres réseau avancés\n   Réinitialisation réseau\n   ⚠️ Oublie tous Wi-Fi!\n\n3. Mettre à jour driver:\n   Gestionnaire périph → Cartes réseau → Clic droit → MàJ driver"
+            },
+            {
+                "title": "Ethernet - Configuration",
+                "bullets": [
+                    "Avantages Ethernet vs Wi-Fi:",
+                    "• Latence: 1-5ms (vs 20-50ms Wi-Fi)",
+                    "• Stabilité: Pas interférences",
+                    "• Vitesse: 1 Gbps typique (vs 100-600 Mbps Wi-Fi)",
+                    "• Sécurité: Pas interception sans accès physique",
+                    "",
+                    "Configuration IP statique (serveurs, imprimantes):",
+                    "• Paramètres → Réseau → Ethernet → Propriétés",
+                    "• Attribution IP: Manuel",
+                    "• IPv4: Activé",
+                    "• IP: 192.168.1.100 (choix libre 2-254)",
+                    "• Masque: 255.255.255.0",
+                    "• Passerelle: 192.168.1.1 (IP routeur)",
+                    "• DNS primaire: 8.8.8.8 (Google)",
+                    "• DNS secondaire: 1.1.1.1 (Cloudflare)",
+                    "",
+                    "Tester câble Ethernet:",
+                    "• Gestionnaire tâches → Performances → Ethernet",
+                    "• Vitesse liaison: 1 Gbps (bon), 100 Mbps (câble Cat5 vieux)",
+                    "• Si 10 Mbps: Câble défectueux"
+                ]
+            },
+            {
+                "info": "💡 Partage fichiers lent (1-5 MB/s)? Vérifier: 1) Câble Ethernet Cat6+ (pas Cat5), 2) Switch/routeur Gigabit, 3) Disque destination pas saturé."
+            },
+            {
+                "warning": "⚠️ Partage protégé par mot passe DÉSACTIVÉ = DANGER sur réseau non fiable! N'importe qui peut accéder fichiers. Activer sur réseau maison seulement."
+            }
+        ]
+    },
+
+    "win11_privacy": {
+        "title": "🔒 Confidentialité Windows 11",
+        "sections": [
+            {
+                "title": "Confidentialité - Paramètres Essentiels",
+                "code": "# Accès paramètres confidentialité:\nParamètres → Confidentialité et sécurité\n\n# Autorisations Windows (recommandations):\n\n1. Général:\n   ☐ ID de publicité (désactiver - tracking pubs)\n   ☐ Sites web accès liste langues (désactiver)\n   ☐ Contenu suggéré Paramètres (désactiver - pubs Microsoft)\n   ☑ Afficher apps suggérées menu Démarrer (selon préférence)\n\n2. Voix:\n   ☐ Reconnaissance vocale en ligne (désactiver si pas Cortana)\n\n3. Diagnostics:\n   ○ Données diagnostic requises (minimum)\n   ☐ Expériences personnalisées (désactiver)\n   ☐ Supprimer données diagnostic (nettoyer)\n   ☐ Feedback (désactiver)\n\n4. Historique activités:\n   ☐ Enregistrer historique (désactiver)\n   Effacer → Effacer historique complet"
+            },
+            {
+                "title": "Autorisations Applications",
+                "bullets": [
+                    "Localisation:",
+                    "• Désactiver si pas navigation/météo",
+                    "• Autoriser seulement: Cartes, Météo",
+                    "",
+                    "Caméra:",
+                    "• Désactiver globalement",
+                    "• Autoriser: Zoom, Teams, Discord (selon usage)",
+                    "• ⚠️ Vérifier apps suspectes!",
+                    "",
+                    "Microphone:",
+                    "• Désactiver globalement",
+                    "• Autoriser: Apps visio, enregistrement",
+                    "",
+                    "Notifications:",
+                    "• Désactiver apps non critiques",
+                    "• Garder: Mail, Calendrier, Sécurité Windows",
+                    "",
+                    "Contacts / Calendrier / Appels téléphoniques:",
+                    "• Désactiver si pas sync téléphone",
+                    "",
+                    "Compte et informations:",
+                    "• Vérifier apps ayant accès compte Microsoft",
+                    "• Supprimer apps inconnues",
+                    "",
+                    "Fichiers:",
+                    "• Autoriser seulement apps confiance (OneDrive, backup)"
+                ]
+            },
+            {
+                "title": "Télémétrie - Minimiser Données Microsoft",
+                "code": "# Désactiver télémétrie (Édition Pro/Entreprise):\nGestion stratégie groupe:\ngpedit.msc\n\nConfiguration ordinateur → Modèles admin\n→ Composants Windows → Collecte données\nAutoriser télémétrie:\n○ 0 - Sécurité (Entreprise only)\n○ 1 - De base (minimum)\n\n# Services télémétrie à désactiver:\nWin + R → services.msc\n\n1. Expériences utilisateur connecté et télémétrie\n   Clic droit → Propriétés → Désactivé\n\n2. Service de rapport d'erreurs Windows\n   Désactivé (optionnel - aide Microsoft corriger bugs)\n\n# Via PowerShell (Admin):\nDisable-ScheduledTask -TaskName \"Microsoft\\Windows\\Application Experience\\*\"\nDisable-ScheduledTask -TaskName \"Microsoft\\Windows\\Customer Experience Improvement Program\\*\"\n\n# Bloquer serveurs télémétrie (fichier hosts):\nnotepad C:\\Windows\\System32\\drivers\\etc\\hosts\n\nAjouter lignes:\n0.0.0.0 vortex.data.microsoft.com\n0.0.0.0 vortex-win.data.microsoft.com\n0.0.0.0 telecommand.telemetry.microsoft.com\n0.0.0.0 oca.telemetry.microsoft.com"
+            },
+            {
+                "title": "Cortana - Désactivation",
+                "code": "# Désactiver Cortana (Windows 11):\nParamètres → Applications → Applications installées\nChercher 'Cortana' → ... → Options avancées\nDésinstaller (si option dispo)\n\n# Ou désactiver:\nDémarrer → Cortana → Paramètres\n☐ Laisser Cortana répondre 'Hey Cortana'\n☐ Autoriser Cortana écran verrouillé\n\n# Via Registry (désactiver complètement):\nWin + R → regedit\nHKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search\nCréer DWORD (32-bit):\nNom: AllowCortana\nValeur: 0\n\nRedémarrer PC"
+            },
+            {
+                "title": "OneDrive - Contrôle Sync Cloud",
+                "bullets": [
+                    "Désactiver sync OneDrive:",
+                    "• Clic droit icône OneDrive (barre tâches)",
+                    "• Paramètres → Compte → Dissocier ce PC",
+                    "• Fichiers locaux conservés",
+                    "",
+                    "Désinstaller OneDrive complètement:",
+                    "• Win + R → appwiz.cpl",
+                    "• Microsoft OneDrive → Désinstaller",
+                    "",
+                    "Empêcher OneDrive démarrage:",
+                    "• Gestionnaire tâches → Démarrage",
+                    "• Microsoft OneDrive → Désactiver",
+                    "",
+                    "Via PowerShell (désinstaller):",
+                    "• taskkill /f /im OneDrive.exe",
+                    "• %SystemRoot%\\SysWOW64\\OneDriveSetup.exe /uninstall",
+                    "",
+                    "Réactiver si besoin:",
+                    "• C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe"
+                ]
+            },
+            {
+                "title": "Widgets & Actualités - Désactiver",
+                "code": "# Désactiver Widgets (barre tâches):\nClic droit barre tâches → Paramètres\n☐ Widgets\n\n# Désactiver actualités (lock screen):\nParamètres → Personnalisation → Écran verrouillage\nÉtat écran verrouillage: Image (pas 'Windows à la une')\n\n# Via Registry:\nregedit\nHKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Dsh\nCréer DWORD:\nNom: AllowNewsAndInterests\nValeur: 0"
+            },
+            {
+                "info": "💡 Désactiver télémétrie ≠ casser Windows. Fonctionnalités essentielles intactes. Seulement données usage anonymes + suggestions publicitaires arrêtées."
+            },
+            {
+                "warning": "⚠️ Modifications Registry = risque si erreur! Toujours sauvegarder Registry avant (Fichier → Exporter). Si problème: Mode sans échec + restaurer backup."
+            }
+        ]
+    },
+
+    # ==================== BATCH 3 - GUIDES WINDOWS 11 (11-15/15) ====================
+
+    "win11_cmd": {
+        "title": "💻 Command Prompt (CMD) - Commandes Essentielles",
+        "sections": [
+            {
+                "title": "Ouvrir CMD (Invite de Commandes)",
+                "code": "# Méthodes rapides:\nWin + R → cmd → Entrée           # Standard\nWin + R → cmd + Ctrl+Shift+Entrée  # Administrateur\n\n# Via menu Démarrer:\nMenu Démarrer → Taper 'cmd' → Clic droit → Exécuter en tant qu'administrateur\n\n# Via explorateur Windows:\nExplorateur → Dossier souhaité → Barre d'adresse → Taper 'cmd' + Entrée\n(Ouvre CMD directement dans ce dossier)"
+            },
+            {
+                "title": "Commandes de Navigation",
+                "code": "# Changer de dossier:\ncd C:\\Users\\VotreNom\\Documents    # Aller vers chemin absolu\ncd Documents                       # Aller vers sous-dossier\ncd ..                             # Remonter d'un niveau\ncd \\                              # Racine du disque actuel\n\n# Changer de disque:\nD:                                # Passer au disque D:\nE:                                # Passer au disque E:\n\n# Lister fichiers/dossiers:\ndir                               # Liste simple\ndir /a                            # Afficher fichiers cachés\ndir /o:n                          # Trier par nom\ndir /o:d                          # Trier par date\ndir /s                            # Liste récursive (sous-dossiers)"
+            },
+            {
+                "title": "Gestion Fichiers & Dossiers",
+                "code": "# Créer/supprimer dossiers:\nmkdir NouveauDossier              # Créer dossier\nmd \"Dossier avec espaces\"         # Guillemets si espaces\nrmdir /s /q DossierASupprimer     # Supprimer + contenu (/s) sans confirmation (/q)\n\n# Copier/déplacer fichiers:\ncopy fichier.txt D:\\Backup\\       # Copier fichier\ncopy *.txt D:\\Backup\\             # Copier tous .txt\nxcopy /e /i /y C:\\Source D:\\Dest  # Copier dossier complet (/e=sous-dossiers, /i=créer dest, /y=écraser)\nmove fichier.txt C:\\Autre\\        # Déplacer fichier\n\n# Supprimer fichiers:\ndel fichier.txt                   # Supprimer fichier\ndel /q *.log                      # Supprimer tous .log sans confirmation\nerase /f fichier.txt              # Force suppression (/f=fichiers protégés)"
+            },
+            {
+                "title": "Informations Système",
+                "code": "# Info système complète:\nsysteminfo                        # Info détaillées (OS, RAM, CPU, réseau, etc.)\nsysteminfo | findstr /C:\"Total Physical Memory\"  # Filtre RAM totale\n\n# Processus & Performances:\ntasklist                          # Liste tous processus actifs\ntasklist | findstr chrome         # Chercher processus Chrome\ntaskkill /IM chrome.exe /F        # Tuer processus par nom (/F=forcer)\ntaskkill /PID 1234 /F             # Tuer par ID processus\n\n# Disques & Partitions:\nwmic diskdrive get size,model,status  # Info disques physiques\nvol C:                            # Info volume (nom, serial)\nchkdsk C: /f                      # Vérifier/réparer erreurs disque"
+            },
+            {
+                "title": "Réseau - Diagnostic & Config",
+                "code": "# Configuration IP:\nipconfig                          # Adresses IP actuelles\nipconfig /all                     # Config réseau complète\nipconfig /release                 # Libérer IP DHCP\nipconfig /renew                   # Renouveler IP DHCP\nipconfig /flushdns                # Vider cache DNS\n\n# Tests réseau:\nping google.com                   # Tester connectivité Internet\nping 192.168.1.1                  # Tester passerelle locale\ntracert google.com                # Tracer route vers serveur\nnslookup google.com               # Résolution DNS\nnetstat -an                       # Connexions réseau actives\nnetstat -ano | findstr :80        # Chercher processus port 80"
+            },
+            {
+                "title": "Dépannage & Maintenance",
+                "code": "# SFC (System File Checker) - Réparer fichiers système:\nsfc /scannow                      # Scanner + réparer (admin requis)\n\n# DISM - Réparer image Windows:\nDISM /Online /Cleanup-Image /CheckHealth    # Vérifier santé\nDISM /Online /Cleanup-Image /RestoreHealth  # Réparer image Windows\n\n# Redémarrage/Arrêt:\nshutdown /s /t 0                  # Arrêter immédiatement\nshutdown /r /t 0                  # Redémarrer immédiatement\nshutdown /a                       # Annuler arrêt en cours\nshutdown /r /t 3600 /c \"Maintenance dans 1h\"  # Redémarrage différé avec message"
+            },
+            {
+                "title": "Astuces Productivité CMD",
+                "bullets": [
+                    "🔼 Flèches Haut/Bas : Historique des commandes précédentes",
+                    "📋 Clic droit dans CMD : Coller texte du presse-papiers",
+                    "🎯 Tab : Autocomplétion chemins/fichiers (appuyer plusieurs fois pour cycler)",
+                    "📂 Glisser-déposer dossier dans CMD : Insère chemin absolu automatiquement",
+                    "🔁 cls : Effacer écran CMD",
+                    "📝 help [commande] : Aide détaillée (ex: help dir)",
+                    "📄 [commande] > output.txt : Sauvegarder résultat dans fichier",
+                    "🔗 && : Enchaîner commandes (ex: cd Desktop && dir)"
+                ]
+            },
+            {
+                "info": "💡 Astuce Pro: Créer script .bat pour automatiser tâches répétitives! Ex: fichier 'backup.bat' avec xcopy /e /i /y C:\\Important D:\\Backup\\. Double-clic = backup automatique!"
+            },
+            {
+                "warning": "⚠️ Commandes destructives (del, rmdir, format) = AUCUN undo! Toujours vérifier chemin AVANT valider. Utiliser /p pour confirmation interactive."
+            }
+        ]
+    },
+
+    "win11_powershell": {
+        "title": "⚡ PowerShell - Scripts & Automatisation",
+        "sections": [
+            {
+                "title": "PowerShell vs CMD",
+                "bullets": [
+                    "💪 PowerShell = CMD 2.0 : Plus puissant, moderne, orienté objets",
+                    "📦 Cmdlets : Commandes format Verbe-Nom (Get-Process, Set-ExecutionPolicy)",
+                    "🔗 Pipeline objets : Passer données complexes entre commandes",
+                    "🌐 .NET Framework : Accès APIs Windows complètes",
+                    "📜 Scripts .ps1 : Automatisation avancée, conditions, boucles, fonctions",
+                    "🎨 Couleurs & formatage : Output lisible avec tables, grilles"
+                ]
+            },
+            {
+                "title": "Ouvrir PowerShell",
+                "code": "# Méthodes:\nWin + X → Windows PowerShell (Admin)  # Menu rapide Win11\nWin + R → powershell → Entrée         # Standard\nWin + R → powershell + Ctrl+Shift+Entrée  # Administrateur\n\n# Via menu Démarrer:\nMenu → Taper 'PowerShell' → Clic droit → Exécuter en admin\n\n# Via explorateur:\nExplorateur → Dossier → Maj+Clic droit espace vide → 'Ouvrir PowerShell ici'"
+            },
+            {
+                "title": "Commandes Essentielles (Cmdlets)",
+                "code": "# Gestion fichiers/dossiers:\nGet-ChildItem                     # Liste fichiers (alias: ls, dir)\nGet-ChildItem -Recurse            # Liste récursive\nGet-ChildItem *.txt               # Filtrer .txt\nNew-Item -ItemType Directory -Name \"Test\"  # Créer dossier\nCopy-Item fichier.txt D:\\Backup\\  # Copier\nMove-Item fichier.txt C:\\Autre\\   # Déplacer\nRemove-Item fichier.txt           # Supprimer\n\n# Processus:\nGet-Process                       # Liste processus\nGet-Process | Where-Object {$_.CPU -gt 100}  # Processus CPU > 100\nStop-Process -Name chrome -Force  # Tuer Chrome\nStart-Process notepad.exe         # Lancer Notepad\n\n# Services Windows:\nGet-Service                       # Liste services\nGet-Service | Where-Object {$_.Status -eq 'Running'}  # Services actifs\nStop-Service -Name 'Spooler'      # Arrêter service Imprimante\nStart-Service -Name 'Spooler'     # Démarrer service\nRestart-Service -Name 'Spooler'   # Redémarrer service"
+            },
+            {
+                "title": "Pipeline & Filtres",
+                "code": "# Pipeline (|) = passer output d'une commande à une autre:\nGet-Process | Sort-Object CPU -Descending | Select-Object -First 10\n# → Top 10 processus par CPU\n\nGet-Service | Where-Object {$_.Status -eq 'Stopped'} | Select-Object Name, DisplayName\n# → Services arrêtés\n\nGet-ChildItem -Recurse *.log | Remove-Item\n# → Supprimer tous fichiers .log récursivement\n\n# Exportation:\nGet-Process | Export-Csv C:\\Temp\\processus.csv\nGet-Service | ConvertTo-Html | Out-File C:\\Temp\\services.html\nGet-EventLog -LogName System -Newest 50 | Export-Csv C:\\Temp\\events.csv"
+            },
+            {
+                "title": "Scripts PowerShell (.ps1)",
+                "code": "# Créer script backup.ps1:\n# ------------------------------\n# Backup automatique Documents\n$source = \"C:\\Users\\$env:USERNAME\\Documents\"\n$dest = \"D:\\Backups\\$(Get-Date -Format 'yyyy-MM-dd')\"\n\nif (!(Test-Path $dest)) {\n    New-Item -ItemType Directory -Path $dest\n}\n\nCopy-Item -Path $source -Destination $dest -Recurse -Force\nWrite-Host \"✅ Backup terminé : $dest\" -ForegroundColor Green\n# ------------------------------\n\n# Exécuter script:\n.\\backup.ps1                      # Dans dossier du script\nC:\\Scripts\\backup.ps1             # Chemin absolu"
+            },
+            {
+                "title": "Politique d'Exécution Scripts",
+                "code": "# Vérifier politique actuelle:\nGet-ExecutionPolicy\n\n# Politiques possibles:\n# - Restricted : Aucun script (défaut Windows)\n# - RemoteSigned : Scripts locaux OK, scripts téléchargés doivent être signés\n# - Unrestricted : Tous scripts OK (demande confirmation si téléchargé)\n\n# Activer scripts (ADMIN requis):\nSet-ExecutionPolicy RemoteSigned -Scope CurrentUser\n# OU pour session actuelle seulement:\nSet-ExecutionPolicy Bypass -Scope Process\n\n# Contourner UNE FOIS pour 1 script:\npowershell -ExecutionPolicy Bypass -File C:\\Scripts\\backup.ps1"
+            },
+            {
+                "title": "Exemples Scripts Utiles",
+                "code": "# 1. Nettoyage fichiers temporaires:\nRemove-Item -Path $env:TEMP\\* -Recurse -Force -ErrorAction SilentlyContinue\nWrite-Host \"Temp nettoyé!\"\n\n# 2. Info système rapide:\n$os = Get-CimInstance Win32_OperatingSystem\n$cpu = Get-CimInstance Win32_Processor\n$ram = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2)\n\nWrite-Host \"OS: $($os.Caption)\"\nWrite-Host \"CPU: $($cpu.Name)\"\nWrite-Host \"RAM: $ram GB\"\n\n# 3. Chercher fichiers volumineux (>1 GB):\nGet-ChildItem C:\\ -Recurse -File -ErrorAction SilentlyContinue |\n    Where-Object {$_.Length -gt 1GB} |\n    Sort-Object Length -Descending |\n    Select-Object FullName, @{Name='Size (GB)'; Expression={[math]::Round($_.Length / 1GB, 2)}}\n\n# 4. Lister programmes installés:\nGet-ItemProperty HKLM:\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* |\n    Select-Object DisplayName, DisplayVersion, Publisher, InstallDate |\n    Where-Object {$_.DisplayName} |\n    Sort-Object DisplayName"
+            },
+            {
+                "info": "💡 PowerShell ISE (Integrated Scripting Environment) = éditeur graphique pour écrire/tester scripts. Chercher 'PowerShell ISE' dans menu Démarrer. Pratique pour débutants!"
+            },
+            {
+                "warning": "⚠️ Scripts téléchargés sur Internet = risque malware! TOUJOURS lire contenu script AVANT exécuter. Sites fiables: Microsoft Docs, GitHub vérifiés. Si doute, demander expert."
+            }
+        ]
+    },
+
+    "win11_registry": {
+        "title": "📝 Registry Editor (Registre Windows)",
+        "sections": [
+            {
+                "title": "Qu'est-ce que le Registre?",
+                "bullets": [
+                    "🗄️ Base de données centrale Windows : Config système, utilisateurs, apps, drivers",
+                    "🔑 Structure hiérarchique : Clés (dossiers) → Valeurs (paramètres)",
+                    "⚙️ 5 Ruches principales (HKEY) : HKLM, HKCU, HKCR, HKU, HKCC",
+                    "💾 Stockage physique : Fichiers dans C:\\Windows\\System32\\config",
+                    "🚨 Modifications directes = puissant MAIS dangereux (risque instabilité/boot)",
+                    "💡 Usage courant : Tweaks avancés, dépannage, désactiver fonctions cachées"
+                ]
+            },
+            {
+                "title": "Ouvrir Registry Editor",
+                "code": "# Méthode standard:\nWin + R → regedit → Entrée\n\n# Via menu Démarrer:\nMenu Démarrer → Taper 'regedit' → Clic droit → Exécuter en admin (optionnel)\n\n# Via CMD/PowerShell:\nregedit\nStart-Process regedit -Verb RunAs  # PowerShell en admin"
+            },
+            {
+                "title": "Structure du Registre - 5 Ruches",
+                "bullets": [
+                    "📂 HKEY_LOCAL_MACHINE (HKLM) : Config système globale (tous utilisateurs)",
+                    "• Exemple : HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run (programmes démarrage)",
+                    "",
+                    "👤 HKEY_CURRENT_USER (HKCU) : Config utilisateur actuel",
+                    "• Exemple : HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer (paramètres Explorateur)",
+                    "",
+                    "🔗 HKEY_CLASSES_ROOT (HKCR) : Associations fichiers + COM objects",
+                    "• Exemple : HKCR\\.txt → ouvre fichiers .txt avec quelle app",
+                    "",
+                    "👥 HKEY_USERS (HKU) : Profils tous utilisateurs (HKCU = sous-clé de HKU)",
+                    "",
+                    "⚙️ HKEY_CURRENT_CONFIG (HKCC) : Config matériel actuelle (profile hardware)"
+                ]
+            },
+            {
+                "title": "Types de Valeurs Registry",
+                "bullets": [
+                    "📝 REG_SZ : Chaîne texte (ex: 'C:\\Windows')",
+                    "🔢 REG_DWORD : Nombre 32-bit (ex: 1 = activé, 0 = désactivé)",
+                    "📊 REG_QWORD : Nombre 64-bit",
+                    "📄 REG_MULTI_SZ : Chaînes multiples (liste)",
+                    "🔗 REG_EXPAND_SZ : Chaîne avec variables (ex: '%SystemRoot%')",
+                    "🗃️ REG_BINARY : Données binaires brutes"
+                ]
+            },
+            {
+                "title": "Opérations Basiques - Créer/Modifier/Supprimer",
+                "code": "# Créer nouvelle clé:\n1. Clic droit sur clé parente → Nouveau → Clé\n2. Nommer la nouvelle clé\n\n# Créer nouvelle valeur:\n1. Clic droit dans panneau droit → Nouveau → DWORD (32-bit) / Chaîne / etc.\n2. Nommer la valeur\n3. Double-clic → Entrer données\n\n# Modifier valeur existante:\nDouble-clic sur valeur → Modifier données → OK\n\n# Supprimer clé/valeur:\nClic droit → Supprimer → Confirmer\n\n# Chercher clé/valeur:\nCtrl + F → Entrer terme recherché → Suivant"
+            },
+            {
+                "title": "Sauvegarder & Restaurer Registry",
+                "code": "# MÉTHODE 1 : Exporter clé spécifique (recommandé):\n1. Clic droit sur clé à sauvegarder → Exporter\n2. Choisir emplacement (ex: Bureau\\backup_registry.reg)\n3. Sauvegarder\n\n# Restaurer backup:\nDouble-clic fichier .reg → Oui → OK\nOU : Clic droit .reg → Fusionner\n\n# MÉTHODE 2 : Point de Restauration Système (recommandé avant modifs majeures):\nWin + R → rstrui → Créer point de restauration\nSi problème Registry → Restauration système restaure aussi Registry!\n\n# MÉTHODE 3 : Export complet (backup total):\nregedit → Fichier → Exporter → Plage export: Tout → Sauvegarder\n⚠️ Fichier volumineux (100-300 MB)!"
+            },
+            {
+                "title": "Tweaks Registry Utiles",
+                "code": "# 1. Désactiver Windows Defender (temporaire test):\nHKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\nCréer DWORD: DisableAntiSpyware = 1\n(Redémarrer requis)\n\n# 2. Réduire durée menu boot (plus rapide):\nWin + R → msconfig → Onglet Démarrage → Délai: 3 secondes\nOU Registry:\nHKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\BootControl\nDWORD: Timeout = 3 (secondes)\n\n# 3. Désactiver publicités menu Démarrer:\nHKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager\nDWORD: SystemPaneSuggestionsEnabled = 0\nDWORD: SubscribedContent-338388Enabled = 0\n\n# 4. Activer mode Dieu (God Mode):\n1. Créer dossier sur Bureau\n2. Renommer: GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}\n→ Dossier = accès direct à TOUS paramètres Windows!\n\n# 5. Désactiver télémétrie (privacy):\nHKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection\nDWORD: AllowTelemetry = 0\n(Redémarrer requis)"
+            },
+            {
+                "title": "Commandes Registry via CMD/PowerShell",
+                "code": "# CMD - REG command:\nreg query HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion  # Lire clé\nreg add HKCU\\Software\\TestKey /v TestValue /t REG_SZ /d \"Texte\" /f  # Ajouter valeur\nreg delete HKCU\\Software\\TestKey /f  # Supprimer clé\n\n# PowerShell:\nGet-ItemProperty -Path \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\"  # Lire\nNew-ItemProperty -Path \"HKCU:\\Software\\TestKey\" -Name \"TestValue\" -Value \"Texte\" -PropertyType String  # Créer\nRemove-ItemProperty -Path \"HKCU:\\Software\\TestKey\" -Name \"TestValue\"  # Supprimer valeur\nRemove-Item -Path \"HKCU:\\Software\\TestKey\" -Recurse  # Supprimer clé\n\n# Importer fichier .reg via CMD:\nreg import C:\\Backup\\backup.reg"
+            },
+            {
+                "info": "💡 Astuce: Ajouter clés fréquentes aux Favoris! Registry Editor → Clé → Favoris → Ajouter aux favoris. Accès rapide sans navigation!"
+            },
+            {
+                "warning": "⚠️ DANGER: Modifications Registry incorrectes = Windows INUTILISABLE! TOUJOURS créer Point Restauration AVANT modifications. Si doute, NE PAS modifier. Tweaks Internet = vérifier source fiable (Microsoft, forums officiels)."
+            }
+        ]
+    },
+
+    "win11_troubleshooting": {
+        "title": "🔧 Dépannage Avancé Windows 11",
+        "sections": [
+            {
+                "title": "Options de Démarrage Avancées",
+                "code": "# Accéder Options Démarrage Avancées:\n\n# MÉTHODE 1 : Depuis Windows (fonctionnel):\nParamètres → Système → Récupération → Redémarrage avancé → Redémarrer maintenant\n\n# MÉTHODE 2 : Écran connexion:\nMaintenir Shift + Clic 'Redémarrer' (bouton marche/arrêt)\n\n# MÉTHODE 3 : Windows ne démarre PAS:\n1. Allumer PC\n2. Dès logo Windows → Bouton Power 10 sec (forcer arrêt)\n3. Répéter 3 fois → Windows lance auto Réparation automatique\n\n# MÉTHODE 4 : Clé USB Windows 11:\nBoot sur USB → Réparer ordinateur → Dépannage"
+            },
+            {
+                "title": "Mode Sans Échec (Safe Mode)",
+                "code": "# Démarrer en Mode Sans Échec:\nOptions Démarrage Avancées → Dépannage → Options avancées → Paramètres de démarrage → Redémarrer\n→ Appuyer F4 (Mode sans échec)\n→ Appuyer F5 (Mode sans échec avec réseau)\n→ Appuyer F6 (Invite commandes mode sans échec)\n\n# OU via msconfig (depuis Windows):\nWin + R → msconfig → Onglet Démarrage → ☑ Démarrage sécurisé → Minimal → OK → Redémarrer\n\n# OU via CMD (admin):\nbcdedit /set {current} safeboot minimal  # Sans réseau\nbcdedit /set {current} safeboot network  # Avec réseau\n# Redémarrer PC\n# Désactiver après:\nbcdedit /deletevalue {current} safeboot"
+            },
+            {
+                "title": "Réparation Fichiers Système (SFC & DISM)",
+                "code": "# SFC (System File Checker) - Répare fichiers Windows corrompus:\n1. Ouvrir CMD en Administrateur\n2. sfc /scannow\n3. Attendre scan complet (10-30 min)\n\n# Si SFC échoue → DISM (répare l'image Windows):\nDISM /Online /Cleanup-Image /CheckHealth      # Vérif rapide\nDISM /Online /Cleanup-Image /ScanHealth       # Scan approfondi\nDISM /Online /Cleanup-Image /RestoreHealth    # Réparer (télécharge depuis Windows Update)\n\n# Séquence complète (recommandée):\nDISM /Online /Cleanup-Image /RestoreHealth\nsfc /scannow\n# Redémarrer PC"
+            },
+            {
+                "title": "Restauration Système",
+                "code": "# Créer Point de Restauration:\n1. Win + R → sysdm.cpl → Onglet Protection système\n2. Sélectionner disque C: → Configurer → Activer protection\n3. Créer → Nommer point → Créer\n\n# Restaurer depuis Point:\n1. Win + R → rstrui → Suivant\n2. Choisir point restauration (avant problème)\n3. Suivant → Terminer → Oui\n\n# Restaurer depuis Options Démarrage Avancées (si Windows plante):\nOptions Avancées → Restauration système → Choisir point → Restaurer"
+            },
+            {
+                "title": "Réparer Démarrage Windows (Bootloader)",
+                "code": "# Si Windows ne boot PAS → Réparer MBR/BCD:\n1. Boot sur clé USB Windows 11\n2. Réparer ordinateur → Dépannage → Invite commandes\n3. Exécuter commandes:\n\nbootrec /fixmbr         # Répare Master Boot Record\nbootrec /fixboot        # Répare secteur boot\nbootrec /scanos         # Scan installations Windows\nbootrec /rebuildbcd     # Reconstruit BCD (boot config)\n\n# Si UEFI (mode modern):\nbcdboot C:\\Windows /s C: /f UEFI\n\n# Redémarrer PC"
+            },
+            {
+                "title": "Réinitialiser Windows 11 (Clean Install Partielle)",
+                "code": "# Réinitialiser tout en gardant fichiers persos:\nParamètres → Système → Récupération → Réinitialiser ce PC → Démarrer\n\n# Options:\n→ Conserver mes fichiers : Garde Documents, Images, etc. Supprime apps/paramètres\n→ Tout supprimer : Clean install complète (comme neuf)\n\n# Téléchargement Cloud vs Local:\n→ Cloud : Télécharge dernière version Windows 11 (recommandé si connexion stable)\n→ Local : Utilise fichiers système actuels (plus rapide, offline)\n\n# ⏱️ Durée: 30-90 minutes selon options"
+            },
+            {
+                "title": "Problèmes Courants & Solutions",
+                "bullets": [
+                    "❌ **Écran bleu (BSOD) fréquent**:",
+                    "→ Noter code erreur (ex: DRIVER_IRQL_NOT_LESS_OR_EQUAL)",
+                    "→ Mode Sans Échec → Désinstaller pilote récent (Gestionnaire périphériques)",
+                    "→ Vérifier RAM (Windows Memory Diagnostic: Win+R → mdsched)",
+                    "→ Mettre à jour BIOS + tous drivers (carte mère, GPU, chipset)",
+                    "",
+                    "🐌 **PC très lent après update Windows**:",
+                    "→ Désinstaller update récent: Paramètres → Windows Update → Historique mises à jour → Désinstaller",
+                    "→ Désactiver programmes démarrage (Gestionnaire tâches → Démarrage)",
+                    "→ Nettoyage disque: cleanmgr → Cocher tout → OK",
+                    "→ Défragmenter (HDD seulement): dfrgui",
+                    "",
+                    "🔇 **Pas de son**:",
+                    "→ Clic droit icône son → Résoudre problèmes",
+                    "→ Gestionnaire périphériques → Audio → Désinstaller pilote → Redémarrer (réinstalle auto)",
+                    "→ Services → Windows Audio → Démarrer + Type démarrage Automatique",
+                    "",
+                    "🌐 **Pas de connexion Internet (Wi-Fi/Ethernet)**:",
+                    "→ CMD (admin): ipconfig /release → ipconfig /renew → ipconfig /flushdns",
+                    "→ Redémarrer routeur + PC",
+                    "→ Réinitialiser réseau: Paramètres → Réseau → Réinitialisation réseau",
+                    "→ Mettre à jour pilote carte réseau (Gestionnaire périphériques)",
+                    "",
+                    "💾 **Disque 100% constamment (Task Manager)**:",
+                    "→ Désactiver Windows Search: services.msc → Windows Search → Arrêter + Désactiver",
+                    "→ Désactiver SuperFetch: services.msc → SysMain → Arrêter + Désactiver",
+                    "→ Vérifier malware (Windows Defender scan complet)",
+                    "→ Vérifier erreurs disque: chkdsk C: /f /r (redémarrage requis)"
+                ]
+            },
+            {
+                "title": "Outils Diagnostics Avancés",
+                "code": "# Event Viewer (journaux erreurs système):\nWin + R → eventvwr.msc\n→ Journaux Windows → Système / Application\n→ Filtrer par 'Erreur' et 'Avertissement'\n\n# Reliability Monitor (historique pannes):\nWin + R → perfmon /rel\n→ Graphique stabilité système sur 30 jours\n\n# Windows Memory Diagnostic (test RAM):\nWin + R → mdsched → Redémarrer et vérifier\n\n# Performance Monitor:\nWin + R → perfmon\n→ Surveiller CPU, RAM, Disque en temps réel\n\n# Resource Monitor (détails processus):\nGestionnaire tâches → Performance → Ouvrir Moniteur ressources\n→ Voir EXACT processus utilisant CPU/Disque/Réseau"
+            },
+            {
+                "info": "💡 Créer Point Restauration AVANT toute modification importante (install drivers, tweaks Registry, updates majeures). Peut sauver des heures de dépannage!"
+            },
+            {
+                "warning": "⚠️ Réinitialiser PC = dernier recours! Essayer d'abord: Mode Sans Échec, SFC/DISM, Restauration Système. Sauvegarder données AVANT réinitialisation (même si option 'Conserver fichiers')."
+            }
+        ]
+    },
+
+    "win11_performance": {
+        "title": "📊 Surveillance Performances & Event Viewer",
+        "sections": [
+            {
+                "title": "Gestionnaire de Tâches - Onglet Performances",
+                "code": "# Ouvrir Gestionnaire Tâches:\nCtrl + Shift + Esc\n\n# Onglet Performances - Sections:\n📊 CPU : % utilisation, vitesse, threads, processus\n💾 Mémoire : RAM utilisée/totale, cache, pool paginé\n💿 Disque : % activité, vitesse lecture/écriture (MB/s)\n🌐 Wi-Fi/Ethernet : Débit envoi/réception (Mbps)\n🎮 GPU : % utilisation, mémoire dédiée (si carte graphique dédiée)\n\n# Clic 'Ouvrir Moniteur ressources' (bas) → Détails avancés"
+            },
+            {
+                "title": "Moniteur de Ressources (Resource Monitor)",
+                "code": "# Ouvrir Resource Monitor:\nGestionnaire Tâches → Performance → Ouvrir Moniteur ressources\nOU : Win + R → resmon\n\n# 5 Onglets détaillés:\n\n1️⃣ **Vue d'ensemble** : Résumé CPU, Disque, Réseau, Mémoire\n\n2️⃣ **CPU** :\n   - Processus : Voir EXACT thread utilisant CPU\n   - Services associés : Quel service Windows utilise CPU\n   - Handles : Fichiers/registres ouverts par processus\n\n3️⃣ **Mémoire** :\n   - Commit (MB) : Mémoire réservée par processus\n   - Working Set : RAM physique utilisée\n   - Shareable : Mémoire partageable entre processus\n\n4️⃣ **Disque** :\n   - Activité disque : Fichier EXACT lu/écrit en temps réel\n   - Processus → Fichier : Qui lit/écrit quel fichier\n   - Vitesse lecture/écriture par processus\n\n5️⃣ **Réseau** :\n   - Processus avec activité réseau : Qui télécharge/upload\n   - Adresses IP/Ports : Connexions actives par processus\n   - Débit envoi/réception par processus"
+            },
+            {
+                "title": "Performance Monitor (perfmon)",
+                "code": "# Ouvrir Performance Monitor:\nWin + R → perfmon\n\n# Ajouter compteurs personnalisés:\n1. Graphique → Clic droit → Ajouter compteurs\n2. Choisir catégorie (Processeur, Mémoire, Disque logique, etc.)\n3. Sélectionner compteurs souhaités:\n   • Processeur: % temps processeur, interruptions/s\n   • Mémoire: Pages/s, mémoire disponible (Mo)\n   • Disque logique: % temps disque, lectures/s, écritures/s\n4. Ajouter → OK\n\n# Surveiller en temps réel:\nGraphique ligne = évolution temps réel\nCtrl+H = Histogramme (barres)\nCtrl+R = Rapport (valeurs numériques)\n\n# Créer ensemble de collecteurs (logs longs):\nEnsembles Collecteurs Données → Défini par utilisateur → Nouveau\n→ Configurer compteurs → Durée/intervalle → Démarrer\n→ Enregistre logs .blg pour analyse ultérieure"
+            },
+            {
+                "title": "Event Viewer (Observateur d'Événements)",
+                "code": "# Ouvrir Event Viewer:\nWin + R → eventvwr.msc\nOU : Menu Démarrer → Outils Admin → Observateur événements\n\n# Structure:\n📂 Journaux Windows:\n   • Application : Erreurs logiciels (apps installées)\n   • Sécurité : Tentatives connexion, modifications sécurité\n   • Installation : Installations/mises à jour Windows\n   • Système : Erreurs drivers, services, boot\n\n📂 Journaux Applications et Services:\n   • Microsoft → Windows → Catégories spécifiques (Defender, PowerShell, etc.)\n\n# Niveaux événements:\n🔴 Erreur : Problème significatif (perte données, service crashé)\n⚠️ Avertissement : Problème potentiel (disque presque plein)\nℹ️ Informations : Événement normal (service démarré)\n✅ Audit succès : Action sécurité réussie (connexion user)\n❌ Audit échec : Action sécurité échouée (mauvais password)"
+            },
+            {
+                "title": "Analyser Erreurs Event Viewer",
+                "code": "# Filtrer erreurs critiques:\n1. Clic droit 'Système' → Filtrer journal actuel\n2. Cocher: Critique, Erreur, Avertissement\n3. OK → Voir seulement problèmes\n\n# Chercher erreur spécifique:\nCtrl + F → Entrer code erreur (ex: 'Erreur 41', 'WHEA-Logger')\n\n# Interpréter entrée événement:\n📌 Source : Composant ayant généré événement (ex: 'Disk', 'DistributedCOM')\n📌 ID événement : Code numérique unique (ex: 41 = arrêt inattendu)\n📌 Description : Détails événement\n\n# Erreurs courantes:\n• ID 41 (Kernel-Power) : Arrêt brutal PC (coupure courant, crash)\n• ID 10016 (DistributedCOM) : Permissions DCOM (souvent inoffensif)\n• ID 7000 (Service Control Manager) : Service n'a pas démarré\n• ID 1014 (DNS Client) : Échec résolution nom (DNS)\n\n# Recherche Google:\nCopier 'Source' + 'ID événement' + premiers mots description\nEx: \"Disk Event ID 11\" → Forums/docs Microsoft"
+            },
+            {
+                "title": "Reliability Monitor (Moniteur Fiabilité)",
+                "code": "# Ouvrir Reliability Monitor:\nWin + R → perfmon /rel\nOU : Panneau config → Sécurité et Maintenance → Maintenance → Afficher historique fiabilité\n\n# Graphique stabilité (Indice 1-10):\n📉 Ligne graphique : Stabilité système sur 30 derniers jours\n10 = Aucun crash, 1 = Crashes fréquents\n\n# Événements marqués:\n🔴 Cercle rouge X : Arrêt inattendu, crash app, erreur Windows\n⚠️ Triangle jaune : Avertissement (update, config modifiée)\nℹ️ Cercle bleu i : Info (install logiciel, update réussie)\n\n# Clic sur jour → Détails:\nVoir EXACT crash/erreur → Vérifier solution en ligne\n\n# Usage:\nPC instable récemment? → Reliability Monitor → Chercher pic d'erreurs\n→ Voir si lié à install récente / update Windows\n→ Désinstaller soft/update problématique"
+            },
+            {
+                "title": "Baseline Performances (Référence)",
+                "bullets": [
+                    "✅ **CPU Usage Normal** :",
+                    "• Idle (rien faire): 2-10%",
+                    "• Navigation web: 10-30%",
+                    "• Gaming/Montage vidéo: 50-100% (normal!)",
+                    "• >80% constant (rien faire) = problème (malware, service bloqué)",
+                    "",
+                    "✅ **RAM Usage Normal** :",
+                    "• Windows 11 idle: 4-6 GB (sur 16 GB total)",
+                    "• 50-70% utilisé = normal (Windows précharge apps)",
+                    "• >90% constant = ajouter RAM OU fermer apps",
+                    "",
+                    "✅ **Disque Usage Normal** :",
+                    "• Idle: 0-10%",
+                    "• Copy fichiers: 50-100% (temporaire)",
+                    "• 100% constant (>5 min) = problème (Windows Search, malware, disque défaillant)",
+                    "",
+                    "✅ **Températures CPU** :",
+                    "• Idle: 30-50°C",
+                    "• Charge moyenne: 50-70°C",
+                    "• Gaming/Rendering: 70-85°C (acceptable)",
+                    "• >90°C = danger (throttling, réduire perf, nettoyer ventilateurs)",
+                    "• Logiciels monitoring: HWiNFO, Core Temp, MSI Afterburner"
+                ]
+            },
+            {
+                "title": "Diagnostics Automatiques Windows",
+                "code": "# Performance Troubleshooter:\nParamètres → Système → Résolution problèmes → Autres utilitaires résolution problèmes\n→ Lancer 'Performances et maintenance système'\n\n# Windows Memory Diagnostic (test RAM):\nWin + R → mdsched → Redémarrer et vérifier\n→ Test complet RAM (détecte barrettes défectueuses)\n\n# Disk Check (vérifier erreurs disque):\nExplorateur → Clic droit C: → Propriétés → Outils → Vérifier\nOU CMD (admin): chkdsk C: /f /r\n\n# System File Checker:\nCMD (admin): sfc /scannow\n\n# Network Diagnostics:\nParamètres → Réseau → État → Résolution problèmes réseau"
+            },
+            {
+                "info": "💡 Event Viewer = mine d'or pour dépannage! Avant poster forum aide, toujours vérifier Event Viewer → Copier erreurs exactes. Experts peuvent diagnostiquer 10x plus vite avec Event IDs!"
+            },
+            {
+                "warning": "⚠️ Disque 100% constant + lenteurs extrêmes = signe disque SSD/HDD mourant! Sauvegarder URGENCE données importantes. Vérifier santé disque: CrystalDiskInfo (gratuit). Remplacer si 'Caution' ou 'Bad'."
+            }
+        ]
     }
 
 }
