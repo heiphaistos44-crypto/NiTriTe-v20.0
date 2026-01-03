@@ -68,8 +68,9 @@ class ActivationPage(ctk.CTkFrame):
             text_color=DesignTokens.TEXT_PRIMARY
         ).pack(padx=20, pady=(15, 10))
 
-        # Détecter statut Windows
+        # Détecter statut Windows et Office
         windows_status = self._check_windows_activation()
+        office_status = self._check_office_activation()
 
         # Frame Windows
         windows_frame = ctk.CTkFrame(
@@ -101,10 +102,10 @@ class ActivationPage(ctk.CTkFrame):
         # Frame Office
         office_frame = ctk.CTkFrame(
             card,
-            fg_color="#FFF3E0",
+            fg_color="#E8F5E9" if office_status['activated'] else "#FFF3E0",
             corner_radius=10,
             border_width=2,
-            border_color="#FF9800"
+            border_color="#4CAF50" if office_status['activated'] else "#FF9800"
         )
         office_frame.pack(fill=tk.X, padx=20, pady=(0, 15))
 
@@ -115,49 +116,224 @@ class ActivationPage(ctk.CTkFrame):
             header2,
             text="📊 Microsoft Office",
             font=("Segoe UI", 16, "bold"),
-            text_color="#F57C00"
+            text_color="#388E3C" if office_status['activated'] else "#F57C00"
         ).pack(side=tk.LEFT)
 
         ctk.CTkLabel(
             header2,
-            text="Vérifier via MAS",
+            text=office_status['status_text'],
             font=("Segoe UI", 13),
-            text_color="#F57C00"
+            text_color="#388E3C" if office_status['activated'] else "#F57C00"
         ).pack(side=tk.RIGHT)
 
     def _check_windows_activation(self):
-        """Vérifier statut activation Windows"""
+        """Vérifier statut activation Windows (méthode robuste multi-langue)"""
+
+        # MÉTHODE 1 : WMI via PowerShell (préférée - indépendant de la langue)
         try:
+            ps_cmd = """
+$license = Get-CimInstance -ClassName SoftwareLicensingProduct | Where-Object {$_.PartialProductKey}
+if ($license) {
+    Write-Output "STATUS:$($license.LicenseStatus)"
+    Write-Output "NAME:$($license.Name)"
+} else {
+    Write-Output "STATUS:-1"
+}
+"""
             result = subprocess.run(
-                'cscript //NoLogo %windir%\\System32\\slmgr.vbs /xpr',
+                ['powershell', '-NoProfile', '-Command', ps_cmd],
                 capture_output=True,
                 text=True,
-                timeout=5,
+                timeout=20,  # ✅ Augmenté de 5s à 20s
+                creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
+            )
+
+            if result.returncode == 0:
+                output = result.stdout.strip()
+                status_line = [l for l in output.split('\n') if l.startswith('STATUS:')]
+
+                if status_line:
+                    license_status = int(status_line[0].split(':')[1])
+
+                    # LicenseStatus : 0=Non licencié, 1=Licencié (ACTIVÉ)
+                    if license_status == 1:
+                        return {
+                            'activated': True,
+                            'status_text': "✅ Windows activé",
+                            'method': 'WMI'
+                        }
+                    elif license_status == 0:
+                        return {
+                            'activated': False,
+                            'status_text': "❌ Windows non activé",
+                            'method': 'WMI'
+                        }
+
+        except subprocess.TimeoutExpired:
+            print("⚠️ WMI timeout - fallback vers slmgr...")
+        except Exception as e:
+            print(f"⚠️ WMI failed: {e} - fallback vers slmgr...")
+
+        # MÉTHODE 2 : slmgr /dli (fallback - plus fiable que /xpr)
+        try:
+            result = subprocess.run(
+                'cscript //NoLogo %windir%\\System32\\slmgr.vbs /dli',
+                capture_output=True,
+                text=True,
+                timeout=20,  # ✅ Augmenté de 5s à 20s
                 shell=True,
                 creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
             )
-            status = result.stdout.strip().lower()
 
-            if 'permanently activated' in status or 'activé de manière permanente' in status:
-                return {
-                    'activated': True,
-                    'status_text': "✅ Activé de manière permanente"
-                }
-            elif 'will expire' in status or 'expirera' in status:
-                return {
-                    'activated': False,
-                    'status_text': "⚠️ Activation temporaire"
-                }
-            else:
-                return {
-                    'activated': False,
-                    'status_text': "❌ Non activé"
-                }
+            output = result.stdout.strip().lower()
+
+            # Chercher "licensed" dans toutes les langues
+            if any(word in output for word in ['licensed', 'licencié', 'lizenziert', 'con licencia']):
+                if not any(word in output for word in ['unlicensed', 'non', 'nicht', 'sin']):
+                    return {
+                        'activated': True,
+                        'status_text': "✅ Windows activé",
+                        'method': 'SLMGR'
+                    }
+
+            return {
+                'activated': False,
+                'status_text': "❌ Windows non activé",
+                'method': 'SLMGR'
+            }
+
+        except subprocess.TimeoutExpired:
+            return {
+                'activated': False,
+                'status_text': "⏱️ Timeout - vérification impossible (>20s)",
+                'method': 'TIMEOUT'
+            }
         except Exception as e:
             print(f"Erreur vérification activation: {e}")
             return {
                 'activated': False,
-                'status_text': "❓ Impossible de vérifier"
+                'status_text': "❓ Erreur de vérification",
+                'method': 'ERROR',
+                'details': str(e)
+            }
+
+    def _check_office_activation(self):
+        """Vérifier statut activation Office (méthode robuste multi-chemin)"""
+
+        # MÉTHODE 1 : PowerShell WMI - Recherche Office et vérification OSPP
+        try:
+            ps_cmd = """
+$officePaths = @(
+    "C:\\Program Files\\Microsoft Office\\Office16",
+    "C:\\Program Files (x86)\\Microsoft Office\\Office16",
+    "C:\\Program Files\\Microsoft Office\\Office15",
+    "C:\\Program Files (x86)\\Microsoft Office\\Office15"
+)
+
+$osppPath = $null
+foreach ($path in $officePaths) {
+    $testPath = Join-Path $path "ospp.vbs"
+    if (Test-Path $testPath) {
+        $osppPath = $testPath
+        break
+    }
+}
+
+if ($osppPath) {
+    $output = cscript //NoLogo "$osppPath" /dstatus 2>&1
+    Write-Output $output
+} else {
+    Write-Output "OFFICE_NOT_FOUND"
+}
+"""
+            result = subprocess.run(
+                ['powershell', '-NoProfile', '-Command', ps_cmd],
+                capture_output=True,
+                text=True,
+                timeout=20,  # ✅ Timeout 20s comme Windows
+                creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
+            )
+
+            if result.returncode == 0:
+                output = result.stdout.strip()
+
+                # Office non installé
+                if "OFFICE_NOT_FOUND" in output:
+                    return {
+                        'activated': False,
+                        'status_text': "📭 Office non installé",
+                        'method': 'NOT_INSTALLED'
+                    }
+
+                # Vérifier si Office est activé (recherche de "---LICENSED---")
+                if "---LICENSED---" in output.upper():
+                    return {
+                        'activated': True,
+                        'status_text': "✅ Office activé",
+                        'method': 'OSPP'
+                    }
+
+                # Vérifier si c'est une version OEM/Retail activée
+                if "LICENSE STATUS:" in output.upper() and "LICENSED" in output.upper():
+                    return {
+                        'activated': True,
+                        'status_text': "✅ Office activé",
+                        'method': 'OSPP'
+                    }
+
+                # Office installé mais non activé
+                return {
+                    'activated': False,
+                    'status_text': "❌ Office non activé",
+                    'method': 'OSPP'
+                }
+
+        except subprocess.TimeoutExpired:
+            print("⚠️ Office check timeout - fallback...")
+            return {
+                'activated': False,
+                'status_text': "⏱️ Timeout vérification (>20s)",
+                'method': 'TIMEOUT'
+            }
+        except Exception as e:
+            print(f"⚠️ Office check failed: {e} - fallback...")
+
+        # MÉTHODE 2 : Fallback - Recherche simple de fichiers Office
+        try:
+            office_paths = [
+                r"C:\Program Files\Microsoft Office\Office16",
+                r"C:\Program Files (x86)\Microsoft Office\Office16",
+                r"C:\Program Files\Microsoft Office\Office15",
+                r"C:\Program Files (x86)\Microsoft Office\Office15"
+            ]
+
+            office_found = False
+            for path in office_paths:
+                if os.path.exists(path):
+                    office_found = True
+                    break
+
+            if not office_found:
+                return {
+                    'activated': False,
+                    'status_text': "📭 Office non installé",
+                    'method': 'FILE_CHECK'
+                }
+
+            # Office trouvé mais impossible de vérifier le statut
+            return {
+                'activated': False,
+                'status_text': "❓ Vérifier via MAS",
+                'method': 'FALLBACK'
+            }
+
+        except Exception as e:
+            print(f"Erreur vérification Office: {e}")
+            return {
+                'activated': False,
+                'status_text': "❓ Erreur de vérification",
+                'method': 'ERROR',
+                'details': str(e)
             }
 
     def _resize_terminal(self, delta):
