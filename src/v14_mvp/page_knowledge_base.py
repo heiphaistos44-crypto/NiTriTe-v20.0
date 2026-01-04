@@ -153,60 +153,62 @@ class KnowledgeBasePage(ctk.CTkFrame):
                 ("sec_updates", "⬆️ Mises à jour Sécurité"),
                 ("sec_malware", "🦠 Protection Malware"),
             ],
-            "Linux Ubuntu": [
-                ("ubuntu_intro", "🐧 Introduction Ubuntu"),
-                ("ubuntu_install", "💿 Installation Ubuntu"),
-                ("ubuntu_terminal", "⚡ Terminal de Base"),
-                ("ubuntu_packages", "📦 Gestion Paquets APT"),
-                ("ubuntu_optimize", "⚡ Optimisation Ubuntu"),
+            "Linux - Bases": [
+                ("linux_intro", "🐧 Introduction à Linux"),
+                ("linux_distros", "📊 Comparaison Distributions"),
+                ("linux_install", "💿 Installation Linux"),
+                ("linux_terminal", "⚡ Terminal & Ligne de Commande"),
+                ("linux_commands", "📝 Commandes Essentielles"),
             ],
-            "Linux Mint": [
-                ("mint_intro", "🌿 Introduction Linux Mint"),
-                ("mint_install", "💿 Installation Mint"),
-                ("mint_customize", "🎨 Personnalisation"),
-            ],
-            "Linux Debian": [
-                ("debian_intro", "🌀 Introduction Debian"),
-                ("debian_server", "🖥️ Debian Server"),
-                ("debian_advanced", "🚀 Debian Avancé"),
-            ],
-            "Kali Linux": [
-                ("kali_intro", "🔐 Introduction Kali Linux"),
-                ("kali_tools", "🛠️ Outils de Sécurité"),
-                ("kali_pentest", "🎯 Tests de Pénétration"),
-            ],
-            "Arch Linux": [
-                ("arch_intro", "⚙️ Introduction Arch Linux"),
-                ("arch_install", "💿 Installation Arch"),
-                ("arch_aur", "📦 AUR & Pacman"),
-            ],
-            "Fedora": [
-                ("fedora_intro", "🎩 Introduction Fedora"),
-                ("fedora_install", "💿 Installation Fedora"),
-                ("fedora_dnf", "📦 Gestion DNF"),
-            ],
-            "Terminal Bash": [
-                ("bash_intro", "⚡ Introduction Bash"),
-                ("bash_commands", "📝 Commandes Essentielles"),
-                ("bash_scripts", "📜 Scripts Bash"),
-                ("bash_advanced", "🚀 Bash Avancé"),
-            ],
-            "APT & DPKG": [
-                ("apt_intro", "📦 Introduction APT"),
-                ("apt_commands", "⚡ Commandes APT"),
-                ("dpkg_intro", "📦 DPKG - Gestion Paquets"),
-            ],
-            "Configuration Linux": [
-                ("linux_users", "👤 Gestion Utilisateurs"),
+            "Linux - Système de Fichiers": [
+                ("linux_files", "📁 Système de Fichiers"),
                 ("linux_permissions", "🔒 Permissions & Droits"),
-                ("linux_network", "🌐 Configuration Réseau"),
-                ("linux_firewall", "🔥 Firewall UFW/iptables"),
             ],
-            "Sécurité Linux": [
-                ("linux_sec_intro", "🔒 Sécurité de Base"),
-                ("linux_sec_ssh", "🔐 Sécuriser SSH"),
-                ("linux_sec_updates", "⬆️ Mises à jour Sécurité"),
-                ("linux_sec_audit", "🔍 Audit de Sécurité"),
+            "Linux - Gestion Processus & Services": [
+                ("linux_processes", "⚙️ Gestion des Processus"),
+                ("linux_systemd", "🔄 systemd & Services"),
+            ],
+            "Linux - Gestionnaires de Paquets": [
+                ("linux_apt", "📦 APT (Ubuntu/Debian/Mint)"),
+                ("linux_dnf", "📦 DNF (Fedora/RHEL)"),
+                ("linux_pacman", "📦 Pacman (Arch/Manjaro)"),
+            ],
+            "Linux - Réseau & Sécurité": [
+                ("linux_network", "🌐 Configuration Réseau"),
+                ("linux_firewall", "🔥 Firewall (UFW/iptables)"),
+                ("linux_ssh", "🔐 SSH & Accès Distant"),
+            ],
+            "Linux - Gaming & Compatibilité": [
+                ("linux_gaming", "🎮 Gaming sur Linux"),
+                ("linux_wine", "🍷 Wine & Proton"),
+                ("linux_wsl", "🪟 WSL (Windows Subsystem for Linux)"),
+            ],
+            "Linux - Administration": [
+                ("linux_users", "👤 Gestion Utilisateurs"),
+                ("linux_backup", "💾 Sauvegardes"),
+                ("linux_disk", "💿 Gestion Disques"),
+                ("linux_server", "🖥️ Linux Server"),
+            ],
+            "Linux - Performance & Optimisation": [
+                ("linux_performance", "⚡ Optimisation Performances"),
+                ("linux_kernel", "🐧 Kernel Linux"),
+            ],
+            "Linux - Automatisation": [
+                ("linux_scripts", "📜 Scripts Shell"),
+                ("linux_cron", "⏰ Tâches Automatisées (cron)"),
+                ("linux_logs", "📋 Gestion des Logs"),
+            ],
+            "Linux - Virtualisation & Desktop": [
+                ("linux_virtualization", "💻 Virtualisation (KVM/QEMU)"),
+                ("linux_desktop", "🖥️ Environnements de Bureau"),
+            ],
+            "Linux - Développement": [
+                ("linux_development", "💻 Développement Linux"),
+                ("linux_docker", "🐳 Docker & Conteneurs"),
+            ],
+            "Linux - Dépannage": [
+                ("linux_boot", "🔧 Boot & GRUB"),
+                ("linux_troubleshoot", "🔍 Dépannage Général"),
             ],
             "macOS": [
                 ("macos_intro", "🍎 Introduction macOS"),

@@ -665,7 +665,7 @@ class StatisticsReportsPage(ctk.CTkFrame):
                 self.logs_text_categorized.insert(
                     "end",
                     f"📄 {report['name']}\n"
-                    f"   📅 Date: {report['date'].strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    f"   📅 Date: {report['modified'].strftime('%Y-%m-%d %H:%M:%S')}\n"
                     f"   📁 Catégorie: {report.get('category', 'N/A')}\n"
                     f"   💾 Taille: {self._format_size(report['size'])}\n\n"
                 )
@@ -692,7 +692,7 @@ class StatisticsReportsPage(ctk.CTkFrame):
                 self.logs_text_categorized.insert(
                     "end",
                     f"📄 {report['name']}\n"
-                    f"   📅 Date: {report['date'].strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    f"   📅 Date: {report['modified'].strftime('%Y-%m-%d %H:%M:%S')}\n"
                     f"   📁 Catégorie: {report.get('category', 'N/A')}\n"
                     f"   💾 Taille: {self._format_size(report['size'])}\n\n"
                 )
@@ -719,7 +719,7 @@ class StatisticsReportsPage(ctk.CTkFrame):
                 self.logs_text_categorized.insert(
                     "end",
                     f"📄 {report['name']}\n"
-                    f"   📅 Date: {report['date'].strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    f"   📅 Date: {report['modified'].strftime('%Y-%m-%d %H:%M:%S')}\n"
                     f"   📁 Catégorie: {report.get('category', 'N/A')}\n"
                     f"   💾 Taille: {self._format_size(report['size'])}\n\n"
                 )
@@ -746,7 +746,7 @@ class StatisticsReportsPage(ctk.CTkFrame):
                 self.logs_text_categorized.insert(
                     "end",
                     f"📄 {report['name']}\n"
-                    f"   📅 Date: {report['date'].strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    f"   📅 Date: {report['modified'].strftime('%Y-%m-%d %H:%M:%S')}\n"
                     f"   📁 Catégorie: {report.get('category', 'N/A')}\n"
                     f"   💾 Taille: {self._format_size(report['size'])}\n\n"
                 )
@@ -773,7 +773,7 @@ class StatisticsReportsPage(ctk.CTkFrame):
                 self.logs_text_categorized.insert(
                     "end",
                     f"📄 {report['name']}\n"
-                    f"   📅 Date: {report['date'].strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    f"   📅 Date: {report['modified'].strftime('%Y-%m-%d %H:%M:%S')}\n"
                     f"   📁 Catégorie: {report.get('category', 'N/A')}\n"
                     f"   💾 Taille: {self._format_size(report['size'])}\n\n"
                 )

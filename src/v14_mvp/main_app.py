@@ -73,12 +73,14 @@ from v14_mvp.page_portables import PortableAppsPage
 from v14_mvp.page_os_downloads import OSDownloadsPage
 from v14_mvp.page_system_utils import SystemUtilitiesPage
 from v14_mvp.page_documentation import DocumentationPage
+from v14_mvp.page_knowledge_base import KnowledgeBasePage
 from v14_mvp.page_terminal import TerminalPage
 from v14_mvp.page_theme_settings import ThemeSettingsPage
 from v14_mvp.page_ai_agents import AIAgentsPage
-from v14_mvp.page_activation import ActivationPage
 from v14_mvp.page_logs import LogsPage
 from v14_mvp.page_scripts_windows import WindowsScriptsPage
+from v14_mvp.page_advanced_driver_scanner import AdvancedDriverScannerPage
+from v14_mvp.page_statistics_reports import StatisticsReportsPage
 from v14_mvp.splash_loader import SplashScreen
 
 # Charger le thème sauvegardé au démarrage
@@ -102,8 +104,8 @@ class NiTriTeV18(ctk.CTk):
         try:
             import sys
             if getattr(sys, 'frozen', False):
-                # Mode PyInstaller
-                icon_path = Path(sys.executable).parent / 'assets' / 'Nitrite_icon1.ico'
+                # Mode PyInstaller - Utiliser sys._MEIPASS qui pointe vers _internal/
+                icon_path = Path(sys._MEIPASS) / 'assets' / 'Nitrite_icon1.ico'
             else:
                 # Mode développement
                 icon_path = Path(__file__).parent.parent.parent / 'assets' / 'Nitrite_icon1.ico'
@@ -286,6 +288,11 @@ class NiTriTeV18(ctk.CTk):
                 self.content_container
             )
 
+        elif page_id == "advanced_driver_scanner":
+            self.current_page_widget = AdvancedDriverScannerPage(
+                self.content_container
+            )
+
         elif page_id == "backup":
             self.current_page_widget = BackupPage(
                 self.content_container
@@ -306,13 +313,13 @@ class NiTriTeV18(ctk.CTk):
                 self.content_container
             )
 
-        elif page_id == "activation":
-            self.current_page_widget = ActivationPage(
+        elif page_id == "logs":
+            self.current_page_widget = LogsPage(
                 self.content_container
             )
 
-        elif page_id == "logs":
-            self.current_page_widget = LogsPage(
+        elif page_id == "statistics_reports":
+            self.current_page_widget = StatisticsReportsPage(
                 self.content_container
             )
 
@@ -333,6 +340,11 @@ class NiTriTeV18(ctk.CTk):
 
         elif page_id == "documentation":
             self.current_page_widget = DocumentationPage(
+                self.content_container
+            )
+
+        elif page_id == "knowledge_base":
+            self.current_page_widget = KnowledgeBasePage(
                 self.content_container
             )
 
