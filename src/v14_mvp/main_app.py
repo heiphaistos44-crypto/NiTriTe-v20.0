@@ -103,15 +103,35 @@ class NiTriTeV18(ctk.CTk):
         # Icône de la fenêtre
         try:
             import sys
+            icon_loaded = False
+
             if getattr(sys, 'frozen', False):
-                # Mode PyInstaller - Utiliser sys._MEIPASS qui pointe vers _internal/
-                icon_path = Path(sys._MEIPASS) / 'assets' / 'Nitrite_icon1.ico'
+                # Mode PyInstaller - Essayer plusieurs emplacements
+                possible_paths = [
+                    Path(sys._MEIPASS) / 'assets' / 'Nitrite_icon1.ico',  # _internal/assets/
+                    Path(sys.executable).parent / 'assets' / 'Nitrite_icon1.ico',  # dist/assets/
+                    Path(sys.executable).parent / '_internal' / 'assets' / 'Nitrite_icon1.ico',  # Explicite
+                ]
+
+                for icon_path in possible_paths:
+                    if icon_path.exists():
+                        try:
+                            self.iconbitmap(str(icon_path))
+                            icon_loaded = True
+                            print(f"✓ Icône chargée depuis: {icon_path}")
+                            break
+                        except Exception as e:
+                            print(f"✗ Échec chargement {icon_path}: {e}")
+                            continue
             else:
                 # Mode développement
                 icon_path = Path(__file__).parent.parent.parent / 'assets' / 'Nitrite_icon1.ico'
+                if icon_path.exists():
+                    self.iconbitmap(str(icon_path))
+                    icon_loaded = True
 
-            if icon_path.exists():
-                self.iconbitmap(str(icon_path))
+            if not icon_loaded:
+                print("⚠️ Aucune icône n'a pu être chargée")
         except Exception as e:
             print(f"Impossible de charger l'icône de fenêtre: {e}")
 

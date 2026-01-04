@@ -11,6 +11,7 @@ import tkinter as tk
 from tkinter import messagebox
 from pathlib import Path
 import os
+import sys
 import subprocess
 import webbrowser
 from datetime import datetime
@@ -24,11 +25,19 @@ class StatisticsReportsPage(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, fg_color=DesignTokens.BG_PRIMARY)
 
-        # Dossiers de rapports
+        # Déterminer le dossier racine de l'application
+        if getattr(sys, 'frozen', False):
+            # Mode PyInstaller
+            app_root = Path(sys.executable).parent
+        else:
+            # Mode développement
+            app_root = Path(__file__).parent.parent.parent
+
+        # Dossiers de rapports (chemins dynamiques)
         self.reports_folders = [
             Path.home() / "Documents" / "NiTriTe_Reports",
-            Path("C:/Users/Utilisateur/Downloads/Nitrite-V20.0/data/logs"),
-            Path("C:/Users/Utilisateur/Downloads/Nitrite-V20.0/data/reports"),
+            app_root / "data" / "logs",
+            app_root / "data" / "reports",
             Path.home() / "Downloads",  # Pour rapports PowerCfg, etc.
             Path("C:/Windows/Temp"),  # Rapports temporaires
         ]
